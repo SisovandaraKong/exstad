@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLocale } from "./useLocale";
+import { useLocale } from "../hook/useLocale";
 import { inter, koh } from "./fonts";
 
 export default function FontClient() {

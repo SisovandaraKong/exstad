@@ -21,18 +21,18 @@
   --color-accent-hover: var(--accent-hover);
 
   /* Font Size */
-  --font-size-heading-1: var(--heading-1);
-  --font-size-heading-2: var(--heading-2);
-  --font-size-heading-3: var(--heading-3);
-  --font-size-heading-4: var(--heading-4);
-  --font-size-heading-5: var(--heading-5);
-  --font-size-heading-6: var(--heading-6);
-  --font-size-description-1: var(--description-1);
-  --font-size-description-2: var(--description-2);
-  --font-size-description-3: var(--description-3);
-  --font-size-description-4: var(--description-4);
-  --font-size-description-5: var(--description-5);
-  --font-size-description-6: var(--description-6);
+  --font-size-h1: var(--heading-1);
+  --font-size-h2: var(--heading-2);
+  --font-size-h3: var(--heading-3);
+  --font-size-h4: var(--heading-4);
+  --font-size-h5: var(--heading-5);
+  --font-size-h6: var(--heading-6);
+  --font-size-d1: var(--description-1);
+  --font-size-d2: var(--description-2);
+  --font-size-d3: var(--description-3);
+  --font-size-d4: var(--description-4);
+  --font-size-d5: var(--description-5);
+  --font-size-d6: var(--description-6);
 
   /* shadcn variable */
   --color-foreground: var(--foreground);
@@ -179,74 +179,60 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* Default: use Inter for Latin/English */
     font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
       "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
-
-  /* Khmer pages: match correct HTML lang code 'km' so browsers apply Khmer shaping */
   html:lang(km) body,
   :lang(km) {
     font-family: var(--font-koh), "Koh Santepheap", "Noto Sans Khmer", system-ui;
   }
 }
 
-.font-heading-1 {
-  font-size: var(--heading-1);
-  line-height: 1.05;
+.font-h1 {
+  font-size: var(--font-size-h1);
+  line-height: 1.2;
 }
-
-.font-heading-2 {
-  font-size: var(--heading-2);
-  line-height: 1.1;
-}
-
-.font-heading-3 {
-  font-size: var(--heading-3);
-  line-height: 1.15;
-}
-
-.font-heading-4 {
-  font-size: var(--heading-4);
+.font-h2 {
+  font-size: var(--font-size-h2);
   line-height: 1.25;
 }
-
-.font-heading-5 {
-  font-size: var(--heading-5);
+.font-h3 {
+  font-size: var(--font-size-h3);
   line-height: 1.3;
 }
-
-.font-heading-6 {
-  font-size: var(--heading-6);
+.font-h4 {
+  font-size: var(--font-size-h4);
   line-height: 1.35;
 }
-
-.font-description-1 {
-  font-size: var(--description-1);
-  line-height: 1.5;
-}
-
-.font-description-2 {
-  font-size: var(--description-2);
-  line-height: 1.5;
-}
-
-.font-description-3 {
-  font-size: var(--description-3);
-  line-height: 1.5;
-}
-
-.font-description-4 {
-  font-size: var(--description-4);
-  line-height: 1.45;
-}
-
-.font-description-5 {
-  font-size: var(--description-5);
-  line-height: 1.45;
-}
-
-.font-description-6 {
-  font-size: var(--description-6);
+.font-h5 {
+  font-size: var(--font-size-h5);
   line-height: 1.4;
+}
+.font-h6 {
+  font-size: var(--font-size-h6);
+  line-height: 1.5;
+}
+.font-d1 {
+  font-size: var(--font-size-d1);
+  line-height: 1.4;
+}
+.font-d2 {
+  font-size: var(--font-size-d2);
+  line-height: 1.45;
+}
+.font-d3 {
+  font-size: var(--font-size-d3);
+  line-height: 1.5;
+}
+.font-d4 {
+  font-size: var(--font-size-d4);
+  line-height: 1.6;
+}
+.font-d5 {
+  font-size: var(--font-size-d5);
+  line-height: 1.6;
+}
+.font-d6 {
+  font-size: var(--font-size-d6);
+  line-height: 1.6;
 }

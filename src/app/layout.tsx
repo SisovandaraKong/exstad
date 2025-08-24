@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Inter, Koh_Santepheap } from "next/font/google";
 import "./globals.css";
-import Providers from "@/lib/Providers";
+import Providers from "@/services/store/Providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar/Navbar";
 import I18nProvider from "@/lib/I18nProvider";
@@ -41,7 +41,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${koh.variable} antialiased relative`}
+        className={`${inter.variable} ${koh.variable} antialiased relative h-[200vh]`}
       >
         <ThemeProvider
           attribute="class"

@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useMemo } from "react";
 import { NextIntlClientProvider } from "next-intl";
-import { useLocale } from "@/lib/useLocale";
+import { useLocale } from "@/hook/useLocale";
 import FontClient from "@/lib/FontClient";
 
 import enMessages from "@/translate/en.json";

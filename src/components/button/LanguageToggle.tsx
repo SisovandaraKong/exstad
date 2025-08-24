@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useLocale, setLocale } from "@/lib/useLocale";
+import { useLocale, setLocale } from "@/hook/useLocale";
 
 export default function LanguageToggle() {
   const locale = useLocale();
@@ -43,7 +43,7 @@ export default function LanguageToggle() {
           className=" shadow"
         />
       ) : (
-        <span className="w-8 h-8 inline-block bg-gray-200" />
+        <span className="w-6 h-6 inline-block bg-gray-200" />
       )}
     </button>
   );
