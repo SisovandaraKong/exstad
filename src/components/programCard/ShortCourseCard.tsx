@@ -8,15 +8,14 @@ const ShortCourseCard: React.FC<shortCoursesType> = ({
   description,
   image,
   price,
-    bg,
+  bg,
   duration,
   scholarship,
   highlights,
+  discount
 }) => {
   return (
-    <div className=" w-[1190px] h-[491px] rounded-[20px] p-[70px] "   style={{
-    background: `radial-gradient(circle at left, ${bg} 60%, ${bg}80 100%)`
-  }}>
+    <div className=" w-[1190px] h-[491px] rounded-[20px] p-[70px] "   style={{background: bg,  }}>
       <div>
       <div className="p-4 flex justify-between items-center gap-[267px]">
         <div className="">
@@ -32,7 +31,7 @@ const ShortCourseCard: React.FC<shortCoursesType> = ({
                 {highlights.map((h,index)=>(
                     <div key={index} className="rounded-[25px] bg-white p-5 w-full">
                         <h2 className="font-bold text-[20px] text-black">{h.value || h.label}</h2>
-                        <p className="text-black font-medium text-[14px">{h.desc}</p>
+                        <p className="text-black font-medium text-[14px]">{h.desc}</p>
 
                     </div>
                 )

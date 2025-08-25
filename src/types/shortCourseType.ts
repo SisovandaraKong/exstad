@@ -14,6 +14,9 @@ export type shortCoursesType = {
   image: string;
   price: string;
   duration: string;
-  scholarship?: number;
+  scholarship?: string;
+  discount: string;
+  deadline:string;
+  totalslot:number;
   highlights?: HighlightType[];   // 👈 new
 };
