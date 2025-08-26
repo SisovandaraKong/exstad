@@ -9,6 +9,7 @@ export type HighlightType = {
 
 export type programType = {
   id: number;
+  program_type:string;
   bg: string;
   title: string;
   subtitle: string;
