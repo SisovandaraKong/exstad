@@ -1,7 +1,7 @@
 
 import React from 'react'
-import { shortCoursesType } from '@/types/shortCourseType'
-const AllShortCourseCard:React.FC<shortCoursesType>=({
+import { programType } from '@/types/programs'
+const AllShortCourseCard:React.FC<programType>=({
 id,
 title,
 subtitle,

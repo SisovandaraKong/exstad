@@ -1,9 +1,9 @@
 import React from "react";
-import { shortCoursesData } from "@/data/shortcourse";
+import {programData } from "@/data/programData";
 import ShortCourseCard from "@/components/programCard/ShortCourseCard";
-import { shortCoursesType } from "@/types/shortCourseType";
+import { programType} from "@/types/programs";
 export default function ShortCoursePage() {
-  const shortCourses: shortCoursesType[] = shortCoursesData;
+  const shortCourses: programType[] = programData;
 
   return (
     <div className="flex items-center justify-center">

@@ -1,7 +1,7 @@
 import React from 'react'
-import { shortCoursesType } from '@/types/shortCourseType'
+import { programType } from '@/types/programs'
 import Link from 'next/link';
-const ScholarshipCard: React.FC<shortCoursesType> = ({
+const ScholarshipCard: React.FC<programType> = ({
   id,
   title,
   subtitle,
@@ -22,13 +22,22 @@ const ScholarshipCard: React.FC<shortCoursesType> = ({
        
         <div className='h-full flex flex-col gap-y-8'>
           <div>
-          <h1 className='text-primary text-[38px] font-bold'>{title}</h1>
+            <div className="flex items-center gap-4 mb-4">
+                    <div className="flex flex-col items-center">
+                        <div className="w-2 h-8 bg-gradient-to-b from-primary to-primary rounded-full"></div>
+                        <div className="w-1 h-4 bg-gradient-to-b from-primary to-transparent rounded-full mt-1"></div>
+                    </div>
+                    <div>
+                                  <h1 className='text-primary text-[37px] font-bold'>{title}</h1>
           <p className='text-secondary font-bold text-[20px] '>{scholarship}</p>
+                    </div>
+                </div>
+
           </div>
           <p className='text-foreground font-normal '>{description}</p>
 
-          <div className='flex flex-row-3 justify-between gap-[10px]  text-secondary '>
-            <div className='border-b-4 text-center rounded-[8px] border-secondary p-[20px]'>
+          <div className='flex flex-row-3 justify-between  '>
+            <div className='border-b-4 text-center rounded-[8px] border-secondary text-secondary p-[20px]'>
             <p className='text-secondary font-bold text-[24px] '>{deadline}</p>
             <p className=''>Deadline</p>
             </div>

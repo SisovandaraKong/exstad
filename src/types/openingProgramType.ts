@@ -3,25 +3,34 @@ export type openingProgramType = {
     title: string;
     description: string;
     image: string;
-    // level:string;
-    // totalSlot:number;
-    // scholarship:string;
-    // link: string;
-    // date: string;
-    programOverview: programOverviewType[];
-    learningOutcome: programLearningOutcomeType[];
+    qrimage: string;
+    activities: activityType[];
+    timeline: timelineType[];
+
 }
 
-
-export type programOverviewType = {
-    id: number;
-    title: string;
-    description: string;
-}
-
-export type programLearningOutcomeType = {
+export type activityType = {
     id:number;
     title:string;
     subtitle:string;
-    description:string[];
+    description:string;
+    image:string;
 }
+
+export type timelineType = {
+    id:number;
+    title:string;
+    date:string;
+}
+export type curriculumType = {
+    id:number;
+    order:number;
+    title:string;
+    answer:string[];
+}
+
+
+
+// export type RoadmapType = {
+
+// }

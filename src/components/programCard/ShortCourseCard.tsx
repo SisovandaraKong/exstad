@@ -1,5 +1,5 @@
 import React from "react";
-import { shortCoursesType } from "@/types/shortCourseType";
+import { shortCoursesType } from "@/types/programs";
 
 const ShortCourseCard: React.FC<shortCoursesType> = ({
   id,
