@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { programData } from "@/data/programData";
 import ScholarshipCard from "@/components/programCard/ScholarshipCard";
