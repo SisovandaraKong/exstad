@@ -1,0 +1,79 @@
+import { openingProgramType } from "./openingProgramType";
+
+// shortCourseType.ts
+export type HighlightType = {
+  label: string;
+  value: string;
+  desc: string;
+};
+
+export type programType = {
+  id: number;
+  bg: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  level:string;
+  image: string;
+  price: string;
+  duration: string;
+  scholarship?: string;
+  discount: string;
+  deadline:string;
+  totalslot:number;
+  programOverview: programOverviewType[];
+  learningOutcome: programLearningOutcomeType[];
+  courseRequirement: courseRequirementType[];
+  highlights: HighlightType[];   // 👈 new
+  // curriculum: curriculumType[]; // 👈 new
+  openingprogram: openingProgramType; // 👈 new
+  faq:FaqDataType[];
+  
+
+};
+
+export type programOverviewType = {
+    id: number;
+    title: string;
+    description: string;
+}
+
+export type programLearningOutcomeType = {
+    id:number;
+    title:string;
+    subtitle:string;
+    description:string[];
+}
+
+
+export type courseRequirementType = {
+    id:number;
+    title:string;
+    subtitle:string;
+    description:string[];
+}
+
+
+export type FaqType = {
+    id:number;
+    question:string;
+    answer:string;
+}
+export type FaqDataType = {
+  title:string;
+  faqs:FaqType[];
+}
+
+
+
+
+
+
+
+
+export type curriculumType = {
+    id:number;
+    order:number;
+    title:string;
+    answer:string[];
+}
