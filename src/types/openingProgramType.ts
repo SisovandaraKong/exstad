@@ -22,12 +22,6 @@ export type timelineType = {
     title:string;
     date:string;
 }
-export type curriculumType = {
-    id:number;
-    order:number;
-    title:string;
-    answer:string[];
-}
 
 
 

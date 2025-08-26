@@ -43,7 +43,7 @@ function Navbar({ className }: { className?: string }) {
     <div
       ref={navRef}
       className={cn(
-        "w-full border-b-1 border-text-color sticky top-0",
+        "w-full border-b-1 border-text-color sticky top-0 z-10",
         className
       )}
     >

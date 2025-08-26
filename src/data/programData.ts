@@ -63,6 +63,7 @@ export const programData: programType[] = [
         ],
        faq: [
           {
+            id:1,
           title: "Frequently Asked Questions",
           faqs: [
             { id: 1, question: "How do I enroll?", answer: "You can enroll via the website." },
@@ -73,6 +74,37 @@ export const programData: programType[] = [
             ]
          }
         ],
+        curriculum:[{
+            
+            id:1,
+            title:"Curriculum",
+           curriculumType:[
+            {
+                id:1,
+                order:1,
+                title:"Basic and fundamental programming concept",
+                subtitle:"Refresh Java fundamentals, OOP concepts, and prepare for Spring development",
+                description:[
+                    "Cloud Platform Overview",
+                    "Digital Ocean",
+                ]
+            },
+            {
+                id:2,
+                order:2,
+                title:"INTRODUCTION TO LINUX",
+                subtitle:"Refresh Java fundamentals, OOP concepts, and prepare for Spring development",
+                description:[
+                    "Linux Overview",
+                    "Linux Kernel",
+                    "Linux Shell",
+                    "Linux File System Structure"
+                ]
+            }
+           ],
+           
+
+        }],
         courseRequirement:[{
             id:1,
             title:"Course Requirements",
@@ -213,8 +245,40 @@ export const programData: programType[] = [
                     ],
             }
         ],
+         curriculum:[{
+            
+            id:1,
+            title:"Curriculum",
+           curriculumType:[
+            {
+                id:1,
+                order:1,
+                title:"Basic and fundamental programming concept",
+                subtitle:"Refresh Java fundamentals, OOP concepts, and prepare for Spring development",
+                description:[
+                    "Cloud Platform Overview",
+                    "Digital Ocean",
+                ]
+            },
+            {
+                id:2,
+                order:2,
+                title:"INTRODUCTION TO LINUX",
+                subtitle:"Refresh Java fundamentals, OOP concepts, and prepare for Spring development",
+                description:[
+                    "Linux Overview",
+                    "Linux Kernel",
+                    "Linux Shell",
+                    "Linux File System Structure"
+                ]
+            }
+           ],
+           
+
+        }],
          faq: [
           {
+            id:1,
           title: "Frequently Asked Questions",
           faqs: [
             { id: 1, question: "What is the ISTAD Scholarship Program?", answer: "The ISTAD scholarship is a fully funded opportunity for students to study digital technology, focusing on programming and software development." },
@@ -304,6 +368,7 @@ export const programData: programType[] = [
         ]
     }
   },
+  
   //  {
   //   id: 3,
   //   bg:"radial-gradient(circle,  rgba(207,180,38,1) 0%, RGBA(231,203,25,1) 20%, rgba(168,85,247,1) 100%)",
