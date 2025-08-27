@@ -3,6 +3,7 @@
 "use client";
 import { useTranslations } from "next-intl";
 import { CourseCard } from "../components/mostPopularCourseCard/CardComponent";
+import MainCard from "@/components/mainCard/MainCard";
 
 export default function Home() {
 	const t = useTranslations();
@@ -33,6 +34,16 @@ export default function Home() {
 								"https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80",
 						}}
 					/>
+				</div>
+			</div>
+			{/* Add more sections or components as needed */}
+			<div>
+				<h1 className='text-3xl font-bold text-center my-8'>Main Card</h1>
+				<MainCard />
+			</div>
+			<div className='bg-background px-32 rounded-3xl border'>
+				<div>
+					<h1>Hello</h1>
 				</div>
 			</div>
 		</main>
