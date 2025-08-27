@@ -11,7 +11,7 @@ const ProgramOverviewSidebar:React.FC<Props> = ({program}) =>{
     return(
         <>
             <div>
-                <div className="bg-background w-[369px] sticky top-20 p-[24px]  text-center flex flex-col gap-[24px]">
+                <div className="bg-background gap-[40px] w-[369px] sticky top-20 p-[24px]  text-center flex flex-col ">
                     
                     <div><h1 className="font-bold text-[22px] text-primary ">{program.title}</h1>
                     <p className="font-medium text-[16px] text-foreground ">Be ready for your journey at the university</p>

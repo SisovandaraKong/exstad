@@ -15,6 +15,7 @@ export const programData: programType[] = [
     level:"Beginner",
     discount:'$120',
     deadline:"2 Months",
+    program_type:"Short Course",
     totalslot:200,
         highlights: [
           {
@@ -49,6 +50,7 @@ export const programData: programType[] = [
             {
                 id:1,
                 title:"Learning Outcomes",
+
                 subtitle:"Upon completing the course, learners will understand the concept of the programming process.",
                  description: [
                     "Build responsive layouts with HTML, CSS, and Tailwind",
@@ -166,6 +168,7 @@ export const programData: programType[] = [
     duration: "2 Months",
     scholarship: "20% scholarship",
     totalslot:200,
+    program_type:"Scholarship Course",
 
     highlights: [
       {

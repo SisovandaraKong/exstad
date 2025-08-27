@@ -1,74 +1,90 @@
 "use client";
 import React from "react";
 
-export default function ProgramTimeLine() {
+import type { programType } from "@/types/programs";
+
+type Props = {
+  program: programType;
+};
+
+const ProgramTimeLine: React.FC<Props> = () => {
   const timeline = [
     {
-      day: 25,
-      month: "August",
+      day: 11,
+      month: "June",
+      year: 2025,
       title: "Application Period",
       description: "Submit your application and required documents",
       icon: "📝",
     },
     {
-      day: 26,
+      day: 19,
       month: "August",
+      year: 2025,
       title: "Application Review",
       description: "Initial review of submitted applications",
       icon: "🔍",
     },
     {
-      day: 2,
-      month: "October",
+      day: 30,
+      month: "August",
+      year: 2025,
       title: "Writing Test",
       description: "Technical writing assessment",
       icon: "✍️",
     },
     {
-      day: 10,
-      month: "October",
+      day: 6,
+      month: "September",
+      year: 2025,
       title: "Interview Test",
       description: "Face-to-face interview with panel",
       icon: "👥",
     },
     {
-      day: 20,
-      month: "October",
+      day: 8,
+      month: "September",
+      year: 2025,
       title: "Final Result",
       description: "Announcement of selected candidates",
       icon: "🎯",
     },
     {
-      day: 1,
-      month: "November",
-      title: "Orientation",
-      description: "Program introduction and onboarding",
-      icon: "🎓",
-    },
-    {
       day: 15,
-      month: "November",
+      month: "September",
+      year: 2025,
       title: "Preliminary Learning",
       description: "Foundation courses and skill assessment",
       icon: "📚",
     },
     {
-      day: 1,
-      month: "December",
+      day: 29,
+      month: "September",
+      year: 2025,
+      title: "Orientation",
+      description: "Program introduction and onboarding",
+      icon: "🎓",
+    },
+    {
+      day: 29,
+      month: "September",
+      year: 2025,
       title: "Course Training",
       description: "Main curriculum and practical sessions",
       icon: "💻",
     },
     {
-      day: 15,
-      month: "March",
+      day: 21,
+      month: "November",
+      year: 2026,
       title: "Final Project",
       description: "Capstone project and presentation",
       icon: "🚀",
     },
     {
-      day: 30,
-      month: "March",
+      day: 27,
+      month: "December",
+      year: 2026,
       title: "Graduation",
       description: "Ceremony and certificate presentation",
       icon: "🏆",
@@ -77,16 +93,11 @@ export default function ProgramTimeLine() {
 
   // Get today's date
   const today = new Date();
-  const todayStr = `${today.getDate()} - ${today.toLocaleString("en-US", {
-    month: "long",
-  })}`;
 
-  // Function to parse date from day and month and create Date object
-  const parseStepDate = (day: number, month: string) => {
-    const currentYear = today.getFullYear();
-
-    // Create date object for the current year
-    const stepDate = new Date(`${month} ${day}, ${currentYear}`);
+  // Function to parse date from day, month, and year and create Date object
+  const parseStepDate = (day: number, month: string, year: number) => {
+    // Create date object with the specified year
+    const stepDate = new Date(`${month} ${day}, ${year}`);
 
     // Reset time to start of day for accurate comparison
     stepDate.setHours(0, 0, 0, 0);
@@ -95,8 +106,8 @@ export default function ProgramTimeLine() {
   };
 
   // Function to determine status based on date
-  const getStatusByDate = (day: number, month: string) => {
-    const stepDate = parseStepDate(day, month);
+  const getStatusByDate = (day: number, month: string, year: number) => {
+    const stepDate = parseStepDate(day, month, year);
 
     // Create today's date at start of day for comparison
     const todayStart = new Date(today);
@@ -123,14 +134,16 @@ export default function ProgramTimeLine() {
   // Add dynamic status to each step
   const timelineWithStatus = timeline.map((step) => ({
     ...step,
-    status: getStatusByDate(step.day, step.month),
-    dateString: `${step.day.toString().padStart(2, "0")} - ${step.month}`,
+    status: getStatusByDate(step.day, step.month, step.year),
+    dateString: `${step.day.toString().padStart(2, "0")} - ${step.month} ${
+      step.year
+    }`,
   }));
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return "bg-green ";
+        return "bg-green";
       case "current":
         return "bg-accent";
       case "upcoming":
@@ -155,7 +168,7 @@ export default function ProgramTimeLine() {
 
   return (
     <div className="max-w-6xl mx-auto p-8 bg-gradient-to-br from-background to-muted/30 rounded-xl">
-      <div className="text-center mb-12">
+      {/* <div className="text-center mb-12">
         <h2 className="font-h2 font-bold text-primary mb-4">
           Program Timeline
         </h2>
@@ -166,7 +179,7 @@ export default function ProgramTimeLine() {
         <div className="mt-4 text-sm text-muted-foreground">
           Today: {todayStr}
         </div>
-      </div>
+      </div> */}
 
       <div className="relative">
         {/* Timeline Line */}
@@ -177,13 +190,13 @@ export default function ProgramTimeLine() {
             <div key={idx} className="relative flex items-start group">
               {/* Timeline Dot */}
               <div
-                className={`relative z-10 flex items-center justify-center w-16 h-16 rounded-full ${getStatusDotColor(
+                className={`relative z-2 flex items-center justify-center w-16 h-16 rounded-full ${getStatusDotColor(
                   step.status
                 )} shadow-lg transition-all duration-300 group-hover:scale-110`}
               >
                 <span className="text-2xl">{step.icon}</span>
                 {step.status === "completed" && (
-                  <div className="absolute inset-0 rounded-full bg-green/20 animate-ping"></div>
+                  <div className="absolute inset-0 rounded-full bg-green/20 "></div>
                 )}
               </div>
 
@@ -210,17 +223,17 @@ export default function ProgramTimeLine() {
                         </span>
                       )}
                     </div>
-                    <p className="font-d4 text-muted-foreground mb-3">
+                    <p className="font-d4 text-foreground-2 mb-3">
                       {step.description}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-2">
                     <div className="text-right">
-                      <time className="font-d3 font-bold text-primary block">
+                      <time className="font-d3 font-bold text-foreground block">
                         {step.dateString}
                       </time>
-                      <span className="font-d6 text-muted-foreground capitalize">
+                      <span className="font-d6 text-foreground-2 capitalize">
                         {step.status}
                       </span>
                     </div>
@@ -255,4 +268,6 @@ export default function ProgramTimeLine() {
       </div>
     </div>
   );
-}
+};
+
+export default ProgramTimeLine;

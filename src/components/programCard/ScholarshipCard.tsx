@@ -17,7 +17,7 @@ const ScholarshipCard: React.FC<programType> = ({
   totalslot
 })=>{
   return (
-    <div className='grid grid-cols-2 w-[1003px] h-[521px] rounded-[24px] gap-[24x] p-[24px] bg-white '>
+    <div className='grid grid-cols-2 w-[1003px] h-[521px] rounded-[24px] gap-[24x] p-[24px] bg-background '>
         <img src={image} alt={title} className='w-[465px] h-full  rounded-[20px]' />
        
         <div className='h-full flex flex-col gap-y-8'>
