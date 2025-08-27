@@ -2,7 +2,7 @@
 
 "use client";
 import { useTranslations } from "next-intl";
-import { CourseCard } from "../components/mostPopularCourseCard/CardComponent";
+import { CourseCard } from "../components/mostPopularCourseCard/CourseCard";
 import MainCard from "@/components/mainCard/MainCard";
 
 export default function Home() {
@@ -39,7 +39,10 @@ export default function Home() {
 			{/* Add more sections or components as needed */}
 			<div>
 				<h1 className='text-3xl font-bold text-center my-8'>Main Card</h1>
-				<MainCard />
+				<MainCard
+					title='Short Courses'
+					description='Compact learning programs focused on specific skills or topics.'
+				/>
 			</div>
 			<div className='bg-background px-32 rounded-3xl border'>
 				<div>
