@@ -2,24 +2,28 @@
 import React from "react";
 import { programData } from "@/data/programData";
 import ScholarshipCard from "@/components/programCard/ScholarshipCard";
+import ShortCourseCardActive from "@/components/programCard/ShortCourseCardActive";
 import { programType } from "@/types/programs";
 import Link from "next/link";
+
 export default function Page() {
-  const scholarship: programType[] = programData.filter(
-    (program) => program.program_type === "Scholarship Course"
-  );
   return (
     <div className="flex items-center justify-center max-w-7xl">
-    <div className="grid grid-cols-1 mx-auto gap-[20px] p-6">
-      {scholarship.map((program) => (
-        <Link key={program.id} href={`/exploreProgram/scholarship/${program.id}`}>
-            <ScholarshipCard {...program} />
+      <div className="grid grid-cols-1 mx-auto gap-[20px] p-6">
+        {programData.map((program: programType) => (
+          <Link  key={program.id} href={`/exploreProgram/${program.program_type === "Scholarship Course" ? "scholarship" : "shortcourse"}/${program.id}`} >
+            {program.program_type === "Scholarship Course" ? (
+              <ScholarshipCard {...program} />
+            ) : (
+              <ShortCourseCardActive {...program} />
+            )}
           </Link>
-      ))}
-    </div>
+        ))}
+      </div>
     </div>
   );
 }
+
 
 
 // import React from "react";

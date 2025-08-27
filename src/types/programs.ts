@@ -17,6 +17,7 @@ export type programType = {
   level:string;
   image: string;
   thumbnail:string;
+  shortcourseimage:string;
   price: string;
   duration: string;
   scholarship?: string;
