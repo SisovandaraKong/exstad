@@ -11,30 +11,22 @@ export const openingProgramData: openingProgramType[] = [
             {
                 id:1,
                 title:"Orientation Session",
-                subtitle:"Welcome to the Program",
-                description:"Join us for an engaging orientation session where you'll meet your instructors and fellow students, learn about the program structure, and get an overview of what to expect in the coming weeks.",
-                image:"https://example.com/orientation.jpg"
+                activityType:[{
+                    id:1,
+                    title:"Applicant List",
+                    description:"List of Candidates for the Entrance Examination for the Digital Technology Scholarship (Pre-University), 5th Generation, Academic Year 2025 of the Institute of Science and Technology Advanced Development (ISTAD).",
+                    image:"https://scontent.fpnh10-1.fna.fbcdn.net/v/t39.30808-6/536281868_781505291296640_4242931886051440049_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeED67zCSiSZbfiokhifbsl0vFEAvrVtNpu8UQC-tW02m3LeaZuLpBWD55M0f3jwGdGigPHwe4St_X_pnB7xZqLg&_nc_ohc=ur8ofNyUi34Q7kNvwG43SMM&_nc_oc=AdmY2wZAX7QNLJPAd5xNhV16H2ZRhLtVsrytn1RXr_OBi0AExcNai-0g8lMZZNgV6cw&_nc_zt=23&_nc_ht=scontent.fpnh10-1.fna&_nc_gid=vJtFo48hTaohE20XFQ6PvQ&oh=00_AfXKbuReV7kkZn9rcHwDj08pcgb6kn66aYGOwoo0KaMzcA&oe=68B46925",
+                }]
             },
-            {
-                id:2,
-                title:"Academic Skills Workshop",
-                subtitle:"Building a Strong Foundation",
-                description:"Participate in workshops focused on essential academic skills such as research techniques, academic writing, and effective study habits to prepare you for university-level coursework.",
-                image:"https://example.com/academic_skills.jpg"
-            },
-            {
-                id:3,
-                title:"Time Management Seminar",
-                subtitle:"Balancing Study and Life",
-                description:"Learn strategies for effective time management to help you balance your studies with personal life, ensuring a productive and stress-free university experience.",
-                image:"https://example.com/time_management.jpg"
-            },
-            {
-                id:4,
-                title:"Critical Thinking Exercises",
-                subtitle:"Enhancing Analytical Skills",
-                description:"Engage in activities designed to develop your critical thinking and problem-solving skills, which are crucial for success in higher education.",
-                image:"https://example.com/critical_thinking.jpg"
+             {
+                id:1,
+                title:"Orientation Session",
+                activityType:[{
+                    id:1,
+                    title:"Applicant List",
+                    description:"List of Candidates for the Entrance Examination for the Digital Technology Scholarship (Pre-University), 5th Generation, Academic Year 2025 of the Institute of Science and Technology Advanced Development (ISTAD).",
+                    image:"https://scontent.fpnh10-1.fna.fbcdn.net/v/t39.30808-6/488025522_664846759629161_3236850941425309557_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFQ5SjF-ok9rtXhcK-gepsQQkgD3HKH3ClCSAPccofcKYk4a3TaGi9VDohFZt11FKERn5Bwcy1vgDs9nC9G1djI&_nc_ohc=beTStUphIn4Q7kNvwEuTcEn&_nc_oc=AdnGJUqpaSnpF11oJCKJfjBoAJpd0jm6DaxPPIGUvpKK6Dy4krpqI9JxCRC2MESRdL4&_nc_zt=23&_nc_ht=scontent.fpnh10-1.fna&_nc_gid=XISdA_g8uu9s75VAinXhFg&oh=00_AfWt-3MUnRR_aPL4J6z1nc19sAQFrtGyjMojrsf3Na8Nkg&oe=68B47394",
+                }]
             }
         ],
         timeline: [

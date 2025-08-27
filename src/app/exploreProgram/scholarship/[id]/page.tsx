@@ -8,6 +8,7 @@ import ProgramSidebar from "@/components/programCard/ProgramSidebar";
 import ProgramOverviewTap from "@/components/programCard/ProgramOverviewTap";
 // import ProgramRoadmapTap from "@/components/programCard/ProgramRoadmapTap"; // Example
 import ProgramCurriculumTap from "@/components/programCard/ProgramCurriculum";
+import ProgramActivityTap from "@/components/programCard/ProgramActivity";
 type Props = {
   params: Promise<{ id: string }>; // params is now a Promise
 };
@@ -18,6 +19,7 @@ const tabComponents: { [key: string]: React.FC<{ program: programType }> } = {
   // Roadmap: ProgramRoadmapTap,
   // Timeline: ProgramTimelineTap,
   Curriculum:ProgramCurriculumTap,
+  Activity:ProgramActivityTap,
   // Activity: ProgramActivityTap,
   // Enrollment: ProgramEnrollmentTap,
 };

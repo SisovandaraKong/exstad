@@ -8,14 +8,14 @@ type Props = {
   setActiveTab: (tab: string) => void;
 };
 
-const tabs = ["Overview", "Roadmap", "Timeline", "Curriculum", "Activity", "Enrollment"];
+const tabs = ["Overview", "Curriculum", "Timeline", "Activity", "Roadmap", "Enrollment"];
 
 const ProgramHeader: React.FC<Props> = ({ program, activeTab, setActiveTab }) => {
   return (
     <div className="w-[887px] grid p-[24px] gap-[40px]">
       {/* Program Image */}
       <img
-        src={program.openingprogram.image}
+        src={program.thumbnail}
         alt={program.title}
         className="rounded-[10px] mt-[20px] h-[316px] w-full object-cover"
       />

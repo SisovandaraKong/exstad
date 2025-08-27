@@ -16,6 +16,7 @@ export type programType = {
   description: string;
   level:string;
   image: string;
+  thumbnail:string;
   price: string;
   duration: string;
   scholarship?: string;
@@ -27,7 +28,7 @@ export type programType = {
   courseRequirement: courseRequirementType[];
   highlights: HighlightType[];   // 👈 new
   // curriculum: curriculumType[]; // 👈 new
-  openingprogram: openingProgramType; // 👈 new
+  openingprogram: openingProgramType[]; // 👈 new
   faq:FaqDataType[];
   curriculum:curriculumDataType[];
   

@@ -16,8 +16,13 @@ const ProgramOverviewSidebar:React.FC<Props> = ({program}) =>{
                     <div><h1 className="font-bold text-[22px] text-primary ">{program.title}</h1>
                     <p className="font-medium text-[16px] text-foreground ">Be ready for your journey at the university</p>
                         </div>
-                    <div className="flex flex-col items-center gap-[10px]">
-                    <img src={program.openingprogram.qrimage} alt={program.title} className=" w-[143px] h-[142px]" />
+                    <div  className="flex flex-col items-center gap-[10px]">
+                        {program.openingprogram.map((item)=>(
+                            <div key={item.id}>
+                                 <img src={item.qrimage} alt={item.title} className=" w-[143px] h-[142px]" />
+                            </div>
+                        ))}
+                   
                     <p className="text-[11px]">scan with your phone to access the mobile enrollment form</p>
                     </div>
                     <div className="flex flex-col w-full gap-[10px]">

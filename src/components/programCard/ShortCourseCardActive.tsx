@@ -28,8 +28,8 @@ const ScholarshipCard: React.FC<programType> = ({
                         <div className="w-1 h-4 bg-gradient-to-b from-primary to-transparent rounded-full mt-1"></div>
                     </div>
                     <div>
-                      <h1 className='text-primary text-[37px] font-bold'>{title}</h1>
-                      <p className='text-secondary font-bold text-[20px] '>{scholarship}</p>
+                                  <h1 className='text-primary text-[37px] font-bold'>{title}</h1>
+          <p className='text-secondary font-bold text-[20px] '>{scholarship}</p>
                     </div>
                 </div>
 
@@ -37,15 +37,15 @@ const ScholarshipCard: React.FC<programType> = ({
           <p className='text-foreground font-normal '>{description}</p>
 
           <div className='flex flex-row-3 justify-between  '>
-            <div className='border-b-4 text-center rounded-[8px] border-secondary text-secondary px-[20px] py-[4px]'>
+            <div className='border-b-4 text-center rounded-[8px] border-secondary text-secondary p-[20px]'>
             <p className='text-secondary font-bold text-[24px] '>{deadline}</p>
             <p className=''>Deadline</p>
             </div>
-             <div className='border-b-4  text-center rounded-[8px] border-primary px-[20px] py-[4px]'>
+             <div className='border-b-4  text-center rounded-[8px] border-primary p-[20px]'>
             <p className='text-primary font-bold text-[24px]'>{duration}</p>
             <p className=' text-primary'>Duration</p>
             </div>
-             <div className='border-b-4 text-center rounded-[8px] border-[#1E7D34] px-[20px] py-[4px]'>
+             <div className='border-b-4 text-center rounded-[8px] border-[#1E7D34] p-[20px]'>
             <p className='text-[#1E7D34]  font-bold text-[24px]'>{totalslot}</p>
             <p className=' text-[#1E7D34]'>Total Slots</p>
             </div>

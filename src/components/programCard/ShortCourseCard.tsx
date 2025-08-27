@@ -20,8 +20,8 @@ const ShortCourseCard: React.FC<programType> = ({
       <div className="p-4 flex justify-between items-center gap-[267px]">
         <div className="">
         <h2 className="text-[44px] text-foreground font-bold">{title}</h2>
-        <p className="text-2xl text-[#333333] font-medium w-fit rounded-[10px]  p-2.5 ">{subtitle}</p>
-        <p className="text-sm mt-2 text-gray-700 line-clamp-3">{description}</p>
+        <p className="text-2xl text-[#333333] font-medium w-fit rounded-[10px] bg-white px-[10px] py-[6px]   ">{subtitle}</p>
+        <p className="text-sm mt-2 text-gray-700 line-clamp-3 py-4">{description}</p>
         </div>
          <img src={image} alt={title} className="w-[192px] h-[192px] object-cover" />
       </div>

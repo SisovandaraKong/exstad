@@ -4,17 +4,21 @@ export type openingProgramType = {
     description: string;
     image: string;
     qrimage: string;
-    activities: activityType[];
+    activities: ActivityDataType[];
     timeline: timelineType[];
 
 }
 
-export type activityType = {
+export type ActivityType = {
     id:number;
     title:string;
-    subtitle:string;
     description:string;
     image:string;
+}
+export type ActivityDataType = {
+    id:number;
+    title:string;
+    activityType:ActivityType[];
 }
 
 export type timelineType = {
