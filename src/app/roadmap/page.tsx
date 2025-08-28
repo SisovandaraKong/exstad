@@ -1,16 +1,23 @@
 "use client";
 
+import GlowingCards, {
+  GlowingCard,
+} from "@/components/lightswind/glowing-cards";
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import BackgroundCircle from "@/components/roadmap/BackgroundCircle";
 import HorizontalScrollText from "@/components/roadmap/HorizontalScrollText";
+import LabelLevel from "@/components/roadmap/LabelLevel";
+import RoadmapCard from "@/components/roadmap/RoadmapCard";
 import { Button } from "@/components/ui/button";
+import { programData } from "@/data/programData";
+import Image from "next/image";
 import React from "react";
 
 export default function page() {
   return (
-    <main>
+    <main className="flex flex-col gap-45 bg-whitesmoke ">
       {/* Hero Section */}
-      <div className="relative h-[calc(100vh-64px)] w-2/3 mx-auto flex justify-center items-center">
+      <div className="relative h-[calc(100vh-64px)] w-2/3 mx-auto flex justify-center items-center bg-whitesmoke">
         <DotPattern
           glow
           className="[mask-image:radial-gradient(1200px_circle_at_center,white_0%,transparent_50%)] absolute"
@@ -32,6 +39,43 @@ export default function page() {
         </div>
       </div>
       <HorizontalScrollText />
+
+      <GlowingCards
+        enableGlow={true}
+        glowRadius={30}
+        glowOpacity={0.8}
+        animationDuration={500}
+        gap="20px"
+        responsive={true}
+        className=" gap-6 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        {programData.map((data) => (
+          <GlowingCard
+            key={data.title}
+            glowColor="#FF0000"
+            className="h-48 flex-1 basis-1/3 flex-col justify-between p-4"
+          >
+            <div className="flex items-start justify-between">
+              <div className="h-20 w-20 flex justify-center items-center border rounded-md shadow-sm overflow-hidden">
+                <Image
+                  src={data.image}
+                  alt={data.title}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-contain"
+                  unoptimized
+                />
+              </div>
+              <LabelLevel
+                level={data.level as "Beginner" | "Advanced" | "Intermediate"}
+              />
+            </div>
+            <span className="mt-4 text-lg md:text-xl font-semibold line-clamp-2">
+              {data.title}
+            </span>
+          </GlowingCard>
+        ))}
+      </GlowingCards>
     </main>
   );
 }
