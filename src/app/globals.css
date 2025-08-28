@@ -13,6 +13,7 @@
   --color-background-white-smoke: var(--background-white-smoke);
   --color-foreground: var(--foreground);
   --color-foreground-2: var(--foreground-2);
+  --color-foreground-3: var(--foreground-3);
   --color-icon-bg: var(--icon-bg);
 
   --color-green: var(--green);
@@ -82,6 +83,7 @@
   --background-white-smoke: #f5f5f7;
   --foreground: #333333;
   --foreground-2: #4b4a4a;
+  --foreground-3: #959494;
   --icon-bg: #253c95;
 
   --primary: #253c95;
@@ -91,7 +93,7 @@
   --accent: #eab309;
   --accent-hover: #facc2a;
 
-  --green: #1e7d34;
+  --green: #269a41;
   --yellow: #ffb900;
   --red: #f73030;
 
@@ -146,6 +148,7 @@
   --background-white-smoke: #171717;
   --foreground: #e5e5e5;
   --foreground-2: #b7b3b3;
+  --foreground-3: #727070;
   --icon-bg: #3d95ff;
 
   --primary: #253c95;

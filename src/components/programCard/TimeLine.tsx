@@ -4,73 +4,69 @@ import React from "react";
 import ReactFlow, { Handle, Position } from "reactflow";
 import "reactflow/dist/style.css";
 import type { programType } from "@/types/programs";
+import type { timeline } from "@/types/openingProgramType";
 
 type Props = {
   program: programType;
 };
 
-type TimelineEvent = {
-  date: string;
-  title: string;
-  description: string;
-};
 
 // Mock timeline data matching your format
-const mockTimelineData: TimelineEvent[] = [
+const mockTimelineData: timeline[] = [
   {
+    id: 1,
     date: "2025-06-11",
     title: "Application period",
-    description: "Submit your application and required documents",
   },
   {
+    id: 2,
     date: "2025-08-19",
     title: "Applicant List",
-    description: "Review and shortlist qualified candidates",
   },
   {
+    id: 3,
     date: "2025-08-30",
     title: "Writing Test",
-    description: "Written examination for qualified applicants",
   },
   {
+    id: 4,
     date: "2025-09-06",
     title: "Interview Test",
-    description: "Face-to-face interview with selected candidates",
   },
   {
+    id: 5,
     date: "2025-09-08",
     title: "Final Result",
-    description: "Announcement of final selection results",
   },
   {
+    id: 6,
     date: "2025-09-15",
     title: "Preliminary Learning",
-    description: "Pre-course preparation and orientation",
   },
   {
+    id: 7,
     date: "2025-09-29",
     title: "Orientation",
-    description: "Program introduction and welcome session",
   },
   {
+    id: 8,
     date: "2025-09-29",
     title: "Course Training",
-    description: "Main course content and practical training",
   },
   {
+    id: 9,
     date: "2025-11-21",
     title: "Final Project",
-    description: "Capstone project and final assessment",
   },
   {
+    id: 10,
     date: "2025-12-27",
     title: "Closing Day",
-    description: "Graduation ceremony and course completion",
   },
 ];
 
 type NodeData = {
-  event: TimelineEvent;
+  event: timeline;
   stepNumber: number;
   isCompleted: boolean;
   isCurrent: boolean;
@@ -81,43 +77,51 @@ type CustomNodeProps = {
 };
 
 const CustomNode = ({ data }: CustomNodeProps) => {
-  const { event, stepNumber, isCompleted, isCurrent } = data;
+  const { event, isCompleted, isCurrent } = data;
 
   // determine color and animation based on status
-  let colorClass = "bg-amber-400"; // default: upcoming (yellow/amber)
+  let colorClass = "bg-yellow"; 
   let extraClasses = "";
   if (isCompleted) {
-    colorClass = "bg-green-500"; // completed -> green
+    colorClass = "bg-green";
   } else if (isCurrent) {
-    colorClass = "bg-red-500"; // current -> red
-    extraClasses = " animate-pulse"; // subtle animation for current
+    colorClass = "bg-red";
+    extraClasses = " animate-pulse";
+  }
+
+  let textColor = "text-foreground-3";
+  if (isCompleted) {
+    textColor = "text-foreground";
+  } else if (isCurrent) {
+    textColor = "text-foreground";
   }
 
   return (
     <div className="relative">
       {/* Main node circle */}
       <div
-        className={`rounded-full w-16 h-16 flex gap-4 items-center justify-center text-white font-bold text-xl shadow-xl border-4 border-white ${colorClass}${extraClasses}`}
+        className={`rounded-full w-10 h-10 flex gap-4 items-center justify-center text-white font-bold text-2xl shadow-xl  ${colorClass}${extraClasses}`}
       >
-        {stepNumber}
+        <div className="rounded-full w-3 h-3 flex gap-4 items-center justify-center text-white font-bold text-2xl shadow-xl bg-background"></div>
+        {/* {stepNumber} */}
         <Handle type="source" position={Position.Right} className="opacity-0" />
         <Handle type="target" position={Position.Left} className="opacity-0" />
       </div>
 
       {/* Label with event details - always positioned to the right */}
-      <div className="absolute left-24 top-0 min-w-[280px] max-w-[300px]">
-        <div className="bg-background p-5 rounded-xl shadow-lg border hover:shadow-xl transition-shadow duration-300">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+      <div className={`absolute flex gap-2 -left-2 -top-30 min-w-[280px] max-w-[400px] ${textColor}`}>
+        <div>
+          <h1 className="text-8xl font-black">{event.id}</h1>
+        </div>
+        <div className="p-4">
+          <div className="flex items-center gap-2">
+            <span className={`font-h4 font-bold  py-1 rounded-full`}>
               {event.date}
             </span>
           </div>
-          <h4 className="font-bold text-gray-900 mb-2 text-lg">
+          <h4 className="font-semibold mb-2 font-h5">
             {event.title}
           </h4>
-          <p className="text-sm text-gray-700 leading-relaxed">
-            {event.description}
-          </p>
         </div>
       </div>
     </div>
@@ -126,7 +130,7 @@ const CustomNode = ({ data }: CustomNodeProps) => {
 
 const nodeTypes = { timeline: CustomNode };
 
-const generateNodesAndEdges = (timelineData: TimelineEvent[]) => {
+const generateNodesAndEdges = (timelineData: timeline[]) => {
   // compute today's date and tomorrow's date in YYYY-MM-DD (local) to compare with event.date
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -175,7 +179,7 @@ const generateNodesAndEdges = (timelineData: TimelineEvent[]) => {
       id: `${index + 1}`,
       type: "timeline",
       position: {
-        x: index % 2 === 0 ? -400 : 0,
+        x: index % 2 === 0 ? -500 : 0,
         y: index * 200 + 100,
       },
       data: {
@@ -191,10 +195,10 @@ const generateNodesAndEdges = (timelineData: TimelineEvent[]) => {
     id: `e${index + 1}-${index + 2}`,
     source: `${index + 1}`,
     target: `${index + 2}`,
-    type: "smoothstep",
+    type: "bezier",
     style: {
       stroke: "#253c95",
-      strokeWidth: 4, // Increased from 3 to 4
+      strokeWidth: 8, 
     },
     animated: false,
   }));
@@ -215,7 +219,7 @@ const TimeLine: React.FC<Props> = () => {
           fitView
           defaultViewport={{ x: -1, y: 0, zoom: 1 }}
           fitViewOptions={{
-            padding: 0,
+            padding: 0.2,
             includeHiddenNodes: false,
             minZoom: 0.5,
             maxZoom: 0.8,
@@ -223,7 +227,7 @@ const TimeLine: React.FC<Props> = () => {
           nodesDraggable={false}
           nodesConnectable={false}
           elementsSelectable={false}
-          panOnDrag={false}
+          panOnDrag={true}
           zoomOnScroll={false}
           zoomOnPinch={false}
           zoomOnDoubleClick={false}
@@ -231,6 +235,7 @@ const TimeLine: React.FC<Props> = () => {
         ></ReactFlow>
       </div>
     </div>
+
   );
 };
 

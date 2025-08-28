@@ -71,7 +71,7 @@ function Navbar({ className }: { className?: string }) {
     >
       {/* Main navbar */}
       <nav className="bg-background relative">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-3 py-2">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="block">

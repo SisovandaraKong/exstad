@@ -5,7 +5,7 @@ export type openingProgramType = {
     image: string;
     qrimage: string;
     activities: activityType[];
-    timeline: timelineType[];
+    timeline: timeline[];
 
 }
 
@@ -17,12 +17,11 @@ export type activityType = {
     image:string;
 }
 
-export type timelineType = {
-    id:number;
-    title:string;
-    date:string;
-}
-
+export type timeline = {
+  id: number
+  date: string;
+  title: string;
+};
 
 
 // export type RoadmapType = {
