@@ -43,7 +43,7 @@ const ProgramOverviewSidebar:React.FC<Props> = ({program}) =>{
                         </div>
 
                     </div>
-                    <button className="bg-white border border-foreground text-foreground px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px] ">Join Telegram Group</button>
+                    <button className="bg-white border border-foreground text-black px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px] ">Join Telegram Group</button>
                     <button className="bg-primary text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px] ">Enroll Now</button>
                     {/* <p>{sidebar}</p> */}
 

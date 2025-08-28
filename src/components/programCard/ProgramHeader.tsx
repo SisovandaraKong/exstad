@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { programType } from "@/types/programs";
 
 type Props = {
@@ -13,12 +12,12 @@ const tabs = ["Overview", "Roadmap", "Timeline", "Curriculum", "Activity", "Enro
 
 const ProgramHeader: React.FC<Props> = ({ program, activeTab, setActiveTab }) => {
   return (
-    <div className=" w-[887px] grid p-[24px] gap-[40px]">
+    <div className="w-[887px] grid p-[24px] gap-[40px]">
       {/* Program Image */}
       <img
         src={program.openingprogram.image}
         alt={program.title}
-        className="rounded-[10px] h-[316px] w-full object-cover"
+        className="rounded-[10px] mt-[20px] h-[316px] w-full object-cover"
       />
 
       {/* Tab Navbar */}
@@ -27,10 +26,10 @@ const ProgramHeader: React.FC<Props> = ({ program, activeTab, setActiveTab }) =>
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 mx-auto   font-normal transition-colors whitespace-nowrap ${
+            className={`px-4 py-2 mx-auto font-normal transition-colors whitespace-nowrap ${
               activeTab === tab
-                ? "bg-primary rounded-full text-white "
-                : "text-primary font-normal bg-white border-1 rounded-full border-primary hover:bg-primary-hover hover:text-white"
+                ? "bg-primary rounded-full text-white"
+                : "text-primary bg-white border border-primary rounded-full hover:bg-primary-hover hover:text-white"
             }`}
           >
             {tab}

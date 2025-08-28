@@ -29,8 +29,7 @@ export type programType = {
   // curriculum: curriculumType[]; // 👈 new
   openingprogram: openingProgramType; // 👈 new
   faq:FaqDataType[];
-  
-
+  curriculum:curriculumDataType[];
 };
 
 export type programOverviewType = {
@@ -61,20 +60,21 @@ export type FaqType = {
     answer:string;
 }
 export type FaqDataType = {
+  id:number;
   title:string;
   faqs:FaqType[];
 }
-
-
-
-
-
-
-
 
 export type curriculumType = {
     id:number;
     order:number;
     title:string;
-    answer:string[];
+    subtitle:string;
+    description:string[];
+}
+
+export  type curriculumDataType = {
+  id:number;
+  title:string;
+  curriculumType:curriculumType[];
 }

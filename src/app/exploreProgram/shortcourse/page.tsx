@@ -3,7 +3,7 @@ import {programData } from "@/data/programData";
 import ShortCourseCard from "@/components/programCard/ShortCourseCard";
 import { programType} from "@/types/programs";
 export default function ShortCoursePage() {
-  const shortCourses: programType[] = programData;
+  const shortCourses: programType[] = programData.filter((program) => program.program_type ===  "Short Course");
 
   return (
     <div className="flex items-center justify-center">
