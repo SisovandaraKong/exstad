@@ -59,7 +59,7 @@ const ShortCourseCardActive: React.FC<programType> = ({
 
       <div className="flex justify-between">
         {/* Deadline */}
-        <div className="border-b-4 text-center rounded-[8px] border-secondary text-secondary px-[20px] py-[4px]">
+        <div className="border-b-4  text-center rounded-[8px] border-secondary text-secondary px-[20px] py-[4px]">
           <p className="text-secondary font-bold text-[24px]">{deadline}</p>
           <p>Deadline</p>
         </div>
@@ -77,7 +77,7 @@ const ShortCourseCardActive: React.FC<programType> = ({
         </div>
       </div>
 
-        <h2 className='text-white text-center  bg-primary p-4  rounded-2xl  font-bold text-[16px] '>Enroll Now</h2> 
+        <h2 className='text-white text-center  bg-primary p-4  hover:bg-primary-hover rounded-2xl  font-bold text-[16px] '>Enroll Now</h2> 
          
     </div>
   </div>

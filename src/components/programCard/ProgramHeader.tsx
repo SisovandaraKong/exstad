@@ -12,7 +12,7 @@ const tabs = ["Overview", "Curriculum", "Timeline", "Activity", "Roadmap", "Enro
 
 const ProgramHeader: React.FC<Props> = ({ program, activeTab, setActiveTab }) => {
   return (
-    <div className="w-[887px] grid p-[24px] gap-[40px] rounded-t-[24px] bg-white">
+    <div className="w-[887px] grid p-[24px] gap-[40px] rounded-t-[24px] bg-background">
       {/* Program Image */}
       <img src={program.thumbnail} alt={program.title} className="rounded-[10px] mt-[20px] h-[316px] w-full object-cover" />
 
@@ -24,8 +24,8 @@ const ProgramHeader: React.FC<Props> = ({ program, activeTab, setActiveTab }) =>
             onClick={() => setActiveTab(tab)}
             className={`px-4  py-2 mr-auto font-normal transition-colors whitespace-nowrap ${
               activeTab === tab
-                ? "bg-primary rounded-full text-white"
-                : "text-primary bg-white border border-primary rounded-full hover:bg-primary-hover hover:text-white"
+                ? "bg-primary hover:bg-primary-hover   rounded-full text-white"
+                : "text-primary bg-white border border-primary rounded-full hover:bg-primary hover:text-white"
             }`}
           >
             {tab}
