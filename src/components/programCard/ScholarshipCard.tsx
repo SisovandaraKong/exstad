@@ -20,7 +20,7 @@ const ScholarshipCard: React.FC<programType> = ({
   return (
     <div className='grid grid-cols-2   rounded-[24px] justify-between gap-4 p-[24px] bg-background  [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)] '>
         {/* <img src={image} alt={title} className='w-[465px] h-full  rounded-[20px]' /> */}
-        <Image unoptimized height={500} width={500} src={image} alt={title} className=' h-fit  rounded-[20px]' />
+        <Image unoptimized height={500} width={500} src={image} alt={title} className=' h-full  rounded-[20px]' />
               
         <div className='h-full flex flex-col gap-y-[10px]'>
           <div>
@@ -53,10 +53,11 @@ const ScholarshipCard: React.FC<programType> = ({
             <p className=' text-[#1E7D34]'>Total Slots</p>
             </div>
           </div>
-            <h2 className='text-white text-center  bg-primary p-4 mb-2 rounded-2xl  font-bold text-[16px] '>Enroll Now</h2> 
+          <Link href={"/"}>
+            <h2 className='text-white text-center  bg-primary p-4 hover:bg-primary-hover cursor-pointer rounded-2xl  font-bold text-[16px] '>Enroll Now</h2> 
+            </Link>
           </div>
-            {/* <Link href={'/enrollment'} className='text-white bg-primary-foreground rounded-2xl gap-[10px] font-bold text-[16px] '><h1>Enroll Now</h1></Link> */}
-          
+      
           </div>
       </div>
   )

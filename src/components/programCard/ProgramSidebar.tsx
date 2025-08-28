@@ -11,7 +11,7 @@ const ProgramOverviewSidebar:React.FC<Props> = ({program}) =>{
     return(
         <>
             <div>
-                <div className="bg-background gap-[40px] w-[369px] sticky top-20 p-[24px]  rounded-[24px] text-center flex flex-col ">
+                <div className="bg-background gap-[24px]  sticky top-20 p-[24px]  rounded-[24px] text-center flex flex-col ">
                     
                     <div><h1 className="font-bold text-[22px] text-primary ">{program.title}</h1>
                     <p className="font-medium text-[16px] text-foreground ">Be ready for your journey at the university</p>
@@ -49,7 +49,7 @@ const ProgramOverviewSidebar:React.FC<Props> = ({program}) =>{
 
                     </div>
                     <button className="bg-white border border-foreground text-black px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px] ">Join Telegram Group</button>
-                    <button className="bg-primary text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px] ">Enroll Now</button>
+                    <button className="bg-primary hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px] ">Enroll Now</button>
                     {/* <p>{sidebar}</p> */}
 
                 </div>
