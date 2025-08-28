@@ -11,7 +11,7 @@ type Props = {
 const ProgramActivityTap: React.FC<Props> = ({ program}) =>{
     return(
         <>
-        <div className="w-full grid p-[24px] gap-[40px]">
+        <div className="w-full bg-background grid p-[24px] gap-[40px]">
             {program.openingprogram.map((item)=>(
                 <div key={item.id} className=""> 
                     <div>

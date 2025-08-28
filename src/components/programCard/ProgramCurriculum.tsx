@@ -28,7 +28,7 @@ const ProgramCurriculumTap: React.FC<Props> = ({ program }) => {
   };
 
   return (
-    <div className="w-full p-[24px] space-y-[40px]">
+    <div className="w-full bg-background p-[24px] space-y-[40px]">
       {program.curriculum.map((item) => (
         <div key={item.id} className="space-y-[24px]">
           <h1 className="font-bold text-[36px] text-foreground">{item.title}</h1>

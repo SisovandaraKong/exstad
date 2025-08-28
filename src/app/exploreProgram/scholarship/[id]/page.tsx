@@ -36,12 +36,12 @@ const ProgramDetailPage: React.FC<Props> = ({ params }) => {
   const ActiveTabComponent = tabComponents[activeTab];
 
   return (
-    <div className="flex mx-auto gap-6 max-w-7xl">
+    <div className="flex mx-auto gap-6  my-[20px] max-w-7xl  ">
       {/* Left section */}
       <div className="flex-1 ">
         <ProgramHeader program={program} activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        <div className="mt-6">
+        <div className="">
           {ActiveTabComponent ? <ActiveTabComponent program={program} /> : null}
         </div>
       </div>

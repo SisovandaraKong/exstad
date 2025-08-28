@@ -3,6 +3,7 @@ export type openingProgramType = {
     title: string;
     description: string;
     image: string;
+    shortcourseimage:string;
     qrimage: string;
     activities: ActivityDataType[];
     timeline: timelineType[];

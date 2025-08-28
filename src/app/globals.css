@@ -10,6 +10,7 @@
 
   /* Custom Color Variable */
   --color-background: var(--background);
+  --color-whitesmoke: var(--whitesmoke);
   --color-text: var(--text-color);
   --color-icon-bg: var(--icon-bg);
 
@@ -75,6 +76,7 @@
 :root {
   /* Custom Color Variable */
   --background: #ffffff;
+  --whitesmoke:#F5F5F7;
   --text-color: #333333;
   --icon-bg: #253c95;
 
@@ -133,6 +135,7 @@
 .dark {
   /* Custom Color Variable For Dark Mode */
   --background: #202124;
+  --whitesmoke:#171717;
   --text-color: #e5e5e5;
   --icon-bg: #3d95ff;
 
@@ -235,4 +238,48 @@
 .font-d6 {
   font-size: var(--font-size-d6);
   line-height: 1.6;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.custom-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #1D4ED8 #E5E7EB; /* thumb color, track color */
+}
+
+/* Chrome, Edge, Safari */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #E5E7EB;
+  border-radius: 8px;
+  
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #1D4ED8;
+  border-radius: 8px;
+  border: 2px solid #E5E7EB;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #2563EB;
+}
+
+/* Remove arrows */
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
 }

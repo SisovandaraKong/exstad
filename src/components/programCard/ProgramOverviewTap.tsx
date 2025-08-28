@@ -32,7 +32,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
 
   return (
     <div>
-      <div className="w-full grid p-[24px] gap-[40px]">
+      <div className="w-full grid p-[24px] gap-[40px] bg-white">
         <h1 className="text-foreground text-[32px] font-bold">{program.title}</h1>
 
         {/* Program Overview */}

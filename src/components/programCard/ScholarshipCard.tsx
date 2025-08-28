@@ -1,6 +1,7 @@
 import React from 'react'
 import { programType } from '@/types/programs'
 import Link from 'next/link';
+import Image from 'next/image';
 const ScholarshipCard: React.FC<programType> = ({
   id,
   title,
@@ -17,23 +18,26 @@ const ScholarshipCard: React.FC<programType> = ({
   totalslot
 })=>{
   return (
-    <div className='grid grid-cols-2 w-[1003px] h-[521px] rounded-[24px] justify-between gap-1 p-[24px] bg-background '>
-        <img src={image} alt={title} className='w-[465px] h-full  rounded-[20px]' />
-       
-        <div className='h-full flex flex-col gap-y-[20px]'>
+    <div className='grid grid-cols-2   rounded-[24px] justify-between gap-4 p-[24px] bg-background  [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)] '>
+        {/* <img src={image} alt={title} className='w-[465px] h-full  rounded-[20px]' /> */}
+        <Image unoptimized height={500} width={500} src={image} alt={title} className=' h-fit  rounded-[20px]' />
+              
+        <div className='h-full flex flex-col gap-y-[10px]'>
           <div>
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center gap-3 mb-4">
                     <div className="flex flex-col items-center">
                         <div className="w-2 h-8 bg-gradient-to-b from-primary to-primary rounded-full"></div>
                         <div className="w-1 h-4 bg-gradient-to-b from-primary to-transparent rounded-full mt-1"></div>
                     </div>
                     <div className='flex flex-col '>
-                      <h1 className='text-primary text-[37px] font-bold'>{title}</h1>
+                     <h1 className="relative text-primary text-[30px] font-bold hover:text-primary-hover
+                      after:block after:h-[3px] after:w-0 after:bg-primary-hover  
+                      after:transition-all after:duration-300 hover:after:w-full">  {title}</h1>
                       <p className='text-secondary font-bold text-[20px] '>{scholarship}</p>
                     </div>
                 </div>
           </div>
-          <div className='h-full flex flex-col gap-y-[20px] '>
+          <div className='h-full flex flex-col gap-y-[18px] '>
           <p className='text-foreground font-normal text-[20px] text-foreground'>{description}</p>
           <div className='flex flex-row-3 justify-between  '>
             <div className='border-b-4 text-center rounded-[8px] border-secondary text-secondary px-[20px] py-[4px]'>
@@ -49,9 +53,10 @@ const ScholarshipCard: React.FC<programType> = ({
             <p className=' text-[#1E7D34]'>Total Slots</p>
             </div>
           </div>
+            <h2 className='text-white text-center  bg-primary p-4 mb-2 rounded-2xl  font-bold text-[16px] '>Enroll Now</h2> 
           </div>
             {/* <Link href={'/enrollment'} className='text-white bg-primary-foreground rounded-2xl gap-[10px] font-bold text-[16px] '><h1>Enroll Now</h1></Link> */}
-            <h2 className='text-white text-center mt-[24px] bg-primary p-5 rounded-2xl gap-[10px] font-bold text-[16px] '>Enroll Now</h2>
+          
           </div>
       </div>
   )

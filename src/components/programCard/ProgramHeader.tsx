@@ -12,7 +12,7 @@ const tabs = ["Overview", "Curriculum", "Timeline", "Activity", "Roadmap", "Enro
 
 const ProgramHeader: React.FC<Props> = ({ program, activeTab, setActiveTab }) => {
   return (
-    <div className="w-[887px] grid p-[24px] gap-[40px]">
+    <div className="w-[887px] grid p-[24px] gap-[40px] rounded-t-[24px] bg-white">
       {/* Program Image */}
       <img src={program.thumbnail} alt={program.title} className="rounded-[10px] mt-[20px] h-[316px] w-full object-cover" />
 
