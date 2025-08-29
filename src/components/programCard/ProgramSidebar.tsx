@@ -1,4 +1,3 @@
-import type { openingProgramType } from "@/types/openingProgramType";
 import type { programType } from "@/types/programs";
 import { PiNotePencilBold } from "react-icons/pi";
 import { MdOutlineAccessTime } from "react-icons/md";
@@ -7,6 +6,7 @@ import { BsPeople } from "react-icons/bs";
 import { MdOutlineSchool } from "react-icons/md";
 import { MdOutlinePaid } from "react-icons/md";
 import { FaTelegram } from "react-icons/fa6";
+import Image from "next/image";
 type Props = {
     program: programType;
 };
@@ -17,7 +17,7 @@ const ProgramOverviewSidebar: React.FC<Props> = ({ program }) => {
     const latestGeneration = program.openingprogram[program.openingprogram.length - 1];
   return (
     <div>
-      <div className="bg-background gap-[24px] sticky top-20 p-[24px] rounded-[24px] text-center flex flex-col">
+      <div className="bg-background gap-[24px] sticky top-28 p-[24px] rounded-[24px] text-center flex flex-col">
         {/* Title */}
         <div>
           <h1 className="font-bold text-[22px] text-primary">{program.title}</h1>
@@ -28,7 +28,7 @@ const ProgramOverviewSidebar: React.FC<Props> = ({ program }) => {
 
         {/* QR Codes */}
         <div className="flex flex-col items-center gap-[10px]">
-  <img
+  <Image width={143} height={142} unoptimized
     src={latestGeneration.qrimage}
     alt={latestGeneration.title}
     className="w-[143px] h-[142px]"

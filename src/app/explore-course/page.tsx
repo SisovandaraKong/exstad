@@ -5,7 +5,6 @@ import { programData } from "@/data/programData";
 import ScholarshipCard from "@/components/programCard/ScholarshipCard";
 import ShortCourseCardActive from "@/components/programCard/ShortCourseCardActive";
 import { programType } from "@/types/programs";
-import Link from "next/link";
 import ProgramActiveSidebar from "@/components/programCard/ProgramActivSidebar";
 import ProgramSearch from "@/components/programCard/ProgramSearch";
 
@@ -32,10 +31,8 @@ export default function ExploreProgramPage() {
   });
 
   return (
-   <div className="bg-whitesmoke min-h-screen">
-  <div className="mx-auto max-w-7xl  w-full">
-    <div className="flex py-6 w-full gap-6">
-      <div className="shrink-0 w-72">
+   <div className="bg-whitesmoke min-h-screen mx-auto max-w-7xl flex  gap-6 w-full p-6 lg:py-6 lg:px-0 ">
+      <div className="shrink-0 w-72  ">
         <ProgramActiveSidebar
           programData={programData}
           programFilter={programFilter}
@@ -73,8 +70,6 @@ export default function ExploreProgramPage() {
       </div>
 
     </div>
-  </div>
-</div>
 
   );
 }

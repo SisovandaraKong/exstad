@@ -63,11 +63,11 @@ const ProgramActiveSidebar: React.FC<Props> = ({
   );
 
   return (
-    <aside className="w-auto sticky top-22  p-[24px] border rounded-lg bg-background space-y-6">
+    <aside className="w-auto sticky top-28 p-[24px] border rounded-lg bg-background space-y-6">
       {/* Program Type */}
-      <div className="flex gap-[8px] items-center justify-center">
-        <FontAwesomeIcon icon={faSlidersH} size="sm" />
-                 <h2 className="text-center">Filter</h2>
+      <div className="flex gap-[8px] items-center justify-start">
+        <FontAwesomeIcon icon={faSlidersH} size="lg" />
+                 <h2 className="text-center text-[20px] font-bold">Filter</h2>
                  </div>
       <div>
         <h3 className="font-medium text-[16px] mb-2">Program Type</h3>
