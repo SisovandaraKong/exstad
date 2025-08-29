@@ -65,12 +65,12 @@ function Navbar({ className }: { className?: string }) {
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
                 <Link
-                  href="/exploreProgram/scholarship"
+                  href="/exploreProgram"
                   className="rounded-md transition-colors"
                 >
                   {t("explor-program")}
                 </Link>
-                <Link href="/exploreProgram/shortcourse" className="rounded-md transition-colors">
+                <Link href="/activeProgram" className="rounded-md transition-colors">
                   {t("available-programs")}
                 </Link>
                 <Link href="#" className="rounded-md transition-colors">

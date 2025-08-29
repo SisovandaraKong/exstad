@@ -1,6 +1,7 @@
 export type openingProgramType = {
     id: number;
     title: string;
+    generation:number;
     description: string;
     image: string;
     shortcourseimage:string;

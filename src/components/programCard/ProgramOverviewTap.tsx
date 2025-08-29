@@ -4,6 +4,14 @@ import type { programType } from "@/types/programs";
 import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { BsLightbulb } from "react-icons/bs";
+import { BsJournalCheck } from "react-icons/bs";
+import { TfiHelpAlt } from "react-icons/tfi";
+
+
+
+
+import Image from "next/image";
 
 type Props = {
   program: programType;
@@ -39,8 +47,8 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         <div className="grid gap-[24px]">
           {program.programOverview.map((item) => (
             <div key={item.id} className="grid gap-[24px]">
-              <h2 className="text-[20px] text-yellow-400 font-bold">
-                <i className="fa-solid fa-bullseye mr-2"></i>
+              
+              <h2 className="text-[20px] flex justify-start items-center gap-3 text-yellow-400 font-bold"><Image unoptimized width={24} height={24} src={"/image/logo/mission.png"} alt={item.title} />
                 {item.title}
               </h2>
               <p className="text-foreground text-[16px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] font-normal border-l-4 border-amber-400 p-[34px] rounded-[8px]">
@@ -54,10 +62,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         <div>
           {program.learningOutcome.map((outcome) => (
             <div key={outcome.id} className="grid gap-[24px]">
-              <h2 className="text-[20px] text-primary-hover font-bold">
-                <i className="fa-solid fa-bullseye mr-2"></i>
-                {outcome.title}
-              </h2>
+              <h2 className="text-[20px] flex justify-start items-center gap-3 text-primary-hover font-bold"><BsLightbulb className="text-2xl" />{outcome.title}</h2>
               <p className="mb-[10px]">{outcome.subtitle}</p>
               <ul className="list-disc grid gap-[24px] list-inside text-foreground text-[16px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] font-normal border-l-4 border-primary-hover p-[34px] rounded-[8px]">
                 {outcome.description.map((point, index) => (
@@ -72,7 +77,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         <div>
           {program.courseRequirement.map((requirement) => (
             <div key={requirement.id} className="grid gap-[24px]">
-              <h2 className="text-[20px] text-secondary-hover font-bold">{requirement.title}</h2>
+              <h2 className="text-[20px] flex justify-start items-center gap-3 text-secondary-hover font-bold"><BsJournalCheck className="text-2xl" />{requirement.title}</h2>
               <p>{requirement.description}</p>
               <ul className="list-disc grid gap-[24px] list-inside text-foreground text-[16px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] font-normal border-l-4 border-secondary-hover p-[34px] rounded-[8px]">
                 {requirement.description.map((point, index) => (
@@ -87,7 +92,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         <div>
           {program.faq.map((section) => (
             <div key={section.title} className="grid gap-[24px]">
-              <h2 className="text-[20px] text-[#800080] font-bold">{section.title}</h2>
+              <h2 className="text-[20px] flex justify-start items-center gap-3 text-[#800080] font-bold"><TfiHelpAlt className="text-2xl" /> {section.title}</h2>
               <div className="text-foreground text-[16px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] font-normal border-l-4 border-[#800080] p-[34px] rounded-[8px]">
                 {section.faqs.map((item, index) => {
                   const isOpen = openFaqs[item.id];

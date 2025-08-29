@@ -1,7 +1,8 @@
 import React from "react";
 import { programType } from "@/types/programs";
 import { ScrollArea } from "../ui/scroll-area";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
 type Props = {
   programData: programType[];
   programFilter: string;
@@ -64,7 +65,10 @@ const ProgramActiveSidebar: React.FC<Props> = ({
   return (
     <aside className="w-auto sticky top-22  p-[24px] border rounded-lg bg-background space-y-6">
       {/* Program Type */}
+      <div className="flex gap-[8px] items-center justify-center">
+        <FontAwesomeIcon icon={faSlidersH} size="sm" />
                  <h2 className="text-center">Filter</h2>
+                 </div>
       <div>
         <h3 className="font-medium text-[16px] mb-2">Program Type</h3>
         <ul className="space-y-2 p-2">
