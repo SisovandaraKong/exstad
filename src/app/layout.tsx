@@ -90,17 +90,14 @@ const koh = Koh_Santepheap({
 export const metadata: Metadata = {
   title: "EXSTAD - Your Ultimate Platform",
   description: "EXSTAD is a platform that provides amazing services and content for users.",
-  keywords: ["EXSTAD", "platform", "services", "content", "education", "technology"],
-  authors: [{ name: "EXSTAD Team" }],
-  creator: "EXSTAD",
   openGraph: {
     title: "EXSTAD - Your Ultimate Platform",
     description: "EXSTAD is a platform that provides amazing services and content for users.",
-    url: "https://yourwebsite.com",
+    url: "https://exstad.com",
     siteName: "EXSTAD",
     images: [
       {
-        url: "/image/logo/exSTAD-03.png",
+        url: "https://vercel.com/api/v0/deployments/dpl_Ac79TmQaHQ8fyreArDhPewhHf7S7/favicon?project=exstad-front-end&readyState=READY&teamId=team_Q1Js4gQ3NmEGxEaldNesTmob", // <-- absolute URL
         width: 1200,
         height: 630,
         alt: "EXSTAD logo",
@@ -113,10 +110,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "EXSTAD - Your Ultimate Platform",
     description: "EXSTAD is a platform that provides amazing services and content for users.",
-    images: ["/image/logo/exSTAD-03.png"],
+    images: ["https://vercel.com/api/v0/deployments/dpl_Ac79TmQaHQ8fyreArDhPewhHf7S7/favicon?project=exstad-front-end&readyState=READY&teamId=team_Q1Js4gQ3NmEGxEaldNesTmob"], // <-- absolute URL
     creator: "@yourtwitterhandle",
   },
 };
+
 
 
 
