@@ -71,7 +71,7 @@ function Navbar({ className }: { className?: string }) {
     >
       {/* Main navbar */}
       <nav className="bg-background relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:py-3 py-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0   md:py-3 py-2">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="block">
@@ -88,7 +88,7 @@ function Navbar({ className }: { className?: string }) {
               <div className="ml-10 flex items-baseline space-x-8">
                 <DropDown />
                 <Link
-                  href="/activeProgram"
+                  href="/explore-course"
                   className={getNavLinkClasses('/exploreProgram')}
                 >
                   {t("available-programs")}

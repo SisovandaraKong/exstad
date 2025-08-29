@@ -46,7 +46,7 @@ const ProgramActivityTap: React.FC<Props> = ({ program }) => {
             className={`px-4 py-2 rounded-2xl font-medium whitespace-nowrap ${
               selectedGenerationId === gen.id
                 ? "text-primary"
-                : "text-foreground bg-gray-200"
+                : "text-foreground hover:bg-gray-200"
             }`}
           >
             Generation {gen.generation}

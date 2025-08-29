@@ -96,8 +96,6 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
               <div className="text-foreground text-[16px] shadow-[0_4px_15px_rgba(0,0,0,0.15)] font-normal border-l-4 border-[#800080] p-[34px] rounded-[8px]">
                 {section.faqs.map((item, index) => {
                   const isOpen = openFaqs[item.id];
-                  const height = refs.current[item.id]?.scrollHeight || 0;
-
                   return (
                     <div key={item.id} className="border-b py-3">
                       <button

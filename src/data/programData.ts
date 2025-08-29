@@ -1,5 +1,4 @@
 import { programType } from "@/types/programs";
-import { title } from "process";
 export const programData: programType[] = [
   {
     id: 1,
@@ -496,7 +495,7 @@ export const programData: programType[] = [
          activities: [
             {
                 id:1,
-                title:"Orientation ",
+                title:"Activity of Scholar  ",
                 activityType:[{
                     id:1,
                     title:"Writing Test ",
