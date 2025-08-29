@@ -5,8 +5,7 @@ export const programData: programType[] = [
     bg: "radial-gradient(circle, #FFD94D 0%, #F5BD0C 50%, #E0A800 100%)",
     title: "LINUX ADMINISTRATION",
     subtitle: "Master the essentials of Linux system",
-    description:
-      "Learn to install, configure, and manage Linux servers effectively with hands-on labs and real-world scenarios to boost your career in IT. This course covers system administration, networking, security, and troubleshooting.",
+    description:"Learn to install, configure, and manage Linux servers effectively with hands-on labs and real-world scenarios to boost your career in IT. This course covers system administration, networking, security, and troubleshooting.",
     image:"https://api.istad.co/media/image/b9bf96d7-c352-4533-8025-f017517ba648.png",
     thumbnail:"https://scontent.fpnh11-1.fna.fbcdn.net/v/t39.30808-6/481978395_646817804765390_8167577235669527897_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeHkAnlA2G_TEMm_BloSevRW052IGJkuxMPTnYgYmS7Ew8mKsiFN1rbvveDC6wxTX5y0RoGt0DzLS5REvNroF2nm&_nc_ohc=i-QT3x0SBRsQ7kNvwGoCuar&_nc_oc=AdmhEQ3XuOE6x9oueFUrj3NM4LqjTyvOUnStbPJhS-oez8y9HrrhoHzew2hFtTvXd58&_nc_zt=23&_nc_ht=scontent.fpnh11-1.fna&_nc_gid=m0n_yhA4jtqkT3hXGvWSzA&oh=00_AfUmXkv_8eTXeDXeOYgpeZww45mYFYSWSoYAuh_nE0aENA&oe=68B237D0",
     price: "$499",
@@ -125,7 +124,7 @@ export const programData: programType[] = [
          activities: [
             {
                 id:1,
-                title:"Orientation Session",
+                title:"Activity of Scholar",
                 activityType:[{
                     id:1,
                     title:"Applicant List",
