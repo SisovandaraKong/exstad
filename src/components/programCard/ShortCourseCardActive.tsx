@@ -5,6 +5,7 @@ import React from 'react'
 import { programType } from '@/types/programs'
 import Link from 'next/link';
 import Image from 'next/image';
+
 const ShortCourseCardActive: React.FC<programType> = ({
   id,
   title,
@@ -24,6 +25,7 @@ const ShortCourseCardActive: React.FC<programType> = ({
   return (
     <div className="grid grid-cols-2 rounded-[24px] justify-between gap-4 p-[24px] bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]">
   {/* Left image */}
+  <Link href={`/activeProgram/${id}`}>
   <Image
   unoptimized
   height={500}
@@ -32,6 +34,7 @@ const ShortCourseCardActive: React.FC<programType> = ({
   alt={title}
   className="h-fit rounded-[20px] object-cover"
 />
+</Link>
 
   {/* Right content */}
   <div className="h-full flex flex-col ">
@@ -43,12 +46,14 @@ const ShortCourseCardActive: React.FC<programType> = ({
           <div className="w-1 h-4 bg-gradient-to-b from-primary to-transparent rounded-full mt-1"></div>
         </div>
         <div className="flex flex-col">
+          <Link href={`/activeProgram/${id}`}>
           <h1 className="relative text-primary text-[30px] font-bold hover:text-primary-hover
                          after:block after:h-[3px] after:w-0 after:bg-primary-hover  
                          after:transition-all after:duration-300 hover:after:w-full">
             {title}
           </h1>
-          <p className="text-secondary font-bold text-[20px]">{scholarship}</p>
+          </Link>
+          <p className="text-secondary font-bold text-[20px]">{scholarship}% Scholarship</p>
         </div>
       </div>
     </div>
@@ -76,9 +81,9 @@ const ShortCourseCardActive: React.FC<programType> = ({
           <p className="absolute -top-3 -right-2 text-white text-[14px] line-through bg-secondary rounded-full px-[8px] py-[2px] border border-white"> {price} </p>
         </div>
       </div>
-
-        <h2 className='text-white text-center  bg-primary p-4  hover:bg-primary-hover rounded-2xl  font-bold text-[16px] '>Enroll Now</h2> 
-         
+            <Link href={"/"}>
+            <h2 className='text-white text-center  bg-primary p-4 hover:bg-primary-hover cursor-pointer rounded-2xl  font-bold text-[16px] '>Enroll Now</h2> 
+            </Link>
     </div>
   </div>
 </div>

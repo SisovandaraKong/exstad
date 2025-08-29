@@ -20,8 +20,16 @@ const ScholarshipCard: React.FC<programType> = ({
   return (
     <div className='grid grid-cols-2   rounded-[24px] justify-between gap-4 p-[24px] bg-background  [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)] '>
         {/* <img src={image} alt={title} className='w-[465px] h-full  rounded-[20px]' /> */}
-        <Image unoptimized height={500} width={500} src={image} alt={title} className=' h-full  rounded-[20px]' />
-              
+        <Link href={`/exploreProgram/${id}`}>
+        <Image
+          unoptimized
+          height={500}
+          width={500}
+          src={image}
+          alt={title}
+          className="h-fit rounded-[20px]"
+        />
+      </Link>     
         <div className='h-full flex flex-col gap-y-[10px]'>
           <div>
             <div className="flex items-center gap-3 mb-4">
@@ -30,15 +38,19 @@ const ScholarshipCard: React.FC<programType> = ({
                         <div className="w-1 h-4 bg-gradient-to-b from-primary to-transparent rounded-full mt-1"></div>
                     </div>
                     <div className='flex flex-col '>
-                     <h1 className="relative text-primary text-[30px] font-bold hover:text-primary-hover
-                      after:block after:h-[3px] after:w-0 after:bg-primary-hover  
-                      after:transition-all after:duration-300 hover:after:w-full">  {title}</h1>
-                      <p className='text-secondary font-bold text-[20px] '>{scholarship}</p>
+                     <Link href={`/exploreProgram/${id}`}>
+          <h1 className="relative text-primary text-[30px] font-bold hover:text-primary-hover
+                         after:block after:h-[3px] after:w-0 after:bg-primary-hover  
+                         after:transition-all after:duration-300 hover:after:w-full">
+            {title}
+          </h1>
+          </Link>
+                      <p className='text-secondary font-bold text-[20px] '>{scholarship}% Scholarship</p>
                     </div>
                 </div>
           </div>
-          <div className='h-full flex flex-col gap-y-[18px] '>
-          <p className='text-foreground font-normal text-[20px] text-foreground'>{description}</p>
+          <div className='h-full flex flex-col justify-between '>
+          <p className='text-foreground font-normal text-[20px] '>{description}</p>
           <div className='flex flex-row-3 justify-between  '>
             <div className='border-b-4 text-center rounded-[8px] border-secondary text-secondary px-[20px] py-[4px]'>
             <p className='text-secondary font-bold text-[24px] '>{deadline}</p>

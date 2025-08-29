@@ -19,7 +19,7 @@ export type programType = {
   thumbnail:string;
   price: string;
   duration: string;
-  scholarship?: string;
+  scholarship?: number;
   discount: string;
   deadline:string;
   totalslot:number;
