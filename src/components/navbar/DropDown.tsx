@@ -33,7 +33,7 @@ export default function DropDown() {
   const components: { title: string; href: string }[] = [
     {
       title: "Pre University",
-      href: "/",
+      href: "/activeProgram/2",
     },
     {
       title: "Foundation",
@@ -53,7 +53,7 @@ export default function DropDown() {
     },
     {
       title: "Short Courses",
-      href: "/",
+      href: "/short-course",
     },
   ];
   return (

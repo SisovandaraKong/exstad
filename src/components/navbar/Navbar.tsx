@@ -88,7 +88,7 @@ function Navbar({ className }: { className?: string }) {
               <div className="ml-10 flex items-baseline space-x-8">
                 <DropDown />
                 <Link
-                  href="/exploreProgram"
+                  href="/activeProgram"
                   className={getNavLinkClasses('/exploreProgram')}
                 >
                   {t("available-programs")}
