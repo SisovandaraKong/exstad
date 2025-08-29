@@ -9,6 +9,7 @@ import ProgramSidebar from "@/components/programCard/ProgramSidebar";
 import ProgramOverviewTap from "@/components/programCard/ProgramOverviewTap";
 import ProgramCurriculumTap from "@/components/programCard/ProgramCurriculum";
 import ProgramActivityTap from "@/components/programCard/ProgramActivity";
+import TimeLine from "@/components/programCard/TimeLine";
 
 type Props = {
   params: Promise<{ id: string }>; // params is now a promise
@@ -19,6 +20,7 @@ const tabComponents: { [key: string]: React.FC<{ program: programType }> } = {
   Overview: ProgramOverviewTap,
   Curriculum: ProgramCurriculumTap,
   Activity: ProgramActivityTap,
+  Timeline: TimeLine
 };
 
 const ProgramDetailPage: React.FC<Props> = ({ params }) => {
