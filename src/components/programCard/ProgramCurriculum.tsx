@@ -31,7 +31,7 @@ const ProgramCurriculumTap: React.FC<Props> = ({ program }) => {
     <div className="w-full bg-background p-[24px] space-y-[40px]">
       {program.curriculum.map((item) => (
         <div key={item.id} className="space-y-[24px]">
-          <h1 className="font-bold text-[36px] text-foreground">{item.title}</h1>
+          <h1 className="font-bold text-[36px]  text-foreground">{item.title}</h1>
 
           <div className="grid gap-[16px]">
             {item.curriculumType.map((section, index) => {
@@ -40,9 +40,9 @@ const ProgramCurriculumTap: React.FC<Props> = ({ program }) => {
 
               return (
                 <div key={section.id} className="border-b border-1 border-[#8AB9FF] rounded-[20px] p-[24px]">
-                  <button onClick={() => toggle(section.id)}     className="flex justify-between items-center w-full font-semibold text-[18px] text-foreground"   >
+                  <button onClick={() => toggle(section.id)}     className="flex justify-between text-start items-center w-full font-semibold text-[18px] text-foreground"   >
                      <span className="text-[20px] md:text-[22px] lg:text-[24px] ">
-                      <span className="text-primary mr-2">{(index + 1).toString().padStart(2, "0")}</span>
+                      <span className="text-primary  mr-2">{(index + 1).toString().padStart(2, "0")}</span>
                       {section.title}
                     </span>
                     <FontAwesomeIcon icon={faChevronDown} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}/>
