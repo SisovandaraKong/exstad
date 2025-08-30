@@ -41,7 +41,7 @@ const ProgramCurriculumTap: React.FC<Props> = ({ program }) => {
               return (
                 <div key={section.id} className="border-b border-1 border-[#8AB9FF] rounded-[20px] p-[24px]">
                   <button onClick={() => toggle(section.id)}     className="flex justify-between items-center w-full font-semibold text-[18px] text-foreground"   >
-                     <span className="text-[24px] ">
+                     <span className="text-[20px] md:text-[22px] lg:text-[24px] ">
                       <span className="text-primary mr-2">{(index + 1).toString().padStart(2, "0")}</span>
                       {section.title}
                     </span>

@@ -97,27 +97,12 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
                 {section.faqs.map((item, index) => {
                   const isOpen = openFaqs[item.id];
                   return (
-                    <div key={item.id} className="border-b py-3">
-                      <button
-                        onClick={() => toggle(item.id)}
-                        className="flex justify-between items-center w-full font-bold text-[16px] text-foreground"
-                      >
-                        <span>
-                          {index + 1}. {item.question}
-                        </span>
-                        <FontAwesomeIcon
-                          icon={faChevronDown}
-                          className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                        />
+                    <div key={item.id} className="border-b py-3 ">
+                      <button onClick={() => toggle(item.id)} className="flex justify-between items-center text-start w-full font-bold text-[16px] text-foreground" ><span>  {index + 1}. {item.question}
+                        </span> <FontAwesomeIcon  icon={faChevronDown}  className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
                       </button>
-
-                      <div
-                        ref={(el) => { refs.current[item.id] = el; }} 
-                        style={{
-                          maxHeight: isOpen ? `${refs.current[item.id]?.scrollHeight}px` : "0px",
-                        }}
-                        className="transition-all duration-500 ease-in-out overflow-hidden mt-2"
-                      >
+                      <div ref={(el) => { refs.current[item.id] = el; }}  style={{   maxHeight: isOpen ? `${refs.current[item.id]?.scrollHeight}px` : "0px", }}
+                        className="transition-all duration-500 ease-in-out overflow-hidden mt-2"  >
                         <p className="text-foreground text-[16px] font-normal">{item.answer}</p>
                       </div>
                     </div>

@@ -10,7 +10,7 @@ import ProgramCurriculumTap from "@/components/programCard/ProgramCurriculum";
 import ProgramActivityTap from "@/components/programCard/ProgramActivity";
 
 type Props = {
-  params: Promise<{ id: string }>; // params is now a Promise in Next.js 13 app router
+  params: Promise<{ id: string }>;
 };
 
 const tabComponents: { [key: string]: React.FC<{ program: programType }> } = {
@@ -19,14 +19,14 @@ const tabComponents: { [key: string]: React.FC<{ program: programType }> } = {
   Activity: ProgramActivityTap,
 };
 
-const ShortCourseDetailPage: React.FC<Props> = ({ params }) => {
-  const resolvedParams = use(params); // unwrap the promise
+export default function ProgramDetailPage({ params }: Props) {
+  const resolvedParams = use(params);
   const id = parseInt(resolvedParams.id);
 
-  const program: programType | undefined = programData.find((p) => p.id === id);
+  const program: programType | undefined = programData.find(p => p.id === id);
   const [activeTab, setActiveTab] = useState("Overview");
 
-  if (!program) return <p>Short Course not found!</p>;
+  if (!program) return <p>Program not found!</p>;
 
   const ActiveTabComponent = tabComponents[activeTab];
 
@@ -34,15 +34,9 @@ const ShortCourseDetailPage: React.FC<Props> = ({ params }) => {
     <div className="flex mx-auto gap-6 my-[20px] max-w-7xl">
       <div className="flex-1">
         <ProgramHeader program={program} activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div>
-          {ActiveTabComponent ? <ActiveTabComponent program={program} /> : null}
-        </div>
+        {ActiveTabComponent && <ActiveTabComponent program={program} />}
       </div>
-
-      {/* Right section */}
       <ProgramSidebar program={program} />
     </div>
   );
-};
-
-export default ShortCourseDetailPage;
+}
