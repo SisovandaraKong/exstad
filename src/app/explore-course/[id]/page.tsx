@@ -1,6 +1,6 @@
 'use client';
 
-import { act, use } from "react";
+import { use } from "react";
 import React, { useState ,useEffect} from "react";
 import type { programType } from "@/types/programs";
 import { programData } from "@/data/programData";
