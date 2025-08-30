@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-
+import { programData } from "@/data/programData";
 export default function DropDown() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -30,32 +30,20 @@ export default function DropDown() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
-  const components: { title: string; href: string }[] = [
-    {
-      title: "Pre University",
-      href: "/our-program/2",
-    },
-    {
-      title: "Foundation",
-      href: "/",
-    },
-    {
-      title: "Full Stack Development",
-      href: "/",
-    },
-    {
-      title: "Information Technology Professional (ITP)",
-      href: "/",
-    },
-    {
-      title: "Information Technology Expert (ITE)",
-      href: "/",
-    },
-    {
-      title: "Short Courses",
-      href: "/our-program",
-    },
-  ];
+const scholarshipPrograms = programData.filter(
+  (p) => p.program_type === "Scholarship Course"
+);
+
+const components = [
+  ...scholarshipPrograms.map((p) => ({
+    id: p.id,                  // add the id
+    title: p.title,
+    href: `/our-program/${p.id}`,
+  })),
+  { id: "short-courses", title: "Short Courses", href: "/our-program" },
+];
+
+
   return (
     <div ref={menuRef}>
       <NavigationMenu value={open ? "item1" : ""} onValueChange={() => {}}>
@@ -81,13 +69,14 @@ export default function DropDown() {
               <NavigationMenuContent className="bg-background max-w-7xl">
                 <ul className="bg-background text-foreground grid font-d4 w-full rounded-none gap-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                      onClick={() => setOpen(false)}
-                    ></ListItem>
-                  ))}
+  <ListItem
+    key={component.id}   // ✅ unique key
+    title={component.title}
+    href={component.href}
+    onClick={() => setOpen(false)}
+  />
+))}
+
                 </ul>
               </NavigationMenuContent>
             )}

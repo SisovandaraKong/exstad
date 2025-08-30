@@ -15,7 +15,7 @@ const ShortCourseCard: React.FC<programType> = ({
   {/* Header section */}
 <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4 md:gap-6">
   <div className="flex-1 text-center md:text-left">
-    <h2 className="text-xl md:text-4xl font-bold text-foreground">{title}</h2>
+    <h2 className="text-2xl md:text-4xl font-bold text-foreground">{title}</h2>
     <p className="text-sm md:text-2xl text-[#333333] font-medium w-fit mx-auto md:mx-0 rounded-[10px] bg-white px-2 py-1 mt-2"> {subtitle} </p>
     <p className="text-sm md:text-base mt-1 md:mt-2 text-gray-700 line-clamp-3"> {description} </p>
   </div>
@@ -31,7 +31,7 @@ const ShortCourseCard: React.FC<programType> = ({
         return (
           <div
             key={index}
-            className={`rounded-[25px] py-3 px-4 md:p-5 w-full ${
+            className={` rounded-[18px] mg:rounded-[20px]lg:rounded-[25px] py-3 px-4 md:p-5 w-full ${
               isPrice
                 ? "relative flex flex-col justify-center items-center bg-white"
                 : "flex flex-col justify-between bg-white"

@@ -31,8 +31,8 @@ export default function ExploreProgramPage() {
   });
 
   return (
-   <div className="bg-whitesmoke min-h-screen mx-auto max-w-7xl flex  gap-6 w-full p-6 lg:py-6 lg:px-0 ">
-      <div className="shrink-0 w-72  ">
+   <div className="flex flex-col  lg:flex-row md:flex-col  bg-whitesmoke min-h-screen mx-auto max-w-7xl  gap-6 w-full p-5 md:p-8 lg:py-6 lg:px-0 ">
+      <div className="shrink-0 w-full lg:w-72 md:w-full ">
         <ProgramActiveSidebar
           programData={programData}
           programFilter={programFilter}

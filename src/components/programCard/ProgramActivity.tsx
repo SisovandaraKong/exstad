@@ -73,14 +73,21 @@ const ProgramActivityTap: React.FC<Props> = ({ program }) => {
                   <div className="absolute top-0 left-0 h-full w-0.5 rounded-l-2xl bg-gradient-to-b from-[#328BE6] to-transparent"></div>
                   <h3 className="font-bold text-[20px] text-foreground">{activity.title}</h3>
                   <p className="font-normal text-[16px] text-foreground">{activity.description}</p>
-                  <Image
-                    unoptimized
-                    height={500}
-                    width={500}
-                    src={activity.image}
-                    alt={activity.title}
-                    className="rounded-[24px] w-full h-[364px]"
-                  />
+                 <Image
+  unoptimized
+  height={500}
+  width={500}
+  src={activity.image}
+  alt={activity.title}
+  className="
+    rounded-[24px]
+    w-full
+    h-auto
+    max-h-[364px]
+    object-cover
+  "
+/>
+
                 </div>
               ))}
             </div>
