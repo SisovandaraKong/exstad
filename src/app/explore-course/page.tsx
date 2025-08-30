@@ -1,18 +1,27 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { programData } from "@/data/programData";
 import ScholarshipCard from "@/components/programCard/ScholarshipCard";
 import ShortCourseCardActive from "@/components/programCard/ShortCourseCardActive";
 import { programType } from "@/types/programs";
 import ProgramActiveSidebar from "@/components/programCard/ProgramActivSidebar";
 import ProgramSearch from "@/components/programCard/ProgramSearch";
+import ShortCourseCardActiveSkeleton from "@/components/programCard/skeleton/ShortCourseCarcActiveSkeleton";
+import ProgramActiveSidebarSkeleton from "@/components/programCard/skeleton/ProgramActiveSidebarSkeleton";
 
 export default function ExploreProgramPage() {
   const [programFilter, setProgramFilter] = useState<string>("All");
   const [subFilter, setSubFilter] = useState<string[]>([]);
   const [levelFilter, setLevelFilter] = useState<string>("All");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // simulate loading for 1.5 seconds
+    const timer = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filteredPrograms = programData.filter((p: programType) => {
     const programMatch = programFilter === "All" || p.program_type === programFilter;
@@ -33,15 +42,20 @@ export default function ExploreProgramPage() {
   return (
    <div className="flex flex-col  lg:flex-row md:flex-col  bg-whitesmoke min-h-screen mx-auto max-w-7xl  gap-6 w-full p-5 md:p-8 lg:py-6 lg:px-0 ">
       <div className="shrink-0 w-full lg:w-72 md:w-full ">
-        <ProgramActiveSidebar
-          programData={programData}
-          programFilter={programFilter}
-          setProgramFilter={setProgramFilter}
-          levelFilter={levelFilter}
-          setLevelFilter={setLevelFilter}
-          subFilter={subFilter}
-          setSubFilter={setSubFilter}
-        />
+        {loading ? (
+  <ProgramActiveSidebarSkeleton />
+) : (
+  <ProgramActiveSidebar
+    programData={programData}
+    programFilter={programFilter}
+    setProgramFilter={setProgramFilter}
+    levelFilter={levelFilter}
+    setLevelFilter={setLevelFilter}
+    subFilter={subFilter}
+    setSubFilter={setSubFilter}
+  />
+)}
+
       </div>
 
       {/* Program Cards */}
@@ -56,16 +70,23 @@ export default function ExploreProgramPage() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 gap-y-6"> {/* 5 × 4px = 20px vertical gap */}
-          {filteredPrograms.map((program: programType) => (
-            <div key={program.id} className="block">
-              {program.program_type === "Scholarship Course" ? (
-                <ScholarshipCard {...program} />
-              ) : (
-                <ShortCourseCardActive {...program} />
-              )}
-            </div>
-          ))}
+        <div className="grid grid-cols-1 gap-y-6">
+          {loading
+            ? Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="block">
+                  {/* alternate skeletons */}
+                  {i % 2 === 0 ? <ShortCourseCardActiveSkeleton /> : <ShortCourseCardActiveSkeleton/>}
+                </div>
+              ))
+            : filteredPrograms.map((program: programType) => (
+                <div key={program.id} className="block">
+                  {program.program_type === "Scholarship Course" ? (
+                    <ScholarshipCard {...program} />
+                  ) : (
+                    <ShortCourseCardActive {...program} />
+                  )}
+                </div>
+              ))}
         </div>
       </div>
 
