@@ -31,11 +31,10 @@ const ProgramDetailPage: React.FC<Props> = ({ params }) => {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      // simulate loading for 1.5 seconds
       const timer = setTimeout(() => setLoading(false), 1500);
       return () => clearTimeout(timer);
     }, []);
-  // ✅ unwrap the promise using React.use()
+  //  unwrap the promise using React.use()
   const resolvedParams = use(params);
   const id = parseInt(resolvedParams.id);
 

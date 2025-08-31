@@ -350,7 +350,7 @@ export const programData: programType[] = [
     id: 2,
     bg: "#f47373",
     deadline:"12 AGU",
-    title: "Full Stack Scholarship",
+    title: "Foundation Scholarship",
     subtitle: "Master the essentials of Linux system",
     discount:'$120',
     level:"Beginner",
