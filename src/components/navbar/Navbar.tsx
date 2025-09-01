@@ -76,7 +76,7 @@ function Navbar({ className }: { className?: string }) {
                 <Link href="#" className="rounded-md transition-colors">
                   {t("scholar")}
                 </Link>
-                <Link href="#" className="rounded-md transition-colors">
+                <Link href="/roadmap" className="rounded-md transition-colors">
                   {t("roadmap")}
                 </Link>
                 <Link href="#" className="rounded-md transition-colors">

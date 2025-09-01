@@ -1,7 +1,7 @@
 "use client"
 
 import { Suspense } from "react"
-import ViewOnlyRoadmap from "@/app/roadmap/view-only-roadmap";
+import ViewOnlyRoadmap from "@/app/roadmap/[id]/view-only-roadmap";
 
 function ViewOnlyLoading() {
     return (
@@ -16,7 +16,7 @@ function ViewOnlyLoading() {
 
 export default function ViewOnlyPage() {
     return (
-        <div className="w-full h-screen  bg-gray-50">
+        <div className="w-full h-full  bg-gray-50">
             <Suspense fallback={<ViewOnlyLoading />}>
                 <ViewOnlyRoadmap />
             </Suspense>
