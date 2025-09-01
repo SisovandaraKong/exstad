@@ -2,14 +2,13 @@ import Image from "next/image";
 import React from "react";
 import LabelLevel from "./LabelLevel";
 import {
-  GlowingCards,
   GlowingCard,
 } from "@/components/lightswind/glowing-cards";
-
+type Level = "Beginner" | "Intermediate" | "Advanced";
 type Prop = {
   image: string;
   title: string;
-  level: string;
+  level: Level;
   color: string;
 };
 

@@ -6,7 +6,6 @@ export const GlowingCard = ({
   children,
   className,
   glowColor = "#3b82f6",
-  hoverEffect = true,
   ...props
 }) => {
   return _jsx("div", {
@@ -30,7 +29,6 @@ export const GlowingCards = ({
   glowRadius = 25,
   glowOpacity = 1,
   animationDuration = 400,
-  enableHover = true,
   gap = "2.5rem",
   maxWidth = "75rem",
   padding = "3rem 1.5rem",
@@ -41,7 +39,6 @@ export const GlowingCards = ({
 }) => {
   const containerRef = useRef(null);
   const overlayRef = useRef(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showOverlay, setShowOverlay] = useState(false);
   useEffect(() => {
     const container = containerRef.current;
@@ -115,7 +112,7 @@ export const GlowingCards = ({
                 responsive && "flex-col sm:flex-row"
               ),
               style: { padding: "var(--padding)" },
-              children: React.Children.map(children, (child, index) => {
+              children: React.Children.map(children, (child) => {
                 if (React.isValidElement(child) && child.type === GlowingCard) {
                   const cardGlowColor = child.props.glowColor || "#3b82f6";
                   return React.cloneElement(child, {

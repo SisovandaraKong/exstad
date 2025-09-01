@@ -7,7 +7,6 @@ import { DotPattern } from "@/components/magicui/dot-pattern";
 import BackgroundCircle from "@/components/roadmap/BackgroundCircle";
 import HorizontalScrollText from "@/components/roadmap/HorizontalScrollText";
 import LabelLevel from "@/components/roadmap/LabelLevel";
-import RoadmapCard from "@/components/roadmap/RoadmapCard";
 import { Button } from "@/components/ui/button";
 import { programData } from "@/data/programData";
 import Image from "next/image";
@@ -47,7 +46,9 @@ export default function page() {
         animationDuration={500}
         gap="20px"
         responsive={true}
-        className=" gap-6 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8"
+        className="gap-6 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8"
+        backgroundColor="" // add a color
+        customTheme={{ primary: "#4f46e5", secondary: "#facc15" }} // example theme
       >
         {programData.map((data) => (
           <GlowingCard
