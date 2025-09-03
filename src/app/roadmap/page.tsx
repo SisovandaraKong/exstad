@@ -1,7 +1,7 @@
 "use client"
 
 import { Suspense } from "react"
-import ViewOnlyRoadmap from "@/app/roadmap/[id]/view-only-roadmap";
+import ViewOnlyRoadmap from "@/app/roadmap/view-only-roadmap";
 
 function ViewOnlyLoading() {
     return (
