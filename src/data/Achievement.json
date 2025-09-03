@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "logo": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMREhAQERMSEhUWGRMbFhIXFxATFxgTFx0YFxUZGhcYHSggGholHhgWITEhJikrLi4wFx81ODMsNyouLisBCgoKDg0OGxAQGyslICUuLS0vLS0vLS01LS0tLS0tLS0tLS0tLS0tLS0vLS0tLS0vLTUtLS0tLi0tKy0tLS0vLf/AABEIAOEA4QMBEQACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABAED... (truncated for readability)",
+    "title": "JobSeek",
+    "description": "Final Project Achievement. JobSeek is a modern and user-friendly job portal designed to connect job seekers with employers...",
+    "link": "http://www.example.org",
+    "demo": "Video Demo",
+    "date": "18 August 2025",
+    "type": "Foundation"
+  },
+  {
+    "id": 2,
+    "logo": "/logos/fluent.png",
+    "title": "FluentEdu",
+    "description": "FluentEdu is a modern and interactive education platform for language learners worldwide...",
+    "link": "http://www.example.org",
+    "demo": "Video Demo",
+    "date": "25 August 2025",
+    "type": "Foundation"
+  },
+  {
+    "id": 3,
+    "logo": "/logos/fluent.png",
+    "title": "FluentEdu",
+    "description": "FluentEdu is a modern and interactive education platform for language learners worldwide...",
+    "link": "http://www.example.org",
+    "demo": "Video Demo",
+    "date": "25 August 2025",
+    "type": "Foundation"
+  },
+  {
+    "id": 4,
+    "logo": "/logos/fluent.png",
+    "title": "FluentEdu",
+    "description": "FluentEdu is a modern and interactive education platform for language learners worldwide...",
+    "link": "http://www.example.org",
+    "demo": "Video Demo",
+    "date": "25 August 2025",
+    "type": "Foundation"
+  },
+  {
+    "id": 5,
+    "logo": "/logos/fluent.png",
+    "title": "FluentEdu",
+    "description": "FluentEdu is a modern and interactive education platform for language learners worldwide...",
+    "link": "http://www.example.org",
+    "demo": "Video Demo",
+    "date": "25 August 2025",
+    "type": "Foundation"
+  }
+]
