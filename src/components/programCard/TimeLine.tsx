@@ -10,56 +10,55 @@ type Props = {
   program: programType;
 };
 
-
-// Mock timeline data matching your format
+// Mock timeline data 
 const mockTimelineData: timeline[] = [
   {
-    id: 1,
+    uuid: "1",
     date: "2025-06-11",
     title: "Application period",
   },
   {
-    id: 2,
+    uuid: "2",
     date: "2025-08-19",
     title: "Applicant List",
   },
   {
-    id: 3,
+    uuid: "3",
     date: "2025-08-30",
     title: "Writing Test",
   },
   {
-    id: 4,
+    uuid: "4",
     date: "2025-09-06",
     title: "Interview Test",
   },
   {
-    id: 5,
+    uuid: "5",
     date: "2025-09-08",
     title: "Final Result",
   },
   {
-    id: 6,
+    uuid: "6",
     date: "2025-09-15",
     title: "Preliminary Learning",
   },
   {
-    id: 7,
+    uuid: "7",
     date: "2025-09-29",
     title: "Orientation",
   },
   {
-    id: 8,
+    uuid: "8",
     date: "2025-09-29",
     title: "Course Training",
   },
   {
-    id: 9,
+    uuid: "9",
     date: "2025-11-21",
     title: "Final Project",
   },
   {
-    id: 10,
+    uuid: "10",
     date: "2025-12-27",
     title: "Closing Day",
   },
@@ -77,10 +76,11 @@ type CustomNodeProps = {
 };
 
 const CustomNode = ({ data }: CustomNodeProps) => {
-  const { event, isCompleted, isCurrent } = data;
+  const { event, isCompleted, isCurrent, stepNumber } = data;
+  const isOddNotOne =
+    typeof stepNumber === "number" && stepNumber % 2 === 1 && stepNumber !== 1;
 
-  // determine color and animation based on status
-  let colorClass = "bg-yellow"; 
+  let colorClass = "bg-yellow";
   let extraClasses = "";
   if (isCompleted) {
     colorClass = "bg-green";
@@ -103,25 +103,31 @@ const CustomNode = ({ data }: CustomNodeProps) => {
         className={`rounded-full w-10 h-10 flex gap-4 items-center justify-center text-white font-bold text-2xl shadow-xl  ${colorClass}${extraClasses}`}
       >
         <div className="rounded-full w-3 h-3 flex gap-4 items-center justify-center text-white font-bold text-2xl shadow-xl bg-background"></div>
-        {/* {stepNumber} */}
         <Handle type="source" position={Position.Right} className="opacity-0" />
         <Handle type="target" position={Position.Left} className="opacity-0" />
       </div>
 
       {/* Label with event details - always positioned to the right */}
-      <div className={`absolute flex gap-2 -left-2 -top-30 min-w-[280px] max-w-[400px] ${textColor}`}>
+      <div
+        className={`absolute flex gap-2 -left-2 ${
+          isOddNotOne ? "top-20" : "-top-30"
+        } min-w-[280px] max-w-[400px] ${textColor}`}
+      >
         <div>
-          <h1 className="text-8xl font-black">{event.id}</h1>
+          {/* display step number instead of uuid */}
+          <h1 className="text-8xl font-black">{stepNumber}</h1>
         </div>
         <div className="p-4">
           <div className="flex items-center gap-2">
-            <span className={`font-h4 font-bold  py-1 rounded-full`}>
+            <span
+              className={`font-h4 font-bold  py-1 rounded-full ${
+                isOddNotOne ? "relative top-0" : ""
+              }`}
+            >
               {event.date}
             </span>
           </div>
-          <h4 className="font-semibold mb-2 font-h5">
-            {event.title}
-          </h4>
+          <h4 className="font-semibold mb-2 font-h5">{event.title}</h4>
         </div>
       </div>
     </div>
@@ -138,9 +144,6 @@ const generateNodesAndEdges = (timelineData: timeline[]) => {
   const dd = String(today.getDate()).padStart(2, "0");
   const todayStr = `${yyyy}-${mm}-${dd}`;
 
-  // (removed tomorrow computation — we'll mark the next upcoming date as current instead)
-
-  // helper to normalize date strings like '2025-1-21' -> '2025-01-21'
   const normalizeYMD = (s?: string) => {
     if (!s) return s;
     const parts = s.split("-");
@@ -150,7 +153,7 @@ const generateNodesAndEdges = (timelineData: timeline[]) => {
       const d = parts[2].padStart(2, "0");
       return `${y}-${m}-${d}`;
     }
-    // fallback: try Date parsing
+   
     const dt = new Date(s);
     if (isNaN(dt.getTime())) return s;
     const yy = dt.getFullYear();
@@ -159,7 +162,7 @@ const generateNodesAndEdges = (timelineData: timeline[]) => {
     return `${yy}-${mm2}-${dd2}`;
   };
 
-  // find the next upcoming date (>= today) so we can mark it as current
+  
   const allDates = timelineData
     .map((e) => normalizeYMD(e.date))
     .filter(Boolean)
@@ -198,7 +201,7 @@ const generateNodesAndEdges = (timelineData: timeline[]) => {
     type: "bezier",
     style: {
       stroke: "#253c95",
-      strokeWidth: 8, 
+      strokeWidth: 8,
     },
     animated: false,
   }));
@@ -235,7 +238,6 @@ const TimeLine: React.FC<Props> = () => {
         ></ReactFlow>
       </div>
     </div>
-
   );
 };
 

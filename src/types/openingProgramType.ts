@@ -18,7 +18,7 @@ export type activityType = {
 }
 
 export type timeline = {
-  id: number
+  uuid: string;
   date: string;
   title: string;
 };
