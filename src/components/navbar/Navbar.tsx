@@ -152,7 +152,7 @@ function Navbar({ className }: { className?: string }) {
               onClick={() => setMobileOpen(false)}
             />
             {/* Mobile menu */}
-            <div className="md:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-lg z-50">
+            <div className="md:hidden absolute top-full left-0 right-0 bg-background border-b  shadow-lg z-50">
               <div className="px-4 py-4">
                 <div className="flex flex-col space-y-4 items-center">
                   <DropDown />
