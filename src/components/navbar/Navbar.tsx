@@ -94,7 +94,7 @@ function Navbar({ className }: { className?: string }) {
                   {t("available-programs")}
                 </Link>
                 <Link
-                  href="/scholar"
+                  href="/student-dashboard"
                   className={getNavLinkClasses('/scholar')}
                 >
                   {t("scholar")}
