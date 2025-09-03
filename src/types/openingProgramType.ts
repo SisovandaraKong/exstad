@@ -24,7 +24,8 @@ export type ActivityDataType = {
 }
 
 export type timeline = {
-  id: number
+
+  id: number;
   date: string;
   title: string;
 };

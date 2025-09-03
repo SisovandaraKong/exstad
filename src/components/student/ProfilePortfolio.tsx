@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
+// import { useRef } from "react";
 import Image from "next/image";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { CgMail, CgTranscript } from "react-icons/cg";
@@ -8,14 +9,14 @@ import { TbCertificate } from "react-icons/tb";
 import { GrAchievement } from "react-icons/gr";
 import { IoIosBookmarks } from "react-icons/io";
 import { FiArrowUpRight } from "react-icons/fi";
-import { type ConfettiRef } from "@/components/magicui/confetti";
+// import { type ConfettiRef } from "@/components/magicui/confetti";
 import transcriptions from "@/data/Transcription.json";
 import achievements from "@/data/Achievement.json";
 import { ScrollVelocityContainer, ScrollVelocityRow } from "@/components/magicui/scroll-based-velocity";
 import { LiaGraduationCapSolid } from "react-icons/lia";
 
 const ProfilePortfolio = () => {
-  const confettiRef = useRef<ConfettiRef>(null);
+  // const confettiRef = useRef<ConfettiRef>(null);
 
   return (
     <div className="px-4 sm:px-6 lg:px-12 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
