@@ -80,12 +80,12 @@ const CustomNode = ({ data }: CustomNodeProps) => {
   const isOddNotOne =
     typeof stepNumber === "number" && stepNumber % 2 === 1 && stepNumber !== 1;
 
-  let colorClass = "bg-yellow";
+  let colorClass = "bg-yellow-400";
   let extraClasses = "";
   if (isCompleted) {
-    colorClass = "bg-green";
+    colorClass = "bg-green-600";
   } else if (isCurrent) {
-    colorClass = "bg-red";
+    colorClass = "bg-red-600";
     extraClasses = " animate-pulse";
   }
 
