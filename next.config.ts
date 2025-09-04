@@ -7,9 +7,6 @@ const nextConfig: NextConfig = {
       "hebbkx1anhila5yf.public.blob.vercel-storage.com",
     ],
   },
-  devIndicators: {
-    buildActivity: false, // disables the dev indicator completely
-  },
 };
 
 export default nextConfig;
