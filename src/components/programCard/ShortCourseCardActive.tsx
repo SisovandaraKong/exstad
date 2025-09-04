@@ -45,20 +45,21 @@ const ShortCourseCardActive: React.FC<programType> = ({
                 overflow-hidden
                 text-ellipsis
                 line-clamp-2 md:line-clamp-5 lg:line-clamp-none">{description}</p>
-              <div className="flex justify-between">
-                <div className="border-b-4  text-center rounded-[8px] border-secondary text-secondary px-[20px] py-[4px]">
-                  <p className="text-secondary font-bold text-[20px] md:text-[18px] lg:text-[22px]">{deadline}</p>
-                  <p>Deadline</p>
-                </div>
-                <div className="border-b-4 text-center rounded-[8px] border-primary px-[20px] py-[4px]">
-                  <p className="text-primary font-bold text-[20px] md:text-[18px] lg:text-[22px]">{duration}</p>
-                  <p className="text-primary">Duration</p>
-                </div>
-                <div className="relative inline-block text-center mt-4">
-                  <p className="text-white font-bold text-[26px] md:text-[28px] lg:text-[30px] bg-primary rounded-full py-[5px] px-[20px]">  {discount}</p>
-                  <p className="absolute -top-3 -right-2 text-white text-[14px] line-through bg-secondary rounded-full px-[8px] py-[2px] border border-white"> {price} </p>
-                </div>
-              </div>
+              <div className="flex justify-between items-center w-full gap-4">
+  <div className="border-b-4 text-center rounded-lg border-secondary text-secondary px-4 sm:px-6 md:px-7 py-1 sm:py-2">
+    <p className="text-secondary font-bold text-sm sm:text-base md:text-lg lg:text-xl">{deadline}</p>
+    <p className="text-sm sm:text-base md:text-base lg:text-lg">Deadline</p>
+  </div>
+  <div className="border-b-4 text-center rounded-lg border-primary px-4 sm:px-6 md:px-8 py-1 sm:py-2">
+    <p className="text-primary font-bold text-sm sm:text-base md:text-lg lg:text-xl">{duration}</p>
+    <p className="text-primary text-sm sm:text-base md:text-base lg:text-lg">Duration</p>
+  </div>
+  <div className="relative inline-block text-center mt-4">
+    <p className="text-white font-bold text-xl sm:text-2xl md:text-2xl lg:text-3xl bg-primary rounded-full py-1 sm:py-2 px-4 sm:px-6 md:px-7">{discount}</p>
+    <p className="absolute -top-4 -right-1 text-white text-xs sm:text-sm md:text-sm lg:text-base line-through bg-secondary rounded-full px-2 sm:px-3 py-0.5 border border-white">{price}</p>
+  </div>
+</div>
+
                     <Link href={"/"}>
                     <h2 className='text-white text-center  bg-primary p-3 md:p-3.5 lg:p-4 hover:bg-primary-hover cursor-pointer rounded-2xl  font-bold text-[16px] '>Enroll Now</h2> 
                     </Link>

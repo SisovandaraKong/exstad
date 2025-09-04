@@ -31,8 +31,6 @@ export type programType = {
   openingprogram: openingProgramType[]; // 👈 new
   faq:FaqDataType[];
   curriculum:curriculumDataType[];
-  
-
 };
 
 export type programOverviewType = {

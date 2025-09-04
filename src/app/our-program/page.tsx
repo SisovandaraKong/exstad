@@ -10,7 +10,6 @@ export default function ShortCoursePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API fetching
     setTimeout(() => {
       import("@/data/programData").then((module) => {
         const data: programType[] = module.programData.filter(

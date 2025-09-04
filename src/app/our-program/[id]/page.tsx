@@ -38,7 +38,6 @@ export default function ProgramDetailPage({ params }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API loading delay
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);

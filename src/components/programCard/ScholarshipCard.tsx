@@ -43,37 +43,33 @@ return (
         </div>
       </div>
 
-      <div className="h-full gap-2 flex flex-col justify-between">
-        <p
-          className="text-foreground font-normal
-          text-[16px] md:text-[18px] lg:text-[20px]
-          overflow-hidden text-ellipsis
-          line-clamp-2 md:line-clamp-5 lg:line-clamp-none"
-        >
-          {description}
-        </p>
+      <div className="h-full flex flex-col justify-between gap-2">
+  <p className="text-foreground font-normal text-[16px] md:text-[18px] lg:text-[20px] overflow-hidden text-ellipsis line-clamp-2 md:line-clamp-5 lg:line-clamp-none">
+    {description}
+  </p>
 
-        <div className="flex justify-between">
-          <div className="border-b-4 text-center rounded-[8px] border-secondary text-secondary px-[20px] py-[4px]">
-            <p className="text-secondary font-bold text-[20px] md:text-[18px] lg:text-[22px]">{deadline}</p>
-            <p>Deadline</p>
-          </div>
-          <div className="border-b-4 text-center rounded-[8px] border-primary px-[20px] py-[4px]">
-            <p className="text-primary font-bold text-[20px] md:text-[18px] lg:text-[22px]">{duration}</p>
-            <p className="text-primary">Duration</p>
-          </div>
-          <div className="border-b-4 text-center rounded-[8px] border-[#1E7D34] px-[20px] py-[4px]">
-            <p className="text-[#1E7D34] font-bold text-[20px] md:text-[18px] lg:text-[22px]">{totalslot}</p>
-            <p className="text-[#1E7D34]">Total Slots</p>
-          </div>
-        </div>
+  <div className="flex justify-between items-center w-full gap-4">
+    <div className="border-b-4 text-center rounded-[8px] border-secondary text-secondary px-2 sm:px-6 md:px-6 py-1 sm:py-2">
+      <p className="text-secondary font-bold text-[16px] md:text-[18px] lg:text-[22px]">{deadline}</p>
+      <p className="text-sm md:text-base lg:text-lg">Deadline</p>
+    </div>
+    <div className="border-b-4 text-center rounded-[8px] border-primary px-4 sm:px-6 md:px-6 py-1 sm:py-2">
+      <p className="text-primary font-bold text-[16px] md:text-[18px] lg:text-[22px]">{duration}</p>
+      <p className="text-sm md:text-base lg:text-lg">Duration</p>
+    </div>
+    <div className="border-b-4 text-center rounded-[8px] border-[#1E7D34] px-4 sm:px-6 md:px-7 py-1 sm:py-2">
+      <p className="text-[#1E7D34] font-bold text-[16px] md:text-[18px] lg:text-[22px]">{totalslot}</p>
+      <p className="text-[#1E7D34] text-sm md:text-base lg:text-lg">Total Slots</p>
+    </div>
+  </div>
 
-        <Link href={"/"}>
-          <h2 className="text-white text-center bg-primary p-3 md:p-3.5 lg:p-4 hover:bg-primary-hover cursor-pointer rounded-2xl font-bold text-[16px]">
-            Enroll Now
-          </h2>
-        </Link>
-      </div>
+  <Link href={"/"}>
+    <h2 className="text-white text-center bg-primary p-3 md:p-3.5 lg:p-4 hover:bg-primary-hover cursor-pointer rounded-2xl font-bold text-[16px]">
+      Enroll Now
+    </h2>
+  </Link>
+</div>
+
     </div>
   </div>
 );
