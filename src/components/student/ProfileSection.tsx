@@ -82,7 +82,7 @@ export function ProfileSection() {
 
         {/* Text */}
         <div className="flex-1 text-center lg:text-left space-y-3">
-          <h1 className="font-h5 font-bold text-color">
+          <h1 className="font-h1 font-extrabold text-color">
             <SparklesText>{profileData.name}</SparklesText>
           </h1>
          
@@ -90,7 +90,7 @@ export function ProfileSection() {
             {profileData.title}
           </h2>
           
-          <p className="font-d3 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+          <p className="font-d2 leading-relaxed max-w-2xl mx-auto lg:mx-0">
             {profileData.bio}
           </p>
           <blockquote className="text-2xl lg:text-3xl font-medium text-accent italic ">

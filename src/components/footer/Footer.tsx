@@ -20,7 +20,8 @@ export default function Footer() {
               />
             </Link>
             <h2 className="dark:text-white text-white mt-15">
-              JobSeek is created by ISTAD <br /> Student for Job Matching <br /> Service Specialized in IT.
+              JobSeek is created by ISTAD <br /> Student for Job Matching <br />{" "}
+              Service Specialized in IT.
             </h2>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -30,22 +31,34 @@ export default function Footer() {
               </h2>
               <ul className="text-white dark:text-white font-medium">
                 <li className="mb-4">
-                  <Link href="https://github.com/kea-daron" className="hover:underline">
+                  <Link
+                    href="https://github.com/kea-daron"
+                    className="hover:underline"
+                  >
                     Find Jobs
                   </Link>
                 </li>
                 <li className="mb-4">
-                  <Link href="https://github.com/kea-daron" className="hover:underline">
+                  <Link
+                    href="https://github.com/kea-daron"
+                    className="hover:underline"
+                  >
                     Find Freelancers
                   </Link>
                 </li>
                 <li className="mb-4">
-                  <Link href="https://github.com/kea-daron" className="hover:underline">
+                  <Link
+                    href="https://github.com/kea-daron"
+                    className="hover:underline"
+                  >
                     Post a Job
                   </Link>
                 </li>
                 <li className="mb-4">
-                  <Link href="https://github.com/kea-daron" className="hover:underline">
+                  <Link
+                    href="https://github.com/kea-daron"
+                    className="hover:underline"
+                  >
                     Dashboard
                   </Link>
                 </li>
@@ -57,22 +70,34 @@ export default function Footer() {
               </h2>
               <ul className="text-white dark:text-white font-medium">
                 <li className="mb-4">
-                  <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
+                  <Link
+                    href="https://github.com/themesberg/flowbite"
+                    className="hover:underline"
+                  >
                     Chat Bot Help
                   </Link>
                 </li>
                 <li className="mb-4">
-                  <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
+                  <Link
+                    href="https://github.com/themesberg/flowbite"
+                    className="hover:underline"
+                  >
                     FAQs
                   </Link>
                 </li>
                 <li className="mb-4">
-                  <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
+                  <Link
+                    href="https://github.com/themesberg/flowbite"
+                    className="hover:underline"
+                  >
                     Policy Privacy
                   </Link>
                 </li>
                 <li className="mb-4">
-                  <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
+                  <Link
+                    href="https://github.com/themesberg/flowbite"
+                    className="hover:underline"
+                  >
                     Term of Service
                   </Link>
                 </li>
@@ -84,7 +109,7 @@ export default function Footer() {
               </h2>
               <ul>
                 <li className="h-[100px] w-[200px] mt-5">
-                  <Link href="#" className="hover:underline">
+                  <Link href="/" className="hover:underline">
                     <Image
                       src="/assets/Footer/istad.webp"
                       alt="Logo ISTAD"
@@ -110,7 +135,7 @@ export default function Footer() {
           <div className="flex mt-4 sm:justify-center sm:mt-0">
             {/* Social Icons */}
             <Link
-              href="#"
+              href="/"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
             >
               <svg
@@ -129,7 +154,7 @@ export default function Footer() {
               <span className="sr-only">Facebook page</span>
             </Link>
             <Link
-              href="#"
+              href="/"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5"
             >
               <svg

@@ -70,16 +70,16 @@ function Navbar({ className }: { className?: string }) {
                 >
                   {t("explor-program")}
                 </Link>
-                <Link href="#" className="rounded-md transition-colors">
+                <Link href="/" className="rounded-md transition-colors">
                   {t("available-programs")}
                 </Link>
-                <Link href="#" className="rounded-md transition-colors">
+                <Link href="/" className="rounded-md transition-colors">
                   {t("scholar")}
                 </Link>
-                <Link href="#" className="rounded-md transition-colors">
+                <Link href="/" className="rounded-md transition-colors">
                   {t("roadmap")}
                 </Link>
-                <Link href="#" className="rounded-md transition-colors">
+                <Link href="/" className="rounded-md transition-colors">
                   {t("about-us")}
                 </Link>
               </div>
@@ -118,19 +118,19 @@ function Navbar({ className }: { className?: string }) {
         {mobileOpen && (
           <div className="md:hidden px-4 pb-4">
             <div className="flex flex-col space-y-4 items-center">
-              <Link href="#" className="rounded-md">
+              <Link href="/" className="rounded-md">
                 {t("explor-program")}
               </Link>
-              <Link href="#" className="rounded-md">
+              <Link href="/" className="rounded-md">
                 {t("available-programs")}
               </Link>
-              <Link href="#" className="rounded-md">
+              <Link href="/" className="rounded-md">
                 {t("scholar")}
               </Link>
-              <Link href="#" className="rounded-md">
+              <Link href="/" className="rounded-md">
                 {t("roadmap")}
               </Link>
-              <Link href="#" className="rounded-md">
+              <Link href="/" className="rounded-md">
                 {t("about-us")}
               </Link>
             </div>
