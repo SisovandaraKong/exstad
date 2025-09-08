@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useMemo } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useParams } from "next/navigation"
 import ReactFlow, {
     MiniMap,
     Controls,
@@ -9,20 +9,21 @@ import ReactFlow, {
     type Node,
     type Edge,
     ReactFlowProvider,
-    type NodeTypes, BackgroundVariant,
+    type NodeTypes,
+    BackgroundVariant,
 } from "reactflow"
 import "reactflow/dist/style.css"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import {ViewOnlyCourseNode} from "@/components/roadmap/view-only-course-node";
+import { ViewOnlyCourseNode } from "@/components/roadmap/view-only-course-node";
 
 const nodeTypes: NodeTypes = {
     course: ViewOnlyCourseNode,
 }
 
 export default function ViewOnlyRoadmap() {
-    const searchParams = useSearchParams()
+    const { id } = useParams() // Fetch the dynamic route parameter
     const [nodes, setNodes] = useState<Node[]>([])
     const [edges, setEdges] = useState<Edge[]>([])
     const [loading, setLoading] = useState(true)
@@ -60,18 +61,21 @@ export default function ViewOnlyRoadmap() {
                 setLoading(true)
                 setError(null)
 
-                // Load from localStorage
-                const saved = localStorage.getItem("roadmap-data")
-                if (saved && isMounted) {
-                    const data = JSON.parse(saved)
+                // Fetch data from the API using the id
+                const response = await fetch(`https://your-api-endpoint.com/roadmap/${id}`)
+                if (!response.ok) {
+                    throw new Error("Network response was not ok")
+                }
+
+                const data = await response.json()
+                if (isMounted) {
+                    // Assuming the data structure matches your nodes and edges
                     if (data.nodes && data.edges) {
                         setNodes(data.nodes)
                         setEdges(data.edges)
                     } else {
                         setError("Invalid roadmap data format.")
                     }
-                } else if (isMounted) {
-                    setError("No roadmap data found.")
                 }
             } catch (err) {
                 if (isMounted) {
@@ -90,7 +94,7 @@ export default function ViewOnlyRoadmap() {
         return () => {
             isMounted = false
         }
-    }, []) // Remove searchParams dependency to prevent re-runs
+    }, [id]) // Add id as a dependency
 
     if (loading) {
         return (
@@ -151,7 +155,7 @@ export default function ViewOnlyRoadmap() {
                         >
                             <Controls showInteractive={false} />
                             <MiniMap
-                                nodeColor={() => {return "#64748b"}}
+                                nodeColor={() => { return "#64748b" }}
                                 maskColor="rgba(255, 255, 255, 0.8)"
                             />
                             <Background variant={BackgroundVariant.Dots} gap={20} size={4} color="#e2e8f0" />
