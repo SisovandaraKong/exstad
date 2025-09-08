@@ -5,9 +5,9 @@ import { Button } from "../ui/button";
 
 export function Welcoming_Card() {
 	return (
-		<div className='bg-[#e9e9e9] dark:bg-[#202124] mx-auto max-w-auto px-4 pt-6 sm:px-6 lg:px-8 rounded-3xl flex flex-col md:flex-row gap-6 md:gap-12 '>
+		<div className='bg-[#e9e9e9] dark:bg-[#202124] mx-auto max-w-auto px-4 pt-4 sm:pt-6 md:pt-8 lg:pt-10 sm:px-6 lg:px-8 rounded-3xl flex flex-col md:flex-row gap-6 md:gap-12 '>
 			{/* Left/Top: Text Section */}
-			<div className=''>
+			<div className='py-4 sm:py-6 md:py-8'>
 				<span className='font-bold text-2xl sm:text-3xl md:text-4xl text-text-color'>
 					Welcome to exSTAD
 				</span>

@@ -28,6 +28,14 @@ import SwiperSlideComponent_PopularCourse from "@/components/swiper/swiperSlide"
 import SwiperSlideComponent_RecommendedCourse from "@/components/swiper/SwiperSlide_RecommendCourse";
 import { WhyChooseEXSTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
 import { Welcoming_Card } from "@/components/welcomeCard/Weloming_Card";
+import { Marquee } from "@/components/magicui/marquee";
+import { Marquee3D } from "@/components/marquee3D/Marquee3D";
+import { OrbitingCircles } from "@/components/magicui/orbiting-circles";
+import {
+	ScrollVelocityContainer,
+	ScrollVelocityRow,
+} from "@/components/magicui/scroll-based-velocity";
+import { RetroGrid } from "@/components/magicui/retro-grid";
 
 export default function Home() {
 	const t = useTranslations();
@@ -41,41 +49,68 @@ export default function Home() {
 					/>
 				</div> */}
 
-				{/* Hero Section */}
+				<div className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto'>
+					{/*  */}
+					{/* <div className='relative h-[500px] w-1/2 overflow-hidden'>
+						<RetroGrid />
+						<span className='bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-3xl'>
+							{" "}
+							Quality education is a key to your future success
+						</span>
+					</div> */}
 
-				<div className='flex  justify-center items-center px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
-					{/* Animated Section */}
-					<div className='relative w-[50%] mx-auto min-h-[180px] flex start-0'>
-						<h1 className='absolute inset-0 flex items-center justify-center font-bold text-3xl sm:text-5xl lg:text-6xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-center px-2 z-10'>
+					{/* Hero Section Version 2 */}
+					<div className='w-full lg:w-1/2 max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto min-h-[120px] sm:min-h-[180px] flex flex-col items-center justify-center mb-4 relative'>
+						<h1 className='absolute inset-0 flex items-center justify-center font-bold text-2xl sm:text-3xl md:text-4xl lg:text-6xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-center px-2 z-20'>
 							Quality education is a key to your future success
 						</h1>
-						<div className='w-full flex items-center justify-center'>
-							<AnimatedSpinner variant='rotate' />
+						<div className='w-full flex items-center justify-center relative z-10'>
+							<AnimatedSpinner />
 						</div>
 					</div>
-					{/* Statistics Cards */}
-					<div className='w-[50%] justify-center items-center grid grid-cols-1 sm:grid-cols-2 gap-5'>
-						<div className=''>
-							<StatisticsCard_10000 />
-						</div>
-						<div className=''>
-							<StaticCard_Internship />
-						</div>
-						<div className=''>
-							<StaticCard_RealProjects />
-						</div>
-						<div className=''>
-							<StaticCard_NewCourses />
-						</div>
+
+					{/* Marquee Section */}
+					<div className='w-full lg:w-1/2 flex items-center justify-center mx-auto'>
+						<Marquee3D />
 					</div>
 				</div>
 
-				{/* Learn More Section */}
+				{/* Scroll Velocity Section */}
+				{/* <div className='py-[20px]'>
+					<ScrollVelocityContainer className='text-4xl md:text-7xl font-bold'>
+						<ScrollVelocityRow
+							baseVelocity={10}
+							direction={1}
+							style={{
+								color: "black",
+								backgroundColor: "#ff134a",
+								padding: "10px",
+								rotate: " -2deg",
+								zIndex: 10,
+							}}>
+							Welcome to exSTAD
+						</ScrollVelocityRow>
+						<ScrollVelocityRow
+							baseVelocity={20}
+							direction={-1}
+							style={{
+								color: "#253C95",
+								fontSize: "2.5rem",
+								padding: "10px",
+								rotate: " 1deg",
+								backgroundColor: "#e0e7ff",
+							}}>
+							Your gateway to quality education
+						</ScrollVelocityRow>
+					</ScrollVelocityContainer>
+				</div> */}
+
+				{/* Welcoming Section */}
 				<div className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
 					<Welcoming_Card />
 				</div>
 
-				{/* MainCard Section */}
+				{/* Short Courses and Scholarships Section */}
 				<div className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto flex flex-col md:flex-row gap-6 md:gap-12 justify-between items-stretch'>
 					<div className='max-w-[580px] h-full'>
 						<ShortCourseCard
@@ -111,9 +146,9 @@ export default function Home() {
 				</div>
 
 				{/* Why Choose EXSTAD Section */}
-				<div className=''>
+				{/* <div className=''>
 					<WhyChooseEXSTAD_Card />
-				</div>
+				</div> */}
 
 				{/* Offerring Section */}
 				<div className='bg-background py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
@@ -206,8 +241,43 @@ export default function Home() {
 				<div className='py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
 					<PartnersSection />
 				</div>
+				<Footer />
 			</main>
-			<Footer />
 		</div>
 	);
+}
+
+{
+	/* Hero Section Version 1 */
+}
+{
+	/* <div className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto'>
+					<div className='w-full lg:w-1/2 max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto min-h-[120px] sm:min-h-[180px] flex flex-col items-center justify-center mb-4 relative'>
+						<h1 className='absolute inset-0 flex items-center justify-center font-bold text-2xl sm:text-3xl md:text-4xl lg:text-6xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-center px-2 z-20'>
+							Quality education is a key to your future success
+						</h1>
+						<div className='w-full flex items-center justify-center relative z-10'>
+							<AnimatedSpinner />
+						</div>
+					</div>
+
+					<div className='w-full lg:w-1/2 grid grid-cols-2 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto p-2 sm:p-4 md:p-6 items-start'>
+						<div className=' lg:space-y-6 space-y-6 flex flex-col items-end'>
+							<div>
+								<StatisticsCard_10000 />
+							</div>
+							<div>
+								<StaticCard_Internship />
+							</div>
+						</div>
+						<div className='lg:space-y-6 space-y-6 lg:mt-12'>
+							<div>
+								<StaticCard_RealProjects />
+							</div>
+							<div>
+								<StaticCard_NewCourses />
+							</div>
+						</div>
+					</div>
+				</div> */
 }

@@ -1,7 +1,7 @@
 /** @format */
 
 import { Button } from "@/components/ui/button";
-import { Recommendation } from "../../types/recommendationData";
+import { Recommendation } from "../../types/recommendationType";
 import Image from "next/image";
 
 type RecommendationCourseCardProps = {

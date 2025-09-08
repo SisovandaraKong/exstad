@@ -1,3 +1,16 @@
+/**
+ * Gradient text utility class
+ *
+ * @format
+ */
+
+.gradient-text {
+	background: linear-gradient(90deg, #ff0000, #7777ff);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	color: transparent;
+}
 /** @format */
 
 @import "tailwindcss";
@@ -83,7 +96,46 @@
 			transform: translate(-50%, -50%) scale(0.9);
 		}
 	}
-}
+	--animate-marquee: marquee var(--duration) infinite linear;
+	--animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+	@keyframes marquee {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(calc(-100% - var(--gap)));
+		}
+	}
+	@keyframes marquee-vertical {
+		from {
+			transform: translateY(0);
+		}
+		to {
+			transform: translateY(calc(-100% - var(--gap)));
+		}
+	}
+	--animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+	@keyframes orbit {
+		0% {
+			transform: rotate(calc(var(--angle) * 1deg))
+				translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+		}
+		100% {
+			transform: rotate(calc(var(--angle) * 1deg + 360deg))
+				translateY(calc(var(--radius) * 1px))
+				rotate(calc((var(--angle) * -1deg) - 360deg));
+		}
+	}
+	--animate-grid: grid 15s linear infinite
+;
+  @keyframes grid {
+  0% {
+    transform: translateY(-50%);
+		}
+  100% {
+    transform: translateY(0);
+		}
+	}}
 
 :root {
 	/* Custom Color Variable */

@@ -1,40 +1,27 @@
 /** @format */
 
+// Assuming you have lucide-react installed.
+// If not, run: npm install lucide-react
+import { PiStudentBold } from "react-icons/pi";
+
 export function StatisticsCard_10000() {
 	return (
-		<div className='w-[230px] h-[230px] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-gray-800 rounded-3xl p-4 sm:p-6 flex flex-col justify-between items-start relative overflow-hidden min-w-0'>
+		<div className='w-full max-w-[230px] bg-gray-800 rounded-3xl p-3 flex flex-col justify-center items-center aspect-square'>
 			{/* Orange icon in top left */}
-			<div className='absolute top-3 left-3'>
-				<svg width='32' height='32' viewBox='0 0 32 32' className='block'>
-					{/* Back outlined double circles */}
-					<circle
-						cx='16'
-						cy='16'
-						r='14'
-						fill='none'
-						stroke='#f59e0b'
-						strokeWidth='2'
-					/>
-					<circle
-						cx='16'
-						cy='16'
-						r='10'
-						fill='none'
-						stroke='#f59e0b'
-						strokeWidth='2'
-					/>
-					{/* Front solid circle */}
-					<circle cx='16' cy='16' r='7' fill='#f59e0b' stroke='none' />
-				</svg>
+			<div className=' top-6 left-3 flex items-center justify-center'>
+				<PiStudentBold
+					className='w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12'
+					style={{ color: "#FFA500" }}
+				/>
 			</div>
 
 			{/* Main statistic */}
-			<div className='flex flex-col items-start justify-center flex-1 pt-6 w-full gap-2'>
-				<h1 className='text-white text-2xl pt-5 sm:text-3xl font-bold leading-none text-left w-full'>
+			<div className='flex flex-col items-start justify-center flex-1  w-full gap-1'>
+				<h1 className='text-white text-lg sm:text-xl md:text-2xl lg:text-2xl font-bold leading-none text-left w-full'>
 					100000+
 				</h1>
-				<p className='text-white text-xs sm:text-sm leading-tight text-left mt-2 w-full'>
-					Student Finished Coursece
+				<p className='text-white text-[10px] sm:text-xs md:text-sm leading-tight text-left mt-1 w-full'>
+					Student Finished Course
 					<br />
 					Every Year
 				</p>
@@ -42,10 +29,10 @@ export function StatisticsCard_10000() {
 
 			{/* Chart area */}
 			<div
-				className='w-full flex-shrink-0 flex flex-col items-start justify-end gap-2'
-				style={{ height: "56px" }}>
+				className='w-full flex-shrink-0 flex flex-col items-start justify-end gap-1'
+				style={{ height: "48px" }}>
 				<svg
-					className='w-full h-6'
+					className='w-full h-5'
 					viewBox='0 0 213 24'
 					preserveAspectRatio='none'>
 					<path
@@ -64,10 +51,10 @@ export function StatisticsCard_10000() {
 						strokeLinecap='round'
 					/>
 				</svg>
-				<div className='w-full py- flex justify-start text-white text-[10px] px-1 gap-2'>
-					<span>40,000</span>
-					<span>60,000</span>
-					<span>1,00,000</span>
+				<div className='w-full flex justify-start text-white text-[8px] sm:text-[10px] md:text-xs px-1 gap-2'>
+					<span>10000</span>
+					<span>50000</span>
+					<span>120000</span>
 				</div>
 			</div>
 		</div>
