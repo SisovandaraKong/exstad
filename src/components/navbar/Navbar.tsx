@@ -44,7 +44,7 @@ function Navbar({ className }: { className?: string }) {
 	return (
 		<div
 			ref={navRef}
-			className={cn("w-full border-text-color sticky top-0", className)}
+			className={cn("w-full border-text-color z-10 sticky top-0", className)}
 			style={{ boxShadow: "0px 4px 28px 0px rgba(0,0,0,0.05)" }}>
 			{/* Main navbar */}
 			<nav className='bg-background'>
