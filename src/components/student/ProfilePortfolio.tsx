@@ -90,7 +90,7 @@ const ProfilePortfolio = () => {
               {transcriptions.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between p-3 sm:p-6 rounded-2xl bg-white dark:bg-gray-900 shadow hover:shadow-lg transition"
+                  className="flex items-center justify-between p-3 sm:p-6 rounded-2xl bg-white dark:bg-gray-900 shadow hover:shadow-lg transition cursor-pointer"
                 >
                   <div className="flex items-start gap-3 sm:gap-4">
                     <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-yellow-100 text-yellow-500 text-xl sm:text-2xl">
@@ -112,6 +112,27 @@ const ProfilePortfolio = () => {
               ))}
             </div>
           </MotionHighlight>
+        </div>
+
+ {/* Certificate Gallery */}
+        <div>
+          <h3 className="font-h4 font-semibold mb-4">Certificate</h3>
+          <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4 ">
+            {certificate.map((cert) => (
+              <div
+                key={cert.id}
+                className="flex-shrink-0 w-72 sm:w-80 md:w-96 lg:w-[24rem] relative hover:shadow-lg transition-shadow rounded-xl cursor-pointer"
+              >
+                <Image
+                  src={cert.logo}
+                  alt={cert.title}
+                  width={384} // match desired width
+                  height={384} // make height equal to width → perfect square
+                  className="object-cover rounded-xl "
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
 
@@ -170,27 +191,7 @@ const ProfilePortfolio = () => {
           </div>
         </div>
 
-        {/* Certificate Gallery */}
-        <div>
-          <h3 className="font-h4 font-semibold mb-4">Certificate</h3>
-          <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4 ">
-            {certificate.map((cert) => (
-              <div
-                key={cert.id}
-                className="flex-shrink-0 w-72 sm:w-80 md:w-96 lg:w-[24rem] relative hover:shadow-lg transition-shadow rounded-xl"
-              >
-                <Image
-                  src={cert.logo}
-                  alt={cert.title}
-                  width={384} // match desired width
-                  height={384} // make height equal to width → perfect square
-                  className="object-cover rounded-xl "
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
+       
         {/* Completed Courses */}
         <div>
           <h3 className="text-xl sm:text-2xl font-semibold mb-4">
