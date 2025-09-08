@@ -9,6 +9,10 @@ import transcriptions from "@/data/Transcription.json";
 import achievements from "@/data/Achievement.json";
 import profileData from "@/data/profileSection.json";
 import { MotionHighlight } from "@/components/animate-ui/effects/motion-highlight";
+import { CompletedCourseCard } from "@/components/Card/CompletedCourse";
+import completedCourses from "@/data/CompletedCourse.json";
+import Link from "next/link";
+
 
 import certificate from "@/data/Certificate.json";
 
@@ -114,10 +118,10 @@ const ProfilePortfolio = () => {
           </MotionHighlight>
         </div>
 
- {/* Certificate Gallery */}
+        {/* Certificate Gallery */}
         <div>
           <h3 className="font-h4 font-semibold mb-4">Certificate</h3>
-          <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4 ">
+          {/* <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4 ">
             {certificate.map((cert) => (
               <div
                 key={cert.id}
@@ -132,9 +136,26 @@ const ProfilePortfolio = () => {
                 />
               </div>
             ))}
-          </div>
-        </div>
+          </div> */}
+          <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4 ">
+  {certificate.map((cert) => (
+    <Link
+      key={cert.id}
+      href={`/certificate/${cert.id}`}
+      className="flex-shrink-0 w-72 sm:w-80 md:w-96 lg:w-[24rem] relative hover:shadow-lg transition-shadow rounded-xl"
+    >
+      <Image
+        src={cert.logo}
+        alt={cert.title}
+        width={384}
+        height={384}
+        className="object-cover rounded-xl"
+      />
+    </Link>
+  ))}
+</div>
 
+        </div>
 
         {/* Achievement Section */}
         <div>
@@ -191,36 +212,23 @@ const ProfilePortfolio = () => {
           </div>
         </div>
 
-       
         {/* Completed Courses */}
-        <div>
-          <h3 className="text-xl sm:text-2xl font-semibold mb-4">
-            Completed Courses
-          </h3>
-          <ScrollVelocityContainer>
-            <ScrollVelocityRow baseVelocity={5} direction={1}>
-              {achievements.map((ach) => (
-                <div
-                  key={ach.id}
-                  className="min-w-[160px] sm:min-w-[280px] max-w-sm flex-shrink-0 bg-white dark:bg-gray-900 rounded-xl shadow-md p-2 sm:p-4 hover:shadow-lg transition mx-2 sm:mx-3 flex flex-col items-center"
-                >
-                  <div className="w-full flex justify-center mb-3 sm:mb-4">
-                    <Image
-                      src={ach.logo}
-                      alt={ach.title}
-                      width={200} // increase width
-                      height={200} // increase height
-                      className=" object-cover  "
-                    />
-                  </div>
-                  <h4 className="text-center font-semibold text-lg">
-                    {ach.title}
-                  </h4>
-                </div>
-              ))}
-            </ScrollVelocityRow>
-          </ScrollVelocityContainer>
-        </div>
+        {/* Completed Courses Section */}
+<div>
+  <h3 className="font-h4 font-semibold mb-4">Completed Courses</h3>
+ 
+  <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4">
+    {completedCourses.map((course) => (
+      <CompletedCourseCard
+        key={course.id}
+        course={course}
+        className="flex-shrink-0 w-72 sm:w-80 md:w-96 lg:w-[24rem]"
+      />
+    ))}
+  </div>
+  
+</div>
+
       </div>
 
       {/* Hide scrollbar style */}
