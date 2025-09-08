@@ -86,6 +86,7 @@ const ProfilePortfolio = () => {
       <div className="md:col-span-6 lg:col-span-8 flex flex-col gap-10 md:ml-5">
         {/* Transcription Section */}
         <div>
+          
           <h3 className="font-h4 sm:text-2xl font-semibold mb-4">
             Transcription
           </h3>
