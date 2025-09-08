@@ -7,7 +7,7 @@ export function StaticCard_Internship() {
 	const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
 	return (
-		<div className='w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-full p-4 sm:p-6 bg-white rounded-2xl shadow-lg flex flex-col justify-between items-center min-w-0'>
+		<div className='w-[230px] h-[230px] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl p-4 sm:p-6 bg-white rounded-2xl shadow-lg flex flex-col justify-between items-center min-w-0'>
 			{/* Circular Progress */}
 			<div className='relative w-20 h-20 flex-shrink-0'>
 				<svg className='w-20 h-20 transform -rotate-90' viewBox='0 0 100 100'>

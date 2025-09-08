@@ -9,7 +9,7 @@ export function StaticCard_NewCourses() {
 	];
 
 	return (
-		<div className='w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-full bg-gray-800 rounded-3xl p-4 sm:p-6 flex flex-col justify-between shadow-lg min-w-0'>
+		<div className='w-[230px] h-[230px] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-gray-800 rounded-3xl p-4 sm:p-6 flex flex-col justify-between shadow-lg min-w-0'>
 			<h2 className='text-white text-base sm:text-lg font-bold mb-2'>
 				New Courses
 			</h2>

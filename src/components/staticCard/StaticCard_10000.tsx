@@ -2,7 +2,7 @@
 
 export function StatisticsCard_10000() {
 	return (
-		<div className='w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-full bg-gray-800 rounded-3xl p-4 sm:p-6 flex flex-col justify-between items-start relative overflow-hidden min-w-0'>
+		<div className='w-[230px] h-[230px] max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-gray-800 rounded-3xl p-4 sm:p-6 flex flex-col justify-between items-start relative overflow-hidden min-w-0'>
 			{/* Orange icon in top left */}
 			<div className='absolute top-3 left-3'>
 				<svg width='32' height='32' viewBox='0 0 32 32' className='block'>

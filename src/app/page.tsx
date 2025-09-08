@@ -54,7 +54,7 @@ export default function Home() {
 						</div>
 					</div>
 					{/* Statistics Cards */}
-					<div className='w-[50%] justify-center items-center grid grid-cols-1 sm:grid-cols-2 gap-10'>
+					<div className='w-[50%] justify-center items-center grid grid-cols-1 sm:grid-cols-2 gap-5'>
 						<div className=''>
 							<StatisticsCard_10000 />
 						</div>

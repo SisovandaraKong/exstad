@@ -3,7 +3,7 @@ import { SiCircle } from "react-icons/si";
 
 export default function StaticCard_RealProjects() {
 	return (
-		<div className='w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-full bg-white rounded-3xl shadow-lg p-4 sm:p-6 flex flex-col justify-between items-center min-w-0'>
+		<div className='w-[230px] h-[230px]  max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-white rounded-3xl shadow-lg p-4 sm:p-6 flex flex-col justify-between items-center min-w-0'>
 			{/* Blue circular icon with curved lines */}
 			<div className='py-3'>
 				<SiCircle
