@@ -115,7 +115,7 @@ const ProfilePortfolio = () => {
                 Settings
               </ShimmerButton> */}
               <RainbowButton
-                color="#253c95"
+                variant="default" size="lg"
                 onClick={() => setIsModalOpen(true)}
                 className="px-4 py-2 transition"
               >
@@ -295,14 +295,14 @@ const ProfilePortfolio = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-white dark:hover:bg-gray-800 transition"
+                  className="px-4 py-2  rounded-lg bg-secondary text-white hover:bg-secondary-hover  dark:text-white transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleSave}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                  className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition"
                 >
                   Save Changes
                 </button>

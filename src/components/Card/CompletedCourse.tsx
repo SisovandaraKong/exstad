@@ -38,7 +38,7 @@ export function CompletedCourseCard({ course, className }: CompletedCourseCardPr
                 <Button
                   variant="outline"
                   className="flex-1 border-primary text-primary bg-transparent hover:bg-transparent hover:text-primary-hover rounded-full py-2 sm:py-3 px-4 sm:px-6 font-medium text-xs sm:text-base"
-                  onClick={() => window.open(course.rightText, "_blank")}
+                  // onClick={() => window.open(course.rightText, "_blank")}
                 >
                   {course.rightText}
                 </Button>
