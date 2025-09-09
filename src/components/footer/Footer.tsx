@@ -1,152 +1,148 @@
-"use client"; // Only if you're using Next.js 13+ with the App Router
+/** @format */
 
-import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { IoIosMail, IoMdMail } from "react-icons/io";
+import Image from "next/image";
+import { FaFacebook, FaTelegram } from "react-icons/fa";
 
 export default function Footer() {
-  return (
-    <footer className="bg-primary dark:bg-primary min-w-xs ">
-      <div className="mx-auto w-full max-w-screen-xl p-6 py-6 lg:py-8 m-[120px]">
-        <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0">
-            <Link href="https://flowbite.com/" className="flex items-center">
-              <Image
-                src="/assets/Footer/Logo3.png"
-                className="h-8 me-3"
-                alt="JobSeek Logo"
-                width={32}
-                height={32}
-              />
-            </Link>
-            <h2 className="dark:text-white text-white mt-15">
-              JobSeek is created by ISTAD <br /> Student for Job Matching <br /> Service Specialized in IT.
-            </h2>
-          </div>
-          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-            <div>
-              <h2 className="mb-6 text-sm font-semibold text-white uppercase dark:text-white">
-                Quick Line
-              </h2>
-              <ul className="text-white dark:text-white font-medium">
-                <li className="mb-4">
-                  <Link href="https://github.com/kea-daron" className="hover:underline">
-                    Find Jobs
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link href="https://github.com/kea-daron" className="hover:underline">
-                    Find Freelancers
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link href="https://github.com/kea-daron" className="hover:underline">
-                    Post a Job
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link href="https://github.com/kea-daron" className="hover:underline">
-                    Dashboard
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2 className="mb-6 text-sm font-semibold text-white uppercase dark:text-white">
-                Support & Legal
-              </h2>
-              <ul className="text-white dark:text-white font-medium">
-                <li className="mb-4">
-                  <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
-                    Chat Bot Help
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
-                    FAQs
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
-                    Policy Privacy
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link href="https://github.com/themesberg/flowbite" className="hover:underline">
-                    Term of Service
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2 className="text-sm font-semibold text-white uppercase dark:text-white">
-                Our Sponsors
-              </h2>
-              <ul>
-                <li className="h-[100px] w-[200px] mt-5">
-                  <Link href="#" className="hover:underline">
-                    <Image
-                      src="/assets/Footer/istad.webp"
-                      alt="Logo ISTAD"
-                      width={200}
-                      height={100}
-                    />
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:text-white lg:my-8" />
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm text-white dark:text-white">
-            Privacy Policy
-            <br />© 2025{" "}
-            <Link href="https://flowbite.com/" className="hover:underline">
-              JobSeek Inc. <br />
-            </Link>
-            All Rights Reserved.
-          </span>
-          <div className="flex mt-4 sm:justify-center sm:mt-0">
-            {/* Social Icons */}
-            <Link
-              href="#"
-              className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-            >
-              <svg
-                className="w-4 h-4"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 8 19"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="sr-only">Facebook page</span>
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-500 hover:text-gray-900 dark:hover:text-white ms-5"
-            >
-              <svg
-                className="w-4 h-4"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 21 16"
-              >
-                <path d="M16.942 1.556a16.3 16.3 0 0 0-4.126-1.3 12.04 12.04 0 0 0-.529 1.1 15.175 15.175 0 0 0-4.573 0 11.585 11.585 0 0 0-.535-1.1 16.274 16.274 0 0 0-4.129 1.3A17.392 17.392 0 0 0 .182 13.218a15.785 15.785 0 0 0 4.963 2.521c.41-.564.773-1.16 1.084-1.785a10.63 10.63 0 0 1-1.706-.83c.143-.106.283-.217.418-.33a11.664 11.664 0 0 0 10.118 0c.137.113.277.224.418.33-.544.328-1.116.606-1.71.832a12.52 12.52 0 0 0 1.084 1.785 16.46 16.46 0 0 0 5.064-2.595 17.286 17.286 0 0 0-2.973-11.59ZM6.678 10.813a1.941 1.941 0 0 1-1.8-2.045 1.93 1.93 0 0 1 1.8-2.047 1.919 1.919 0 0 1 1.8 2.047 1.93 1.93 0 0 1-1.8 2.045Zm6.644 0a1.94 1.94 0 0 1-1.8-2.045 1.93 1.93 0 0 1 1.8-2.047 1.918 1.918 0 0 1 1.8 2.047 1.93 1.93 0 0 1-1.8 2.045Z" />
-              </svg>
-              <span className="sr-only">Discord community</span>
-            </Link>
-            {/* ... other social links remain same with <Link> */}
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+	return (
+		<footer className='bg-white dark:bg-[#202124] px-4 sm:px-8 md:px-16 lg:px-32'>
+			<div className='container mx-auto px-6 py-12'>
+				<div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
+					{/* Logo and Description */}
+					<div className='space-y-4'>
+						<div className='flex items-center space-x-2'>
+							{/* Logo */}
+							<Link href='/' className='block'>
+								<Image
+									src='/image/logo/exSTAD-Outline.PNG'
+									alt='Logo'
+									width={100}
+									height={100}
+								/>
+							</Link>
+						</div>
+						<p className='text-sm text-text-color leading-relaxed'>
+							exSTAD is created by ISTAD students streamlines enrollment and
+							verifies student profiles.
+						</p>
+					</div>
+
+					{/* Quick Line */}
+					<div>
+						<h3 className='font-semibold text-text-color mb-4'>QUICK LINE</h3>
+						<ul className='space-y-3'>
+							<li>
+								<Link
+									href='/explore-programs'
+									className='text-base text-text-color'>
+									Explore Programs
+								</Link>
+							</li>
+							<li>
+								<Link
+									href='/available-programs'
+									className='text-base text-text-color'>
+									Available Programs
+								</Link>
+							</li>
+							<li>
+								<Link href='/scholar' className='text-base text-text-color'>
+									Scholar
+								</Link>
+							</li>
+							<li>
+								<Link href='/roadmap' className='text-base text-text-color'>
+									Roadmap
+								</Link>
+							</li>
+						</ul>
+					</div>
+
+					{/* Support & Legal */}
+					<div>
+						<h3 className='font-semibold text-text-color mb-4'>
+							SUPPORT & LEGAL
+						</h3>
+						<ul className='space-y-3'>
+							<li>
+								<Link href='/about-us' className='text-base text-text-color'>
+									About Us
+								</Link>
+							</li>
+							<li>
+								<Link href='/faqs' className='text-base text-text-color'>
+									FAQs
+								</Link>
+							</li>
+							<li>
+								<Link
+									href='/policy-privacy'
+									className='text-base text-text-color'>
+									Policy Privacy
+								</Link>
+							</li>
+							<li>
+								<Link
+									href='/terms-of-service'
+									className='text-base text-text-color'>
+									Term of Service
+								</Link>
+							</li>
+						</ul>
+					</div>
+
+					{/* Our Sponsors */}
+					<div>
+						<h3 className='font-semibold text-text-color mb-4'>OUR SPONSORS</h3>
+						<div className='flex items-center space-x-2'>
+							{/* Logo */}
+							<Link href='/' className='block'>
+								<Image
+									src='/image/logo/exSTAD-Outline.PNG'
+									alt='Logo'
+									width={100}
+									height={100}
+								/>
+							</Link>
+						</div>
+					</div>
+				</div>
+
+				{/* Bottom Section */}
+				<div className='mt-12 pt-8 border-t-[0.5px] border-[#253C95] flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
+					<div className='flex items-center space-x-4'>
+						<p className='text-sm text-text-color'>© 2025 exSTAD, Inc.</p>
+						<p className='text-sm text-text-color'>All rights reserved.</p>
+						<Link href='/privacy-policy' className='text-sm text-text-color'>
+							Privacy Policy
+						</Link>
+					</div>
+
+					{/* Social Media Icons */}
+					<div className='flex items-center space-x-4'>
+						<Link
+							href='#'
+							className='flex items-center space-x-2 text-text-color'>
+							<FaTelegram className='w-5 h-5 text-icon-bg' />
+							<span className='text-sm'>Telegram</span>
+						</Link>
+						<Link
+							href='#'
+							className='flex items-center space-x-2 text-text-color'>
+							<IoMdMail className='w-5 h-5 text-icon-bg' />
+							<span className='text-sm'>Email</span>
+						</Link>
+						<Link
+							href='#'
+							className='flex items-center space-x-1 text-text-color'>
+							<FaFacebook className='w-5 h-5 text-icon-bg' />
+							<span className='text-sm'>Facebook</span>
+						</Link>
+					</div>
+				</div>
+			</div>
+		</footer>
+	);
 }
