@@ -8,6 +8,7 @@ import Providers from "@/services/store/Providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar/Navbar";
 import I18nProvider from "@/lib/I18nProvider";
+import Footer from "@/components/footer/Footer";
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -84,6 +85,7 @@ export default async function RootLayout({
             <I18nProvider initialLocale={internalLocale}>
               <Navbar />
               {children}
+              <Footer/>
             </I18nProvider>
           </Providers>
         </ThemeProvider>
