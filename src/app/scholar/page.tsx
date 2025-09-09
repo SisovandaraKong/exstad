@@ -1,10 +1,12 @@
-import React from 'react'
 
-export default function page() {
+import Schorlar from "@/components/scholar/Schorlar";
+export default function Scholar() {
   return (
-    <div>
-      <h1>Scholarship Opportunities</h1>
-      <p>Welcome to the scholarship page!</p>
-    </div>
-  )
+    <main className="" >
+     
+      <Schorlar/>
+     
+      
+    </main>
+  );
 }
