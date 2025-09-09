@@ -7,7 +7,6 @@ import { DotPattern } from "@/components/magicui/dot-pattern";
 import BackgroundCircle from "@/components/roadmap/BackgroundCircle";
 import HorizontalScrollText from "@/components/roadmap/HorizontalScrollText";
 import LabelLevel from "@/components/roadmap/LabelLevel";
-import RoadmapCard from "@/components/roadmap/RoadmapCard";
 import { Button } from "@/components/ui/button";
 import { programData } from "@/data/programData";
 import Image from "next/image";
@@ -15,7 +14,7 @@ import React from "react";
 
 export default function page() {
   return (
-    <main className="flex flex-col gap-45 bg-whitesmoke ">
+    <main className="flex flex-col gap-20 bg-whitesmoke ">
       {/* Hero Section */}
       <div className="relative h-[calc(100vh-64px)] w-2/3 mx-auto flex justify-center items-center bg-whitesmoke">
         <DotPattern
@@ -42,18 +41,21 @@ export default function page() {
 
       <GlowingCards
         enableGlow={true}
-        glowRadius={30}
+        glowRadius={20}
         glowOpacity={0.8}
         animationDuration={500}
+        borderRadius="0rem"
         gap="20px"
         responsive={true}
-        className=" gap-6 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8"
+        className="gap-6 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8"
+        backgroundColor="#ffffff"
+        customTheme={""}
       >
         {programData.map((data) => (
           <GlowingCard
             key={data.title}
             glowColor="#FF0000"
-            className="h-48 flex-1 basis-1/3 flex-col justify-between p-4"
+            className="flex-1 basis-1/3 flex-col rounded-md justify-between p-4"
           >
             <div className="flex items-start justify-between">
               <div className="h-20 w-20 flex justify-center items-center border rounded-md shadow-sm overflow-hidden">
@@ -70,7 +72,7 @@ export default function page() {
                 level={data.level as "Beginner" | "Advanced" | "Intermediate"}
               />
             </div>
-            <span className="mt-4 text-lg md:text-xl font-semibold line-clamp-2">
+            <span className="mt-4 text-lg md:text-xl line-clamp-2">
               {data.title}
             </span>
           </GlowingCard>
