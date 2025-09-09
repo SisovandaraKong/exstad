@@ -16,6 +16,7 @@ import { ShimmerButton } from "@/components/magicui/shimmer-button";
 import certificate from "@/data/Certificate.json";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 const ProfilePortfolio = () => {
   // Main editable profile state (initial from JSON)
@@ -115,7 +116,8 @@ const ProfilePortfolio = () => {
                 Settings
               </ShimmerButton> */}
               <RainbowButton
-                variant="default" size="lg"
+                variant="default"
+                size="lg"
                 onClick={() => setIsModalOpen(true)}
                 className="px-4 py-2 transition"
               >
@@ -220,16 +222,21 @@ const ProfilePortfolio = () => {
 
           {/* Completed Courses Section */}
           <div>
-            <h3 className="font-h4 font-semibold mb-4">Completed Courses</h3>
-            <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4">
-              {completedCourses.map((course) => (
+            <h3 className="font-h4 font-semibold ">Completed Courses</h3>
+
+            <InfiniteMovingCards
+              items={completedCourses.map((course) => (
                 <CompletedCourseCard
                   key={course.id}
                   course={course}
-                  className="flex-shrink-0 w-72 sm:w-80 md:w-96 lg:w-[24rem]"
+                  className="w-72 sm:w-80 md:w-96 lg:w-[24rem]"
                 />
               ))}
-            </div>
+              direction="left"
+              speed="normal"
+              pauseOnHover={true}
+              className=""
+            />
           </div>
         </div>
 

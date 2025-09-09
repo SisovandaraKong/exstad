@@ -12,6 +12,7 @@ import { MotionHighlight } from "@/components/animate-ui/effects/motion-highligh
 import { CompletedCourseCard } from "@/components/Card/CompletedCourse";
 import completedCourses from "@/data/CompletedCourse.json";
 import Link from "next/link";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 
 import certificate from "@/data/Certificate.json";
@@ -213,22 +214,28 @@ const ProfilePortfolio = () => {
           </div>
         </div>
 
-        {/* Completed Courses */}
-        {/* Completed Courses Section */}
+       
+{/* Completed Courses */}
 <div>
-  <h3 className="font-h4 font-semibold mb-4">Completed Courses</h3>
- 
-  <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4">
-    {completedCourses.map((course) => (
+  <h3 className="font-h4 font-semibold ">Completed Courses</h3>
+
+  <InfiniteMovingCards
+    items={completedCourses.map((course) => (
       <CompletedCourseCard
         key={course.id}
         course={course}
-        className="flex-shrink-0 w-72 sm:w-80 md:w-96 lg:w-[24rem]"
+        className="w-72 sm:w-80 md:w-96 lg:w-[24rem]"
       />
     ))}
-  </div>
-  
+    direction="left"
+    speed="normal"
+    pauseOnHover={true}
+    className=""
+  />
 </div>
+
+
+
 
       </div>
 

@@ -1,80 +1,82 @@
+
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import {
-  CompletedCourseCard,
-  type CompletedCourse,
-} from "@/components/Card/CompletedCourse";
 import { cn } from "@/lib/utils";
+import React, { useEffect, useState } from "react";  // ✅ this was correct
 
-interface InfiniteMovingCompletedCoursesProps {
-  items: CompletedCourse[];
-  direction?: "left" | "right";
-  speed?: "fast" | "normal" | "slow";
-  pauseOnHover?: boolean;
-  className?: string;
-}
-
-export const InfiniteMovingCompletedCourses = ({
+export const InfiniteMovingCards = ({
   items,
   direction = "left",
   speed = "fast",
   pauseOnHover = true,
   className,
-}: InfiniteMovingCompletedCoursesProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const scrollerRef = useRef<HTMLUListElement>(null);
-  const [start, setStart] = useState(false);
+}: {
+  items: React.ReactNode[]; // <-- CHANGED: now accepts any React node (like CompletedCourseCard)
+  direction?: "left" | "right";
+  speed?: "fast" | "normal" | "slow";
+  pauseOnHover?: boolean;
+  className?: string;
+}) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const scrollerRef = React.useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current || !scrollerRef.current) return;
+    addAnimation();
+  }, []);
 
-    // duplicate items for infinite scroll
-    const scrollerContent = Array.from(scrollerRef.current.children);
-    scrollerContent.forEach((item) => {
-      const cloned = item.cloneNode(true);
-      scrollerRef.current?.appendChild(cloned);
-    });
+  const [start, setStart] = useState(false);
 
-    // set direction & speed
-    const duration =
-      speed === "fast" ? "20s" : speed === "normal" ? "40s" : "80s";
-    containerRef.current.style.setProperty("--animation-duration", duration);
-    containerRef.current.style.setProperty(
-      "--animation-direction",
-      direction === "left" ? "forwards" : "reverse"
-    );
+  function addAnimation() {
+    if (containerRef.current && scrollerRef.current) {
+      const scrollerContent = Array.from(scrollerRef.current.children);
 
-    setStart(true);
-  }, [items, direction, speed]);
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true);
+        scrollerRef.current!.appendChild(duplicatedItem);
+      });
+
+      getDirection();
+      getSpeed();
+      setStart(true);
+    }
+  }
+
+  const getDirection = () => {
+    if (containerRef.current) {
+      containerRef.current.style.setProperty(
+        "--animation-direction",
+        direction === "left" ? "forwards" : "reverse"
+      );
+    }
+  };
+
+  const getSpeed = () => {
+    if (containerRef.current) {
+      const duration =
+        speed === "fast" ? "20s" : speed === "normal" ? "40s" : "80s";
+      containerRef.current.style.setProperty("--animation-duration", duration);
+    }
+  };
 
   return (
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 max-w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        "scroller relative z-20 max-w-7xl overflow-hidden ",
         className
       )}
     >
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex w-max min-w-full shrink-0 flex-nowrap gap-6 py-4",
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
+          start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
-        style={
-          start
-            ? {
-                animation:
-                  "scroll var(--animation-duration, 40s) linear infinite",
-                animationDirection: "var(--animation-direction, forwards)",
-              }
-            : undefined
-        }
       >
-        {items.map((course) => (
-          <li key={course.id} className="inline-block flex-shrink-0">
-            <CompletedCourseCard course={course} />
+        {items.map((item, idx) => (
+          <li key={idx} className="shrink-0">
+            {item}
           </li>
         ))}
       </ul>
