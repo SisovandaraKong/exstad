@@ -14,15 +14,26 @@ import completedCourses from "@/data/CompletedCourse.json";
 import Link from "next/link";
 import { ShimmerButton } from "@/components/magicui/shimmer-button";
 import certificate from "@/data/Certificate.json";
+import { BorderBeam } from "@/components/magicui/border-beam";
+import { RainbowButton } from "@/components/magicui/rainbow-button";
 
 const ProfilePortfolio = () => {
+  // Main editable profile state (initial from JSON)
+  const [profile, setProfile] = useState(profileData);
+
+  // Modal open/close
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [bio, setBio] = useState(profileData.bio || "");
-  const [quote, setQuote] = useState(profileData.quote || "");
+
+  // Modal form values
+  // const [bio, setBio] = useState(profileData.bio || "");
+  // const [quote, setQuote] = useState(profileData.quote || "");
+  const [bio, setBio] = useState("");
+  const [quote, setQuote] = useState("");
 
   const handleSave = () => {
-    // You can integrate actual saving logic here (API or context)
-    alert("Changes saved!\nBio: " + bio + "\nQuote: " + quote);
+    // Update profile state with modal values
+    const updatedProfile = { ...profile, bio, quote };
+    setProfile(updatedProfile);
     setIsModalOpen(false);
   };
 
@@ -37,7 +48,7 @@ const ProfilePortfolio = () => {
               <div className="flex flex-col items-center">
                 <div className="relative w-28 h-28 sm:w-80 sm:h-80 md:w-50 md:h-50 mb-4">
                   <Image
-                    src={profileData.imageUrl}
+                    src={profile.imageUrl}
                     alt="Profile"
                     fill
                     className="rounded-full object-cover border-4 border-primary shadow-md"
@@ -46,10 +57,10 @@ const ProfilePortfolio = () => {
                 {/* Name & Job */}
                 <div className="text-center mb-4">
                   <h2 className="font-d1 font-bold text-gray-900 dark:text-white text-lg sm:text-xl md:text-2xl break-words">
-                    {profileData.name}
+                    {profile.name}
                   </h2>
                   <p className="text-gray-400 dark:text-gray-300 text-sm sm:text-base break-words">
-                    {profileData.title}
+                    {profile.title}
                   </p>
                 </div>
               </div>
@@ -60,7 +71,7 @@ const ProfilePortfolio = () => {
                   About
                 </h3>
                 <p className="font-d3 text-gray-600 dark:text-gray-300 text-sm sm:text-base break-words md:text-d5">
-                  {profileData.bio}
+                  {profile.bio}
                 </p>
               </div>
 
@@ -71,7 +82,8 @@ const ProfilePortfolio = () => {
                 </h3>
                 <div className="md:text-d5 font-d3 space-y-2.5 text-sm sm:text-base dark:text-white">
                   <div className="flex flex-wrap items-center gap-2 break-words">
-                    <FaFacebook className="text-blue-600 font-d2" /> Chhun Meyling
+                    <FaFacebook className="text-blue-600 font-d2" /> Chhun
+                    Meyling
                   </div>
                   <div className="flex flex-wrap items-center gap-2 break-words">
                     <FaGithub className="text-gray-900 dark:text-white font-d2" />{" "}
@@ -92,14 +104,23 @@ const ProfilePortfolio = () => {
           {/* Transcription Section */}
           <div>
             <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mb-4 gap-2">
-              <h3 className="font-h4 sm:text-2xl font-semibold">Transcription</h3>
-              <ShimmerButton
+              <h3 className="font-h4 sm:text-2xl font-semibold">
+                Transcription
+              </h3>
+              {/* <ShimmerButton
                 color="#253c95"
                 onClick={() => setIsModalOpen(true)}
                 className="px-4 py-2 transition"
               >
                 Settings
-              </ShimmerButton>
+              </ShimmerButton> */}
+              <RainbowButton
+                color="#253c95"
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 transition"
+              >
+                Setting
+              </RainbowButton>
             </div>
 
             <MotionHighlight>
@@ -226,16 +247,24 @@ const ProfilePortfolio = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 max-w-md w-full">
-            {/* Title */}
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 max-w-md w-full">
+            {/* Border Beam */}
+            <BorderBeam
+              size={90}
+              colorFrom="#ffaa40"
+              colorTo="#9c40ff"
+              borderWidth={1.8}
+              duration={6}
+            />
+
+            {/* Modal content */}
             <h2 className="text-xl font-bold mb-2">Edit profile</h2>
             <p className="text-gray-500 dark:text-gray-400 mb-6">
               Express your idea through exSTAD
             </p>
 
-            {/* Form */}
-            <div className="space-y-4">
+            <div className="space-y-4 relative z-10">
               <div>
                 <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                   Bio
@@ -244,7 +273,7 @@ const ProfilePortfolio = () => {
                   type="text"
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
-                  placeholder="write your idea here"
+                  placeholder="Write your bio here"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 />
               </div>
@@ -257,7 +286,7 @@ const ProfilePortfolio = () => {
                   type="text"
                   value={quote}
                   onChange={(e) => setQuote(e.target.value)}
-                  placeholder="write your idea here"
+                  placeholder="Write your quote here"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white"
                 />
               </div>
