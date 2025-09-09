@@ -32,20 +32,14 @@ export function EnrollmentDataTable<TData, TValue>({
   });
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-800 bg-gray-950">
+    <div className="overflow-hidden rounded-lg ">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className="bg-gray-900 hover:bg-gray-900 border-gray-800"
-            >
+            <TableRow key={headerGroup.id} className="bg-whitesmoke">
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead
-                    key={header.id}
-                    className="text-white font-semibold"
-                  >
+                  <TableHead key={header.id} className="text-primary font-bold">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -60,21 +54,23 @@ export function EnrollmentDataTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getRowModel().rows.map((row, index) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="bg-gray-950 hover:bg-gray-900/50 border-gray-800 transition-colors"
+                className={`${
+                  index % 2 === 0 ? "bg-white" : "bg-whitesmoke"
+                } transition-colors border-0`}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="text-white py-4">
+                  <TableCell key={cell.id} className="text-primary py-4">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
               </TableRow>
             ))
           ) : (
-            <TableRow className="bg-gray-950 border-gray-800">
+            <TableRow>
               <TableCell
                 colSpan={columns.length}
                 className="h-24 text-center text-gray-400"

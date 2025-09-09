@@ -6,7 +6,7 @@ export type HighlightType = {
   value: string;
   desc: string;
 };
-
+type Level = "Beginner" | "Intermediate" | "Advanced";
 export type programType = {
   id: number;
   program_type:string;
@@ -14,12 +14,12 @@ export type programType = {
   title: string;
   subtitle: string;
   description: string;
-  level:string;
+  level:Level;
   image: string;
   thumbnail:string;
   price: string;
   duration: string;
-  scholarship?: string;
+  scholarship?: number;
   discount: string;
   deadline:string;
   totalslot:number;
@@ -31,8 +31,6 @@ export type programType = {
   openingprogram: openingProgramType[]; // 👈 new
   faq:FaqDataType[];
   curriculum:curriculumDataType[];
-  
-
 };
 
 export type programOverviewType = {

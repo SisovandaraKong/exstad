@@ -11,7 +11,7 @@ export function UserProfileCell({
 }) {
   return (
     <div className="flex items-center gap-3">
-      <Avatar className="h-10 w-10">
+      {/* <Avatar className="h-10 w-10">
         <AvatarImage src={avatar || "/placeholder.svg"} alt={name} />
         <AvatarFallback className="bg-gray-700 text-white font-semibold">
           {name
@@ -20,9 +20,9 @@ export function UserProfileCell({
             .join("")
             .toUpperCase()}
         </AvatarFallback>
-      </Avatar>
+      </Avatar> */}
       <div className="flex flex-col">
-        <span className="font-semibold text-white">{name}</span>
+        <span className="font-semibold text-primary">{name}</span>
         <span className="text-sm text-gray-400">{title}</span>
       </div>
     </div>

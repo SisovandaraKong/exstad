@@ -28,46 +28,44 @@ const ProgramCurriculumTap: React.FC<Props> = ({ program }) => {
   };
 
   return (
-    <div className="w-full bg-background p-[24px] space-y-[40px]">
-      {program.curriculum.map((item) => (
-        <div key={item.id} className="space-y-[24px]">
-          <h1 className="font-bold text-[36px] text-foreground">{item.title}</h1>
-
-          <div className="grid gap-[16px]">
-            {item.curriculumType.map((section, index) => {
-              const isOpen = openSections[section.id];
-              const height = refs.current[section.id]?.scrollHeight || 0;
-
-              return (
-                <div key={section.id} className="border-b border-1 border-[#8AB9FF] rounded-[20px] p-[24px]">
-                  <button onClick={() => toggle(section.id)}     className="flex justify-between items-center w-full font-semibold text-[18px] text-foreground"   >
-                     <span className="text-[24px] ">
-                      <span className="text-primary mr-2">{(index + 1).toString().padStart(2, "0")}</span>
-                      {section.title}
-                    </span>
-                    <FontAwesomeIcon icon={faChevronDown} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}/>
-                  </button>
-
-                  <div ref={(el) => { refs.current[section.id] = el; }} style={{ maxHeight: isOpen ? `${height}px` : "0px" }} className="transition-all duration-500 ease-in-out overflow-hidden"  >
-                    <div className="p-[24px] grid gap-[16px] border-t border-gray-300 py-6 mt-4">
-                      {section.subtitle && (
-                        <p className="text-[18px] text-foreground font-medium">{section.subtitle}</p>
-                      )}
-                      {section.description.map((des, i) => (
-                        <p key={i} className="font-normal text-[16px] text-foreground">
-                          <FontAwesomeIcon icon={faCheckCircle} className="text-primary mr-3" />
-                          {des}
-                        </p>
-                      ))}
+    <div className="w-full bg-background p-4 sm:p-6 md:p-8 space-y-8 md:space-y-10">
+          {program.curriculum.map((item) => (
+            <div key={item.id} className="space-y-4 sm:space-y-6">
+              <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">{item.title}</h1>
+              <div className="grid gap-3 sm:gap-4">
+                {item.curriculumType.map((section, index) => {
+                  const isOpen = openSections[section.id];
+                  const height = refs.current[section.id]?.scrollHeight || 0;
+                  return (
+                    <div key={section.id} className="border-b border-[#8AB9FF] rounded-2xl p-4 sm:p-6">
+                      <button onClick={() => toggle(section.id)} className="flex justify-between items-center w-full text-start font-semibold text-base sm:text-lg md:text-xl text-foreground">
+                        <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
+                          <span className="text-primary mr-2">{(index + 1).toString().padStart(2, "0")}</span>
+                          {section.title}
+                        </span>
+                        <FontAwesomeIcon icon={faChevronDown} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                      </button>
+                      <div ref={(el) => { refs.current[section.id] = el; }} style={{ maxHeight: isOpen ? `${height}px` : "0px" }} className="transition-all duration-500 ease-in-out overflow-hidden">
+                        <div className="grid gap-3 sm:gap-4 border-t border-gray-300 py-4 sm:py-6 mt-3 sm:mt-4">
+                          {section.subtitle && (
+                            <p className="text-base sm:text-lg md:text-xl text-foreground font-medium">{section.subtitle}</p>
+                          )}
+                          {section.description.map((des, i) => (
+                            <p key={i} className="flex items-start font-normal text-sm sm:text-base md:text-lg text-foreground">
+                              <FontAwesomeIcon icon={faCheckCircle} className="text-primary mr-2 mt-1" />
+                              {des}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+
   );
 };
 

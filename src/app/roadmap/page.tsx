@@ -49,7 +49,7 @@ export default function page() {
         responsive={true}
         className="gap-6 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8"
         backgroundColor="#ffffff"
-        customTheme={""}
+        customTheme={}
       >
         {programData.map((data) => (
           <GlowingCard

@@ -8,8 +8,8 @@ type Props = {
 
 const ProgramSearch: React.FC<Props> = ({ total, searchValue, setSearchValue }) => {
   return (
-    <div className="flex  justify-between items-center mb-4">
-      <h3 className="font-medium text-[20px] text-foreground">
+    <div className="flex    justify-between items-center mb-4">
+      <h3 className="font-medium text-[16px] md:text-[18px] lg:text-[20px] text-foreground">
         Total {total} Courses Found
       </h3>
       <input

@@ -1,14 +1,21 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Enrollment } from "@/types/enrollment";
 import { UserProfileCell } from "./user-profile-cell";
+import { BadgeDollarSign, LucideMoreHorizontal, Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const enrollmentColumns: ColumnDef<Enrollment>[] = [
   {
     accessorKey: "id",
     header: "#",
-    size: 60,
+    size: 120,
     cell: ({ row }) => (
-      <div className="text-center font-medium text-gray-400">{1}</div>
+      <div className="font-medium text-gray-400">{row.index + 1}</div>
     ),
   },
   {
@@ -25,7 +32,7 @@ export const enrollmentColumns: ColumnDef<Enrollment>[] = [
   {
     accessorKey: "khmerName",
     header: "Khmer name",
-    size: 120,
+    size: 140,
   },
   {
     accessorKey: "gender",
@@ -33,25 +40,40 @@ export const enrollmentColumns: ColumnDef<Enrollment>[] = [
   },
   {
     accessorKey: "currentAddress",
-    header: "Current Address",
+    header: "Address",
   },
   {
     accessorKey: "isPaid",
-    header: "Payment Status",
+    header: "Status",
     cell: ({ row }) => {
       const paid = row.original.isPaid;
       return (
-        <div className="flex justify-center items-center">
-          <div
-            className={`inline-flex items-center rounded-sm px-2 py-1 text-sm ${
-              paid
-                ? "text-[#1E7D34] bg-[#E6F4EA]"
-                : "text-[#B25E00] bg-[#FFF4E5]"
-            }`}
-          >
-            {paid ? "Paid" : "UnPaid"}
-          </div>
+        <div
+          className={`inline-flex items-center rounded-sm px-2 py-1 text-sm ${
+            paid ? "text-[#1E7D34] bg-[#E6F4EA]" : "text-[#B25E00] bg-[#FFF4E5]"
+          }`}
+        >
+          {paid ? "Paid" : "Unpaid"}
         </div>
+      );
+    },
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const i = row.original;
+      return (
+        <Tooltip disableHoverableContent={i.isPaid}>
+          <TooltipTrigger>
+            <Button variant={"ghost"} disabled={i.isPaid}>
+              <BadgeDollarSign />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Click to process payment</p>
+          </TooltipContent>
+        </Tooltip>
       );
     },
   },

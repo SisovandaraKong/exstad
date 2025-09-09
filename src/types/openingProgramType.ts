@@ -1,12 +1,13 @@
 export type openingProgramType = {
     id: number;
     title: string;
+    generation:number;
     description: string;
     image: string;
     shortcourseimage:string;
     qrimage: string;
     activities: ActivityDataType[];
-    timeline: timelineType[];
+    timeline: timeline[];
 
 }
 
@@ -22,12 +23,12 @@ export type ActivityDataType = {
     activityType:ActivityType[];
 }
 
-export type timelineType = {
-    id:number;
-    title:string;
-    date:string;
-}
+export type timeline = {
 
+  id: number;
+  date: string;
+  title: string;
+};
 
 
 // export type RoadmapType = {
