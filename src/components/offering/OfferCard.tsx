@@ -1,5 +1,4 @@
 /** @format */
-import { HiMiniComputerDesktop } from "react-icons/hi2";
 import { ReactNode } from "react";
 
 type OfferCardProps = {

@@ -92,7 +92,6 @@
 // import { ProfileSection } from "@/components/student/ProfileSection";
 import ScholarsPage from "@/components/student/ProfileSection";
 import ProfilePortfolioSetting from "@/components/student/ProfilePortfolioSetting";
-import Footer from "@/components/footer/Footer";
 
 export default function AboutPage() {
   return (

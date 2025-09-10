@@ -1,4 +1,4 @@
-import { getCertificateById, type CertItem } from "@/lib/certificate";
+import { getCertificateById} from "@/lib/certificate";
 import CertificateImage from "@/components/student/Certificate";
 
 export const dynamic = "force-static";
