@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, use, useEffect } from "react";
 import { programData } from "@/data/programData";
@@ -16,6 +16,7 @@ import ProgramOverviewCardSkeleton from "@/components/programCard/skeleton/Progr
 import ProgramCurriculumSkeleton from "@/components/programCard/skeleton/ProgramCurriculumSkeleton";
 import ProgramActivitySkeleton from "@/components/programCard/skeleton/ProgramActivitySkeleton";
 import TimeLine from "@/components/programCard/TimeLine";
+import ProgramEnrollment from "@/components/programCard/ProgramEnrollment";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -26,13 +27,14 @@ const tabComponents: { [key: string]: React.FC<{ program: programType }> } = {
   Curriculum: ProgramCurriculumTap,
   Activity: ProgramActivityTap,
   Timeline: TimeLine,
+  Enrollment: ProgramEnrollment,
 };
 
 export default function ProgramDetailPage({ params }: Props) {
   const resolvedParams = use(params);
   const id = parseInt(resolvedParams.id);
 
-  const program: programType | undefined = programData.find(p => p.id === id);
+  const program: programType | undefined = programData.find((p) => p.id === id);
 
   const [activeTab, setActiveTab] = useState("Overview");
   const [loading, setLoading] = useState(true);
@@ -51,16 +53,26 @@ export default function ProgramDetailPage({ params }: Props) {
       {/* Left Section */}
       <div className="flex-1">
         {/* Header */}
-        {loading ? ( <ProgramHeaderSkeleton />) : (  <ProgramHeader program={program} activeTab={activeTab} setActiveTab={setActiveTab} /> )}
+        {loading ? (
+          <ProgramHeaderSkeleton />
+        ) : (
+          <ProgramHeader
+            program={program}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+        )}
         {/* Active Tab Content */}
-        <div>  {loading ? (
-            activeTab === "Overview" 
-            ? (  <ProgramOverviewCardSkeleton /> ) 
-            : activeTab === "Curriculum" ? 
-            ( <ProgramCurriculumSkeleton /> )
-            : activeTab === "Activity" ?
-            ( <ProgramActivitySkeleton />) 
-            : null
+        <div>
+          {" "}
+          {loading ? (
+            activeTab === "Overview" ? (
+              <ProgramOverviewCardSkeleton />
+            ) : activeTab === "Curriculum" ? (
+              <ProgramCurriculumSkeleton />
+            ) : activeTab === "Activity" ? (
+              <ProgramActivitySkeleton />
+            ) : null
           ) : (
             <ActiveTabComponent program={program} />
           )}

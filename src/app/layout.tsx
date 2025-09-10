@@ -8,6 +8,7 @@ import Providers from "@/services/store/Providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar/Navbar";
 import I18nProvider from "@/lib/I18nProvider";
+import Footer from "@/components/footer/Footer";
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -59,9 +60,8 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	// await cookies() per Next.js guidance to avoid sync-dynamic-apis warning
-	const cookieStore = await cookies();
-	const cookieLocale = cookieStore.get("locale")?.value;
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get("locale")?.value;
 
   const internalLocale = cookieLocale === "kh" ? "kh" : cookieLocale ?? "en";
   const htmlLang = internalLocale === "kh" ? "km" : internalLocale;
@@ -73,7 +73,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${koh.variable} antialiased relative h-[200vh] bg-background-white-smoke`}
+        className={`${inter.variable} ${koh.variable} antialiased relative h-[200vh] bg-whitesmoke`}
       >
         <ThemeProvider
           attribute="class"
@@ -84,7 +84,11 @@ export default async function RootLayout({
           <Providers>
             <I18nProvider initialLocale={internalLocale}>
               <Navbar />
+              <main className="mt-20">
+
               {children}
+              </main>
+              <Footer/>
             </I18nProvider>
           </Providers>
         </ThemeProvider>

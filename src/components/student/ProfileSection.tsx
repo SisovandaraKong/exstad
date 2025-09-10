@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import data from "@/data/Schorlar.json";
+import { Button } from "../ui/button";
 
 // --- Card Components ---
 const Card1 = ({ person }: { person: (typeof data.scholars)[number] }) => (
@@ -132,12 +133,12 @@ export default function ScholarsPage() {
           {/* Category buttons */}
           <div
             className="mt-6 flex flex-wrap justify-center gap-4"
-            role="tablist"
+            // role="tablist"
           >
             {categories.map(({ name, icon: Icon }) => {
               const active = activeCategory === name;
               return (
-                <button
+                <Button
                   key={name}
                   onClick={() => setActiveCategory(name)}
                   className="relative flex items-center gap-2 px-2 py-1 text-sm font-medium transition-colors"
@@ -161,7 +162,7 @@ export default function ScholarsPage() {
                   {active && (
                     <span className="absolute -bottom-1 left-0 right-0 mx-auto h-[2px] w-full rounded-full bg-blue-500" />
                   )}
-                </button>
+                </Button>
               );
             })}
           </div>

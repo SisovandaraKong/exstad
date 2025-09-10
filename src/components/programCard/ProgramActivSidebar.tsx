@@ -1,8 +1,8 @@
 import React from "react";
 import { programType } from "@/types/programs";
 import { ScrollArea } from "../ui/scroll-area";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
 type Props = {
   programData: programType[];
   programFilter: string;
@@ -56,7 +56,10 @@ const ProgramActiveSidebar: React.FC<Props> = ({
         }`}
         onClick={() => toggleOption(option)}
       ></div>
-      <button onClick={() => toggleOption(option)} className="text-[13px] font-medium">
+      <button
+        onClick={() => toggleOption(option)}
+        className="text-[14px] font-medium"
+      >
         {option}
       </button>
     </li>
@@ -67,8 +70,8 @@ const ProgramActiveSidebar: React.FC<Props> = ({
       {/* Program Type */}
       <div className="flex gap-[8px] items-center justify-start">
         <FontAwesomeIcon icon={faSlidersH} size="lg" />
-                 <h2 className="text-center text-[20px] font-bold">Filter</h2>
-                 </div>
+        <h2 className="text-center text-[20px] font-bold">Filter</h2>
+      </div>
       <div>
         <h3 className="font-medium text-[16px] mb-2">Program Type</h3>
         <ul className="space-y-2 p-2">
@@ -88,7 +91,7 @@ const ProgramActiveSidebar: React.FC<Props> = ({
                   setProgramFilter(type);
                   setSubFilter([]);
                 }}
-                className="text-[13px] font-medium"
+                className="text-[14px] font-medium"
               >
                 {type}
               </button>
@@ -101,14 +104,14 @@ const ProgramActiveSidebar: React.FC<Props> = ({
       <div>
         <h3 className="font-medium text-[16px] mb-2">Scholarship</h3>
         <ul className="space-y-2 p-2">
-          {[   ...scholarshipOptions].map((option) =>
+          {[...scholarshipOptions].map((option) =>
             renderOption(option, subFilter.includes(option))
           )}
         </ul>
       </div>
 
       {/* Short Course Sub-Filter */}
-{/* <div>
+      {/* <div>
   <h3 className="font-medium text-[16px] mb-2">Short Course</h3>
   <ul className="space-y-2 max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
     {["All", ...shortCourseOptions].map((option) =>
@@ -116,52 +119,50 @@ const ProgramActiveSidebar: React.FC<Props> = ({
     )}
   </ul>
 </div> */}
-<div>
-  <h3 className="font-medium text-[16px] mb-2">Short Course</h3>
-  <ScrollArea className="h-[140px] rounded-md p-2">
-    <ul className="space-y-2 pr-4"> {/* pr-4 for scrollbar spacing */}
-      {[  
-        ...shortCourseOptions,
-        "Python",
-        "React",
-        "Node.js",
-        "Docker",
-        "Kubernetes",
-        "Angular",
-        "Vue.js",
-        "Machine Learning",
-        "AI Fundamentals",
-      ].map((option) => renderOption(option, subFilter.includes(option)))}
-    </ul>
-  </ScrollArea>
-</div>
-
-
-
+      <div>
+        <h3 className="font-medium text-[16px] mb-2">Short Course</h3>
+        <ScrollArea className="h-[140px] rounded-md p-2">
+          <ul className="space-y-2 pr-4">
+            {" "}
+            {/* pr-4 for scrollbar spacing */}
+            {[
+              ...shortCourseOptions,
+              "Python",
+              "React",
+              "Node.js",
+              "Docker",
+              "Kubernetes",
+              "Angular",
+              "Vue.js",
+              "Machine Learning",
+              "AI Fundamentals",
+            ].map((option) => renderOption(option, subFilter.includes(option)))}
+          </ul>
+        </ScrollArea>
+      </div>
 
       {/* Level */}
-<div>
-  <h3 className="font-medium text-[16px] mb-2">Level</h3>
-  <ul className="space-y-2 p-2">
-    {["All", "Beginner", "Intermediate", "Advanced"].map((level) => (
-      <li key={level} className="flex items-center gap-2 cursor-pointer">
-        <div
-          className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 ${
-            levelFilter === level ? "border-4 border-primary" : ""
-          }`}
-          onClick={() => setLevelFilter(level)}
-        ></div>
-        <button
-          onClick={() => setLevelFilter(level)}
-          className="text-[13px] font-medium"
-        >
-          {level}
-        </button>
-      </li>
-    ))}
-  </ul>
-</div>
-
+      <div>
+        <h3 className="font-medium text-[16px] mb-2">Level</h3>
+        <ul className="space-y-2 p-2">
+          {["All", "Beginner", "Intermediate", "Advanced"].map((level) => (
+            <li key={level} className="flex items-center gap-2 cursor-pointer">
+              <div
+                className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 ${
+                  levelFilter === level ? "border-4 border-primary" : ""
+                }`}
+                onClick={() => setLevelFilter(level)}
+              ></div>
+              <button
+                onClick={() => setLevelFilter(level)}
+                className="text-[14px] font-medium"
+              >
+                {level}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </aside>
   );
 };
