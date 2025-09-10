@@ -1,3 +1,4 @@
+/** @format */
 
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -9,16 +10,16 @@ import Navbar from "@/components/navbar/Navbar";
 import I18nProvider from "@/lib/I18nProvider";
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
+	variable: "--font-inter",
+	subsets: ["latin"],
+	display: "swap",
 });
 
 const koh = Koh_Santepheap({
-  variable: "--font-koh",
-  weight: "400",
-  subsets: ["khmer"],
-  display: "swap",
+	variable: "--font-koh",
+	weight: "400",
+	subsets: ["khmer"],
+	display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -54,12 +55,13 @@ export const metadata: Metadata = {
 
 
 export default async function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const cookieLocale = cookieStore.get("locale")?.value;
+	// await cookies() per Next.js guidance to avoid sync-dynamic-apis warning
+	const cookieStore = await cookies();
+	const cookieLocale = cookieStore.get("locale")?.value;
 
   const internalLocale = cookieLocale === "kh" ? "kh" : cookieLocale ?? "en";
   const htmlLang = internalLocale === "kh" ? "km" : internalLocale;
