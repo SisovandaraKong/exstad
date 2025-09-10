@@ -67,7 +67,7 @@ function Navbar({ className }: { className?: string }) {
     <div
       ref={navRef}
       className={cn(
-        "w-full border-b-1 border-text-color z-50 sticky top-0",
+        "w-full border-b-1 border-text-color z-50 fixed top-0",
         className
       )}
     >
@@ -147,7 +147,7 @@ function Navbar({ className }: { className?: string }) {
                 <LanguageToggle />
 
 								{/* ✅ Theme Toggle replaced */}
-								{/* <ModeToggle /> */}
+								<AnimatedModeToggle />
 
 								<LogInButton />
 							</div>

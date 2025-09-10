@@ -84,7 +84,10 @@ export default async function RootLayout({
           <Providers>
             <I18nProvider initialLocale={internalLocale}>
               <Navbar />
+              <main className="mt-20">
+
               {children}
+              </main>
               <Footer/>
             </I18nProvider>
           </Providers>

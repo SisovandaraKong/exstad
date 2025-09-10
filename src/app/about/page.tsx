@@ -82,7 +82,7 @@ const IconUsers = ({ className = "w-6 h-6" }) => (
 
 export default function AboutPage() {
   return (
-    <div className="bg-gradient-to-b min-h-[10rem] from-white via-slate-50 to-white text-slate-900 overflow-hidden">        
+    <div className="bg-gradient-to-b max-w-7xl mx-auto min-h-[10rem] from-white via-slate-50 to-white text-slate-900 overflow-hidden">        
       <section className=" container mx-auto px-4 py-12 flex flex-col md:flex-row items-center gap-12 min-h-[10rem]">
       {/* Left Text */}
       <div className="flex-1 text-center md:text-left">

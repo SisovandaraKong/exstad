@@ -15,21 +15,6 @@ export function AnimatedModeToggle() {
 	const toggleTheme = async () => {
 		if (!buttonRef.current) return;
 
-<<<<<<< HEAD
-  return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      aria-label="Toggle theme"
-      title="Toggle theme"
-      className="relative inline-flex items-center justify-center rounded-full border border-transparent"
-    >
-      <FiSun className="text-accent hover:text-accent-hover h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <FiMoon className="text-foreground hover:text-accent-hover absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </button>
-  );
-=======
 		const isDark = theme === "dark";
 		const newTheme = isDark ? "light" : "dark";
 
@@ -76,5 +61,4 @@ export function AnimatedModeToggle() {
 			<span className='sr-only'>Toggle theme</span>
 		</button>
 	);
->>>>>>> 6bc5d38e9ef8af667aa7335bfc13b8a2bdc3c7df
 }
