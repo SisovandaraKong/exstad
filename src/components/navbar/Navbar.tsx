@@ -147,7 +147,7 @@ function Navbar({ className }: { className?: string }) {
                 <LanguageToggle />
 
 								{/* ✅ Theme Toggle replaced */}
-								{/* <AnimatedModeToggle /> */}
+								{/* <ModeToggle /> */}
 
 								<LogInButton />
 							</div>

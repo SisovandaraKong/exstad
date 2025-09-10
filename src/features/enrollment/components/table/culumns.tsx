@@ -1,13 +1,13 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { Enrollment } from "@/types/enrollment";
-import { UserProfileCell } from "./user-profile-cell";
-import { BadgeDollarSign, LucideMoreHorizontal, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Enrollment } from "@/types/enrollment";
+import { ColumnDef } from "@tanstack/react-table";
+import { BadgeDollarSign } from "lucide-react";
+import { UserProfileCell } from "./user-profile-cell";
 
 export const enrollmentColumns: ColumnDef<Enrollment>[] = [
   {
@@ -23,7 +23,6 @@ export const enrollmentColumns: ColumnDef<Enrollment>[] = [
     header: "Name",
     cell: ({ row }) => (
       <UserProfileCell
-        avatar={row.original.avatar}
         name={row.original.englishName}
         title={row.original.email}
       />

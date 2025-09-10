@@ -81,7 +81,7 @@ export function PartnersSection() {
 					Cambodia, including ministries, industries, and the education field.
 				</p>
 
-				<div className='relative overflow-x-auto'>
+				<div className='relative hide-scroll-bar overflow-x-auto'>
 					<div className='flex animate-scroll'>
 						{partners.map((partner, index) => (
 							<div key={index} className='flex-shrink-0 mx-4'>

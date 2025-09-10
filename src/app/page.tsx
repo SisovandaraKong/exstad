@@ -241,7 +241,6 @@ export default function Home() {
 				<div className='py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
 					<PartnersSection />
 				</div>
-				<Footer />
 			</main>
 		</div>
 	);
