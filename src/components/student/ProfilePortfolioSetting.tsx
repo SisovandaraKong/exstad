@@ -145,9 +145,9 @@ const ProfilePortfolio = () => {
                         </p>
                       </div>
                     </div>
-                    <a href="/" className="mt-1 sm:mt-0">
+                    <Link href="/" className="mt-1 sm:mt-0">
                       <FiArrowUpRight className="text-yellow-500 text-xl sm:text-2xl" />
-                    </a>
+                    </Link>
                   </div>
                 ))}
               </div>

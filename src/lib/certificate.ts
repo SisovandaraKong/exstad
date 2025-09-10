@@ -7,7 +7,15 @@ export type CertItem = {
   downloadHref?: string;
 };
 
-export const certificates: CertItem[] = (certificatesData as any[]).map((c) => ({
+type CertificateJsonItem = {
+  id: string | number;
+  logo?: string;
+  imgSrc?: string;
+  title?: string;
+  downloadHref?: string;
+};
+
+export const certificates: CertItem[] = (certificatesData as CertificateJsonItem[]).map((c) => ({
   id: String(c.id),
   imgSrc: c.logo ?? c.imgSrc ?? "",
   alt: c.title ?? "",
