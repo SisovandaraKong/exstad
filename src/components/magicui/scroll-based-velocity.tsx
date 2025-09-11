@@ -177,7 +177,7 @@ function ScrollVelocityRowImpl({
 					<div
 						key={i}
 						ref={i === 0 ? blockRef : null}
-						aria-hidden={i !== 0}
+						// aria-hidden={i !== 0}
 						className='inline-flex shrink-0 items-center'>
 						{children}
 					</div>

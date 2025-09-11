@@ -1,7 +1,6 @@
 import { programType } from "@/types/programs";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { ScrollArea } from "../ui/scroll-area";
 
 type Props = {
   program: programType;

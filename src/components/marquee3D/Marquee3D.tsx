@@ -6,6 +6,7 @@
 
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/magicui/marquee";
+import Image from "next/image";
 
 const reviews = [
 	{
@@ -54,7 +55,7 @@ const ReviewCard = ({
 				"dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
 			)}>
 			<div className='flex flex-row items-center gap-2'>
-				<img
+				<Image unoptimized 
 					className='rounded-full'
 					width='32'
 					height='32'
@@ -84,22 +85,22 @@ export function Marquee3D() {
 				}}>
 				<Marquee pauseOnHover vertical className='[--duration:20s]'>
 					{firstRow.map((review) => (
-						<ReviewCard key={review.username} {...review} />
+						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
 				<Marquee reverse pauseOnHover className='[--duration:20s]' vertical>
 					{secondRow.map((review) => (
-						<ReviewCard key={review.username} {...review} />
+						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
 				<Marquee reverse pauseOnHover className='[--duration:20s]' vertical>
 					{thirdRow.map((review) => (
-						<ReviewCard key={review.username} {...review} />
+						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
 				<Marquee pauseOnHover className='[--duration:20s]' vertical>
 					{fourthRow.map((review) => (
-						<ReviewCard key={review.username} {...review} />
+						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
 			</div>

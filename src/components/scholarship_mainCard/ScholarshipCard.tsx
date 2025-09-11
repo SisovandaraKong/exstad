@@ -1,5 +1,6 @@
 /** @format */
 
+import Image from "next/image";
 import { Button } from "../ui/button";
 
 type MainCardProps = {
@@ -51,7 +52,7 @@ export default function ScholarshipCourse_mc({
 				</div>
 				{/* Image Part */}
 				<div className='w-full flex justify-end items-end'>
-					<img
+					<Image unoptimized width={500} height={500}
 						src={imageSrc}
 						alt='Student with backpack holding books'
 						className='w-[60%] max-w-[220px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[460px] h-auto rounded-br-3xl object-contain'

@@ -1,7 +1,7 @@
 /** @format */
 
 import Link from "next/link";
-import { IoIosMail, IoMdMail } from "react-icons/io";
+import {  IoMdMail } from "react-icons/io";
 import Image from "next/image";
 import { FaFacebook, FaTelegram } from "react-icons/fa";
 
