@@ -1,17 +1,25 @@
-import { getCertificateById, type CertItem } from "@/lib/certificate";
+import React from "react";
+import { getCertificateById } from "@/lib/certificate";
 import CertificateImage from "@/components/student/Certificate";
 
 export const dynamic = "force-static";
 
-export default function Page({ params }: { params: { id: string } }) {
-  const cert = getCertificateById(params.id);
+interface PageProps {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function CertificatePage({ params }: PageProps) {
+  // Await the params since it's now a Promise
+  const { id } = await params;
+  const cert = getCertificateById(id);
 
   if (!cert) {
     return (
       <main className="mx-auto max-w-xl p-8">
         <h1 className="text-2xl font-semibold">Certificate not found</h1>
         <p className="mt-2 text-gray-600">
-          No certificate exists for id “{params.id}”.
+          No certificate exists for id “{id}”.
         </p>
       </main>
     );

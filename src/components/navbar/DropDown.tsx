@@ -63,7 +63,7 @@ const components = [
                 setOpen(!open);
               }}
             >
-              {t("explor-program")}
+              {t("explore-program")}
             </button>
             {open && (
               <NavigationMenuContent className="bg-background max-w-7xl">

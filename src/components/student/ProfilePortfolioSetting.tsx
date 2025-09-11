@@ -12,7 +12,6 @@ import { MotionHighlight } from "@/components/animate-ui/effects/motion-highligh
 import { CompletedCourseCard } from "@/components/Card/CompletedCourse";
 import completedCourses from "@/data/CompletedCourse.json";
 import Link from "next/link";
-import { ShimmerButton } from "@/components/magicui/shimmer-button";
 import certificate from "@/data/Certificate.json";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { RainbowButton } from "@/components/magicui/rainbow-button";

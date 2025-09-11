@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 export function CourseCard({ course, className }: CourseCardProps) {
 	return (
 		<div
-			className={`max-w-[384px] overflow-hidden px-6 pt-6 pb-8 bg-white dark:bg-[#202124] border border-gray-200 dark:border-gray-800 rounded-[24px] shadow-sm ${
+			className={`max-w-[384px] overflow-hidden px-6 pt-6 pb-8 bg-white dark:bg-input/30 border border-gray-200 dark:border-gray-800 rounded-[24px] shadow-sm ${
 				className || ""
 			}`}>
 			<div className='relative aspect-video pb-3'>

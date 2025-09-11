@@ -7,7 +7,15 @@ export type CertItem = {
   downloadHref?: string;
 };
 
-type CertificateJsonItem = {
+// export const certificates: CertItem[] = (certificatesData as any[]).map((c) => ({
+//   id: String(c.id),
+//   imgSrc: c.logo ?? c.imgSrc ?? "",
+//   alt: c.title ?? "",
+//   downloadHref: c.downloadHref ?? undefined,
+// }));
+
+// 👇 this type matches the raw JSON structure
+type RawCertItem = {
   id: string | number;
   logo?: string;
   imgSrc?: string;
@@ -15,12 +23,16 @@ type CertificateJsonItem = {
   downloadHref?: string;
 };
 
-export const certificates: CertItem[] = (certificatesData as CertificateJsonItem[]).map((c) => ({
-  id: String(c.id),
-  imgSrc: c.logo ?? c.imgSrc ?? "",
-  alt: c.title ?? "",
-  downloadHref: c.downloadHref ?? undefined,
-}));
+
+export const certificates: CertItem[] = (certificatesData as RawCertItem[]).map(
+  (c) => ({
+    id: String(c.id),
+    imgSrc: c.logo ?? c.imgSrc ?? "",
+    alt: c.title ?? "",
+    downloadHref: c.downloadHref ?? undefined,
+  }),
+);
+
 
 export function getCertificateById(id: string | number): CertItem | undefined {
   const idStr = String(id);
