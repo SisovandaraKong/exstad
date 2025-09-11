@@ -17,11 +17,6 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 import certificate from "@/data/Certificate.json";
 
-import {
-  ScrollVelocityContainer,
-  ScrollVelocityRow,
-} from "@/components/magicui/scroll-based-velocity";
-
 const ProfilePortfolio = () => {
   return (
     <div className="px-4 sm:px-6 lg:px-12 py-6 md:py-8 grid grid-cols-1 md:grid-cols-12 gap-6">

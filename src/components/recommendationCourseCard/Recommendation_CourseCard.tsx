@@ -11,7 +11,6 @@ type RecommendationCourseCardProps = {
 
 export function RecommendationCourseCard({
 	recommendation,
-	className,
 }: RecommendationCourseCardProps) {
 	return (
 		<div className='flex'>
