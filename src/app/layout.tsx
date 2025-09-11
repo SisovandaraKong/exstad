@@ -71,7 +71,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${koh.variable} antialiased relative h-[200vh]  bg-whitesmoke`}
+        className={`${inter.variable} ${koh.variable} antialiased relative  bg-whitesmoke`}
       >
         <ThemeProvider
           attribute="class"
