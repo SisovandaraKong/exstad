@@ -22,7 +22,7 @@ import {
   Award,
   Briefcase,
 } from "lucide-react";
-import scholarData from "@/data/Schorlar.json";
+import scholarData from "@/data/Scholar.json";
 import styles from "./styles.module.css";
 
 // Define types for our data

@@ -13,7 +13,7 @@ import {
   Briefcase,
 } from "lucide-react";
 
-import data from "@/data/Schorlar.json";
+import data from "@/data/Scholar.json";
 import { Button } from "../ui/button";
 
 // --- Card Components ---
