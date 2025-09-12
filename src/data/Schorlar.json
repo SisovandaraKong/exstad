@@ -1,5 +1,5 @@
 {
-  "scholars": [
+  "MOCK_SCHOLARS": [
     {
       "id": 1,
       "name": "Mr. Sobon",
@@ -10,7 +10,7 @@
       "id": 2,
       "name": "Mr. Sinmany",
       "title": "1st Generation ITE Student, Doctoral Candidate of the Republic of Korea",
-      "image": "/image/panha.jpg"
+      "image": "/image/sinmany.png"
     },
     {
       "id": 3,
@@ -23,9 +23,15 @@
       "name": "Ms. Sreyphea",
       "title": "1st Generation ITE Student, Doctoral Candidate of the Republic of Korea",
       "image": "/image/sreyphea.JPG"
+    },
+    {
+      "id": 5,
+      "name": "Mr. Reach",
+      "title": "1st Generation ITE Student, Doctoral Candidate of the Republic of Korea",
+      "image": "/image/reach.JPG"
     }
   ],
-  "scholars2": [
+  "MOCK_SCHOLARS_2": [
     {
       "id": 1,
       "name": "Kong Sisovandara",
@@ -75,7 +81,7 @@
       "image": "/image/sreyphea.jpg"
     }
   ],
-  "spotlight": {
+  "SPOTLIGHT": {
     "image": "/image/sobon.jpg",
     "badge": "Scholar Spotlight",
     "headline": "លោក ផុន​ សុបុណ្យ | ITE 1st Generation",

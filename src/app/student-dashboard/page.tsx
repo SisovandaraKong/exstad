@@ -89,7 +89,7 @@
 // }
 
 // export default ProfileSection;
-import { ProfileSection } from "@/components/student/ProfileSection";
+import  ProfileSection from "@/components/student/ProfileSection";
 import ProfilePortfolio from "@/components/student/ProfilePortfolio";
 import Footer from "@/components/footer/Footer";
 
