@@ -221,7 +221,6 @@ export default function HeroScholars() {
                           </div>
                         </div>
                       </div>
-
                       <div className="md:col-span-3">
                         <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
                           {SPOTLIGHT.badge}
@@ -257,8 +256,6 @@ export default function HeroScholars() {
           </Carousel>
         </div>
       </section>
-
-
       {/* === SECTION 3 (Success Blueprint) === */}
       <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
@@ -268,7 +265,6 @@ export default function HeroScholars() {
               <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white">
                 The Success Blueprint for ISTAD Alumni
               </h2>
-
               <div className="mt-12 flex flex-col gap-10">
                 {/* Step 1 */}
                 <div className="flex items-center gap-6 relative">
@@ -291,7 +287,6 @@ export default function HeroScholars() {
                     </div>
                   </div>
                 </div>
-
                 {/* Step 2 */}
                 <div className="flex items-center gap-6 relative">
                   <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-3">
@@ -313,7 +308,6 @@ export default function HeroScholars() {
                     02
                   </span>
                 </div>
-
                 {/* Step 3 */}
                 <div className="flex items-center gap-6 relative">
                   <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
@@ -337,9 +331,6 @@ export default function HeroScholars() {
                 </div>
               </div>
             </div>
-
-
-
             {/* RIGHT: Two images side by side */}
             <div className="grid grid-cols-2 gap-6">
               <Image
@@ -361,7 +352,6 @@ export default function HeroScholars() {
           </div>
         </div>
       </section>
-
  {/* === SECTION 4 === */}
       <section className="relative isolate overflow-hidden dark:bg-slate-900 h-screen">
         {/* Gradient background */}
@@ -383,7 +373,6 @@ export default function HeroScholars() {
             </p>
             <p className="text-gray-500 font-d7">  into reality</p>
           </div>
-
           {/* Cards — marquee */}
           <div className="mt-10">
             <Marquee
@@ -403,7 +392,6 @@ export default function HeroScholars() {
           </div>
         </div>
       </section>
-
       {/* section 5 */}
       <section className="bg-gray-50 py-16 px-6 md:px-12">
       <div className="max-w-6xl mx-auto text-center">
@@ -419,8 +407,6 @@ export default function HeroScholars() {
           Our alumni are part of our family for life. Celebrate achievements, stay connected,
           and share your journey with a community that lasts beyond the classroom.
         </p>
-
-       
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Large top image */}
           <div className="md:col-span-2">
@@ -430,7 +416,6 @@ export default function HeroScholars() {
               className="w-full rounded-2xl shadow-md object-cover"
             />
           </div>
-
           {/* Middle row (2 images) */}
           <img
             src="https://z-p3-scontent.fpnh5-2.fna.fbcdn.net/v/t39.30808-6/482004918_646817148098789_6516389147884209010_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEVwykBn4VP38YIgK6-vHVSQjq8w9SqqJ5COrzD1Kqongw98nuJ07FCzw0w1DN2VZNYgNaWwZCZQSMsokRebut0&_nc_ohc=iMapw9jFeLoQ7kNvwGXY3Ju&_nc_oc=AdlLOCXae2eXtqjbu1L1iF3cRxvp0ex82aINp56e5lHnRoWt8znY9FVFPjk6FQ2PLYo&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-2.fna&_nc_gid=NVh5km8Ujfb6g6zdUaApzA&oh=00_AfYn_O75nIafL6YVpYyXnTRzr8CWlpF9_UUGEWOTAqkwww&oe=68C9D144"
@@ -442,7 +427,6 @@ export default function HeroScholars() {
             alt="Alumni group photo"
             className="w-full rounded-2xl shadow-md object-cover"
           />
-
           {/* Bottom row */}
           <div className="md:col-span-2">
             <img
