@@ -89,14 +89,14 @@
 // }
 
 // export default ProfileSection;
-import { ProfileSection } from "@/components/student/ProfileSection";
+
 import ProfilePortfolioSetting from "@/components/student/ProfilePortfolioSetting";
-import Footer from "@/components/footer/Footer";
+import ScholarsPage from "@/components/student/ProfileSection";
 
 export default function AboutPage() {
   return (
     <main className="" >
-      <ProfileSection />
+      <ScholarsPage />
       <ProfilePortfolioSetting />
      {/* <Footer></Footer> */}
       

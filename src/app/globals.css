@@ -1,3 +1,18 @@
+/**
+ * Gradient text utility class
+ *
+ * @format
+ */
+
+.gradient-text {
+  background: linear-gradient(90deg, #ff0000, #7777ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+/** @format */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -10,8 +25,11 @@
 
   /* Custom Color Variable */
   --color-background: var(--background);
+  --color-whitesmoke: var(--whitesmoke);
   --color-text: var(--text-color);
   --color-icon-bg: var(--icon-bg);
+  /* Custom Color Variable */
+
 
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
@@ -70,23 +88,53 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
-  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
-  --animate-scroll: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
-  @keyframes shimmer-slide {
-  to {
-    transform: translate(calc(100cqw - 100%), 0);
+  --animate-ripple: ripple var(--duration, 2s) ease calc(var(--i, 0) * 0.2s)
+    infinite;
+  @keyframes ripple {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(0.9);
     }
   }
-  @keyframes spin-around {
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+  @keyframes orbit {
+    0% {
+      transform: rotate(calc(var(--angle) * 1deg))
+        translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+    }
+    100% {
+      transform: rotate(calc(var(--angle) * 1deg + 360deg))
+        translateY(calc(var(--radius) * 1px))
+        rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+  --animate-grid: grid 15s linear infinite
+;
+
+  @keyframes grid {
   0% {
-    transform: translateZ(0) rotate(0);
-    }
-  15%, 35% {
-    transform: translateZ(0) rotate(90deg);
-    }
-  65%, 85% {
-    transform: translateZ(0) rotate(270deg);
+    transform: translateY(-50%);
     }
   100% {
     transform: translateZ(0) rotate(360deg);
@@ -136,10 +184,11 @@
 
 :root {
   /* Custom Color Variable */
-  --background: #f5f5f7;
+  /* --background: #f5f5f7; */
+  --background: #ffffff;
+  --whitesmoke:#F5F5F7;
   --text-color: #333333;
   --icon-bg: #253c95;
-  --text-description:#565A67;
 
   --primary: #253c95;
   --primary-hover: #2049d5;
@@ -162,6 +211,7 @@
   --description-4: 16px;
   --description-5: 14px;
   --description-6: 12px;
+
 
   /* Shadcn */
   --radius: 0.625rem;
@@ -202,8 +252,12 @@
 .dark {
   /* Custom Color Variable For Dark Mode */
   --background: #202124;
+  --whitesmoke:#171717;
   --text-color: #e5e5e5;
   --icon-bg: #3d95ff;
+  /* Custom Color Variable For Dark Mode */
+  /* --background: #171717; narak */ 
+
 
   --primary: #253c95;
   --primary-hover: #2049d5;
@@ -246,6 +300,7 @@
   --color-4: oklch(80.2% 0.134 225);
   --color-5: oklch(90.7% 0.231 133);
 }
+
 
 @layer base {
   * {
@@ -309,4 +364,65 @@
 .font-d6 {
   font-size: var(--font-size-d6);
   line-height: 1.6;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #1D4ED8 #E5E7EB; /* thumb color, track color */
+}
+
+/* Chrome, Edge, Safari */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #E5E7EB;
+  border-radius: 8px;
+
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #1D4ED8;
+  border-radius: 8px;
+  border: 2px solid #E5E7EB;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #2563EB;
+}
+
+/* Remove arrows */
+.custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar but still allow scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+/* Narak's Configuration */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+.hide-scroll-bar::-webkit-scrollbar{
+  display: none;
 }

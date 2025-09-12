@@ -12,7 +12,6 @@ import { MotionHighlight } from "@/components/animate-ui/effects/motion-highligh
 import { CompletedCourseCard } from "@/components/Card/CompletedCourse";
 import completedCourses from "@/data/CompletedCourse.json";
 import Link from "next/link";
-import { ShimmerButton } from "@/components/magicui/shimmer-button";
 import certificate from "@/data/Certificate.json";
 import { BorderBeam } from "@/components/magicui/border-beam";
 import { RainbowButton } from "@/components/magicui/rainbow-button";
@@ -145,9 +144,9 @@ const ProfilePortfolio = () => {
                         </p>
                       </div>
                     </div>
-                    <a href="/" className="mt-1 sm:mt-0">
+                    <Link href="/" className="mt-1 sm:mt-0">
                       <FiArrowUpRight className="text-yellow-500 text-xl sm:text-2xl" />
-                    </a>
+                    </Link>
                   </div>
                 ))}
               </div>
