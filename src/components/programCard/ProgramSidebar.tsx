@@ -7,20 +7,30 @@ import { MdOutlineSchool } from "react-icons/md";
 import { MdOutlinePaid } from "react-icons/md";
 import { FaTelegram } from "react-icons/fa6";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 type Props = {
-    program: programType;
+  program: programType;
 };
 
-
-
 const ProgramOverviewSidebar: React.FC<Props> = ({ program }) => {
-    const latestGeneration = program.openingprogram[program.openingprogram.length - 1];
+  const router = useRouter();
+
+  const handleEnrollmentClick = () => {
+    if (!latestGeneration?.id) return;
+    router.push(`/explore-course/${latestGeneration.id}/enrollment`);
+  };
+
+  const latestGeneration =
+    program.openingprogram[program.openingprogram.length - 1];
   return (
     <div>
       <div className="bg-background gap-[24px] sticky top-27 p-[24px] rounded-[24px] text-center flex flex-col">
         {/* Title */}
         <div>
-          <h1 className="font-bold text-[22px] text-primary">{program.title}</h1>
+          <h1 className="font-bold text-[22px] text-primary">
+            {program.title}
+          </h1>
           <p className="font-medium text-[16px] text-foreground">
             Be ready for your journey at the university
           </p>
@@ -28,16 +38,18 @@ const ProgramOverviewSidebar: React.FC<Props> = ({ program }) => {
 
         {/* QR Codes */}
         <div className="flex flex-col items-center gap-[10px]">
-  <Image width={143} height={142} unoptimized
-    src={latestGeneration.qrimage}
-    alt={latestGeneration.title}
-    className="w-[143px] h-[142px]"
-  />
-  <p className="text-[11px]">
-    Scan with your phone to access the mobile enrollment form
-  </p>
-</div>
-
+          <Image
+            width={143}
+            height={142}
+            unoptimized
+            src={latestGeneration.qrimage}
+            alt={latestGeneration.title}
+            className="w-[143px] h-[142px]"
+          />
+          <p className="text-[11px]">
+            Scan with your phone to access the mobile enrollment form
+          </p>
+        </div>
 
         {/* Info boxes */}
         <div className="flex flex-col w-full gap-[10px]">
@@ -45,28 +57,36 @@ const ProgramOverviewSidebar: React.FC<Props> = ({ program }) => {
             <p className="font-normal flex items-center gap-2 text-[14px] text-foreground">
               <MdOutlineAccessTime /> Duration
             </p>
-            <p className="font-bold text-[14px] text-foreground">{program.duration}</p>
+            <p className="font-bold text-[14px] text-foreground">
+              {program.duration}
+            </p>
           </div>
 
           <div className="flex flex-row justify-between gap-auto">
             <p className="font-normal flex items-center gap-2 text-[14px] text-foreground">
               <VscGraph /> Level
             </p>
-            <p className="font-bold text-[14px] text-foreground">{program.level}</p>
+            <p className="font-bold text-[14px] text-foreground">
+              {program.level}
+            </p>
           </div>
 
           <div className="flex flex-row justify-between gap-auto">
             <p className="font-normal flex items-center gap-2 text-[14px] text-foreground">
               <BsPeople /> Number
             </p>
-            <p className="font-bold text-[14px] text-foreground">{program.totalslot}</p>
+            <p className="font-bold text-[14px] text-foreground">
+              {program.totalslot}
+            </p>
           </div>
 
           <div className="flex flex-row justify-between gap-auto">
             <p className="font-normal flex items-center gap-2 text-[14px] text-foreground">
               <MdOutlineSchool /> Scholarship
             </p>
-            <p className="font-bold text-[14px] text-foreground">{program.scholarship}%</p>
+            <p className="font-bold text-[14px] text-foreground">
+              {program.scholarship}%
+            </p>
           </div>
 
           <div className="flex flex-row justify-between gap-auto">
@@ -74,8 +94,12 @@ const ProgramOverviewSidebar: React.FC<Props> = ({ program }) => {
               <MdOutlinePaid /> Cost
             </p>
             <div className="flex gap-2">
-              <p className="font-bold text-[14px] text-foreground line-through">{program.discount}</p>
-              <p className="text-secondary text-[14px] font-bold">{program.price}</p>
+              <p className="font-bold text-[14px] text-foreground line-through">
+                {program.discount}
+              </p>
+              <p className="text-secondary text-[14px] font-bold">
+                {program.price}
+              </p>
             </div>
           </div>
         </div>
@@ -88,7 +112,10 @@ const ProgramOverviewSidebar: React.FC<Props> = ({ program }) => {
           </button>
         )}
 
-        <button className="bg-primary flex items-center justify-center gap-2 hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]">
+        <button
+          className="bg-primary flex items-center justify-center gap-2 hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]"
+          onClick={handleEnrollmentClick}
+        >
           <PiNotePencilBold /> Enroll Now
         </button>
       </div>

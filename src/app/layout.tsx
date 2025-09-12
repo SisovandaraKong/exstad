@@ -25,10 +25,12 @@ const koh = Koh_Santepheap({
 
 export const metadata: Metadata = {
   title: "EXSTAD - Your Ultimate Platform",
-  description: "EXSTAD is a platform that provides amazing services and content for users.",
+  description:
+    "EXSTAD is a platform that provides amazing services and content for users.",
   openGraph: {
     title: "EXSTAD - Your Ultimate Platform",
-    description: "EXSTAD is a platform that provides amazing services and content for users.",
+    description:
+      "EXSTAD is a platform that provides amazing services and content for users.",
     url: "https://exstad-front-end.vercel.app",
     siteName: "EXSTAD",
     images: [
@@ -45,15 +47,14 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "EXSTAD - Your Ultimate Platform",
-    description: "EXSTAD is a platform that provides amazing services and content for users.",
-    images: ["https://scontent.fpnh9-2.fna.fbcdn.net/v/t39.30808-6/540349826_784819700965199_7049553995288016805_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEY6AHda9dM26wi3ycNE1IAhfQRPeQf5RyF9BE95B_lHJ_8nNHSBiFkD3UgN5rshyn5Ywe8AaF1QNVte7u9XU7L&_nc_ohc=1g_CfFYyUrkQ7kNvwEUzUZ0&_nc_oc=AdnuvFO8Tw84rjB4Sfp2mi6X_QeyuQx57om0w0MttCJazpx6AO6CKkc78fP-Qy8Tdr0&_nc_zt=23&_nc_ht=scontent.fpnh9-2.fna&_nc_gid=bdhALjyn0Nk5plcFRCL7GA&oh=00_AfXGxiKMNA8wU_78N53lViSRUy-iHPe_6H0FqWAT1Df4Xw&oe=68B7B2F4"],
+    description:
+      "EXSTAD is a platform that provides amazing services and content for users.",
+    images: [
+      "https://scontent.fpnh9-2.fna.fbcdn.net/v/t39.30808-6/540349826_784819700965199_7049553995288016805_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEY6AHda9dM26wi3ycNE1IAhfQRPeQf5RyF9BE95B_lHJ_8nNHSBiFkD3UgN5rshyn5Ywe8AaF1QNVte7u9XU7L&_nc_ohc=1g_CfFYyUrkQ7kNvwEUzUZ0&_nc_oc=AdnuvFO8Tw84rjB4Sfp2mi6X_QeyuQx57om0w0MttCJazpx6AO6CKkc78fP-Qy8Tdr0&_nc_zt=23&_nc_ht=scontent.fpnh9-2.fna&_nc_gid=bdhALjyn0Nk5plcFRCL7GA&oh=00_AfXGxiKMNA8wU_78N53lViSRUy-iHPe_6H0FqWAT1Df4Xw&oe=68B7B2F4",
+    ],
     creator: "@yourtwitterhandle",
   },
 };
-
-
-
-
 
 export default async function RootLayout({
 	children,
@@ -73,7 +74,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${koh.variable} antialiased relative h-[200vh] bg-whitesmoke`}
+        className={`${inter.variable} ${koh.variable} antialiased relative  bg-whitesmoke`}
       >
         <ThemeProvider
           attribute="class"
