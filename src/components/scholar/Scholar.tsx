@@ -23,7 +23,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import scholarData from "@/data/Scholar.json";
-import styles from "./styles.module.css";
+// import styles from "./styles.module.css";
 
 // Define types for our data
 interface Scholar {
@@ -355,9 +355,9 @@ export default function HeroScholars() {
  {/* === SECTION 4 === */}
       <section className="relative isolate overflow-hidden dark:bg-slate-900 h-screen">
         {/* Gradient background */}
-        <div
+        {/* <div
           className={`absolute inset-0 -z-10 ${styles.gradientBackground}`}
-        ></div>
+        ></div> */}
 
         <div className="w-full h-full flex flex-col justify-center px-2 sm:px-4 lg:px-6">
           {/* Titles */}
