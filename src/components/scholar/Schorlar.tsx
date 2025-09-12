@@ -410,26 +410,26 @@ export default function HeroScholars() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Large top image */}
           <div className="md:col-span-2">
-            <img
+            <Image unoptimized width={500} height={500}
               src="/image/IMG_1518.jpg"
               alt="Group of alumni"
               className="w-full rounded-2xl shadow-md object-cover"
             />
           </div>
           {/* Middle row (2 images) */}
-          <img
+          <Image unoptimized width={500} height={500}
             src="https://z-p3-scontent.fpnh5-2.fna.fbcdn.net/v/t39.30808-6/482004918_646817148098789_6516389147884209010_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEVwykBn4VP38YIgK6-vHVSQjq8w9SqqJ5COrzD1Kqongw98nuJ07FCzw0w1DN2VZNYgNaWwZCZQSMsokRebut0&_nc_ohc=iMapw9jFeLoQ7kNvwGXY3Ju&_nc_oc=AdlLOCXae2eXtqjbu1L1iF3cRxvp0ex82aINp56e5lHnRoWt8znY9FVFPjk6FQ2PLYo&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-2.fna&_nc_gid=NVh5km8Ujfb6g6zdUaApzA&oh=00_AfYn_O75nIafL6YVpYyXnTRzr8CWlpF9_UUGEWOTAqkwww&oe=68C9D144"
             alt="Alumni group photo"
             className="w-full rounded-2xl shadow-md object-cover"
           />
-          <img
+          <Image unoptimized width={500} height={500}
             src="https://z-p3-scontent.fpnh5-2.fna.fbcdn.net/v/t39.30808-6/489964894_674024462044724_7791242851026023255_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEkNbqTLsp9qLERrSHEGm11oyHmE_gLp4WjIeYT-AunhflXwXbIIPl9fTWS2JI6gy0O3HRmYVmQ8BgWhwGvr2uP&_nc_ohc=UhuDrdgWmCIQ7kNvwGjpQ9p&_nc_oc=AdkpGkFlFonZiht9GCmU8KPkZFVP19_PEQHNKvXAjoykadTmT2xRfkyvLgHfwkSIaCc&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-2.fna&_nc_gid=jSBCAyHxc7dD7IXI4YyMXQ&oh=00_AfZzFe-ewLXHqMRKeU3RZCCn6kgpCzhYm83bRi6Qd6tVVQ&oe=68C9EC05"
             alt="Alumni group photo"
             className="w-full rounded-2xl shadow-md object-cover"
           />
           {/* Bottom row */}
           <div className="md:col-span-2">
-            <img
+            <Image unoptimized width={500} height={500}
               src="https://z-p3-scontent.fpnh5-5.fna.fbcdn.net/v/t39.30808-6/486502152_657980043649166_3017000215226357790_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeF1Jh4kM2ryul626KzSWurP5Stc0-Q0TgXlK1zT5DROBZmLU3vMrk9w_auX5vErta6qOrwlrdPfDa6iyheaV6-I&_nc_ohc=68_-Ng9BorQQ7kNvwEpeCft&_nc_oc=AdnIbcy2qqxlE57ghJgpmjF3DpZRu9iJu0HbOzDHg-gfjrYvlzPbSB6WGLyyZ9c4r18&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-5.fna&_nc_gid=0X2bAsfQEL-d-wjMcRr1Ew&oh=00_AfaVy_c1V0lu-PmaQ_hkOYX2Dvd9EG7xJZeWTEkqMTrvNw&oe=68C9D7F9"
               alt="Alumni outdoor photo"
               className="w-full  rounded-2xl shadow-md object-cover"
