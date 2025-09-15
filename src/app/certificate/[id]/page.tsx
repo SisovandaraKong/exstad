@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 export default async function CertificatePage({ params }: PageProps) {
-  // Await 
+  // Await the params since it's now a Promise
   const { id } = await params;
   const cert = getCertificateById(id);
 
