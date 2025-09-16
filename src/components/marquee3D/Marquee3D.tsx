@@ -85,22 +85,22 @@ export function Marquee3D() {
 				}}>
 				<Marquee pauseOnHover vertical className='[--duration:20s]'>
 					{firstRow.map((review) => (
-						<ReviewCard key={review.username} {...review} />
+						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
 				<Marquee reverse pauseOnHover className='[--duration:20s]' vertical>
 					{secondRow.map((review) => (
-						<ReviewCard key={review.username} {...review} />
+						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
 				<Marquee reverse pauseOnHover className='[--duration:20s]' vertical>
 					{thirdRow.map((review) => (
-						<ReviewCard key={review.username} {...review} />
+						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
 				<Marquee pauseOnHover className='[--duration:20s]' vertical>
 					{fourthRow.map((review) => (
-						<ReviewCard key={review.username} {...review} />
+						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
 			</div>

@@ -1,5 +1,5 @@
 
-import Schorlar from "@/components/scholar/Schorlar";
+import Schorlar from "@/components/scholar/Scholar";
 export default function Scholar() {
   return (
     <main className="" >

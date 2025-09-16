@@ -13,10 +13,11 @@ import {
   Briefcase,
 } from "lucide-react";
 
-import data from "@/data/Schorlar.json";
+import data from "@/data/Scholar.json";
+import { Button } from "../ui/button";
 
 // --- Card Components ---
-const Card1 = ({ person }: { person: (typeof data.scholars)[number] }) => (
+const Card1 = ({ person }: { person: (typeof data.MOCK_SCHOLARS)[number] }) => (
   <div className="relative rounded-2xl overflow-hidden bg-white/20 backdrop-blur-xl shadow-md dark:bg-slate-800/40">
     <div className="aspect-[4/5] w-full overflow-hidden relative">
       <Image
@@ -39,7 +40,7 @@ const Card1 = ({ person }: { person: (typeof data.scholars)[number] }) => (
   </div>
 );
 
-const Card2 = ({ person }: { person: (typeof data.scholars2)[number] }) => (
+const Card2 = ({ person }: { person: (typeof data.MOCK_SCHOLARS_2)[number] }) => (
   <div className="rounded-xl p-[2px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition">
     <div className="rounded-xl bg-white dark:bg-slate-800 p-10 text-center">
       <div className="mx-auto h-40 w-40 rounded-full overflow-hidden border border-slate-200 shadow-md dark:border-slate-600">
@@ -80,8 +81,8 @@ export default function ScholarsPage() {
 
   const filtered =
     activeCategory === "All"
-      ? data.scholars2
-      : data.scholars2.filter((s) => s.category === activeCategory);
+      ? data.MOCK_SCHOLARS_2
+      : data.MOCK_SCHOLARS_2.filter((s) => s.category === activeCategory);
 
   return (
     <>
@@ -99,7 +100,7 @@ export default function ScholarsPage() {
 
     <div className="mt-12">
       <InfiniteMovingCards
-        items={data.scholars.map((person) => (
+        items={data.MOCK_SCHOLARS.map((person) => (
           <div className="w-60 sm:w-72 md:w-80" key={person.id}>
             {/* Card1 without hover/animation overlays */}
             <div className="rounded-2xl shadow-md bg-white dark:bg-slate-800">
@@ -132,12 +133,12 @@ export default function ScholarsPage() {
           {/* Category buttons */}
           <div
             className="mt-6 flex flex-wrap justify-center gap-4"
-            role="tablist"
+            // role="tablist"
           >
             {categories.map(({ name, icon: Icon }) => {
               const active = activeCategory === name;
               return (
-                <button
+                <Button
                   key={name}
                   onClick={() => setActiveCategory(name)}
                   className="relative flex items-center gap-2 px-2 py-1 text-sm font-medium transition-colors"
@@ -161,7 +162,7 @@ export default function ScholarsPage() {
                   {active && (
                     <span className="absolute -bottom-1 left-0 right-0 mx-auto h-[2px] w-full rounded-full bg-blue-500" />
                   )}
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -185,7 +186,7 @@ export default function ScholarsPage() {
                 <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700">
                   <div className="relative aspect-[16/11]">
                     <Image
-                      src={data.spotlight.image}
+                      src={data.SPOTLIGHT.image}
                       alt="exSTAD | ITE scholar spotlight"
                       fill
                       className="object-cover"
@@ -199,16 +200,16 @@ export default function ScholarsPage() {
             {/* Text side */}
             <div className="md:col-span-3">
               <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
-                {data.spotlight.badge}
+                {data.SPOTLIGHT.badge}
               </span>
               <h3 className="mt-4 text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                {data.spotlight.headline}
+                {data.SPOTLIGHT.headline}
               </h3>
               <p className="mt-2 text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-rose-600">
-                {data.spotlight.sub}
+                {data.SPOTLIGHT.sub}
               </p>
               <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">
-                {data.spotlight.description}
+                {data.SPOTLIGHT.description}
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { getCertificateById } from "@/lib/certificate";
+=======
+import { getCertificateById, type CertItem } from "@/lib/certificate";
+>>>>>>> d963efa1ba02df92b9821b046e221372851208bd
 import CertificateImage from "@/components/student/Certificate";
 
 export const dynamic = "force-static";
@@ -6,9 +10,16 @@ export const dynamic = "force-static";
 export default async function Page({
   params,
 }: {
+<<<<<<< HEAD
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+=======
+  params: Promise<{ id: string }>; 
+  
+})  {
+  const id = (await params).id
+>>>>>>> d963efa1ba02df92b9821b046e221372851208bd
   const cert = getCertificateById(id);
 
   if (!cert) {

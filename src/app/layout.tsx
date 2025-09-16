@@ -70,7 +70,7 @@ export default async function RootLayout({
   // Fallback empty strings for font variables to avoid hydration mismatch
   // const interVariable = inter.variable ?? "";
   // const kohVariable = koh.variable ?? "";
-
+ 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
