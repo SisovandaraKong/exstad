@@ -1,6 +1,8 @@
+/** @format */
+
 "use client";
 import React, { useState } from "react";
-import { ModeToggle } from "../button/ModeToggle";
+import { AnimatedModeToggle } from "../button/ModeToggle"; // ✅ replace ModeToggle
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -37,35 +39,35 @@ function Navbar({ className }: { className?: string }) {
     return `${baseClasses} ${afterClasses} ${hoverClasses} after:opacity-0`;
   };
 
-  React.useEffect(() => {
-    if (!mobileOpen) return;
+	React.useEffect(() => {
+		if (!mobileOpen) return;
 
-    function onPointerDown(e: PointerEvent) {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        setMobileOpen(false);
-      }
-    }
+		function onPointerDown(e: PointerEvent) {
+			if (navRef.current && !navRef.current.contains(e.target as Node)) {
+				setMobileOpen(false);
+			}
+		}
 
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setMobileOpen(false);
-      }
-    }
+		function onKeyDown(e: KeyboardEvent) {
+			if (e.key === "Escape") {
+				setMobileOpen(false);
+			}
+		}
 
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
+		document.addEventListener("pointerdown", onPointerDown);
+		document.addEventListener("keydown", onKeyDown);
 
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [mobileOpen]);
+		return () => {
+			document.removeEventListener("pointerdown", onPointerDown);
+			document.removeEventListener("keydown", onKeyDown);
+		};
+	}, [mobileOpen]);
 
   return (
     <div
       ref={navRef}
       className={cn(
-        "w-full border-b-1 border-text-color z-50 sticky top-0",
+        "w-full border-b-1 border-text-color z-50 fixed top-0",
         className
       )}
     >
@@ -89,9 +91,9 @@ function Navbar({ className }: { className?: string }) {
                 <DropDown />
                 <Link
                   href="/explore-course"
-                  className={getNavLinkClasses('/exploreProgram')}
+                  className={getNavLinkClasses('/explore-course')}
                 >
-                  {t("available-programs")}
+                  {t("explore-course")}
                 </Link>
                 <Link
                   href="/student-dashboard"
@@ -114,7 +116,18 @@ function Navbar({ className }: { className?: string }) {
               </div>
             </div>
 
-            {/* Right side controls */}
+						{/* Mobile menu toggle (visible on small screens) */}
+						<button
+							className='md:hidden p-2 rounded-md hover:bg-accent/10'
+							aria-label={mobileOpen ? "Close menu" : "Open menu"}
+							onClick={() => setMobileOpen((v) => !v)}
+							type='button'>
+							{mobileOpen ? (
+								<X className='h-5 w-5' />
+							) : (
+								<Menu className='h-5 w-5' />
+							)}
+						</button>
 
             {/* Mobile menu toggle (visible on small screens) */}
             <button
@@ -133,15 +146,14 @@ function Navbar({ className }: { className?: string }) {
               <div className="flex items-center space-x-6 ">
                 <LanguageToggle />
 
-                {/* Theme Toggle */}
-                <ModeToggle />
+								{/* ✅ Theme Toggle replaced */}
+								<AnimatedModeToggle />
 
-                {/* Login Button */}
-                <LogInButton />
-              </div>
-            </div>
-          </div>
-        </div>
+								<LogInButton />
+							</div>
+						</div>
+					</div>
+				</div>
 
         {/* Mobile menu (conditionally rendered) */}
         {mobileOpen && (
@@ -186,7 +198,7 @@ function Navbar({ className }: { className?: string }) {
                     <LanguageToggle />
 
                     {/* Theme Toggle */}
-                    <ModeToggle />
+                    {/* <ModeToggle /> */}
 
                     {/* Login Button */}
                     <LogInButton />

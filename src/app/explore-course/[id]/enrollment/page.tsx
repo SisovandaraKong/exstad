@@ -39,7 +39,7 @@ import {
   ChevronsUpDown,
   CloudUpload,
   Paperclip,
-} from "lucide-react"; // Add Check and ChevronsUpDown
+} from "lucide-react"; 
 import {
   Command,
   CommandEmpty,

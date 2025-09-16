@@ -1,12 +1,12 @@
 {
-  "hello": "Hello",
-  "welcome": "Welcome to my website",
+	"hello": "Hello",
+	"welcome": "Welcome to my website",
 
-  "explor-program": "Our Program",
-  "available-programs": "Explore Course",
+  "our-program": "Our Program",
+  "explore-course": "Explore Course",
   "scholar": "Scholar",
   "roadmap": "Roadmap",
   "about-us": "About Us",
 
-  "log-in": "Log In"
+	"log-in": "Log In"
 }

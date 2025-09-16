@@ -1,3 +1,5 @@
+/** @format */
+
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Inter, Koh_Santepheap } from "next/font/google";
@@ -6,18 +8,19 @@ import Providers from "@/services/store/Providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar/Navbar";
 import I18nProvider from "@/lib/I18nProvider";
+import Footer from "@/components/footer/Footer";
 
 const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
+	variable: "--font-inter",
+	subsets: ["latin"],
+	display: "swap",
 });
 
 const koh = Koh_Santepheap({
-  variable: "--font-koh",
-  weight: "400",
-  subsets: ["khmer"],
-  display: "swap",
+	variable: "--font-koh",
+	weight: "400",
+	subsets: ["khmer"],
+	display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -54,9 +57,9 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
   const cookieLocale = cookieStore.get("locale")?.value;
@@ -82,7 +85,11 @@ export default async function RootLayout({
           <Providers>
             <I18nProvider initialLocale={internalLocale}>
               <Navbar />
+              <main className="mt-20">
+
               {children}
+              </main>
+              <Footer/>
             </I18nProvider>
           </Providers>
         </ThemeProvider>

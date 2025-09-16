@@ -34,7 +34,8 @@ const ProgramActivityTap: React.FC<Props> = ({ program }) => {
   <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">{program.title}</h1>
 
   {/* Scrollable row */}
-  <div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide">
+
+<div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide">
     {program.openingprogram.map((gen, index) => (
       <button
         key={gen.id}
@@ -50,6 +51,7 @@ const ProgramActivityTap: React.FC<Props> = ({ program }) => {
     ))}
     <div ref={underlineRef} className="absolute bottom-0 h-1 bg-primary transition-all duration-300 rounded" />
   </div>
+
 
   {selectedGeneration?.activities?.length ? (
     selectedGeneration.activities.map((section) => (

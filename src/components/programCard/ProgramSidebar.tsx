@@ -25,7 +25,7 @@ const ProgramOverviewSidebar: React.FC<Props> = ({ program }) => {
     program.openingprogram[program.openingprogram.length - 1];
   return (
     <div>
-      <div className="bg-background gap-[24px] sticky top-28 p-[24px] rounded-[24px] text-center flex flex-col">
+      <div className="bg-background gap-[24px] sticky top-27 p-[24px] rounded-[24px] text-center flex flex-col">
         {/* Title */}
         <div>
           <h1 className="font-bold text-[22px] text-primary">
