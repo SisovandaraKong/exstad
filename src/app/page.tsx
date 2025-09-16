@@ -1,41 +1,23 @@
 /** @format */
 
 "use client";
-import { useTranslations } from "next-intl";
-import { CourseCard } from "../components/mostPopularCourseCard/CourseCard";
+import AnimatedSpinner from "@/components/animation/animated_spinning";
+import Footer from "@/components/footer/Footer";
+import { Marquee3D } from "@/components/marquee3D/Marquee3D";
+import { OfferCard } from "@/components/offering/OfferCard";
+import { PartnersSection } from "@/components/partnership/PartnershipSection";
 import ScholarshipCard from "@/components/scholarship_mainCard/ScholarshipCard";
 import ShortCourseCard from "@/components/shortCourse_mainCard/ShortCourseCard";
-import AnimatedSpinner from "@/components/animation/animated_spinning";
 import { StateCard } from "@/components/state/StateCard";
-import { Ripple } from "@/components/magicui/ripple";
-import { OfferCard } from "@/components/offering/OfferCard";
-import { HiMiniComputerDesktop } from "react-icons/hi2";
-import { BiCurrentLocation } from "react-icons/bi";
-import { FaGraduationCap } from "react-icons/fa";
-import { FaBoxOpen } from "react-icons/fa";
-import { GiTrophy } from "react-icons/gi";
-import { TbWorld } from "react-icons/tb";
-import { PartnersSection } from "@/components/partnership/PartnershipSection";
-import Footer from "@/components/footer/Footer";
-import { MorphingText } from "@/components/magicui/morphing-text";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { StatisticsCard_10000 } from "@/components/staticCard/StaticCard_10000";
-import { StaticCard_Internship } from "@/components/staticCard/StaticCard_Internship";
-import StaticCard_RealProjects from "@/components/staticCard/StaticCard_RealProjects";
-import { StaticCard_NewCourses } from "@/components/staticCard/StaticCard_NewCourses";
 import SwiperSlideComponent_PopularCourse from "@/components/swiper/swiperSlide";
 import SwiperSlideComponent_RecommendedCourse from "@/components/swiper/SwiperSlide_RecommendCourse";
-import { WhyChooseEXSTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
 import { Welcoming_Card } from "@/components/welcomeCard/Weloming_Card";
-import { Marquee } from "@/components/magicui/marquee";
-import { Marquee3D } from "@/components/marquee3D/Marquee3D";
-import { OrbitingCircles } from "@/components/magicui/orbiting-circles";
-import {
-	ScrollVelocityContainer,
-	ScrollVelocityRow,
-} from "@/components/magicui/scroll-based-velocity";
-import { RetroGrid } from "@/components/magicui/retro-grid";
+import { useTranslations } from "next-intl";
+import { BiCurrentLocation } from "react-icons/bi";
+import { FaBoxOpen, FaGraduationCap } from "react-icons/fa";
+import { GiTrophy } from "react-icons/gi";
+import { HiMiniComputerDesktop } from "react-icons/hi2";
+import { TbWorld } from "react-icons/tb";
 
 export default function Home() {
 	const t = useTranslations();
