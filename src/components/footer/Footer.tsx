@@ -1,13 +1,13 @@
 /** @format */
 
 import Link from "next/link";
-import { IoIosMail, IoMdMail } from "react-icons/io";
+import { IoMdMail } from "react-icons/io";
 import Image from "next/image";
 import { FaFacebook, FaTelegram } from "react-icons/fa";
 
 export default function Footer() {
 	return (
-		<footer className='bg-white dark:bg-[#202124] px-4 sm:px-8 md:px-16 lg:px-32'>
+		<footer className='bg-primary  px-4 sm:px-8 md:px-16 lg:px-32'>
 			<div className='container mx-auto px-6 py-12'>
 				<div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
 					{/* Logo and Description */}
@@ -23,7 +23,7 @@ export default function Footer() {
 								/>
 							</Link>
 						</div>
-						<p className='text-sm text-text-color leading-relaxed'>
+						<p className='text-sm text-white leading-relaxed'>
 							exSTAD is created by ISTAD students streamlines enrollment and
 							verifies student profiles.
 						</p>
@@ -31,30 +31,28 @@ export default function Footer() {
 
 					{/* Quick Line */}
 					<div>
-						<h3 className='font-semibold text-text-color mb-4'>QUICK LINE</h3>
+						<h3 className='font-bold text-white mb-4'>EXPLORE</h3>
 						<ul className='space-y-3'>
 							<li>
-								<Link
-									href='/explore-programs'
-									className='text-base text-text-color'>
-									Explore Programs
+								<Link href='/explore-programs' className='text-base text-white'>
+									Bachelor Degree
 								</Link>
 							</li>
 							<li>
 								<Link
 									href='/available-programs'
-									className='text-base text-text-color'>
-									Available Programs
+									className='text-base text-white'>
+									Short Courses
 								</Link>
 							</li>
 							<li>
-								<Link href='/scholar' className='text-base text-text-color'>
-									Scholar
+								<Link href='/scholar' className='text-base text-white'>
+									Scholarship
 								</Link>
 							</li>
 							<li>
-								<Link href='/roadmap' className='text-base text-text-color'>
-									Roadmap
+								<Link href='/roadmap' className='text-base text-white'>
+									News & Events
 								</Link>
 							</li>
 						</ul>
@@ -62,31 +60,25 @@ export default function Footer() {
 
 					{/* Support & Legal */}
 					<div>
-						<h3 className='font-semibold text-text-color mb-4'>
-							SUPPORT & LEGAL
-						</h3>
+						<h3 className='font-semibold text-white mb-4'>SUPPORT & LEGAL</h3>
 						<ul className='space-y-3'>
 							<li>
-								<Link href='/about-us' className='text-base text-text-color'>
+								<Link href='/about-us' className='text-base text-white'>
 									About Us
 								</Link>
 							</li>
 							<li>
-								<Link href='/faqs' className='text-base text-text-color'>
+								<Link href='/faqs' className='text-base text-white'>
 									FAQs
 								</Link>
 							</li>
 							<li>
-								<Link
-									href='/policy-privacy'
-									className='text-base text-text-color'>
+								<Link href='/policy-privacy' className='text-base text-white'>
 									Policy Privacy
 								</Link>
 							</li>
 							<li>
-								<Link
-									href='/terms-of-service'
-									className='text-base text-text-color'>
+								<Link href='/terms-of-service' className='text-base text-white'>
 									Term of Service
 								</Link>
 							</li>
@@ -95,7 +87,7 @@ export default function Footer() {
 
 					{/* Our Sponsors */}
 					<div>
-						<h3 className='font-semibold text-text-color mb-4'>OUR SPONSORS</h3>
+						<h3 className='font-semibold text-white mb-4'>OUR SPONSORS</h3>
 						<div className='flex items-center space-x-2'>
 							{/* Logo */}
 							<Link href='/' className='block'>
@@ -111,33 +103,27 @@ export default function Footer() {
 				</div>
 
 				{/* Bottom Section */}
-				<div className='mt-12 pt-8 border-t-[0.5px] border-[#253C95] flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
+				<div className='mt-12 pt-8 border-t-[0.5px] border-white flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
 					<div className='flex items-center space-x-4'>
-						<p className='text-sm text-text-color'>© 2025 exSTAD, Inc.</p>
-						<p className='text-sm text-text-color'>All rights reserved.</p>
-						<Link href='/privacy-policy' className='text-sm text-text-color'>
+						<p className='text-sm text-white'>© 2025 exSTAD, Inc.</p>
+						<p className='text-sm text-white'>All rights reserved.</p>
+						<Link href='/privacy-policy' className='text-sm text-white'>
 							Privacy Policy
 						</Link>
 					</div>
 
 					{/* Social Media Icons */}
 					<div className='flex items-center space-x-4'>
-						<Link
-							href='#'
-							className='flex items-center space-x-2 text-text-color'>
-							<FaTelegram className='w-5 h-5 text-icon-bg' />
+						<Link href='#' className='flex items-center space-x-2 text-white'>
+							<FaTelegram className='w-5 h-5 text-white' />
 							<span className='text-sm'>Telegram</span>
 						</Link>
-						<Link
-							href='#'
-							className='flex items-center space-x-2 text-text-color'>
-							<IoMdMail className='w-5 h-5 text-icon-bg' />
+						<Link href='#' className='flex items-center space-x-2 text-white'>
+							<IoMdMail className='w-5 h-5 text-white' />
 							<span className='text-sm'>Email</span>
 						</Link>
-						<Link
-							href='#'
-							className='flex items-center space-x-1 text-text-color'>
-							<FaFacebook className='w-5 h-5 text-icon-bg' />
+						<Link href='#' className='flex items-center space-x-1 text-white'>
+							<FaFacebook className='w-5 h-5 text-white' />
 							<span className='text-sm'>Facebook</span>
 						</Link>
 					</div>

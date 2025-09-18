@@ -25,8 +25,10 @@
 
 	/* Custom Color Variable */
 	--color-background: var(--background);
+	--color-whitesmoke: var(--whitesmoke);
 	--color-text: var(--text-color);
 	--color-icon-bg: var(--icon-bg);
+	/* Custom Color Variable */
 
 	--color-primary: var(--primary);
 	--color-primary-hover: var(--primary-hover);
@@ -126,20 +128,42 @@
 				rotate(calc((var(--angle) * -1deg) - 360deg));
 		}
 	}
-	--animate-grid: grid 15s linear infinite
-;
-  @keyframes grid {
-  0% {
-    transform: translateY(-50%);
+	--animate-grid: grid 15s linear infinite;
+
+	@keyframes grid {
+		0% {
+			transform: translateY(-50%);
 		}
-  100% {
-    transform: translateY(0);
+		100% {
+			transform: translateZ(0) rotate(360deg);
 		}
-	}}
+	}
+	--animate-rainbow: rainbow var(--speed, 2s) infinite linear;
+	--color-color-5: var(--color-5);
+	--color-color-4: var(--color-4);
+	--color-color-3: var(--color-3);
+	--color-color-2: var(--color-2);
+	--color-color-1: var(--color-1);
+	@keyframes rainbow {
+		0% {
+			background-position: 0%;
+		}
+		100% {
+			background-position: 200%;
+		}
+	}
+	@keyframes scroll {
+		to {
+			transform: translate(calc(-50% - 0.5rem));
+		}
+	}
+}
 
 :root {
 	/* Custom Color Variable */
-	--background: #f5f5f7;
+	/* --background: #f5f5f7; */
+	--background: #ffffff;
+	--whitesmoke: #f5f5f7;
 	--text-color: #333333;
 	--icon-bg: #253c95;
 
@@ -193,13 +217,21 @@
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
+	--color-1: oklch(66.2% 0.225 25.9);
+	--color-2: oklch(60.4% 0.26 302);
+	--color-3: oklch(69.6% 0.165 251);
+	--color-4: oklch(80.2% 0.134 225);
+	--color-5: oklch(90.7% 0.231 133);
 }
 
 .dark {
 	/* Custom Color Variable For Dark Mode */
-	--background: #171717;
+	--background: #202124;
+	--whitesmoke: #171717;
 	--text-color: #e5e5e5;
 	--icon-bg: #3d95ff;
+	/* Custom Color Variable For Dark Mode */
+	/* --background: #171717; narak */
 
 	--primary: #253c95;
 	--primary-hover: #2049d5;
@@ -236,6 +268,11 @@
 	--sidebar-accent-foreground: oklch(0.985 0 0);
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.556 0 0);
+	--color-1: oklch(66.2% 0.225 25.9);
+	--color-2: oklch(60.4% 0.26 302);
+	--color-3: oklch(69.6% 0.165 251);
+	--color-4: oklch(80.2% 0.134 225);
+	--color-5: oklch(90.7% 0.231 133);
 }
 
 @layer base {
@@ -273,6 +310,7 @@
 	font-size: var(--font-size-h5);
 	line-height: 1.4;
 }
+
 .font-h6 {
 	font-size: var(--font-size-h6);
 	line-height: 1.5;
@@ -302,6 +340,44 @@
 	line-height: 1.6;
 }
 
+.custom-scrollbar {
+	scrollbar-width: thin; /* Firefox */
+	scrollbar-color: #1d4ed8 #e5e7eb; /* thumb color, track color */
+}
+
+/* Chrome, Edge, Safari */
+.custom-scrollbar::-webkit-scrollbar {
+	width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: #e5e7eb;
+	border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background-color: #1d4ed8;
+	border-radius: 8px;
+	border: 2px solid #e5e7eb;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background-color: #2563eb;
+}
+
+/* Remove arrows */
+.custom-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar but still allow scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+	display: none; /* Chrome, Safari, Opera */
+}
+.scrollbar-hide {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
 /* Narak's Configuration */
 @keyframes scroll {
 	0% {
@@ -318,4 +394,8 @@
 
 .animate-scroll:hover {
 	animation-play-state: paused;
+}
+
+.hide-scroll-bar::-webkit-scrollbar {
+	display: none;
 }

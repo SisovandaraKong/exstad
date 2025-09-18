@@ -76,12 +76,12 @@ export function PartnersSection() {
 				<h2 className='text-3xl font-bold text-gray-800 dark:text-white mb-4'>
 					Our Value Partners
 				</h2>
-				<p className='text-gray-600 dark:text-white mb-12 max-w-2xl mx-auto leading-relaxed'>
+				<p className='text-base sm:text-lg leading-8 text-gray-600 dark:text-gray-300 mb-8 px-4 sm:px-8 md:px-16 lg:px-32'>
 					We collaborate with valued partners from various sectors across
 					Cambodia, including ministries, industries, and the education field.
 				</p>
 
-				<div className='relative overflow-x-auto'>
+				<div className='relative hide-scroll-bar overflow-x-auto'>
 					<div className='flex animate-scroll'>
 						{partners.map((partner, index) => (
 							<div key={index} className='flex-shrink-0 mx-4'>

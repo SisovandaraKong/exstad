@@ -113,7 +113,7 @@ const SwiperSlideComponent_PopularCourse = () => {
 					},
 				}}
 				// Apply the CSS Module class here
-				className={`w-full h-auto ${styles.swiperContainer}`}>
+				className={`w-full mx-auto h-auto ${styles.swiperContainer}`}>
 				{popularCourses.map((course) => (
 					<SwiperSlide key={course.id} className='self-stretch h-full p-2'>
 						{/* Assuming CourseCard handles its own styling */}
