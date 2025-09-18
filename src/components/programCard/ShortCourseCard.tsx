@@ -1,10 +1,12 @@
+"use client";
 import React from "react";
+import { motion } from "framer-motion";
 import { programType } from "@/types/programs";
 import Image from "next/image";
 import Link from "next/link";
 
 const ShortCourseCard: React.FC<programType> = ({
-  id, // make sure id is available
+  id,
   title,
   subtitle,
   description,
@@ -14,14 +16,21 @@ const ShortCourseCard: React.FC<programType> = ({
 }) => {
   return (
     <Link href={`/our-program/${id}`} className="block">
-      <div
-        className="rounded-[20px] p-4 md:p-10 lg:p-[70px] hover:shadow-lg transition-shadow duration-300"
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        whileHover={{ boxShadow: "0px 10px 25px rgba(0,0,0,0.1)" }}
+        className="rounded-[20px] p-4 md:p-10 lg:p-[70px] transition-shadow duration-300"
         style={{ background: bg }}
       >
         {/* Header section */}
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4 md:gap-6">
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-2xl md:text-4xl font-bold text-foreground">{title}</h2>
+            <h2 className="text-2xl md:text-4xl font-bold text-foreground">
+              {title}
+            </h2>
             <p className="text-sm md:text-2xl text-[#333333] font-medium w-fit mx-auto md:mx-0 rounded-[10px] bg-white px-2 py-1 mt-2">
               {subtitle}
             </p>
@@ -29,14 +38,16 @@ const ShortCourseCard: React.FC<programType> = ({
               {description}
             </p>
           </div>
-          <Image
-            unoptimized
-            width={120}
-            height={120}
-            src={image}
-            alt={title}
-            className="w-[120px] h-[120px] md:w-[192px] md:h-[192px] object-cover rounded-lg mx-auto md:mx-0"
-          />
+          <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 200 }}>
+            <Image
+              unoptimized
+              width={120}
+              height={120}
+              src={image}
+              alt={title}
+              className="w-[120px] h-[120px] md:w-[192px] md:h-[192px] object-cover rounded-lg mx-auto md:mx-0"
+            />
+          </motion.div>
         </div>
 
         {/* Highlights */}
@@ -45,9 +56,11 @@ const ShortCourseCard: React.FC<programType> = ({
             {highlights.map((h, index) => {
               const isPrice = h.label.toLowerCase() === "price";
               return (
-                <div
+                <motion.div
                   key={index}
-                  className={`rounded-[18px] mg:rounded-[20px] lg:rounded-[25px] py-3 px-4 md:p-5 w-full ${
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 250 }}
+                  className={`rounded-[18px] md:rounded-[20px] lg:rounded-[25px] py-3 px-4 md:p-5 w-full ${
                     isPrice
                       ? "relative flex flex-col justify-center items-center bg-white"
                       : "flex flex-col justify-between bg-white"
@@ -64,16 +77,20 @@ const ShortCourseCard: React.FC<programType> = ({
                     </>
                   ) : (
                     <>
-                      <h2 className="text-black font-bold text-sm md:text-lg">{h.value || h.label}</h2>
-                      <p className="text-black font-medium text-xs md:text-base mt-1 md:mt-2">{h.desc}</p>
+                      <h2 className="text-black font-bold text-sm md:text-lg">
+                        {h.value || h.label}
+                      </h2>
+                      <p className="text-black font-medium text-xs md:text-base mt-1 md:mt-2">
+                        {h.desc}
+                      </p>
                     </>
                   )}
-                </div>
+                </motion.div>
               );
             })}
           </div>
         )}
-      </div>
+      </motion.div>
     </Link>
   );
 };

@@ -7,7 +7,9 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { BsLightbulb } from "react-icons/bs";
 import { BsJournalCheck } from "react-icons/bs";
 import { TfiHelpAlt } from "react-icons/tfi";
-
+ 
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 
 
@@ -34,6 +36,12 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
     setOpenFaqs(initialState);
   }, [program]);
 
+
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: false });
+  }, []);
+
+
   const toggle = (id: number) => {
     setOpenFaqs((prev) => ({ ...prev, [id]: !prev[id] }));
   };
@@ -45,7 +53,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
 
 
         {/* Program Overview */}
-        <div className="grid gap-[24px]">
+        <div className="grid gap-[24px]"  data-aos="fade-up" >
           {program.programOverview.map((item) => (
             <div key={item.id} className="grid gap-[24px]">
               
@@ -56,7 +64,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         </div>
 
         {/* Learning Outcomes */}
-        <div>
+        <div data-aos="fade-up">
           {program.learningOutcome.map((outcome) => (
             <div key={outcome.id} className="grid gap-6">
                 <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-primary-hover font-bold"><BsLightbulb className="text-lg sm:text-xl md:text-2xl" />{outcome.title}</h2>
@@ -68,7 +76,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         </div>
 
         {/* Course Requirements */}
-        <div>
+        <div data-aos="fade-up">
           {program.courseRequirement.map((requirement) => (
            <div key={requirement.id} className="grid gap-6">
                 <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-secondary-hover font-bold"><BsJournalCheck className="text-lg sm:text-xl md:text-2xl" />{requirement.title}</h2>
@@ -80,7 +88,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         </div>
 
         {/* FAQ Section (Smooth Accordion) */}
-        <div>
+        <div data-aos="fade-up">
           {program.faq.map((section) => (
             <div key={section.title} className="grid gap-6">
             <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-[#800080] font-bold"><TfiHelpAlt className="text-lg sm:text-xl md:text-2xl" /> {section.title}</h2>
