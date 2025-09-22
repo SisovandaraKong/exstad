@@ -106,9 +106,8 @@ export default function Home() {
 							}
 							content={
 								<p>
-									Custom web applications tailored to your business needs. We
-									use cutting-edge technologies to deliver fast, responsive, and
-									scalable solutions.
+									Stay informed with the latest scholarship opportunities at
+									ISTAD, tailored to support students in tech and innovation.
 								</p>
 							}
 						/>
@@ -120,9 +119,8 @@ export default function Home() {
 							}
 							content={
 								<p>
-									Opportunities for Tech-Driven Students – Specially built for
-									Cambodian students who want to grow their skills in IT and
-									innovation.
+									Explore structured IT career roadmaps that guide you step by
+									step toward achieving your professional goals.
 								</p>
 							}
 						/>
@@ -134,8 +132,9 @@ export default function Home() {
 							}
 							content={
 								<p>
-									Scholarships available for deserving students. Apply now to
-									secure your future in the tech industry.
+									Gain practical skills through short courses designed to
+									strengthen your knowledge and prepare you for real-world
+									challenges.
 								</p>
 							}
 						/>
@@ -145,8 +144,8 @@ export default function Home() {
 							}
 							content={
 								<p>
-									Showcasing ISTAD’s Products – From apps to platforms, students
-									can explore ISTAD’s actual creations.
+									Access a wide range of curated resources, from study materials
+									to hands-on projects, all in one place.
 								</p>
 							}
 						/>
@@ -156,8 +155,8 @@ export default function Home() {
 							}
 							content={
 								<p>
-									Celebrating Achievements – Displaying ISTAD’s awards,
-									successful projects, and notable milestones.
+									Get inspired by success stories of students who secured
+									scholarships and built thriving careers in IT.
 								</p>
 							}
 						/>
@@ -165,8 +164,8 @@ export default function Home() {
 							icon={<TbWorld style={{ color: "blue", fontSize: "2.5rem" }} />}
 							content={
 								<p>
-									Unified Learning Platform – One digital space where all
-									resources, opportunities, and success stories come together.
+									Connect with global opportunities in technology, education,
+									and networking to expand your horizons beyond the classroom.
 								</p>
 							}
 						/>
