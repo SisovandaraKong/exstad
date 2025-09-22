@@ -17,6 +17,8 @@ import { Welcoming_Card } from "@/components/welcomeCard/Weloming_Card";
 import { Marquee3D } from "@/components/marquee3D/Marquee3D";
 import AnimatedSpinner from "@/components/animation/animated_spinning";
 import StateCard from "@/components/state/StateCard";
+import { Vortex } from "@/components/ui/vortex";
+import { WhyChooseEXSTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
 
 export default function Home() {
 	// const t = useTranslations();
@@ -82,7 +84,7 @@ export default function Home() {
 				</div>
 
 				{/* Why Choose EXSTAD Section */}
-				{/* <div className=''>
+				{/* <div className='relative h-full'>
 					<WhyChooseEXSTAD_Card />
 				</div> */}
 
