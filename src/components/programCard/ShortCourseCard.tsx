@@ -1,21 +1,28 @@
 "use client";
+
 import React from "react";
 import { motion } from "framer-motion";
-import { programType } from "@/types/programs";
 import Image from "next/image";
 import Link from "next/link";
+import { MasterProgramType } from "@/types/master-program";
+import { openingProgramType } from "@/types/opening-program";
+interface ScholarshipCardProps extends MasterProgramType {
+  openingProgram?: openingProgramType;
+}
 
-const ShortCourseCard: React.FC<programType> = ({
-  id,
+const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
+  uuid,
   title,
   subtitle,
   description,
-  image,
-  bg,
+  bgColor,
   highlights,
+  posterUrl,
+  deadline,
+  openingProgram
 }) => {
   return (
-    <Link href={`/our-program/${id}`} className="block">
+    <Link href={`/our-program/${uuid}`} className="block">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -23,7 +30,7 @@ const ShortCourseCard: React.FC<programType> = ({
         transition={{ duration: 0.6, ease: "easeOut" }}
         whileHover={{ boxShadow: "0px 10px 25px rgba(0,0,0,0.1)" }}
         className="rounded-[20px] p-4 md:p-10 lg:p-[70px] transition-shadow duration-300"
-        style={{ background: bg }}
+        style={{ background: bgColor }}
       >
         {/* Header section */}
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4 md:gap-6">
@@ -31,27 +38,36 @@ const ShortCourseCard: React.FC<programType> = ({
             <h2 className="text-2xl md:text-4xl font-bold text-foreground">
               {title}
             </h2>
-            <p className="text-sm md:text-2xl text-[#333333] font-medium w-fit mx-auto md:mx-0 rounded-[10px] bg-white px-2 py-1 mt-2">
-              {subtitle}
-            </p>
-            <p className="text-sm md:text-base mt-1 md:mt-2 text-gray-700 line-clamp-3">
-              {description}
-            </p>
+            {subtitle && (
+              <p className="text-sm md:text-2xl text-[#333333] font-medium w-fit mx-auto md:mx-0 rounded-[10px] bg-white px-2 py-1 mt-2">
+                {subtitle}
+              </p>
+            )}
+            {description && (
+              <p className="text-sm md:text-base mt-1 md:mt-2 text-gray-700 line-clamp-3">
+                {description}
+              </p>
+            )}
           </div>
-          <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 200 }}>
-            <Image
-              unoptimized
-              width={120}
-              height={120}
-              src={image}
-              alt={title}
-              className="w-[120px] h-[120px] md:w-[192px] md:h-[192px] object-cover rounded-lg mx-auto md:mx-0"
-            />
-          </motion.div>
+          {posterUrl && (
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 200 }}
+            >
+              <Image
+                unoptimized
+                width={120}
+                height={120}
+                src={posterUrl}
+                alt={title}
+                className="w-[120px] h-[120px] md:w-[192px] md:h-[192px] object-cover rounded-lg mx-auto md:mx-0"
+              />
+            </motion.div>
+          )}
         </div>
 
         {/* Highlights */}
-        {highlights && (
+        {highlights && highlights.length > 0 && (
           <div className="mt-4 md:mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
             {highlights.map((h, index) => {
               const isPrice = h.label.toLowerCase() === "price";

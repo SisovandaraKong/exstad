@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { Inter, Koh_Santepheap } from "next/font/google";
 import "./globals.css";
-import Providers from "@/services/store/Providers";
+import StoreProvider from "@/lib/providers";
+// import Providers from "@/services/store/Providers";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar/Navbar";
 import I18nProvider from "@/lib/I18nProvider";
@@ -82,16 +83,15 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Providers>
+          <StoreProvider>
             <I18nProvider initialLocale={internalLocale}>
               <Navbar />
               <main className="mt-20">
-
               {children}
               </main>
               <Footer/>
             </I18nProvider>
-          </Providers>
+          </StoreProvider>
         </ThemeProvider>
       </body>
     </html>

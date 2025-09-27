@@ -1,68 +1,104 @@
-import { programType } from "@/types/programs";
-import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+"use client";
 
-type Props = {
-  program: programType;
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import { useGetAllActivityQuery } from "@/components/programCard/activityApi";
+
+type Activity = {
+  uuid: string;
+  title: string;
+  description: string;
+  image?: string;
 };
 
-const ProgramActivityTap: React.FC<Props> = ({ program }) => {
+type ProgramGeneration = {
+  uuid: string;
+  title: string;
+};
+
+type ActivityProps = {
+  generations: ProgramGeneration[];
+};
+
+const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
   const [selectedGenerationId, setSelectedGenerationId] = useState(
-    program.openingprogram[0]?.id || null
+    generations[0]?.uuid || ""
   );
 
-  const selectedGeneration = program.openingprogram.find(
-    (gen) => gen.id === selectedGenerationId
+  const { data: activities = [], isLoading, isError } = useGetAllActivityQuery(
+    selectedGenerationId,
+    {
+      skip: !selectedGenerationId,
+      refetchOnMountOrArgChange: true,
+    }
   );
 
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const underlineRef = useRef<HTMLDivElement>(null);
 
+  // Animate underline
   useEffect(() => {
     const currentTab = tabsRef.current.find(
-      (tab) => tab?.dataset.id === selectedGenerationId?.toString()
+      (tab) => tab?.dataset.id === selectedGenerationId
     );
     if (currentTab && underlineRef.current) {
       const { offsetLeft, offsetWidth } = currentTab;
       underlineRef.current.style.transform = `translateX(${offsetLeft}px)`;
       underlineRef.current.style.width = `${offsetWidth}px`;
     }
-  }, [selectedGenerationId, program.openingprogram]);
+  }, [selectedGenerationId]);
+
+  if (!generations.length) {
+    return <p className="text-gray-500 text-center">No opening program available.</p>;
+  }
+  if (isLoading) {
+    return <p className="text-gray-500 text-center">Loading activities...</p>;
+  }
+  if (isError) {
+    return <p className="text-red-500 text-center">Failed to load activities.</p>;
+  }
+if (!activities || activities.length === 0) {
+  return <p className="text-gray-500 text-center">No activities for this generation yet.</p>;
+}
 
   return (
-    <div className="w-full bg-background grid p-4 sm:p-6 md:p-8 gap-10">
-  <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">{program.title}</h1>
+    <div className="w-full bg-background grid p-4 sm:p-6 md:p-6 gap-10">
+      <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">Activities</h1>
 
-  {/* Scrollable row */}
+      {/* Scrollable generations */}
+      <div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide">
+        {generations.map((gen, index) => (
+            <button
+              key={gen.uuid}
+              data-id={gen.uuid}
+              ref={(el) => {
+                tabsRef.current[index] = el;
+              }}
+              onClick={() => setSelectedGenerationId(gen.uuid)}
+              className={`px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-2xl font-medium whitespace-nowrap text-sm sm:text-base md:text-lg ${
+                selectedGenerationId === gen.uuid ? "text-primary" : "text-foreground hover:bg-gray-200"
+              }`}
+            >
+              {gen.title}
+            </button>
+          ))}
 
-<div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide">
-    {program.openingprogram.map((gen, index) => (
-      <button
-        key={gen.id}
-        data-id={gen.id}
-        ref={(el): void => { tabsRef.current[index] = el; }}
-        onClick={() => setSelectedGenerationId(gen.id)}
-        className={`px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-2xl font-medium whitespace-nowrap text-sm sm:text-base md:text-lg ${
-          selectedGenerationId === gen.id ? "text-primary" : "text-foreground hover:bg-gray-200"
-        }`}
-      >
-        Generation {gen.generation}
-      </button>
-    ))}
-    <div ref={underlineRef} className="absolute bottom-0 h-1 bg-primary transition-all duration-300 rounded" />
-  </div>
-
-
-  {selectedGeneration?.activities?.length ? (
-    selectedGeneration.activities.map((section) => (
-      <div key={section.id} className="space-y-4 sm:space-y-6">
-        <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">{section.title}</h2>
-        <div className="grid gap-4 sm:gap-6">
-          {section.activityType.map((activity) => (
-            <div key={activity.id} className="relative flex flex-col gap-4 sm:gap-6 my-4 sm:my-6 p-4 sm:p-6 md:p-8 rounded-2xl border-l-0.5 border-transparent">
-              <div className="absolute top-0 left-0 h-full w-0.5 rounded-l-2xl bg-gradient-to-b from-[#328BE6] to-transparent"></div>
-              <h3 className="font-bold text-base sm:text-lg md:text-xl text-foreground">{activity.title}</h3>
-              <p className="font-normal text-sm sm:text-base md:text-lg text-foreground">{activity.description}</p>
+        <div
+          ref={underlineRef}
+          className="absolute bottom-0 h-1 bg-primary transition-all duration-300 rounded"
+        />
+      </div>
+      {/* Activities */}
+      <div className="grid gap-4 sm:gap-6">
+        {activities.map((activity: Activity) => (
+          <div
+            key={activity.uuid}
+            className="relative flex flex-col gap-4 sm:gap-6 my-4 sm:my-6 p-4 sm:p-6 md:p-8 rounded-2xl border-l-0.5 border-transparent"
+          >
+            <div className="absolute top-0 left-0 h-full w-0.5 rounded-l-2xl bg-gradient-to-b from-[#328BE6] to-transparent"></div>
+            <h3 className="font-bold text-base sm:text-lg md:text-xl text-foreground">{activity.title}</h3>
+            <p className="font-normal text-sm sm:text-base md:text-base text-foreground">{activity.description}</p>
+            {activity.image && (
               <Image
                 unoptimized
                 height={500}
@@ -71,16 +107,11 @@ const ProgramActivityTap: React.FC<Props> = ({ program }) => {
                 alt={activity.title}
                 className="rounded-2xl w-full h-auto max-h-96 object-cover"
               />
-            </div>
-          ))}
-        </div>
+            )}
+          </div>
+        ))}
       </div>
-    ))
-  ) : (
-    <p className="text-gray-500 text-center text-sm sm:text-base md:text-lg">No activities for this generation yet.</p>
-  )}
-</div>
-  
+    </div>
   );
 };
 

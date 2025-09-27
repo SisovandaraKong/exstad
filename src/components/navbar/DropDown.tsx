@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   NavigationMenu,
@@ -9,11 +11,14 @@ import {
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { programData } from "@/data/programData";
+import { useGetAllMasterProgramsQuery } from "@/components/programCard/masterProgramApi";
+
 export default function DropDown() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const t = useTranslations();
+
+  const { data: programs = [], isLoading, isError } = useGetAllMasterProgramsQuery();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -30,19 +35,23 @@ export default function DropDown() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
-const scholarshipPrograms = programData.filter(
-  (p) => p.program_type === "Scholarship Course"
-);
 
-const components = [
-  ...scholarshipPrograms.map((p) => ({
-    id: p.id,                  // add the id
-    title: p.title,
-    href: `/our-program/${p.id}`,
-  })),
-  { id: "short-courses", title: "Short Courses", href: "/our-program" },
-];
+  // Prepare dropdown links dynamically
+  const scholarshipPrograms = programs.filter(
+    (p) => p.programType === "SCHOLARSHIP"
+  );
 
+  const components = [
+    ...scholarshipPrograms.map((p) => ({
+      id: p.uuid, // ✅ API UUID
+      title: p.title,
+      href: `/our-program/${p.uuid}`, // link using API UUID
+    })),
+    { id: "short-courses", title: "Short Courses", href: "/our-program" },
+  ];
+
+  if (isLoading) return <p>Loading programs...</p>;
+  if (isError) return <p>Failed to load programs.</p>;
 
   return (
     <div ref={menuRef}>
@@ -69,14 +78,13 @@ const components = [
               <NavigationMenuContent className="bg-background max-w-7xl">
                 <ul className="bg-background text-foreground grid font-d4 w-full rounded-none gap-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {components.map((component) => (
-  <ListItem
-    key={component.id}   // ✅ unique key
-    title={component.title}
-    href={component.href}
-    onClick={() => setOpen(false)}
-  />
-))}
-
+                    <ListItem
+                      key={component.id}
+                      title={component.title}
+                      href={component.href}
+                      onClick={() => setOpen(false)}
+                    />
+                  ))}
                 </ul>
               </NavigationMenuContent>
             )}
@@ -86,6 +94,7 @@ const components = [
     </div>
   );
 }
+
 function ListItem({
   title,
   href,
