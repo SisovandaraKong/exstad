@@ -3,21 +3,19 @@
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 
-import ProgramHeader from "@/components/programCard/ProgramHeader";
-import ProgramSidebar from "@/components/programCard/ProgramSidebar";
-import ProgramOverviewTap from "@/components/programCard/ProgramOverviewTap";
-import ProgramCurriculumTap from "@/components/programCard/ProgramCurriculum";
-import ProgramActivityTap from "@/components/programCard/ProgramActivity";
-import ProgramEnrollment from "@/components/programCard/ProgramEnrollment";
-
-import ProgramHeaderSkeleton from "@/components/programCard/skeleton/ProgramHeaderSkeleton";
-import ProgramOverviewSidebarSkeleton from "@/components/programCard/skeleton/ProgramSidebarSkeleton";
-import ProgramOverviewCardSkeleton from "@/components/programCard/skeleton/ProgramOverviewTapSkeleton";
-import ProgramCurriculumSkeleton from "@/components/programCard/skeleton/ProgramCurriculumSkeleton";
-import ProgramActivitySkeleton from "@/components/programCard/skeleton/ProgramActivitySkeleton";
-
-import { useGetMasterProgramByUuidQuery } from "@/components/programCard/masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "@/components/programCard/openingProgramApi";
+import ProgramHeader from "@/components/program/ProgramHeader";
+import ProgramSidebar from "@/components/program/explore-course/ProgramSidebar";
+import ProgramOverviewTap from "@/components/program/detail-program/ProgramOverviewTap";
+import ProgramCurriculumTap from "@/components/program/detail-program/curriculum/ProgramCurriculum";
+import ProgramActivityTap from "@/components/program/detail-program/activity/ProgramActivity";
+import ProgramEnrollment from "@/components/program/ProgramEnrollment";
+import ProgramHeaderSkeleton from "@/components/program/skeleton/ProgramHeaderSkeleton";
+import ProgramOverviewSidebarSkeleton from "@/components/program/skeleton/ProgramSidebarSkeleton";
+import ProgramOverviewCardSkeleton from "@/components/program/skeleton/ProgramOverviewTapSkeleton";
+import ProgramCurriculumSkeleton from "@/components/program/skeleton/ProgramCurriculumSkeleton";
+import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivitySkeleton";
+import { useGetMasterProgramByUuidQuery } from "@/components/program/masterProgramApi";
+import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 
 const ProgramDetailPage: React.FC = () => {
   const params = useParams();

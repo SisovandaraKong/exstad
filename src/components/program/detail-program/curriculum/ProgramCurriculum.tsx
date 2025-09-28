@@ -4,16 +4,18 @@ import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useGetMasterCurriculumsQuery } from "./curriculumApi";
-import { CurriculumType } from "@/types/master-program";
-
+import AOS from "aos";
 type CurriculumProps = {
   programUuid: string;
 };
 
 const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ programUuid }) => {
-  const { data: curriculumSections = [], isLoading, isError } = useGetMasterCurriculumsQuery(programUuid, {
+  const { data = [], isLoading, isError } = useGetMasterCurriculumsQuery(programUuid, {
     refetchOnMountOrArgChange: true,
   });
+
+  const curriculumSections = data ?? [];
+
 
   const refs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({});
@@ -32,25 +34,29 @@ const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ programUuid }) => {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: false });
+  }, []);
+
   if (isLoading) return <p>Loading curriculum...</p>;
   if (isError) return <p>Failed to load curriculum.</p>;
   if (!curriculumSections.length) return <p>No curriculum available.</p>;
 
   return (
-    <div className="w-full bg-background p-4 sm:p-6 md:p-6 space-y-8 md:space-y-10">
-        <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">Curriculum</h1>
-        <div className="grid gap-3 sm:gap-4">
+    <div className="w-full bg-background p-4 sm:p-6 md:p-6 space-y-8 md:space-y-10 rounded-b-[24px]">
+        <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground" data-aos="fade-up">Curriculum</h1>
+        <div className="grid gap-3 sm:gap-4" >
           {curriculumSections.map((section, idx) => {
             const key = section.order; // unique key
             const isOpen = openSections[key];
             const height = refs.current[key]?.scrollHeight || 0;
             return (
-              <div key={key} className="border border-[#8AB9FF] rounded-2xl p-4 sm:p-6">
+              <div key={key} className="border border-[#8AB9FF] rounded-2xl p-4 sm:p-6" data-aos="fade-up">
                 <button
                   onClick={() => toggle(key)}
                   className="flex justify-between items-center w-full text-start font-semibold text-base sm:text-lg md:text-xl text-foreground"
                 >
-                  <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
+                  <span className="text-lg sm:text-xl md:text-2xl lg:text-2xl">
                     <span className="text-primary mr-2">{(idx + 1).toString().padStart(2, "0")}</span>
                     {section.title}
                   </span>
@@ -70,7 +76,7 @@ const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ programUuid }) => {
                       <p className="text-base sm:text-lg md:text-xl text-foreground font-medium">{section.subtitle}</p>
                     )}
                     {section.description.map((des, i) => (
-                      <p key={i} className="flex items-start font-normal text-sm sm:text-base md:text-lg text-foreground">
+                      <p key={i} className="flex items-start font-normal text-sm sm:text-base md:text-base text-foreground">
                         <FontAwesomeIcon icon={faCheckCircle} className="text-primary mr-2 mt-1" />
                         {des}
                       </p>

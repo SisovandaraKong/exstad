@@ -2,11 +2,11 @@
 
 import React from "react";
 import Image from "next/image";
-import { useGetMasterProgramByUuidQuery } from "@/components/programCard/masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "@/components/programCard/openingProgramApi";
+import { useGetMasterProgramByUuidQuery } from "@/components/program/masterProgramApi";
+import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import type { MasterProgramType } from "@/types/master-program";
 import type { openingProgramType } from "@/types/opening-program";
-import ProgramHeaderSkeleton from "@/components/programCard/skeleton/ProgramHeaderSkeleton";
+import ProgramHeaderSkeleton from "@/components/program/skeleton/ProgramHeaderSkeleton";
 
 type Props = {
   uuid: string; // UUID of the program

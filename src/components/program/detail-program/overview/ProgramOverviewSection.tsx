@@ -7,18 +7,20 @@ import { useGetAllProgramOverviewQuery } from "./programOverviewApi";
 interface Props {
   programUuid: string;
 }
-
 const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
-  const { data: overviews = [], isLoading, isError } = useGetAllProgramOverviewQuery(programUuid
-    ,{  refetchOnMountOrArgChange: true,}
+  const { data, isLoading, isError } = useGetAllProgramOverviewQuery(
+    programUuid,
+    { refetchOnMountOrArgChange: true }
   );
+
+  const overviews = data ?? []; // fallback if data is null or undefined
 
   if (isLoading) return <div>Loading program overviews...</div>;
   if (isError) return <div>Failed to load program overviews.</div>;
 
   return (
     <div className="grid gap-[24px]" data-aos="fade-up">
-      {overviews.map((item,index) => (
+      {overviews.map((item, index) => (
         <div key={index} className="grid gap-[24px]">
           <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-yellow-400 font-bold">
             <Image
@@ -39,5 +41,6 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
     </div>
   );
 };
+
 
 export default ProgramOverviewSection;

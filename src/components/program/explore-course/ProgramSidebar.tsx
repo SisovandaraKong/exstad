@@ -8,9 +8,9 @@ import { MdOutlineAccessTime, MdOutlineSchool, MdOutlinePaid } from "react-icons
 import { VscGraph } from "react-icons/vsc";
 import { BsPeople } from "react-icons/bs";
 import { FaTelegram } from "react-icons/fa6";
-import { useGetMasterProgramByUuidQuery } from "@/components/programCard/masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "@/components/programCard/openingProgramApi";
-import ProgramOverviewSidebarSkeleton from "@/components/programCard/skeleton/ProgramSidebarSkeleton";
+import { useGetMasterProgramByUuidQuery } from "@/components/program/masterProgramApi";
+import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
+import ProgramOverviewSidebarSkeleton from "@/components/program/skeleton/ProgramSidebarSkeleton";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
 

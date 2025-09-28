@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { useGetAllActivityQuery } from "@/components/programCard/activityApi";
+import { useGetAllActivityQuery } from "@/components/program/detail-program/activity/activityApi";
+import AOS from "aos";
 
 type Activity = {
   uuid: string;
@@ -47,6 +48,9 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
       underlineRef.current.style.width = `${offsetWidth}px`;
     }
   }, [selectedGenerationId]);
+    useEffect(() => {
+      AOS.init({ duration: 1000, once: false });
+    }, []);
 
   if (!generations.length) {
     return <p className="text-gray-500 text-center">No opening program available.</p>;
@@ -62,11 +66,11 @@ if (!activities || activities.length === 0) {
 }
 
   return (
-    <div className="w-full bg-background grid p-4 sm:p-6 md:p-6 gap-10">
+    <div className="w-full bg-background grid p-4 sm:p-6 md:p-6 gap-10 rounded-b-[24px]">
       <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">Activities</h1>
 
       {/* Scrollable generations */}
-      <div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide">
+      <div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide" >
         {generations.map((gen, index) => (
             <button
               key={gen.uuid}
@@ -89,12 +93,13 @@ if (!activities || activities.length === 0) {
         />
       </div>
       {/* Activities */}
-      <div className="grid gap-4 sm:gap-6">
+      <div className="grid gap-4 sm:gap-6" >
         {activities.map((activity: Activity) => (
           <div
             key={activity.uuid}
             className="relative flex flex-col gap-4 sm:gap-6 my-4 sm:my-6 p-4 sm:p-6 md:p-8 rounded-2xl border-l-0.5 border-transparent"
-          >
+            data-aos="fade-up"
+            >
             <div className="absolute top-0 left-0 h-full w-0.5 rounded-l-2xl bg-gradient-to-b from-[#328BE6] to-transparent"></div>
             <h3 className="font-bold text-base sm:text-lg md:text-xl text-foreground">{activity.title}</h3>
             <p className="font-normal text-sm sm:text-base md:text-base text-foreground">{activity.description}</p>

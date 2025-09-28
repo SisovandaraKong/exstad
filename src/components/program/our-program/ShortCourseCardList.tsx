@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { useGetAllMasterProgramsQuery } from "./masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "./openingProgramApi";
+import { useGetAllMasterProgramsQuery } from "../masterProgramApi";
+import { useGetAllOpeningProgramsQuery } from "../openingProgramApi";
 import ShortCourseCard from "./ShortCourseCard";
-import ShortCourseCardActiveSkeleton from "./skeleton/ShortCourseCarcActiveSkeleton";
+import ShortCourseCardSkeleton from "../skeleton/ShortCourseCardSkeleton";
 const ShortCourseCardList = () => {
   const {
     data: programs = [],
@@ -35,7 +35,7 @@ const ShortCourseCardList = () => {
     <div className="flex flex-col gap-6">
       {isLoading
         ? Array.from({ length: 5 }).map((_, i) => (
-            <ShortCourseCardActiveSkeleton key={i} />
+            <ShortCourseCardSkeleton key={i} />
           ))
         : shortCoursePrograms.map((program) => (
             <ShortCourseCard

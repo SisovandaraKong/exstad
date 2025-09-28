@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useGetAllFaqQuery } from "./faqApi";
-import { FaqItem } from "@/types/master-program";
+import { TfiHelpAlt } from "react-icons/tfi";
 
 interface FaqProps {
   programUuid: string;
@@ -39,7 +39,7 @@ const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
     <div className="grid gap-6">
       {faqSections.map((section, sectionIndex) => (
         <div key={sectionIndex} className="grid gap-6">
-          <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-[#800080] font-bold">
+          <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-[#800080] font-bold"><TfiHelpAlt className="text-lg sm:text-xl md:text-2xl" /> 
             {section.title}
           </h2>
 

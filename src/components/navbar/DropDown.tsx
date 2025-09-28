@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { useGetAllMasterProgramsQuery } from "@/components/programCard/masterProgramApi";
+import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
 
 export default function DropDown() {
   const [open, setOpen] = useState(false);

@@ -125,7 +125,7 @@
         transition={{ duration: 0.9, ease: "easeOut" }}
         viewport={{ once: false, amount: 0.2 }}
         whileHover={{ boxShadow: "0px 8px 30px rgba(0,0,0,0.1)" }}
-        className="grid grid-cols-1 mb-6 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]"
+        className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]"
       >
         <Link href={`/explore-course/${uuid}`} className="block">
           <Image

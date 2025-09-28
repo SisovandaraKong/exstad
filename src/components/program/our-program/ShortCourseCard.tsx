@@ -18,8 +18,6 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
   bgColor,
   highlights,
   posterUrl,
-  deadline,
-  openingProgram
 }) => {
   return (
     <Link href={`/our-program/${uuid}`} className="block">

@@ -1,33 +1,40 @@
 "use client";
 
 import React, { useState } from "react";
-import ProgramActiveSidebar from "@/components/programCard/ProgramActivSidebar";
-import ProgramSearch from "@/components/programCard/ProgramSearch";
-import ProgramActiveSidebarSkeleton from "@/components/programCard/skeleton/ProgramActiveSidebarSkeleton";
-import ProgramCardList from "@/components/programCard/ProgramCardList"; // <-- new combined component
-import { useGetAllMasterProgramsQuery } from "@/components/programCard/masterProgramApi";
-import { programData } from "@/data/programData";
+import ProgramActiveSidebar from "@/components/program/explore-course/ProgramActivSidebar";
+import ProgramSearch from "@/components/program/ProgramSearch";
+import ProgramActiveSidebarSkeleton from "@/components/program/skeleton/ProgramActiveSidebarSkeleton";
+import ProgramCardList from "@/components/program/explore-course/ProgramCardList";
+import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
+import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi"; // ✅ add this
 
 export default function ExploreProgramPage() {
-  const [programFilter, setProgramFilter] = useState<string>("All");
+  const [programFilter, setProgramFilter] = useState("All");
   const [subFilter, setSubFilter] = useState<string[]>([]);
-  const [levelFilter, setLevelFilter] = useState<string>("All");
-  const [searchValue, setSearchValue] = useState<string>("");
+  const [levelFilter, setLevelFilter] = useState("All");
+  const [searchValue, setSearchValue] = useState("");
 
-  const { data: programs = [], isLoading, isError } = useGetAllMasterProgramsQuery();
+  // ✅ Fetch both master programs and opening programs
+  const { data: programs = [], isLoading, isError } = useGetAllMasterProgramsQuery(
+      undefined, 
+  { refetchOnMountOrArgChange: true }
+  );
+  const { data: openingPrograms = [] } = useGetAllOpeningProgramsQuery(
+         undefined, 
+  { refetchOnMountOrArgChange: true }
+  );
 
   if (isError) return <p>Failed to load programs.</p>;
 
   return (
-    <div className="flex flex-col lg:flex-row md:flex-col bg-whitesmoke min-h-screen mx-auto max-w-7xl gap-6 w-full p-5 md:p-8 lg:py-6 lg:px-0">
-      
+    <div className="flex flex-col  lg:flex-row md:flex-col  bg-whitesmoke min-h-screen mx-auto max-w-7xl  gap-6 w-full p-5 md:p-8 lg:py-8 lg:px-0 ">
       {/* Sidebar */}
-      <div className="shrink-0 w-full lg:w-72 md:w-full">
+      <div className="shrink-0 w-full lg:w-72">
         {isLoading ? (
           <ProgramActiveSidebarSkeleton />
         ) : (
           <ProgramActiveSidebar
-            programData={programData}
+            programData={programs}
             programFilter={programFilter}
             setProgramFilter={setProgramFilter}
             levelFilter={levelFilter}
@@ -40,8 +47,7 @@ export default function ExploreProgramPage() {
 
       {/* Main content */}
       <div className="flex-1">
-        {/* Search */}
-        <div className="mb-6">
+        <div className="mb-6 ">
           <ProgramSearch
             total={programs.length}
             searchValue={searchValue}
@@ -49,9 +55,16 @@ export default function ExploreProgramPage() {
           />
         </div>
 
-        {/* Combined Program Card List */}
-        <div className="mb-6">
-          <ProgramCardList />
+        <div >
+          <ProgramCardList
+            programs={programs}
+            programFilter={programFilter}
+            subFilter={subFilter}
+            levelFilter={levelFilter}
+            searchValue={searchValue}
+            openingPrograms={openingPrograms} 
+            isLoading={isLoading}
+          />
         </div>
       </div>
     </div>

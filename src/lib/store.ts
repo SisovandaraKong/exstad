@@ -1,12 +1,12 @@
 
-import { activityApi } from "@/components/programCard/activityApi";
-import { curriculumApi } from "@/components/programCard/curriculumApi";
-import { faqApi } from "@/components/programCard/faqApi";
-import { learningOutcomesApi } from "@/components/programCard/learningOutcomesApi";
-import { masterprogramApi } from "@/components/programCard/masterProgramApi";
-import { openingProgramApi } from "@/components/programCard/openingProgramApi";
-import { programOverviewsApi } from "@/components/programCard/programOverviewApi";
-import { requiementApi } from "@/components/programCard/requirementsApi";
+import { activityApi } from "@/components/program/detail-program/activity/activityApi";
+import { curriculumApi } from "@/components/program/detail-program/curriculum/curriculumApi";
+import { faqApi } from "@/components/program/detail-program/faq/faqApi";
+import { learningOutcomesApi } from "@/components/program/detail-program/outcomes/learningOutcomesApi";
+import { masterprogramApi } from "@/components/program/masterProgramApi";
+import { openingProgramApi } from "@/components/program/openingProgramApi";
+import { programOverviewsApi } from "@/components/program/detail-program/overview/programOverviewApi";
+import { requiementApi } from "@/components/program/detail-program/requirement/requirementsApi";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
