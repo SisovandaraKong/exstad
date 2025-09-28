@@ -89,15 +89,23 @@
 // }
 
 // export default ProfileSection;
-import ProfileSection from "@/components/student/ProfileSection";
+
+import ProfilePortfolioSetting from "@/components/student/ProfilePortfolioSetting";
+import { ProfileSection } from "@/components/student/ProfileSection";
+// import ScholarsPage from "@/components/student/ProfileSection";
 import ProfilePortfolio from "@/components/student/ProfilePortfolio";
 
 export default function AboutPage() {
   return (
-    <main className="">
+    <main className="" >
+      {/* <ScholarsPage /> */}
       <ProfileSection />
-      <ProfilePortfolio />
-      {/* <Footer></Footer> */}
+      <ProfilePortfolio/>
+
+     {/* <Footer></Footer> */}
+      
+     
+      
     </main>
   );
 }

@@ -89,21 +89,17 @@
 // }
 
 // export default ProfileSection;
+import ProfileSection from "@/components/student/ProfileSection";
+import ProfilePortfolio from "@/components/student/ProfilePortfolio";
+import { useParams } from "next/navigation";
+import { useGetScholarByUsernameQuery } from "@/redux/service/scholarApi";
 
-import ProfilePortfolioSetting from "@/components/student/ProfilePortfolioSetting";
-import { ProfileSection } from "@/components/student/ProfileSection";
-// import Schorlar from "@/components/scholar/Schorlar";
 export default function AboutPage() {
   return (
-    <main className="" >
-      {/* <Schorlar /> */}
-      <ProfileSection />
-      <ProfilePortfolioSetting />
-
-     {/* <Footer></Footer> */}
-      
-     
-      
+    <main className="">
+      {/* <ProfileSection /> */}
+      <ProfilePortfolio />
+      {/* <Footer></Footer> */}
     </main>
   );
 }

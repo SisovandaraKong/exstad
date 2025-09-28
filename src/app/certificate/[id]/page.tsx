@@ -1,4 +1,4 @@
-import { getCertificateById, type CertItem } from "@/lib/certificate";
+import { getCertificateById } from "@/lib/certificate";
 import CertificateImage from "@/components/student/Certificate";
 
 export const dynamic = "force-static";
@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { id: string } }) {
       </main>
     );
   }
-
+  
   return (
     <main className="min-h-screen bg-background p-4 md:p-8 flex flex-col">
       <CertificateImage cert={cert} />
