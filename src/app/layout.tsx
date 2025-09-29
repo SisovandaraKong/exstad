@@ -1,16 +1,16 @@
 /** @format */
 
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { Inter, Koh_Santepheap } from "next/font/google";
+import { cookies } from "next/headers";
 import "./globals.css";
-import Providers from "@/services/store/Providers";
-import { ThemeProvider } from "@/components/theme-provider";
-import Navbar from "@/components/navbar/Navbar";
-import I18nProvider from "@/lib/I18nProvider";
+// import Providers from "@/services/store/Providers";
 import Footer from "@/components/footer/Footer";
+import Navbar from "@/components/navbar/Navbar";
+import { ThemeProvider } from "@/components/theme-provider";
 import AuthProvider from "@/lib/auth-provider";
-
+import I18nProvider from "@/lib/I18nProvider";
+import Providers from "@/lib/providers";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -71,11 +71,11 @@ export default async function RootLayout({
   // Fallback empty strings for font variables to avoid hydration mismatch
   // const interVariable = inter.variable ?? "";
   // const kohVariable = koh.variable ?? "";
-
+ 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${koh.variable} antialiased relative h-[200vh] bg-whitesmoke`}
+        className={`${inter.variable} ${koh.variable} antialiased relative  bg-whitesmoke`}
       >
         <ThemeProvider
           attribute="class"

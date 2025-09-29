@@ -33,11 +33,11 @@ export type programType = {
   curriculum:curriculumDataType[];
 };
 
-export type programOverviewType = {
-    id: number;
-    title: string;
-    description: string;
-}
+  export type programOverviewType = {
+      id: number;
+      title: string;
+      description: string;
+  }
 
 export type programLearningOutcomeType = {
     id:number;

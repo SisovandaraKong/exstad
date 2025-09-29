@@ -1,96 +1,72 @@
-'use client';
+"use client";
 
-import React, { useState,useEffect } from "react";
-import { programData } from "@/data/programData";
-import ScholarshipCard from "@/components/programCard/ScholarshipCard";
-import ShortCourseCardActive from "@/components/programCard/ShortCourseCardActive";
-import { programType } from "@/types/programs";
-import ProgramActiveSidebar from "@/components/programCard/ProgramActivSidebar";
-import ProgramSearch from "@/components/programCard/ProgramSearch";
-import ShortCourseCardActiveSkeleton from "@/components/programCard/skeleton/ShortCourseCarcActiveSkeleton";
-import ProgramActiveSidebarSkeleton from "@/components/programCard/skeleton/ProgramActiveSidebarSkeleton";
+import React, { useState } from "react";
+import ProgramActiveSidebar from "@/components/program/explore-course/ProgramActivSidebar";
+import ProgramSearch from "@/components/program/ProgramSearch";
+import ProgramActiveSidebarSkeleton from "@/components/program/skeleton/ProgramActiveSidebarSkeleton";
+import ProgramCardList from "@/components/program/explore-course/ProgramCardList";
+import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
+import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi"; // ✅ add this
 
 export default function ExploreProgramPage() {
-  const [programFilter, setProgramFilter] = useState<string>("All");
+  const [programFilter, setProgramFilter] = useState("All");
   const [subFilter, setSubFilter] = useState<string[]>([]);
-  const [levelFilter, setLevelFilter] = useState<string>("All");
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [loading, setLoading] = useState(true);
+  const [levelFilter, setLevelFilter] = useState("All");
+  const [searchValue, setSearchValue] = useState("");
 
-  useEffect(() => {
-    // simulate loading for 1.5 seconds
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
+  // ✅ Fetch both master programs and opening programs
+  const { data: programs = [], isLoading, isError } = useGetAllMasterProgramsQuery(
+      undefined, 
+  { refetchOnMountOrArgChange: true }
+  );
+  const { data: openingPrograms = [] } = useGetAllOpeningProgramsQuery(
+         undefined, 
+  { refetchOnMountOrArgChange: true }
+  );
 
-  const filteredPrograms = programData.filter((p: programType) => {
-    const programMatch = programFilter === "All" || p.program_type === programFilter;
-    const levelMatch = levelFilter === "All" || p.level === levelFilter;
-
-    let subMatch = true;
-    if (subFilter.length > 0 && !subFilter.includes("All")) {
-      subMatch = subFilter.includes(p.title || "");
-    }
-
-    const searchMatch =
-      p.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-      p.subtitle.toLowerCase().includes(searchValue.toLowerCase());
-
-    return programMatch && levelMatch && subMatch && searchMatch;
-  });
+  if (isError) return <p>Failed to load programs.</p>;
 
   return (
-   <div className="flex flex-col  lg:flex-row md:flex-col  bg-whitesmoke min-h-screen mx-auto max-w-7xl  gap-6 w-full p-5 md:p-8 lg:py-6 lg:px-0 ">
-      <div className="shrink-0 w-full lg:w-72 md:w-full ">
-        {loading ? (
-  <ProgramActiveSidebarSkeleton />
-) : (
-  <ProgramActiveSidebar
-    programData={programData}
-    programFilter={programFilter}
-    setProgramFilter={setProgramFilter}
-    levelFilter={levelFilter}
-    setLevelFilter={setLevelFilter}
-    subFilter={subFilter}
-    setSubFilter={setSubFilter}
-  />
-)}
-
+    <div className="flex flex-col  lg:flex-row md:flex-col  bg-whitesmoke min-h-screen mx-auto max-w-7xl  gap-6 w-full p-5 md:p-8 lg:py-8 lg:px-0 ">
+      {/* Sidebar */}
+      <div className="shrink-0 w-full lg:w-72">
+        {isLoading ? (
+          <ProgramActiveSidebarSkeleton />
+        ) : (
+          <ProgramActiveSidebar
+            programData={programs}
+            programFilter={programFilter}
+            setProgramFilter={setProgramFilter}
+            levelFilter={levelFilter}
+            setLevelFilter={setLevelFilter}
+            subFilter={subFilter}
+            setSubFilter={setSubFilter}
+          />
+        )}
       </div>
 
-      {/* Program Cards */}
+      {/* Main content */}
       <div className="flex-1">
-        {/* Search */}
-        <div className="mb-6">
+        <div className="mb-6 ">
           <ProgramSearch
-            total={filteredPrograms.length}
+            total={programs.length}
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 gap-y-6">
-          {loading
-            ? Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="block">
-                  {/* alternate skeletons */}
-                  {i % 2 === 0 ? <ShortCourseCardActiveSkeleton /> : <ShortCourseCardActiveSkeleton/>}
-                </div>
-              ))
-            : filteredPrograms.map((program: programType) => (
-                <div key={program.id} className="block">
-                  {program.program_type === "Scholarship Course" ? (
-                    <ScholarshipCard {...program} />
-                  ) : (
-                    <ShortCourseCardActive {...program} />
-                  )}
-                </div>
-              ))}
+        <div >
+          <ProgramCardList
+            programs={programs}
+            programFilter={programFilter}
+            subFilter={subFilter}
+            levelFilter={levelFilter}
+            searchValue={searchValue}
+            openingPrograms={openingPrograms} 
+            isLoading={isLoading}
+          />
         </div>
       </div>
-
     </div>
-
   );
 }

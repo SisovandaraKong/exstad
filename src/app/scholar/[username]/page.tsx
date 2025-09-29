@@ -89,10 +89,7 @@
 // }
 
 // export default ProfileSection;
-import ProfileSection from "@/components/student/ProfileSection";
 import ProfilePortfolio from "@/components/student/ProfilePortfolio";
-import { useParams } from "next/navigation";
-import { useGetScholarByUsernameQuery } from "@/redux/service/scholarApi";
 
 export default function AboutPage() {
   return (

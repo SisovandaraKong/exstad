@@ -41,11 +41,9 @@
 // }
 "use client";
 
-import React from "react";
-import Image from "next/image";
 import { SparklesText } from "@/components/magicui/sparkles-text";
 import profileData from "@/data/profileSection.json";
-import { BoxReveal } from "@/components/magicui/box-reveal";
+import Image from "next/image";
 
 export function ProfileSection() {
   return (

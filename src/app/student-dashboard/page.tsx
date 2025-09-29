@@ -90,7 +90,6 @@
 
 // export default ProfileSection;
 
-import ProfilePortfolioSetting from "@/components/student/ProfilePortfolioSetting";
 import { ProfileSection } from "@/components/student/ProfileSection";
 // import ScholarsPage from "@/components/student/ProfileSection";
 import ProfilePortfolio from "@/components/student/ProfilePortfolio";
