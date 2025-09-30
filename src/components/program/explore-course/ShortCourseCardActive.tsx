@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
+import Link from "next/link";
 
 interface ShortCourseCardProps extends MasterProgramType {
   openingProgram?: openingProgramType;
@@ -27,7 +28,7 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]">
       {/* Course Image */}
-      <div className="block cursor-pointer" onClick={handleEnrollClick}>
+      <Link href={`/explore-course/${uuid}`} className="block">
         <Image
           unoptimized
           src={openingProgram?.thumbnail || "/placeholder.jpg"}
@@ -36,7 +37,7 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
           height={300}
           className="w-full h-auto max-w-[500px] rounded-[20px] object-cover sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px]"
         />
-      </div>
+      </Link>
 
       {/* Course Info */}
       <div className="h-full flex flex-col">

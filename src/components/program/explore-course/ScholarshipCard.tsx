@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
+import Link from "next/link";
 
 interface ScholarshipCardProps extends MasterProgramType {
   openingProgram?: openingProgramType;
@@ -34,7 +35,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
       whileHover={{ boxShadow: "0px 8px 30px rgba(0,0,0,0.1)" }}
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]"
     >
-      <div className="block">
+      <Link href={`/explore-course/${uuid}`} className="block">
         <Image
           unoptimized
           height={500}
@@ -43,7 +44,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
           alt={title}
           className="w-fit h-auto rounded-[20px] object-cover sm:w-[300px] md:w-[400px] lg:w-[500px]"
         />
-      </div>
+      </Link>
 
       <div className="h-full flex flex-col">
         {/* Title & Scholarship */}
