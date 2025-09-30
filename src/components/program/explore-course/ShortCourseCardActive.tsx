@@ -1,27 +1,33 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
 
-interface ScholarshipCardProps extends MasterProgramType {
+interface ShortCourseCardProps extends MasterProgramType {
   openingProgram?: openingProgramType;
 }
 
-const ShortCourseCardActive: React.FC<ScholarshipCardProps> = ({
+const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
   uuid,
   title,
   description,
-  // posterUrl,
   deadline,
-  openingProgram
+  openingProgram,
 }) => {
+  const router = useRouter();
+
+  const handleEnrollClick = () => {
+    if (!openingProgram?.uuid) return; // safety check
+    router.push(`/explore-course/${openingProgram.uuid}/enrollment`);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]">
       {/* Course Image */}
-      <Link href={`/explore-course/${uuid}`} className="block">
+      <div className="block cursor-pointer" onClick={handleEnrollClick}>
         <Image
           unoptimized
           src={openingProgram?.thumbnail || "/placeholder.jpg"}
@@ -30,7 +36,7 @@ const ShortCourseCardActive: React.FC<ScholarshipCardProps> = ({
           height={300}
           className="w-full h-auto max-w-[500px] rounded-[20px] object-cover sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px]"
         />
-      </Link>
+      </div>
 
       {/* Course Info */}
       <div className="h-full flex flex-col">
@@ -41,12 +47,15 @@ const ShortCourseCardActive: React.FC<ScholarshipCardProps> = ({
             <div className="w-1 h-4 bg-gradient-to-b from-primary to-transparent rounded-full mt-1"></div>
           </div>
           <div className="flex flex-col">
-            <Link href={`/explore-course/${uuid}`}>
-              <h1 className="text-primary text-[20px] md:text-2xl lg:text-3xl font-bold hover:text-primary-hover">
-                {title}
-              </h1>
-            </Link>
-            <p className="text-secondary font-bold text-[16px] md:text-[18px] lg:text-[20px]">{openingProgram?.scholarship}% Scholarship</p>
+            <h1
+              className="text-primary text-[20px] md:text-2xl lg:text-3xl font-bold hover:text-primary-hover cursor-pointer"
+              onClick={handleEnrollClick}
+            >
+              {title}
+            </h1>
+            <p className="text-secondary font-bold text-[16px] md:text-[18px] lg:text-[20px]">
+              {openingProgram?.scholarship ?? 0}% Scholarship
+            </p>
           </div>
         </div>
 
@@ -73,25 +82,26 @@ const ShortCourseCardActive: React.FC<ScholarshipCardProps> = ({
               <p className="text-primary text-sm sm:text-base md:text-base lg:text-lg">Duration</p>
             </div>
 
-            {/* Discount */}
+            {/* Price */}
             <div className="relative inline-block text-center mt-4">
               <p className="text-white font-bold text-xl sm:text-2xl md:text-2xl lg:text-3xl bg-primary rounded-full py-1 sm:py-2 px-4 sm:px-6 md:px-7">
                 ${openingProgram?.price}
               </p>
               {openingProgram?.originalFee && (
                 <p className="absolute -top-4 -right-1 text-white text-xs sm:text-sm md:text-sm lg:text-base line-through bg-secondary rounded-full px-2 sm:px-3 py-0.5 border border-white">
-                 ${openingProgram?.originalFee }
+                  ${openingProgram?.originalFee}
                 </p>
               )}
             </div>
           </div>
 
           {/* Enroll Button */}
-          <Link href={`/explore-course/${uuid}`}>
-            <h2 className="text-white text-center bg-primary p-3 md:p-3.5 lg:p-4 hover:bg-primary-hover cursor-pointer rounded-2xl font-bold text-[16px]">
-              Enroll Now
-            </h2>
-          </Link>
+          <button
+            onClick={handleEnrollClick}
+            className="text-white text-center bg-primary p-3 md:p-3.5 lg:p-4 hover:bg-primary-hover cursor-pointer rounded-2xl font-bold text-[16px]"
+          >
+            Enroll Now
+          </button>
         </div>
       </div>
     </div>
