@@ -113,7 +113,7 @@
   const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
     uuid,
     title,
-    posterUrl,
+    // posterUrl,
     description,
     deadline,
     openingProgram,
@@ -128,14 +128,15 @@
         className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]"
       >
         <Link href={`/explore-course/${uuid}`} className="block">
-          <Image
-            unoptimized
-            height={500}
-            width={500}
-            src={posterUrl}
-            alt={title}
-            className="w-fit h-auto rounded-[20px] object-cover sm:w-[300px] md:w-[400px] lg:w-[500px]"
-          />
+                <Image
+          unoptimized
+          height={500}
+          width={500}
+          src={openingProgram?.thumbnail ?? "/fallback.png"}
+          alt={title}
+          className="w-fit h-auto rounded-[20px] object-cover sm:w-[300px] md:w-[400px] lg:w-[500px]"
+        />
+
         </Link>
 
         <div className="h-full flex flex-col">

@@ -14,7 +14,7 @@ const ShortCourseCardActive: React.FC<ScholarshipCardProps> = ({
   uuid,
   title,
   description,
-  posterUrl,
+  // posterUrl,
   deadline,
   openingProgram
 }) => {
@@ -24,7 +24,7 @@ const ShortCourseCardActive: React.FC<ScholarshipCardProps> = ({
       <Link href={`/explore-course/${uuid}`} className="block">
         <Image
           unoptimized
-          src={posterUrl || "/placeholder.jpg"}
+          src={openingProgram?.thumbnail || "/placeholder.jpg"}
           alt={title}
           width={500}
           height={300}
