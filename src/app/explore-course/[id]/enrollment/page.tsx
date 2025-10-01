@@ -202,7 +202,7 @@ export default function EnrollmentPage({
   }
 
   return (
-    <div className="max-w-7xl mx-auto bg-background sm:p-8 p-4 rounded-md m-8">
+    <div className="max-w-7xl mx-auto bg-background sm:p-8 p-4 rounded-md m-8 ">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid md:grid-cols-2 grid-cols-1 gap-16 mt-8">

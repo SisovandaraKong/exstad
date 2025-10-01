@@ -3,7 +3,7 @@
 "use client";
 import ScholarshipCard from "@/components/scholarship_mainCard/ScholarshipCard";
 import ShortCourseCard from "@/components/shortCourse_mainCard/ShortCourseCard";
-import AnimatedSpinner from "@/components/animation/animated_spinning";
+// import AnimatedSpinner from "@/components/animation/animated_spinning";
 import { StateCard } from "@/components/state/StateCard";
 import { OfferCard } from "@/components/offering/OfferCard";
 import { HiMiniComputerDesktop } from "react-icons/hi2";
@@ -45,7 +45,7 @@ export default function Home() {
 							Quality education is a key to your future success
 						</h1>
 						<div className='w-full flex items-center justify-center relative z-10'>
-							<AnimatedSpinner />
+							{/* <AnimatedSpinner /> */}
 						</div>
 					</div>
 
