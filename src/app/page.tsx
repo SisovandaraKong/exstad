@@ -13,7 +13,6 @@ import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import { TbWorld } from "react-icons/tb";
 import { PartnersSection } from "@/components/partnership/PartnershipSection";
-import SwiperSlideComponent_PopularCourse from "@/components/swiper/swiperSlide";
 import SwiperSlideComponent_RecommendedCourse from "@/components/swiper/SwiperSlide_RecommendCourse";
 import { Welcoming_Card } from "@/components/welcomeCard/Weloming_Card";
 import { Marquee3D } from "@/components/marquee3D/Marquee3D";
@@ -111,10 +110,7 @@ export default function Home() {
 					</div>
 				</div>
 
-				{/* Popular Course Section */}
-				<div className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
-					<SwiperSlideComponent_PopularCourse />
-				</div>
+	
 
 				{/* Course Counting Section */}
 				<div className='w-full'>

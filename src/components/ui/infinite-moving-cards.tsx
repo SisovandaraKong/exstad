@@ -1,8 +1,7 @@
-
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";  // ✅ this was correct
+import React, { useEffect, useState } from "react"; // ✅ this was correct
 
 export const InfiniteMovingCards = ({
   items,
@@ -22,7 +21,7 @@ export const InfiniteMovingCards = ({
 
   useEffect(() => {
     addAnimation();
-  }, []);
+  }, [direction, speed]);
 
   const [start, setStart] = useState(false);
 
