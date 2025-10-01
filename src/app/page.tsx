@@ -120,7 +120,7 @@ export default function Home() {
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
 					viewport={{ once: false, margin: "-50px" }}>
-					<SwiperSlideComponent_PopularCourse />
+					<SwiperSlideComponent_RecommendedCourse />
 				</motion.div>
 
 				{/* Statistics Section */}

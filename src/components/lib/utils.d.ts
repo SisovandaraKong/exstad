@@ -9,11 +9,9 @@ export declare function formatCurrency(
 ): string;
 export declare function generateUniqueId(prefix?: string): string;
 export declare function truncateText(text: string, maxLength: number): string;
-<<<<<<< HEAD
 export declare function formatDate(date: Date, options?: Intl.DateTimeFormatOptions): string;
 export declare function debounce<T extends (...args: unknown[]) => unknown>(func: T,wait: number): (...args: Parameters<T>) => void;
 export declare function throttle<T extends (...args: unknown[]) => unknown>(func: T,limit: number): (...args: Parameters<T>) => void;
-=======
 export declare function formatDate(
 	date: Date,
 	options?: Intl.DateTimeFormatOptions
@@ -32,4 +30,3 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
->>>>>>> 6033dcc08f1710a838060401ed01e32618dc42eb

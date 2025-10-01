@@ -2,6 +2,10 @@
 
 import { TeamData } from "@/types/team";
 
+// Define proper return types
+type MentorData = TeamData['mentors'];
+type MemberData = TeamData['members'];
+
 // Team member data - simulating data that would come from an API
 export const teamData: TeamData = {
 	mentors: {
@@ -194,7 +198,7 @@ export const teamData: TeamData = {
 };
 
 // Helper functions to simulate API calls
-export const getMentors = (): Promise<{ [key: string]: any }> => {
+export const getMentors = (): Promise<MentorData> => {
 	return new Promise((resolve) => {
 		// Simulate API delay
 		setTimeout(() => {
@@ -203,7 +207,7 @@ export const getMentors = (): Promise<{ [key: string]: any }> => {
 	});
 };
 
-export const getMembers = (): Promise<{ [key: string]: any }> => {
+export const getMembers = (): Promise<MemberData> => {
 	return new Promise((resolve) => {
 		// Simulate API delay
 		setTimeout(() => {

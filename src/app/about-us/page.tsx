@@ -58,7 +58,7 @@ export default function AboutUsPage() {
 								exSTAD
 							</span>{" "}
 							is an experimental technology learning space for Cambodian
-							students, especially those who want to explore ISTAD's scholarship
+							students, especially those who want to explore ISTAD&apos;s scholarship
 							program, products, and achievements in a unified digital platform.
 						</p>
 					</motion.div>
