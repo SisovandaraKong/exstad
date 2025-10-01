@@ -18,6 +18,7 @@ import { Marquee3D } from "@/components/marquee3D/Marquee3D";
 import AnimatedSpinner from "@/components/animation/animated_spinning";
 import { WhyChooseEXSTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
 import { WaveBackground } from "@/components/ui/wave-background";
+import SwiperSlideComponent_PopularCourse from "@/components/swiper/swiperSlide";
 
 export default function Home() {
 	// const t = useTranslations();
@@ -120,7 +121,7 @@ export default function Home() {
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
 					viewport={{ once: false, margin: "-50px" }}>
-					<SwiperSlideComponent_RecommendedCourse />
+					<SwiperSlideComponent_PopularCourse />
 				</motion.div>
 
 				{/* Statistics Section */}
