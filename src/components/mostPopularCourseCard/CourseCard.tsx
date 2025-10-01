@@ -10,15 +10,15 @@ import { Button } from "../ui/button";
 export function CourseCard({ course, className }: CourseCardProps) {
 	return (
 		<div
-			className={` w-full max-w-[320px] sm:max-w-[350px] md:max-w-[380px] lg:max-w-[400px] xl:max-w-[420px] overflow-hidden p-4 sm:p-5 md:p-6 bg-white dark:bg-input/30 border border-gray-200 dark:border-gray-800 rounded-2xl sm:rounded-3xl shadow-sm hover:shadow-md transition-all duration-200 ${
+			className={`w-full max-w-full sm:max-w-[350px] md:max-w-[380px] lg:max-w-[400px] xl:max-w-[420px] overflow-hidden p-3 sm:p-4 md:p-5 lg:p-6 bg-white dark:bg-input/30 border border-gray-200 dark:border-gray-800 rounded-xl sm:rounded-2xl md:rounded-3xl shadow-sm hover:shadow-md transition-all duration-200 ${
 				className || ""
 			}`}>
-			<div className='relative aspect-video mb-3 sm:mb-4 md:mb-5'>
+			<div className='relative aspect-video mb-2 sm:mb-3 md:mb-4 lg:mb-5'>
 				<Image
 					src={course.image || "/placeholder.svg"}
 					alt={course.imageAlt || course.title}
 					fill
-					className='object-cover rounded-xl sm:rounded-2xl'
+					className='object-cover rounded-lg sm:rounded-xl md:rounded-2xl'
 					unoptimized
 				/>
 			</div>

@@ -8,8 +8,12 @@ import { FeatureCard } from "../whyexSTAD/FeatureCard"; // Assuming you have thi
 export function WhyChooseEXSTAD_Card() {
 	return (
 		<div className='h-full relative'>
-			<div className='text-center space-y-4 py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32'>
-				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white'>
+			{/* Ripple as section background - moved down */}
+			<div className='absolute inset-0 top-1/3'>
+				<Ripple />
+			</div>
+			<div className='relative z-10 text-center space-y-4 py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32'>
+				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary'>
 					Why Choose exSTAD?{" "}
 				</h2>
 				<p className='text-base sm:text-lg leading-8 text-gray-600 dark:text-gray-300'>
@@ -17,7 +21,6 @@ export function WhyChooseEXSTAD_Card() {
 					align with your skills, interests, and aspirations
 				</p>
 			</div>
-			<Ripple />
 
 			{/* Main Layout Container */}
 			<div className='relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-4 sm:px-8 md:px-16 lg:px-32 py-8 sm:py-12 md:py-16 lg:py-20'>
@@ -64,16 +67,3 @@ export function WhyChooseEXSTAD_Card() {
 		</div>
 	);
 }
-
-// <div className='items-center justify-center py-12 px-4 sm:px-6 lg:px-8 '>
-// 				{/* Title and Description Section */}
-// 				<div className='text-center space-y-4 mb-16 max-w-3xl mx-auto'>
-// 					<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight '>
-// 						Why Choose exSTAD?
-// 					</h2>
-// 					<p className='text-base sm:text-lg leading-8 text-gray-600 dark:text-gray-300'>
-// 						Unlock your true potential and discover a world of opportunities
-// 						that align with your skills, interests, and aspirations.
-// 					</p>
-// 				</div>
-// 			</div>

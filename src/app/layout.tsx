@@ -74,7 +74,7 @@ export default async function RootLayout({
 	return (
 		<html lang={htmlLang} suppressHydrationWarning>
 			<body
-				className={`${inter.variable} ${koh.variable} antialiased relative h-[200vh] bg-whitesmoke`}>
+				className={`${inter.variable} ${koh.variable} antialiased relative min-h-screen bg-whitesmoke overflow-x-hidden`}>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'

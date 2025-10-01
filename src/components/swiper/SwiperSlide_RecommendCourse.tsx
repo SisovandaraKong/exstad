@@ -19,7 +19,7 @@ const SwiperSlideComponent_RecommendedCourse = () => {
 		<div className='w-full flex flex-col items-center sm:gap-5 lg:gap-10'>
 			{/* Title and Navigation Section */}
 			<div className='w-full flex flex-col sm:flex-row items-center justify-between gap-4'>
-				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white text-center sm:text-left'>
+				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary text-center sm:text-left'>
 					Recommendation course for you{" "}
 				</h2>
 
@@ -47,18 +47,18 @@ const SwiperSlideComponent_RecommendedCourse = () => {
 				}}
 				modules={[Navigation]}
 				loop={true}
-				spaceBetween={24}
+				spaceBetween={16}
 				slidesPerView={1}
 				breakpoints={{
 					// sm: 2 slides
 					640: {
 						slidesPerView: 2,
-						spaceBetween: 24,
+						spaceBetween: 16,
 					},
 					// lg: 3 slides
 					1024: {
 						slidesPerView: 3,
-						spaceBetween: 32,
+						spaceBetween: 20,
 					},
 				}}
 				// Apply the CSS Module class here
