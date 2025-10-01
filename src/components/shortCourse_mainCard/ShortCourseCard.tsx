@@ -20,7 +20,7 @@ export default function ShortCourse_mc({
 }: MainCardProps) {
 	const isWhiteCard = id === "2";
 	return (
-		<div className='rounded-3xl flex items-center justify-center'>
+		<div className='rounded-3xl flex items-center justify-center w-full h-full'>
 			<div
 				className={`${
 					isWhiteCard ? "bg-white" : "bg-gray-900"
@@ -52,7 +52,10 @@ export default function ShortCourse_mc({
 				</div>
 				{/* Image Part */}
 				<div className='w-full flex justify-end items-end'>
-					<Image unoptimized width={500} height={500}
+					<Image
+						unoptimized
+						width={500}
+						height={500}
 						src={imageSrc}
 						alt='Student with backpack holding books'
 						className='w-[60%] max-w-[220px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[460px] h-auto rounded-br-3xl object-contain'

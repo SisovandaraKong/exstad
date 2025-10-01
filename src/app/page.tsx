@@ -1,10 +1,9 @@
 /** @format */
 
 "use client";
+import { motion } from "framer-motion";
 import ScholarshipCard from "@/components/scholarship_mainCard/ScholarshipCard";
 import ShortCourseCard from "@/components/shortCourse_mainCard/ShortCourseCard";
-import AnimatedSpinner from "@/components/animation/animated_spinning";
-import { StateCard } from "@/components/state/StateCard";
 import { OfferCard } from "@/components/offering/OfferCard";
 import { HiMiniComputerDesktop } from "react-icons/hi2";
 import { BiCurrentLocation } from "react-icons/bi";
@@ -16,244 +15,513 @@ import { PartnersSection } from "@/components/partnership/PartnershipSection";
 import SwiperSlideComponent_RecommendedCourse from "@/components/swiper/SwiperSlide_RecommendCourse";
 import { Welcoming_Card } from "@/components/welcomeCard/Weloming_Card";
 import { Marquee3D } from "@/components/marquee3D/Marquee3D";
+import AnimatedSpinner from "@/components/animation/animated_spinning";
+import { WhyChooseEXSTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
+import { WaveBackground } from "@/components/ui/wave-background";
 
 export default function Home() {
 	// const t = useTranslations();
 	// 90;
 	return (
-		<div className='min-h-screen flex flex-col bg-background'>
-			<main className='min-h-screen w-full mx-auto'>
-				{/* <div className='py-[250px]'>
-					<MorphingText
-						texts={["Quality education is a", "key to your future success"]}
-					/>
-				</div> */}
-
-				<div className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto'>
-					{/*  */}
-					{/* <div className='relative h-[500px] w-1/2 overflow-hidden'>
-						<RetroGrid />
-						<span className='bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-3xl'>
-							{" "}
+		<motion.div
+			className='min-h-screen flex flex-col bg-background'
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{ duration: 0.6, ease: "easeOut" }}>
+			<main className='min-h-screen w-full mx-auto overflow-x-hidden'>
+				<motion.div
+					className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto max-w-full'
+					initial={{ opacity: 0, y: 30 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.8, delay: 0.2 }}>
+					{/* Hero Section */}
+					<motion.div
+						className='w-full lg:w-1/2 max-w-full mx-auto min-h-[120px] sm:min-h-[180px] flex flex-col items-center justify-center mb-4 relative overflow-hidden'
+						initial={{ opacity: 0, scale: 0.9 }}
+						animate={{ opacity: 1, scale: 1 }}
+						transition={{ duration: 0.8, delay: 0.4 }}>
+						<motion.h1
+							className='absolute inset-0 flex items-center justify-center font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-center px-4 sm:px-2 z-20 overflow-hidden'
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.8, delay: 0.6 }}>
 							Quality education is a key to your future success
-						</span>
-					</div> */}
-
-					{/* Hero Section Version 2 */}
-					<div className='w-full lg:w-1/2 max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto min-h-[120px] sm:min-h-[180px] flex flex-col items-center justify-center mb-4 relative'>
-						<h1 className='absolute inset-0 flex items-center justify-center font-bold text-2xl sm:text-3xl md:text-4xl lg:text-6xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-center px-2 z-20'>
-							Quality education is a key to your future success
-						</h1>
-						<div className='w-full flex items-center justify-center relative z-10'>
+						</motion.h1>
+						<motion.div
+							className='w-full flex items-center justify-center relative z-10'
+							initial={{ opacity: 0, scale: 0.8 }}
+							animate={{ opacity: 1, scale: 1 }}
+							transition={{ duration: 0.6, delay: 0.8 }}>
 							<AnimatedSpinner />
-						</div>
-					</div>
+						</motion.div>
+					</motion.div>
 
 					{/* Marquee Section */}
-					<div className='w-full lg:w-1/2 flex items-center justify-center mx-auto'>
+					<motion.div
+						className='w-full lg:w-1/2 flex items-center justify-center mx-auto'
+						initial={{ opacity: 0, x: 50 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.8, delay: 0.6 }}>
 						<Marquee3D />
-					</div>
-				</div>
-
-				{/* Scroll Velocity Section */}
-				{/* <div className='py-[20px]'>
-					<ScrollVelocityContainer className='text-4xl md:text-7xl font-bold'>
-						<ScrollVelocityRow
-							baseVelocity={10}
-							direction={1}
-							style={{
-								color: "black",
-								backgroundColor: "#ff134a",
-								padding: "10px",
-								rotate: " -2deg",
-								zIndex: 10,
-							}}>
-							Welcome to exSTAD
-						</ScrollVelocityRow>
-						<ScrollVelocityRow
-							baseVelocity={20}
-							direction={-1}
-							style={{
-								color: "#253C95",
-								fontSize: "2.5rem",
-								padding: "10px",
-								rotate: " 1deg",
-								backgroundColor: "#e0e7ff",
-							}}>
-							Your gateway to quality education
-						</ScrollVelocityRow>
-					</ScrollVelocityContainer>
-				</div> */}
+					</motion.div>
+				</motion.div>
 
 				{/* Welcoming Section */}
-				<div className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
+				<motion.div
+					className='w-full py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					initial={{ opacity: 0, y: 50 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.8, ease: "easeOut" }}
+					viewport={{ once: false, margin: "-100px" }}>
 					<Welcoming_Card />
-				</div>
+				</motion.div>
 
 				{/* Short Courses and Scholarships Section */}
-				<div className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto flex flex-col md:flex-row gap-6 md:gap-12 justify-between items-stretch'>
-					<div className='max-w-[580px] h-full'>
+				<motion.div
+					className='w-full pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-12 justify-center items-stretch'
+					initial={{ opacity: 0 }}
+					whileInView={{ opacity: 1 }}
+					transition={{ duration: 0.6 }}
+					viewport={{ once: false, margin: "-50px" }}>
+					<motion.div
+						className='h-full w-full md:w-[45%] lg:w-[42%] xl:w-[40%]'
+						initial={{ opacity: 0, x: -50 }}
+						whileInView={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.8, delay: 0.2 }}
+						viewport={{ once: false }}
+						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
 						<ShortCourseCard
 							id='1'
 							title='Short Courses'
 							description='Compact learning programs focused on specific skills or topics.'
 							cardBackground=''
 						/>
-					</div>
-					<div className='max-w-[580px] h-full'>
+					</motion.div>
+					<motion.div
+						className='h-full w-full md:w-[45%] lg:w-[42%] xl:w-[40%]'
+						initial={{ opacity: 0, x: 50 }}
+						whileInView={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.8, delay: 0.4 }}
+						viewport={{ once: false }}
+						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
 						<ScholarshipCard
 							id='2'
 							title='Scholarship Occupies'
 							description='Financial support awarded to help students pursue their education.'
 							cardBackground=''
 						/>
+					</motion.div>
+				</motion.div>
+
+				{/* Popular Course Section */}
+				<motion.div
+					className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					initial={{ opacity: 0, scale: 0.95 }}
+					whileInView={{ opacity: 1, scale: 1 }}
+					transition={{ duration: 0.8, ease: "easeOut" }}
+					viewport={{ once: false, margin: "-50px" }}>
+					<SwiperSlideComponent_PopularCourse />
+				</motion.div>
+
+				{/* Statistics Section */}
+				<motion.div
+					className='bg-background py-24 sm:py-32'
+					initial={{ opacity: 0, y: 30 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.8, ease: "easeOut" }}
+					viewport={{ once: false, margin: "-100px" }}>
+					<div className='mx-auto max-w-7xl px-6 lg:px-8'>
+						<div className='mx-auto max-w-2xl lg:max-w-none'>
+							<motion.div
+								className='text-center space-y-4'
+								initial={{ opacity: 0, y: 20 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.6, delay: 0.2 }}
+								viewport={{ once: true }}>
+								<h2 className='text-3xl font-bold tracking-tight text-primary sm:text-4xl'>
+									Outstanding Career Achievement
+								</h2>
+								<p className='text-lg leading-8 text-muted-foreground'>
+									Discover where our graduates excel in their professional
+									journey across diverse industries.
+								</p>
+							</motion.div>
+							<motion.dl
+								className='mt-16 py-8 grid grid-cols-1 gap-4 sm:gap-6 md:gap-4 lg:gap-6 rounded-2xl text-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+								initial={{ opacity: 0, y: 40 }}
+								whileInView={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.8, delay: 0.4 }}
+								viewport={{ once: true }}>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										Study Abroad
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										2%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										Officer
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										16%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										Bank & Finance
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										34%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										Technology Company
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										38%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										ISTAD
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										7%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										Outsourcing
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										2%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										International Tech Company
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										1%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										Startup Company
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										5%
+									</dd>
+								</motion.div>
+							</motion.dl>
+						</div>
 					</div>
-				</div>
-
-	
-
-				{/* Course Counting Section */}
-				<div className='w-full'>
-					<StateCard />
-				</div>
+				</motion.div>
 
 				{/* Recommendation Course Section */}
-				<div className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
+				<motion.div
+					className='w-full pt-8 sm:pt-12 md:pt-16 lg:pt-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					initial={{ opacity: 0, scale: 0.95 }}
+					whileInView={{ opacity: 1, scale: 1 }}
+					transition={{ duration: 0.8, ease: "easeOut" }}
+					viewport={{ once: false, margin: "-50px" }}>
 					<SwiperSlideComponent_RecommendedCourse />
-				</div>
-
-				{/* Why Choose EXSTAD Section */}
-				{/* <div className=''>
-					<WhyChooseEXSTAD_Card />
-				</div> */}
+				</motion.div>
 
 				{/* Offerring Section */}
-				<div className='bg-background py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
-					<div className='text-center space-y-4 py-6'>
-						<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white'>
+				<motion.div
+					className='relative bg-background pb-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto overflow-hidden'
+					initial={{ opacity: 0 }}
+					whileInView={{ opacity: 1 }}
+					transition={{ duration: 0.6 }}
+					viewport={{ once: false, margin: "-100px" }}>
+					{/* Soft Edge Blur Effects */}
+					<div className='absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-background via-background/50 to-transparent z-20 pointer-events-none'></div>
+					<div className='absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background via-background/50 to-transparent z-20 pointer-events-none'></div>
+
+					{/* Wave Background */}
+					<WaveBackground className='opacity-60 dark:opacity-40' />
+
+					<motion.div
+						className='relative z-10 text-center space-y-4 py-12'
+						initial={{ opacity: 0, y: 30 }}
+						whileInView={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.8, ease: "easeOut" }}
+						viewport={{ once: false }}>
+						<motion.h2
+							className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary'
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.2 }}
+							viewport={{ once: false }}>
 							What can we do for you?
-						</h2>
-						<p className='text-base sm:text-lg leading-8 text-gray-600 dark:text-gray-300'>
+						</motion.h2>
+						<motion.p
+							className='text-base sm:text-lg leading-8 text-gray-700 dark:text-gray-200 max-w-3xl mx-auto'
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.4 }}
+							viewport={{ once: false }}>
 							Providing tailored solutions, expert support, and innovative
 							services to meet your needs.
-						</p>
-					</div>
-					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-x-8 md:gap-y-8 lg:gap-x-12 lg:gap-y-12'>
-						<OfferCard
-							icon={
-								<HiMiniComputerDesktop
-									style={{ color: "orange", fontSize: "2.5rem" }}
-								/>
-							}
-							content={
-								<p>
-									Custom web applications tailored to your business needs. We
-									use cutting-edge technologies to deliver fast, responsive, and
-									scalable solutions.
-								</p>
-							}
-						/>
-						<OfferCard
-							icon={
-								<BiCurrentLocation
-									style={{ color: "#F73030", fontSize: "2.5rem" }}
-								/>
-							}
-							content={
-								<p>
-									Opportunities for Tech-Driven Students – Specially built for
-									Cambodian students who want to grow their skills in IT and
-									innovation.
-								</p>
-							}
-						/>
-						<OfferCard
-							icon={
-								<FaGraduationCap
-									style={{ color: "#EAB309", fontSize: "2.5rem" }}
-								/>
-							}
-							content={
-								<p>
-									Scholarships available for deserving students. Apply now to
-									secure your future in the tech industry.
-								</p>
-							}
-						/>
-						<OfferCard
-							icon={
-								<FaBoxOpen style={{ color: "green", fontSize: "2.5rem" }} />
-							}
-							content={
-								<p>
-									Showcasing ISTAD’s Products – From apps to platforms, students
-									can explore ISTAD’s actual creations.
-								</p>
-							}
-						/>
-						<OfferCard
-							icon={
-								<GiTrophy style={{ color: "purple", fontSize: "2.5rem" }} />
-							}
-							content={
-								<p>
-									Celebrating Achievements – Displaying ISTAD’s awards,
-									successful projects, and notable milestones.
-								</p>
-							}
-						/>
-						<OfferCard
-							icon={<TbWorld style={{ color: "blue", fontSize: "2.5rem" }} />}
-							content={
-								<p>
-									Unified Learning Platform – One digital space where all
-									resources, opportunities, and success stories come together.
-								</p>
-							}
-						/>
-					</div>
-				</div>
+						</motion.p>
+					</motion.div>
+					<motion.div
+						className='relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-x-8 md:gap-y-8 lg:gap-x-12 lg:gap-y-12'
+						initial={{ opacity: 0 }}
+						whileInView={{ opacity: 1 }}
+						transition={{ duration: 0.6, delay: 0.3 }}
+						viewport={{ once: false }}>
+						<motion.div
+							initial={{ opacity: 0, y: 30 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.1 }}
+							viewport={{ once: false }}
+							whileHover={{
+								y: -5,
+								scale: 1.02,
+								transition: { duration: 0.2 },
+							}}>
+							<OfferCard
+								icon={
+									<HiMiniComputerDesktop
+										style={{ color: "#F97316", fontSize: "2.5rem" }}
+									/>
+								}
+								content={
+									<div>
+										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
+											Scholarship Updates
+										</h3>
+										<p>
+											Stay informed with the latest scholarship opportunities
+											tailored for tech and innovation students.
+										</p>
+									</div>
+								}
+							/>
+						</motion.div>
+						<motion.div
+							initial={{ opacity: 0, y: 30 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.2 }}
+							viewport={{ once: false }}
+							whileHover={{
+								y: -5,
+								scale: 1.02,
+								transition: { duration: 0.2 },
+							}}>
+							<OfferCard
+								icon={
+									<BiCurrentLocation
+										style={{ color: "#F73030", fontSize: "2.5rem" }}
+									/>
+								}
+								content={
+									<div>
+										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
+											Career Roadmaps
+										</h3>
+										<p>
+											Explore structured IT career paths that guide you
+											step-by-step toward your professional goals.
+										</p>
+									</div>
+								}
+							/>
+						</motion.div>
+						<motion.div
+							initial={{ opacity: 0, y: 30 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.3 }}
+							viewport={{ once: false }}
+							whileHover={{
+								y: -5,
+								scale: 1.02,
+								transition: { duration: 0.2 },
+							}}>
+							<OfferCard
+								icon={
+									<FaGraduationCap
+										style={{ color: "#EAB309", fontSize: "2.5rem" }}
+									/>
+								}
+								content={
+									<div>
+										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
+											Skill Development
+										</h3>
+										<p>
+											Gain practical skills through short courses designed to
+											prepare you for real-world challenges.
+										</p>
+									</div>
+								}
+							/>
+						</motion.div>
+						<motion.div
+							initial={{ opacity: 0, y: 30 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.4 }}
+							viewport={{ once: false }}
+							whileHover={{
+								y: -5,
+								scale: 1.02,
+								transition: { duration: 0.2 },
+							}}>
+							<OfferCard
+								icon={
+									<FaBoxOpen style={{ color: "#10B981", fontSize: "2.5rem" }} />
+								}
+								content={
+									<div>
+										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
+											Learning Resources
+										</h3>
+										<p>
+											Access curated study materials, hands-on projects, and
+											learning tools all in one place.
+										</p>
+									</div>
+								}
+							/>
+						</motion.div>
+						<motion.div
+							initial={{ opacity: 0, y: 30 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.5 }}
+							viewport={{ once: false }}
+							whileHover={{
+								y: -5,
+								scale: 1.02,
+								transition: { duration: 0.2 },
+							}}>
+							<OfferCard
+								icon={
+									<GiTrophy style={{ color: "#8B5CF6", fontSize: "2.5rem" }} />
+								}
+								content={
+									<div>
+										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
+											Success Stories
+										</h3>
+										<p>
+											Get inspired by students who secured scholarships and
+											built thriving IT careers.
+										</p>
+									</div>
+								}
+							/>
+						</motion.div>
+						<motion.div
+							initial={{ opacity: 0, y: 30 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.6, delay: 0.6 }}
+							viewport={{ once: false }}
+							whileHover={{
+								y: -5,
+								scale: 1.02,
+								transition: { duration: 0.2 },
+							}}>
+							<OfferCard
+								icon={
+									<TbWorld style={{ color: "#3B82F6", fontSize: "2.5rem" }} />
+								}
+								content={
+									<div>
+										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
+											Global Opportunities
+										</h3>
+										<p>
+											Connect with worldwide opportunities in technology and
+											education to expand your horizons.
+										</p>
+									</div>
+								}
+							/>
+						</motion.div>
+					</motion.div>
+				</motion.div>
+
+				{/* Why Choose exSTAD Section */}
+				<motion.div
+					className='py-4 sm:py-6 md:py-8 lg:py-10 bg-background'
+					initial={{ opacity: 0, y: 50 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.8, ease: "easeOut" }}
+					viewport={{ once: false, margin: "-50px" }}>
+					<WhyChooseEXSTAD_Card />
+				</motion.div>
 
 				{/* Partnership Section */}
-				<div className='py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'>
+				<motion.div
+					className='py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					initial={{ opacity: 0, y: 50 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.8, ease: "easeOut" }}
+					viewport={{ once: false, margin: "-50px" }}>
 					<PartnersSection />
-				</div>
+				</motion.div>
 			</main>
-		</div>
+		</motion.div>
 	);
-}
-
-{
-	/* Hero Section Version 1 */
-}
-{
-	/* <div className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto'>
-					<div className='w-full lg:w-1/2 max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto min-h-[120px] sm:min-h-[180px] flex flex-col items-center justify-center mb-4 relative'>
-						<h1 className='absolute inset-0 flex items-center justify-center font-bold text-2xl sm:text-3xl md:text-4xl lg:text-6xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-center px-2 z-20'>
-							Quality education is a key to your future success
-						</h1>
-						<div className='w-full flex items-center justify-center relative z-10'>
-							<AnimatedSpinner />
-						</div>
-					</div>
-
-					<div className='w-full lg:w-1/2 grid grid-cols-2 gap-3 sm:gap-4 md:gap-6 max-w-5xl mx-auto p-2 sm:p-4 md:p-6 items-start'>
-						<div className=' lg:space-y-6 space-y-6 flex flex-col items-end'>
-							<div>
-								<StatisticsCard_10000 />
-							</div>
-							<div>
-								<StaticCard_Internship />
-							</div>
-						</div>
-						<div className='lg:space-y-6 space-y-6 lg:mt-12'>
-							<div>
-								<StaticCard_RealProjects />
-							</div>
-							<div>
-								<StaticCard_NewCourses />
-							</div>
-						</div>
-					</div>
-				</div> */
 }
