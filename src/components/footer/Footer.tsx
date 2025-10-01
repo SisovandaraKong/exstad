@@ -3,13 +3,19 @@
 import Link from "next/link";
 import { IoMdMail } from "react-icons/io";
 import Image from "next/image";
-import { FaFacebook, FaTelegram } from "react-icons/fa";
+import {
+	FaFacebook,
+	FaTelegram,
+	FaMapMarkerAlt,
+	FaPhone,
+} from "react-icons/fa";
+import { MdPhoneIphone } from "react-icons/md";
 
 export default function Footer() {
 	return (
 		<footer className='bg-primary  px-4 sm:px-8 md:px-16 lg:px-32'>
 			<div className='container mx-auto px-6 py-12'>
-				<div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
+				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8'>
 					{/* Logo and Description */}
 					<div className='space-y-4'>
 						<div className='flex items-center space-x-2'>
@@ -85,6 +91,36 @@ export default function Footer() {
 						</ul>
 					</div>
 
+					{/* Address Section */}
+					<div>
+						<h3 className='font-semibold text-white mb-4'>ADDRESS & CONTACT</h3>
+						<div className='space-y-4'>
+							<div className='flex items-start space-x-3'>
+								<FaMapMarkerAlt className='w-5 h-5 text-white mt-1 flex-shrink-0' />
+								<div>
+									<p className='text-sm text-white leading-relaxed'>
+										#12, St 323, Sangkat Boeung Kak II,
+									</p>
+									<p className='text-sm text-white leading-relaxed'>
+										Khan Toul Kork, Phnom Penh, Cambodia
+									</p>
+								</div>
+							</div>
+							<div className='flex items-center space-x-3'>
+								<MdPhoneIphone className='w-4 h-4 text-white flex-shrink-0' />
+								<p className='text-sm text-white'>(+855) 95-990-910</p>
+							</div>
+							<div className='flex items-center space-x-3'>
+								<MdPhoneIphone className='w-4 h-4 text-white flex-shrink-0' />
+								<p className='text-sm text-white'>(+855) 93-990-910</p>
+							</div>
+							<div className='flex items-center space-x-3'>
+								<IoMdMail className='w-5 h-5 text-white flex-shrink-0' />
+								<p className='text-sm text-white'>info@exstad.edu.kh</p>
+							</div>
+						</div>
+					</div>
+
 					{/* Our Sponsors */}
 					<div>
 						<h3 className='font-semibold text-white mb-4'>OUR SPONSORS</h3>
@@ -92,10 +128,10 @@ export default function Footer() {
 							{/* Logo */}
 							<Link href='/' className='block'>
 								<Image
-									src='/image/logo/exSTAD-Outline.PNG'
+									src='/istad-image/istad-logo-white.png'
 									alt='Logo'
-									width={100}
-									height={100}
+									width={200}
+									height={200}
 								/>
 							</Link>
 						</div>
