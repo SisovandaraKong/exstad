@@ -23,7 +23,7 @@ export const teamData: TeamData = {
 			],
 			social: {
 				facebook: "https://facebook.com/chan.chhaya",
-				github: "https://github.com/chan-chhaya",
+				github: "https://github.com/it-chhaya",
 				telegram: "https://t.me/chan_chhaya",
 			},
 		},
@@ -97,7 +97,7 @@ export const teamData: TeamData = {
 			],
 			social: {
 				facebook: "https://facebook.com/maovanda",
-				github: "https://github.com/maovanda",
+				github: "https://github.com/kungsovannda",
 				telegram: "https://t.me/maovanda",
 			},
 		},
@@ -115,9 +115,9 @@ export const teamData: TeamData = {
 				"GraphQL",
 			],
 			social: {
-				facebook: "https://facebook.com/meakdara",
-				github: "https://github.com/meakdara",
-				telegram: "https://t.me/meakdara",
+				facebook: "https://facebook.com/kmean.nakyljit",
+				github: "https://github.com/SisovandaraKong",
+				telegram: "https://t.me/sisovandaraKong",
 			},
 		},
 		bora: {
@@ -135,7 +135,7 @@ export const teamData: TeamData = {
 			],
 			social: {
 				facebook: "https://facebook.com/nhembora",
-				github: "https://github.com/nhembora",
+				github: "https://github.com/tongbora",
 				telegram: "https://t.me/nhembora",
 			},
 		},
@@ -154,7 +154,7 @@ export const teamData: TeamData = {
 			],
 			social: {
 				facebook: "https://facebook.com/keomenghouy",
-				github: "https://github.com/keomenghouy",
+				github: "https://github.com/TengMengHouy",
 				telegram: "https://t.me/keomenghouy",
 			},
 		},
@@ -172,7 +172,7 @@ export const teamData: TeamData = {
 			],
 			social: {
 				facebook: "https://facebook.com/eangmeyling",
-				github: "https://github.com/eangmeyling",
+				github: "https://github.com/ChhunMeyling",
 				telegram: "https://t.me/eangmeyling",
 			},
 		},
@@ -190,7 +190,7 @@ export const teamData: TeamData = {
 			],
 			social: {
 				facebook: "https://facebook.com/chhumsreynuch",
-				github: "https://github.com/chhumsreynuch",
+				github: "https://github.com/noch-08",
 				telegram: "https://t.me/chhumsreynuch",
 			},
 		},
