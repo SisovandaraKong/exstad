@@ -1,0 +1,11 @@
+.gradientBackground {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 255, 0.1) 0%,
+    /* Blue at top */
+     rgba(255, 0, 0, 0.1) 50%,
+    /* Red middle */ 
+    rgba(101, 154, 210, 0.3) 100%
+     /* Light blue bottom */
+  );
+}
