@@ -34,7 +34,7 @@ const ProgramDetailPage: React.FC = () => {
   // Show loading skeletons
   if (isProgramLoading || isOpeningProgramsLoading) {
     return (
-      <div className="flex flex-col xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl">
+      <div className="flex flex-col  min-h-screen xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl">
         <div className="flex-1">
           <ProgramHeaderSkeleton />
           {activeTab === "Overview" && <ProgramOverviewCardSkeleton />}
@@ -78,7 +78,7 @@ const ProgramDetailPage: React.FC = () => {
   const ActiveTabComponent = tabComponents[activeTab];
 
   return (
-    <div className="flex lg:flex-col md:flex-col flex-col xl:flex-row  p-5 md:p-8 lg:py-6 lg:px-0  mx-auto  gap-6 my-[20px] max-w-7xl">
+    <div className="flex lg:flex-col  min-h-screen md:flex-col flex-col xl:flex-row  p-5 md:p-8 lg:py-6 lg:px-0  mx-auto  gap-6 my-[20px] max-w-7xl">
       <div className="flex-1">
         <ProgramHeader uuid={program.uuid} activeTab={activeTab} setActiveTab={setActiveTab} />
         <div>

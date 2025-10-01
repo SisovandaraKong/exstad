@@ -9,9 +9,11 @@ export type openingProgramType = {
     originalFee:number;
     price:number;
     scholarship:number;
+    deadline:string;
     duration:string;
     curriculumPdfUri:string;
     totalSlot: number;
+    posterUrl:string;
     qrCodeUrl: string;
     // extra fields from backend
     telegramGroup: string;

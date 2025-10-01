@@ -16,7 +16,6 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
   uuid,
   title,
   description,
-  deadline,
   openingProgram,
 }) => {
   const router = useRouter();
@@ -40,7 +39,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
           unoptimized
           height={500}
           width={500}
-          src={openingProgram?.thumbnail ?? "/fallback.png"}
+          src={openingProgram?.posterUrl ?? "/fallback.png"}
           alt={title}
           className="w-fit h-auto rounded-[20px] object-cover sm:w-[300px] md:w-[400px] lg:w-[500px]"
         />
@@ -73,7 +72,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
             {/* Deadline */}
             <div className="border-b-4 text-center rounded-[8px] border-secondary text-secondary px-2 sm:px-6 md:px-6 py-1 sm:py-2">
               <p className="text-secondary font-bold text-[16px] md:text-[18px] lg:text-[22px]">
-                {deadline}
+                {openingProgram?.deadline}
               </p>
               <p className="text-sm md:text-base lg:text-lg">Deadline</p>
             </div>

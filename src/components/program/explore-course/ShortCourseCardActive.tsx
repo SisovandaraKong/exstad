@@ -15,7 +15,6 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
   uuid,
   title,
   description,
-  deadline,
   openingProgram,
 }) => {
   const router = useRouter();
@@ -31,7 +30,7 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
       <Link href={`/explore-course/${uuid}`} className="block">
         <Image
           unoptimized
-          src={openingProgram?.thumbnail || "/placeholder.jpg"}
+          src={openingProgram?.posterUrl || "/placeholder.jpg"}
           alt={title}
           width={500}
           height={300}
@@ -70,7 +69,7 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
             {/* Deadline */}
             <div className="border-b-4 text-center rounded-lg border-secondary text-secondary px-4 sm:px-6 md:px-7 py-1 sm:py-2">
               <p className="text-secondary font-bold text-sm sm:text-base md:text-lg lg:text-xl">
-                {deadline}
+                {openingProgram?.deadline}
               </p>
               <p className="text-sm sm:text-base md:text-base lg:text-lg">Deadline</p>
             </div>

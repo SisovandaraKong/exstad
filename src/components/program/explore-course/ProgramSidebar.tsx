@@ -68,7 +68,7 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
             width={143}
             height={142}
             unoptimized
-            src={program.openingProgram.qrCodeUrl}
+            src={program.openingProgram?.qrCodeUrl}
             alt={program.openingProgram.programName}
             className="w-[143px] h-[142px]"
           />
