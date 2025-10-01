@@ -12,7 +12,6 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import DropDown from "./DropDown";
-import logo from "../../../public/image/logo/exSTAD-03.png";
 
 function Navbar({ className }: { className?: string }) {
 	const [mobileOpen, setMobileOpen] = useState(false);
@@ -82,7 +81,7 @@ function Navbar({ className }: { className?: string }) {
 						{/* Logo */}
 						<Link href='/' className='block'>
 							<Image
-								src={logo}
+								src='/image/logo/exSTAD-03.png'
 								alt='Logo'
 								width={50}
 								height={70}
