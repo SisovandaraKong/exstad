@@ -65,7 +65,7 @@ const SwiperSlideComponent_PopularCourse = () => {
 		<div className='w-full flex flex-col items-center sm:gap-5 lg:gap-10'>
 			{/* Title and Navigation Section */}
 			<div className='w-full flex flex-col sm:flex-row items-center justify-between gap-4'>
-				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white text-center sm:text-left'>
+				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary text-center sm:text-left'>
 					Our Most Popular Course
 				</h2>
 
@@ -93,7 +93,7 @@ const SwiperSlideComponent_PopularCourse = () => {
 				}}
 				modules={[Autoplay, Pagination, Navigation]}
 				loop={true}
-				spaceBetween={24}
+				spaceBetween={16}
 				slidesPerView={1}
 				pagination={{ clickable: true }}
 				autoplay={{
@@ -104,6 +104,11 @@ const SwiperSlideComponent_PopularCourse = () => {
 					// sm: 2 slides
 					640: {
 						slidesPerView: 2,
+						spaceBetween: 20,
+					},
+					// md: 2 slides with more space
+					768: {
+						slidesPerView: 2,
 						spaceBetween: 24,
 					},
 					// lg: 3 slides
@@ -113,9 +118,9 @@ const SwiperSlideComponent_PopularCourse = () => {
 					},
 				}}
 				// Apply the CSS Module class here
-				className={`w-full h-auto ${styles.swiperContainer}`}>
+				className={`w-full mx-auto h-auto ${styles.swiperContainer}`}>
 				{popularCourses.map((course) => (
-					<SwiperSlide key={course.id} className='self-stretch h-full p-2'>
+					<SwiperSlide key={course.id} className='self-stretch h-full'>
 						{/* Assuming CourseCard handles its own styling */}
 						<CourseCard course={course} />
 					</SwiperSlide>
