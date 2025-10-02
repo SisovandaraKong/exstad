@@ -99,8 +99,8 @@ function Navbar({ className }: { className?: string }) {
                   {t("explore-course")}
                 </Link>
                 <Link
-                  href="/student-dashboard"
-                  className={getNavLinkClasses("/scholar")}
+                  href="/scholar"
+                  className={getNavLinkClasses('/scholar')}
                 >
                   {t("scholar")}
                 </Link>

@@ -5,12 +5,9 @@ export const programData: programType[] = [
     bg: "radial-gradient(circle, #FFD94D 0%, #F5BD0C 50%, #E0A800 100%)",
     title: "LINUX ADMINISTRATION",
     subtitle: "Master the essentials of Linux system",
-    description:
-      "Learn to install, configure, and manage Linux servers effectively with hands-on labs and real-world scenarios to boost your career in IT. This course covers system administration, networking, security, and troubleshooting.",
-    image:
-      "https://api.istad.co/media/image/b9bf96d7-c352-4533-8025-f017517ba648.png",
-    thumbnail:
-      "https://scontent.fpnh5-1.fna.fbcdn.net/v/t39.30808-6/368678344_283065197807321_642903727610062012_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeGWHZc_u6Xtv0b793whQL6WTs_tn6Sn1aJOz-2fpKfVon4YcpuLiLXoSpWS_vFMuMoLGe4Rjbra_8LeM2HpOZ8t&_nc_ohc=cyBYd_eK8XwQ7kNvwFCbjDf&_nc_oc=AdkUWUWrWmMHVPQuSDOZ6-8VeAQ_cLTQpWDOgM_YDo01g9FHtu-EOMvSpzzLhbs-XkI&_nc_zt=23&_nc_ht=scontent.fpnh5-1.fna&_nc_gid=hwjo0WKCW5-iGrGjLd3RgA&oh=00_AfVLFvPuUrYIEzLCkwCzVPw8xFML7Kw0FE9GiOp5DbW0rA&oe=68B8969D",
+    description: "Learn to install, configure, and manage Linux servers effectively with hands-on labs and real-world scenarios to boost your career in IT. This course covers system administration, networking, security, and troubleshooting.",
+    image:"https://api.istad.co/media/image/b9bf96d7-c352-4533-8025-f017517ba648.png",
+    thumbnail:"https://scontent.fpnh5-1.fna.fbcdn.net/v/t39.30808-6/368678344_283065197807321_642903727610062012_n.png?stp=dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=86c6b0&_nc_eui2=AeGWHZc_u6Xtv0b793whQL6WTs_tn6Sn1aJOz-2fpKfVon4YcpuLiLXoSpWS_vFMuMoLGe4Rjbra_8LeM2HpOZ8t&_nc_ohc=cyBYd_eK8XwQ7kNvwFCbjDf&_nc_oc=AdkUWUWrWmMHVPQuSDOZ6-8VeAQ_cLTQpWDOgM_YDo01g9FHtu-EOMvSpzzLhbs-XkI&_nc_zt=23&_nc_ht=scontent.fpnh5-1.fna&_nc_gid=hwjo0WKCW5-iGrGjLd3RgA&oh=00_AfVLFvPuUrYIEzLCkwCzVPw8xFML7Kw0FE9GiOp5DbW0rA&oe=68B8969D",
     price: "$499",
     duration: "12 weeks",
     scholarship: 20,

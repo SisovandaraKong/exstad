@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react"; // ✅ this was correct
 
 export const InfiniteMovingCards = ({
   items,
@@ -18,6 +18,11 @@ export const InfiniteMovingCards = ({
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const scrollerRef = React.useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    addAnimation();
+  }, []);
+
   const [start, setStart] = useState(false);
 
   const getDirection = useCallback(() => {

@@ -1,31 +1,77 @@
-"use client";
-import React from "react";
+/** @format */
 
-// Minimal horizontal scroller to replace missing Swiper dependency.
-// This component intentionally keeps the same default export usage as the original
-// so it can be dropped into pages that import it as a component without props.
-export default function SwiperSlide_RecommendCourse() {
-  const items = [
-    { id: 1, title: "Recommended Course 1", subtitle: "Short description" },
-    { id: 2, title: "Recommended Course 2", subtitle: "Short description" },
-    { id: 3, title: "Recommended Course 3", subtitle: "Short description" },
-    { id: 4, title: "Recommended Course 4", subtitle: "Short description" },
-  ];
+import { Swiper, SwiperSlide } from "swiper/react";
+import { useRef } from "react";
+import type { Swiper as SwiperType } from "swiper";
+import "swiper/css";
+import { Navigation } from "swiper/modules";
+import styles from "./SwiperSlideComponent.module.css";
+import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
+import { RecommendationCourseCard } from "../recommendationCourseCard/Recommendation_CourseCard";
+// If you use external data, keep the import. Otherwise, define mock data here.
+import { popularCourses } from "@/types/recommendationType";
 
-  return (
-    <section aria-label="Recommended courses" className="w-full">
-      <h3 className="text-xl font-semibold mb-4">Recommended for you</h3>
-      <div className="flex gap-4 overflow-x-auto pb-2">
-        {items.map((it) => (
-          <article
-            key={it.id}
-            className="min-w-[220px] flex-shrink-0 bg-card p-4 rounded-lg shadow-md"
-          >
-            <h4 className="font-medium">{it.title}</h4>
-            <p className="text-sm text-muted-foreground">{it.subtitle}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
+const SwiperSlideComponent_RecommendedCourse = () => {
+	// Correctly typed ref for Swiper instance
+	const swiperRef = useRef<SwiperType | null>(null);
+
+	return (
+		<div className='w-full flex flex-col items-center sm:gap-5 lg:gap-10'>
+			{/* Title and Navigation Section */}
+			<div className='w-full flex flex-col sm:flex-row items-center justify-between gap-4'>
+				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white text-center sm:text-left'>
+					Recommendation course for you{" "}
+				</h2>
+
+				{/* Custom Navigation */}
+				<div className='flex gap-4 sm:gap-6 '>
+					<button
+						onClick={() => swiperRef.current?.slidePrev()}
+						aria-label='Previous Slide'
+						className='text-[#253C95] hover:opacity-80 transition-opacity rounded-3xl p-2'>
+						<FaCircleArrowLeft className='w-8 h-8 sm:w-10 sm:h-10' />
+					</button>
+					<button
+						onClick={() => swiperRef.current?.slideNext()}
+						aria-label='Next Slide'
+						className='text-[#253C95] hover:opacity-80 transition-opacity rounded-3xl p-2'>
+						<FaCircleArrowRight className='w-8 h-8 sm:w-10 sm:h-10' />
+					</button>
+				</div>
+			</div>
+
+			{/* Swiper Component */}
+			<Swiper
+				onSwiper={(swiper) => {
+					swiperRef.current = swiper;
+				}}
+				modules={[Navigation]}
+				loop={true}
+				spaceBetween={24}
+				slidesPerView={1}
+				breakpoints={{
+					// sm: 2 slides
+					640: {
+						slidesPerView: 2,
+						spaceBetween: 24,
+					},
+					// lg: 3 slides
+					1024: {
+						slidesPerView: 3,
+						spaceBetween: 32,
+					},
+				}}
+				// Apply the CSS Module class here
+				className={`w-full h-auto ${styles.swiperContainer}`}>
+				{popularCourses.map((recommendation) => (
+					<SwiperSlide
+						key={recommendation.id}
+						className='self-stretch h-full p-2'>
+						<RecommendationCourseCard recommendation={recommendation} />
+					</SwiperSlide>
+				))}
+			</Swiper>
+		</div>
+	);
+};
+export default SwiperSlideComponent_RecommendedCourse;

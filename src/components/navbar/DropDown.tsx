@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -45,45 +47,37 @@ export default function DropDown() {
   ];
 
   return (
-    <>
-      <div
-        ref={menuRef}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className="relative"
+    <div
+      ref={menuRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="relative"
+    >
+      <button
+        className={`relative rounded-md transition-colors font-d4 font-medium duration-200 hover:text-foreground hover:after:opacity-100 bg-transparent border-none outline-none cursor-pointer after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[3px] after:bg-primary after:transition-opacity after:duration-200 after:opacity-0 ${
+          open ? "text-foreground after:opacity-100" : ""
+        }`}
       >
-        <button
-          className={`relative rounded-md transition-colors font-d4 font-medium duration-200 hover:text-foreground hover:after:opacity-100 bg-transparent border-none outline-none cursor-pointer after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[3px] after:bg-primary after:transition-opacity after:duration-200 after:opacity-0 ${
-            open ? "text-foreground after:opacity-100" : ""
-          }`}
-        >
-          {t("our-program")}
-        </button>
-      </div>
+        {t("our-program")}
+      </button>
 
       {open && (
-        <div
-          className="fixed inset-x-0 top-[80px] bg-background border-b border-border shadow-lg z-50 w-full"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <div className="w-full max-w-none px-6 py-8">
-            <div className="max-w-4xl mx-auto">
-              <ul className="grid font-d4 gap-6 w-full grid-cols-1 md:grid-cols-2 md:grid-rows-2">
-                {components.slice(0, 4).map((component) => (
-                  <ListItem
-                    key={component.id}
-                    title={component.title}
-                    href={component.href}
-                    onClick={() => setOpen(false)}
-                  />
-                ))}
-              </ul>
-            </div>
+        <div className="fixed left-0 right-0 top-[80px] z-50 bg-background border-b border-border shadow-lg w-full">
+          <div className="mx-auto max-w-7xl px-6 py-8">
+            <ul className="grid font-d4 gap-6 w-full grid-cols-1 md:grid-cols-2 md:grid-rows-2">
+              {components.slice(0, 4).map((component) => (
+                <ListItem
+                  key={component.id}
+                  title={component.title}
+                  href={component.href}
+                  onClick={() => setOpen(false)}
+                />
+              ))}
+            </ul>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

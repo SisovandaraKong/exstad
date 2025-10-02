@@ -1,10 +1,12 @@
-
-import Schorlar from "@/components/scholar/Scholar";
+"use client";
+import HeroScholars from "@/components/scholar/Scholar";
 export default function Scholar() {
+
   return (
     <main className="" >
+
      
-      <Schorlar/>
+      <HeroScholars/>
      
       
     </main>

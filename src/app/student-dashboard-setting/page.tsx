@@ -91,13 +91,15 @@
 // export default ProfileSection;
 
 import ProfilePortfolioSetting from "@/components/student/ProfilePortfolioSetting";
-import ScholarsPage from "@/components/student/ProfileSection";
-
+import { ProfileSection } from "@/components/student/ProfileSection";
+// import Schorlar from "@/components/scholar/Schorlar";
 export default function AboutPage() {
   return (
     <main className="" >
-      <ScholarsPage />
+      {/* <Schorlar /> */}
+      <ProfileSection />
       <ProfilePortfolioSetting />
+
      {/* <Footer></Footer> */}
       
      

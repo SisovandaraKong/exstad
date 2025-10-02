@@ -16,6 +16,7 @@ import { PartnersSection } from "@/components/partnership/PartnershipSection";
 import SwiperSlideComponent_RecommendedCourse from "@/components/swiper/SwiperSlide_RecommendCourse";
 import { Welcoming_Card } from "@/components/welcomeCard/Weloming_Card";
 import { Marquee3D } from "@/components/marquee3D/Marquee3D";
+import AnimatedSpinner from "@/components/animation/animated_spinning";
 
 export default function Home() {
 	// const t = useTranslations();
@@ -45,7 +46,7 @@ export default function Home() {
 							Quality education is a key to your future success
 						</h1>
 						<div className='w-full flex items-center justify-center relative z-10'>
-							{/* <AnimatedSpinner /> */}
+							<AnimatedSpinner />
 						</div>
 					</div>
 

@@ -23,7 +23,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import scholarData from "@/data/Scholar.json";
-// import styles from "./styles.module.css";
+import styles from "./styles.module.css";
 
 // Define types for our data
 interface Scholar {
@@ -58,30 +58,103 @@ const {
 } = scholarData;
 
 // --- Section 1 Card (no animation) ---
-const Card1 = ({ person }: { person: (typeof MOCK_SCHOLARS)[number] }) => (
-  <div className="relative group rounded-3xl overflow-hidden bg-white/20 backdrop-blur-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 dark:bg-slate-800/40">
-    <div className="aspect-[4/5] w-full overflow-hidden relative">
-      <Image
-        src={person.image}
-        alt={person.name}
-        fill
-        className="object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out"
-        priority={person.id === 1}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
-    </div>
+// const Card1 = ({ person }: { person: (typeof MOCK_SCHOLARS)[number] }) => (
+//   <div className="relative group rounded-3xl overflow-hidden bg-white/20 backdrop-blur-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 dark:bg-slate-800/40">
+//     <div className="aspect-[4/5] w-full overflow-hidden relative">
+//       <Image
+//         src={person.image}
+//         alt={person.name}
+//         fill
+//         className="object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out"
+//         priority={person.id === 1}
+//       />
+//       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+//     </div>
 
-    {/* Shorter gradient footer */}
-    <div className="absolute bottom-0 left-0 right-0 py-1.5 px-2 text-center bg-gradient-to-r from-rose-600/80 to-indigo-500/70">
-      <h3 className="text-xs md:text-sm font-semibold text-white drop-shadow-md">
-        {person.name}
-      </h3>
-      <p className="text-[10px] md:text-xs text-white/90 mt-0.5 leading-snug drop-shadow">
-        {person.title}
-      </p>
-    </div>
-  </div>
-);
+//     {/* Shorter gradient footer */}
+//     <div className="absolute bottom-0 left-0 right-0 py-1.5 px-2 text-center bg-gradient-to-r from-rose-600/80 to-indigo-500/70">
+//       <h3 className="text-xs md:text-sm font-semibold text-white drop-shadow-md">
+//         {person.name}
+//       </h3>
+//       <p className="text-[10px] md:text-xs text-white/90 mt-0.5 leading-snug drop-shadow">
+//         {person.title}
+//       </p>
+//     </div>
+//   </div>
+// );
+
+// --- Section 1 Card (clickable -> navigates) ---
+// const Card1 = ({ person }: { person: (typeof MOCK_SCHOLARS)[number] }) => (
+//   // UPDATE: wrap the whole card in <Link> so clicking anywhere navigates.
+//   <Link
+//     href={`/scholars/${person.id}`}                // <-- destination route
+//     aria-label={`View ${person.name}'s story`}     // <-- a11y
+//     className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 rounded-3xl"
+//   >
+//     <div className="relative group rounded-3xl overflow-hidden bg-white/20 backdrop-blur-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 dark:bg-slate-800/40 cursor-pointer">
+//       <div className="aspect-[4/5] w-full overflow-hidden relative">
+//         <Image
+//           src={person.image}
+//           alt={person.name}
+//           fill
+//           className="object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out"
+//           priority={person.id === 1}
+//         />
+//         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+//       </div>
+
+//       {/* Shorter gradient footer */}
+//       <div className="absolute bottom-0 left-0 right-0 py-1.5 px-2 text-center bg-gradient-to-r from-rose-600/80 to-indigo-500/70">
+//         <h3 className="text-xs md:text-sm font-semibold text-white drop-shadow-md">
+//           {person.name}
+//         </h3>
+//         <p className="text-[10px] md:text-xs text-white/90 mt-0.5 leading-snug drop-shadow">
+//           {person.title}
+//         </p>
+//       </div>
+//     </div>
+//   </Link>
+// );
+
+
+// --- Section 1 Card (clickable -> navigates by NAME) ---
+const Card1 = ({ person }: { person: (typeof MOCK_SCHOLARS)[number] }) => {
+  // create slug from name (lowercase, spaces -> hyphens)
+  const slug = person.name.toLowerCase().replace(/\\s+/g, "-");
+
+  return (
+    <Link
+      href={`/scholars/${slug}`}                  // <-- now uses name
+      aria-label={`View ${person.name}'s story`}  // <-- a11y
+      className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 rounded-3xl"
+    >
+      <div className="relative group rounded-3xl overflow-hidden bg-white/20 backdrop-blur-xl shadow-md hover:shadow-xl transition-all hover:-translate-y-1 dark:bg-slate-800/40 cursor-pointer">
+        <div className="aspect-[4/5] w-full overflow-hidden relative">
+          <Image
+            src={person.image}
+            alt={person.name}
+            fill
+            className="object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out"
+            priority={person.id === 1}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+        </div>
+
+        {/* Shorter gradient footer */}
+        <div className="absolute bottom-0 left-0 right-0 py-1.5 px-2 text-center bg-gradient-to-r from-rose-600/80 to-indigo-500/70">
+          <h3 className="text-xs md:text-sm font-semibold text-white drop-shadow-md">
+            {person.name}
+          </h3>
+          <p className="text-[10px] md:text-xs text-white/90 mt-0.5 leading-snug drop-shadow">
+            {person.title}
+          </p>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+
 
 // --- Section 2 Card (no motion) ---
 const Card2 = ({ person }: { person: (typeof MOCK_SCHOLARS_2)[number] }) => (
@@ -130,133 +203,53 @@ export default function HeroScholars() {
 
   return (
     <>
-      {/* === SECTION 1 === */}
-      <section className="relative isolate overflow-hidden border-t border-slate-100 bg-white dark:bg-slate-900 dark:border-slate-700">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+    {/* === SECTION 4 === */}
+      <section className="relative isolate overflow-hidden dark:bg-slate-900 h-screen">
+        {/* Gradient background */}
+        <div
+          className={`absolute inset-0 -z-10 ${styles.gradientBackground}`}
+        ></div>
+
+        <div className="w-full h-full flex flex-col justify-center px-2 sm:px-4 lg:px-6">
+          {/* Titles */}
           <div className="text-center">
-            <h2 className="text-2xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
-              Discover Our <br /> exSTAD Scholar
-            </h2>
-            <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Find the best student for your company and boost your business
-              too.
+            <h1 className="text-3xl md:text-5xl font-bold text-primary dark:text-white">
+              From Classrooms to Careers
+            </h1>
+            {/* <p className="mt-2 text-xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-fuchsia-600 to-rose-600">
+              The Journey of Our Abroad Scholars
+            </p> */}
+            <p className="mt-2 text-xl md:text-4xl font-bold bg-clip-text  bg-gradient-to-r text-primary">
+              The Journey of Our Abroad Scholars
             </p>
+            <p className="mt-2 text-gray-500 font-d7">
+                Where learning turns into leadership and dreams
+            </p>
+            <p className="text-gray-500 font-d7">  into reality</p>
           </div>
-
-          {/* Category filter */}
-          <div className="mt-6 flex flex-wrap justify-center gap-4">
-            {categories.map(({ name, icon: Icon }) => {
-              const active = activeCategory === name;
-              return (
-                <button
-                  key={name}
-                  onClick={() => setActiveCategory(name)}
-                  className={`relative flex items-center gap-2 px-2 py-1 text-sm font-medium transition-colors ${
-                    active
-                      ? "text-blue-600"
-                      : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
-                  }`}
+          {/* Cards — marquee */}
+          <div className="mt-10">
+            <Marquee
+              pauseOnHover
+              repeat={3}
+              className="[--duration:30s] [--gap:0.75rem]"
+            >
+              {MOCK_SCHOLARS.map((person) => (
+                <div
+                  key={`s1-${person.id}`}
+                  className="w-[220px] md:w-[240px] shrink-0"
                 >
-                  <Icon
-                    className={`h-4 w-4 ${
-                      active
-                        ? "text-blue-600"
-                        : "text-slate-400 dark:text-slate-500"
-                    }`}
-                    aria-hidden="true"
-                  />
-                  <span>{name}</span>
-                  {active && (
-                    <span
-                      className="absolute -bottom-1 left-0 right-0 mx-auto h-[2px] w-full rounded-full bg-blue-500"
-                      aria-hidden="true"
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Scholar cards */}
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {filtered.map((person) => (
-              <Card2 key={`s2-${person.id}`} person={person} />
-            ))}
+                  <Card1 person={person} />
+                </div>
+              ))}
+            </Marquee>
           </div>
         </div>
       </section>
+     
 
     
-
-
-      {/* === SECTION 2 (Scholar Spotlight  === */}
-      <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-          <Carousel className="relative" opts={{ align: "start", loop: true }}>
-            <CarouselContent>
-              {MOCK_SCHOLARS.map((person) => (
-                <CarouselItem key={`spotlight-card-${person.id}`}>
-                  <div className="relative rounded-2xl border border-slate-200 dark:border-slate-700 p-6 md:p-10   overflow-hidden">
-                    <BorderBeam
-                      size={200}
-                      duration={5}
-                      colorFrom="#ff4d4d"
-                      colorTo="#4d9cff"
-                      borderWidth={1}
-                    />
-
-                    <div className="flex flex-col gap-10 md:grid md:grid-cols-5 md:items-center relative z-10">
-                      <div className="md:col-span-2">
-                        <div className="rounded-2xl p-[2px] bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-indigo-500 shadow-lg">
-                          <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700">
-                            <div className="relative aspect-[16/11]">
-                              <Image
-                                src={person.image}
-                                alt={person.name}
-                                fill
-                                className="object-cover w-full h-full"
-                                priority={person.id === 1}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="md:col-span-3">
-                        <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
-                          {SPOTLIGHT.badge}
-                        </span>
-                        <h3 className="mt-4 text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                          {SPOTLIGHT.headline}
-                        </h3>
-                        <p className="mt-2 text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-rose-600">
-                          {SPOTLIGHT.sub}
-                        </p>
-                        <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">
-                          {SPOTLIGHT.description}
-                        </p>
-
-                        <div className="mt-6 flex flex-wrap gap-3">
-                          <Link
-                            href={`/scholars/${person.id}`}
-                            className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-rose-600 to-indigo-600 shadow hover:opacity-90"
-                          >
-                            View Full Story
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-
-            {/* Nav buttons (same styling/placement) */}
-            <CarouselPrevious aria-label="Previous scholar" />
-            <CarouselNext aria-label="Next scholar" />
-          </Carousel>
-        </div>
-      </section>
-      {/* === SECTION 3 (Success Blueprint) === */}
+ {/* === SECTION 3 (Success Blueprint) === */}
       <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
@@ -352,43 +345,128 @@ export default function HeroScholars() {
           </div>
         </div>
       </section>
- {/* === SECTION 4 === */}
-      <section className="relative isolate overflow-hidden dark:bg-slate-900 h-screen">
-        {/* Gradient background */}
-        {/* <div
-          className={`absolute inset-0 -z-10 ${styles.gradientBackground}`}
-        ></div> */}
 
-        <div className="w-full h-full flex flex-col justify-center px-2 sm:px-4 lg:px-6">
-          {/* Titles */}
-          <div className="text-center">
-            <h1 className="text-3xl md:text-5xl font-extrabold text-primary dark:text-white">
-              From Classrooms to Careers
-            </h1>
-            <p className="mt-2 text-xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-fuchsia-600 to-rose-600">
-              The Journey of Our Abroad Scholars
-            </p>
-            <p className="mt-2 text-gray-500 font-d7">
-                Where learning turns into leadership and dreams
-            </p>
-            <p className="text-gray-500 font-d7">  into reality</p>
-          </div>
-          {/* Cards — marquee */}
-          <div className="mt-10">
-            <Marquee
-              pauseOnHover
-              repeat={3}
-              className="[--duration:30s] [--gap:0.75rem]"
-            >
+      {/* === SECTION 2 (Scholar Spotlight  === */}
+      <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+          <Carousel className="relative" opts={{ align: "start", loop: true }}>
+            <CarouselContent>
               {MOCK_SCHOLARS.map((person) => (
-                <div
-                  key={`s1-${person.id}`}
-                  className="w-[220px] md:w-[240px] shrink-0"
-                >
-                  <Card1 person={person} />
-                </div>
+                <CarouselItem key={`spotlight-card-${person.id}`}>
+                  <div className="relative rounded-2xl border border-slate-200 dark:border-slate-700 p-6 md:p-10   overflow-hidden">
+                    <BorderBeam
+                      size={200}
+                      duration={5}
+                      colorFrom="#ff4d4d"
+                      colorTo="#4d9cff"
+                      borderWidth={1}
+                    />
+
+                    <div className="flex flex-col gap-10 md:grid md:grid-cols-5 md:items-center relative z-10">
+                      <div className="md:col-span-2">
+                        <div className="rounded-2xl p-[2px] bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-indigo-500 shadow-lg">
+                          <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700">
+                            <div className="relative aspect-[16/11]">
+                              <Image
+                                src={person.image}
+                                alt={person.name}
+                                fill
+                                className="object-cover w-full h-full"
+                                priority={person.id === 1}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="md:col-span-3">
+                        <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
+                          {SPOTLIGHT.badge}
+                        </span>
+                        <h3 className="mt-4 text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                          {SPOTLIGHT.headline}
+                        </h3>
+                        <p className="mt-2 text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-rose-600">
+                          {SPOTLIGHT.sub}
+                        </p>
+                        <p className="mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">
+                          {SPOTLIGHT.description}
+                        </p>
+
+                        <div className="mt-6 flex flex-wrap gap-3">
+                          <Link
+                            href={`/scholars/${person.id}`}
+                            className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-rose-600 to-indigo-600 shadow hover:opacity-90"
+                          >
+                            View Full Story
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
               ))}
-            </Marquee>
+            </CarouselContent>
+
+            {/* Nav buttons (same styling/placement) */}
+            <CarouselPrevious aria-label="Previous scholar" />
+            <CarouselNext aria-label="Next scholar" />
+          </Carousel>
+        </div>
+      </section>
+     
+ 
+  {/* === SECTION 1 === */}
+      <section className="relative isolate overflow-hidden border-t border-slate-100 bg-white dark:bg-slate-900 dark:border-slate-700">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+          <div className="text-center">
+            <h2 className="text-2xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
+              Discover Our <br /> exSTAD Scholar
+            </h2>
+            <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+              Find the best student for your company and boost your business
+              too.
+            </p>
+          </div>
+
+          {/* Category filter */}
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            {categories.map(({ name, icon: Icon }) => {
+              const active = activeCategory === name;
+              return (
+                <button
+                  key={name}
+                  onClick={() => setActiveCategory(name)}
+                  className={`relative flex items-center gap-2 px-2 py-1 text-sm font-medium transition-colors ${
+                    active
+                      ? "text-blue-600"
+                      : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
+                  }`}
+                >
+                  <Icon
+                    className={`h-4 w-4 ${
+                      active
+                        ? "text-blue-600"
+                        : "text-slate-400 dark:text-slate-500"
+                    }`}
+                    aria-hidden="true"
+                  />
+                  <span>{name}</span>
+                  {active && (
+                    <span
+                      className="absolute -bottom-1 left-0 right-0 mx-auto h-[2px] w-full rounded-full bg-blue-500"
+                      aria-hidden="true"
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Scholar cards */}
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {filtered.map((person) => (
+              <Card2 key={`s2-${person.id}`} person={person} />
+            ))}
           </div>
         </div>
       </section>
