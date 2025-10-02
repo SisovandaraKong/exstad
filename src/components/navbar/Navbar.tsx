@@ -28,6 +28,8 @@ function Navbar({ className }: { className?: string }) {
 		);
 	};
 
+	const logo = "/image/logo/exSTAD-03.png";
+
 	// Function to get navigation link classes
 	const getNavLinkClasses = (href: string) => {
 		const baseClasses =
@@ -81,7 +83,7 @@ function Navbar({ className }: { className?: string }) {
 						{/* Logo */}
 						<Link href='/' className='block'>
 							<Image
-								src='/image/logo/exSTAD-03.png'
+								src={logo}
 								alt='Logo'
 								width={50}
 								height={70}
@@ -118,19 +120,6 @@ function Navbar({ className }: { className?: string }) {
                 </Link>
               </div>
             </div>
-
-						{/* Mobile menu toggle (visible on small screens) */}
-						<button
-							className='md:hidden p-2 rounded-md hover:bg-accent/10'
-							aria-label={mobileOpen ? "Close menu" : "Open menu"}
-							onClick={() => setMobileOpen((v) => !v)}
-							type='button'>
-							{mobileOpen ? (
-								<X className='h-5 w-5' />
-							) : (
-								<Menu className='h-5 w-5' />
-							)}
-						</button>
 
 						{/* Mobile menu toggle (visible on small screens) */}
 						<button
