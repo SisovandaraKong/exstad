@@ -154,9 +154,9 @@ export const teamData: TeamData = {
 				"HTML",
 			],
 			social: {
-				facebook: "https://facebook.com/keomenghouy",
+				facebook: "https://www.facebook.com/share/1HcowJBeb6/",
 				github: "https://github.com/TengMengHouy",
-				telegram: "https://t.me/keomenghouy",
+				telegram: "https://t.me/Menghouy1688",
 			},
 		},
 		meyling: {
@@ -193,9 +193,9 @@ export const teamData: TeamData = {
 				"HTML",
 			],
 			social: {
-				facebook: "https://facebook.com/chhumsreynuch",
+				facebook: "https://www.facebook.com/share/16UND1s9oF/",
 				github: "https://github.com/noch-08",
-				telegram: "https://t.me/chhumsreynuch",
+				telegram: "https://t.me/sreynoch_phum",
 			},
 		},
 	},

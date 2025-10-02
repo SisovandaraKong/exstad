@@ -28,7 +28,6 @@ function Navbar({ className }: { className?: string }) {
 		);
 	};
 
-	const logo = "/image/logo/exSTAD-03.png";
 
 	// Function to get navigation link classes
 	const getNavLinkClasses = (href: string) => {
