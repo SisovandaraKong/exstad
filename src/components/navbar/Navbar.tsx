@@ -83,7 +83,7 @@ function Navbar({ className }: { className?: string }) {
 						{/* Logo */}
 						<Link href='/' className='block'>
 							<Image
-								src={logo}
+								src='/favicon.ico'
 								alt='Logo'
 								width={50}
 								height={70}
