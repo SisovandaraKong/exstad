@@ -80,12 +80,12 @@ function Navbar({ className }: { className?: string }) {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="block">
-              <Image
-                src="/image/logo/exSTAD-03.png"
-                alt="Logo"
-                width={50}
-                height={70}
-              />
+              	<Image
+								src='/favicon.ico'
+								alt='Logo'
+								width={50}
+								height={70}
+							/>
             </Link>
 
             {/* Desktop Navigation Links */}
