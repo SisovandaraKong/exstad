@@ -70,7 +70,14 @@ export const masterprogramApi = createApi({
                 {type: "MasterProgram", id:uuid},
                 {type: "MasterProgram", id:"LIST"}
             ]
-        })
+        }),
+        // Fetch a single master program by TITLE
+getMasterProgramByTitle: builder.query<MasterProgramType, { title: string }>({
+    query: ({ title }) => `/api/v1/programs/title/${title}`,
+    providesTags: (result) =>
+        result ? [{ type: "MasterProgram", id: result.uuid }] : [],
+}),
+
     }),
 });
 
@@ -80,5 +87,6 @@ export const {
     useGetMasterProgramBySlugQuery,
     useCreateMasterProgramMutation,
     useUpdateMasterProgramMutation,
-    useDeleteMasterProgramMutation
+    useDeleteMasterProgramMutation,
+    useGetMasterProgramByTitleQuery
 } = masterprogramApi;

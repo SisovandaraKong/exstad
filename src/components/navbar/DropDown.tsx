@@ -45,7 +45,7 @@ export default function DropDown() {
     ...scholarshipPrograms.map((p) => ({
       id: p.uuid, // ✅ API UUID
       title: p.title,
-      href: `/our-program/${p.uuid}`, // link using API UUID
+      href: `/our-program/${p.slug}`, // link using API UUID
     })),
     { id: "short-courses", title: "Short Courses", href: "/our-program" },
   ];

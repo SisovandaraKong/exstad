@@ -11,16 +11,16 @@ interface ScholarshipCardProps extends MasterProgramType {
 }
 
 const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
-  uuid,
   title,
   subtitle,
   description,
   bgColor,
   highlights,
   posterUrl,
+  openingProgram,
 }) => {
   return (
-    <Link href={`/our-program/${uuid}`} className="block">
+    <Link href={`/our-program/${openingProgram?.slug}`} className="block">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

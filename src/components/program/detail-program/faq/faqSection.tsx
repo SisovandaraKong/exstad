@@ -11,21 +11,25 @@ interface FaqProps {
 }
 
 const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
-  const { data: faqSections = [], isLoading, isError } = useGetAllFaqQuery(programUuid);
-
+  const { data: faqSections = [], isLoading, isError } = useGetAllFaqQuery(programUuid,{refetchOnMountOrArgChange:true});
   const [openFaqs, setOpenFaqs] = useState<Record<string, boolean>>({});
   const refs = useRef<Record<string, HTMLDivElement | null>>({});
+  const initializedRef = useRef(false);
 
   // Optional: open all by default
   useEffect(() => {
-    const initialState: Record<string, boolean> = {};
-    faqSections.forEach((section) =>
-      section.faqs.forEach((item) => {
-        initialState[item.id] = true; // set false if you want closed by default
-      })
-    );
-    setOpenFaqs(initialState);
-  }, [faqSections]);
+    // Only initialize once when data first loads
+    if (faqSections.length > 0 && !initializedRef.current) {
+      const initialState: Record<string, boolean> = {};
+      faqSections.forEach((section) =>
+        section.faqs.forEach((item) => {
+          initialState[item.id] = true; // set false if you want closed by default
+        })
+      );
+      setOpenFaqs(initialState);
+      initializedRef.current = true;
+    }
+  }, [faqSections.length]); // Only depend on length, not the entire array
 
   const toggle = (id: string) => {
     setOpenFaqs((prev) => ({ ...prev, [id]: !prev[id] }));
