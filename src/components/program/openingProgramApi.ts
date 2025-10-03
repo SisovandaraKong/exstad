@@ -75,12 +75,19 @@ export const openingProgramApi = createApi({
                 { type: "OpeningProgram", id: "LIST" },
             ],
         }),
+                // Fetch a single master program by TITLE
+        getOpeningProgramByTitle: builder.query<openingProgramType, { title: string }>({
+            query: ({ title }) => `/api/v1/opening-programs/title/${title}`,
+            providesTags: (result) =>
+                result ? [{ type: "OpeningProgram", id: result.uuid }] : [],
+        }),
     }),
 });
 
 // Export hooks
 export const {
     useGetAllOpeningProgramsQuery,
+    useGetOpeningProgramByTitleQuery,
     useGetOpeningProgramByUuidQuery,
     useGetOpeningProgramBySlugQuery,
     useCreateOpeningProgramMutation,

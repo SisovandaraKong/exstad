@@ -12,7 +12,7 @@ type Activity = {
   image?: string;
 };
 
-type ProgramGeneration = {
+export type ProgramGeneration = {
   uuid: string;
   title: string;
 };
@@ -22,9 +22,14 @@ type ActivityProps = {
 };
 
 const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
-  const [selectedGenerationId, setSelectedGenerationId] = useState(
-    generations[0]?.uuid || ""
-  );
+  const [selectedGenerationId, setSelectedGenerationId] = useState("");
+
+  // Update selectedGenerationId whenever generations change
+  useEffect(() => {
+    if (generations.length) {
+      setSelectedGenerationId(generations[0].uuid); // or generations[generations.length - 1].uuid for latest
+    }
+  }, [generations]);
 
   const { data: activities = [], isLoading, isError } = useGetAllActivityQuery(
     selectedGenerationId,
@@ -48,9 +53,10 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
       underlineRef.current.style.width = `${offsetWidth}px`;
     }
   }, [selectedGenerationId]);
-    useEffect(() => {
-      AOS.init({ duration: 1000, once: false });
-    }, []);
+
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: false });
+  }, []);
 
   if (!generations.length) {
     return <p className="text-gray-500 text-center">No opening program available.</p>;
@@ -61,48 +67,55 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
   if (isError) {
     return <p className="text-red-500 text-center">Failed to load activities.</p>;
   }
-if (!activities || activities.length === 0) {
-  return <p className="text-gray-500 text-center">No activities for this generation yet.</p>;
-}
+  if (!activities || activities.length === 0) {
+    return <p className="text-gray-500 text-center">No activities for this generation yet.</p>;
+  }
 
   return (
     <div className="w-full bg-background grid p-4 sm:p-6 md:p-6 gap-10 rounded-b-[24px]">
       <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">Activities</h1>
 
       {/* Scrollable generations */}
-      <div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide" >
+      <div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide">
         {generations.map((gen, index) => (
-            <button
-              key={gen.uuid}
-              data-id={gen.uuid}
-              ref={(el) => {
-                tabsRef.current[index] = el;
-              }}
-              onClick={() => setSelectedGenerationId(gen.uuid)}
-              className={`px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-2xl font-medium whitespace-nowrap text-sm sm:text-base md:text-lg ${
-                selectedGenerationId === gen.uuid ? "text-primary" : "text-foreground hover:bg-gray-200"
-              }`}
-            >
-              {gen.title}
-            </button>
-          ))}
+          <button
+            key={gen.uuid}
+            data-id={gen.uuid}
+            ref={(el) => {
+              tabsRef.current[index] = el;
+            }}
+            onClick={() => setSelectedGenerationId(gen.uuid)}
+            className={`px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-2xl font-medium whitespace-nowrap text-sm sm:text-base md:text-lg ${
+              selectedGenerationId === gen.uuid
+                ? "text-primary"
+                : "text-foreground hover:bg-gray-200"
+            }`}
+          >
+            {gen.title}
+          </button>
+        ))}
 
         <div
           ref={underlineRef}
           className="absolute bottom-0 h-1 bg-primary transition-all duration-300 rounded"
         />
       </div>
+
       {/* Activities */}
-      <div className="grid gap-4 sm:gap-6" >
+      <div className="grid gap-4 sm:gap-6 border-t border-gray-300">
         {activities.map((activity: Activity) => (
           <div
             key={activity.uuid}
             className="relative flex flex-col gap-4 sm:gap-6 my-4 sm:my-6 p-4 sm:p-6 md:p-8 rounded-2xl border-l-0.5 border-transparent"
             data-aos="fade-up"
-            >
+          >
             <div className="absolute top-0 left-0 h-full w-0.5 rounded-l-2xl bg-gradient-to-b from-[#328BE6] to-transparent"></div>
-            <h3 className="font-bold text-base sm:text-lg md:text-xl text-foreground">{activity.title}</h3>
-            <p className="font-normal text-sm sm:text-base md:text-base text-foreground">{activity.description}</p>
+            <h3 className="font-bold text-base sm:text-lg md:text-xl text-foreground">
+              {activity.title}
+            </h3>
+            <p className="font-normal text-sm sm:text-base md:text-base text-foreground">
+              {activity.description}
+            </p>
             {activity.image && (
               <Image
                 unoptimized
