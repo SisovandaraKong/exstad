@@ -4,12 +4,14 @@ import { curriculumApi } from "@/components/program/detail-program/curriculum/cu
 import { faqApi } from "@/components/program/detail-program/faq/faqApi";
 import { learningOutcomesApi } from "@/components/program/detail-program/outcomes/learningOutcomesApi";
 import { masterprogramApi } from "@/components/program/masterProgramApi";
-import { openingProgramApi } from "@/components/program/openingProgramApi";
 import { programOverviewsApi } from "@/components/program/detail-program/overview/programOverviewApi";
 import { requiementApi } from "@/components/program/detail-program/requirement/requirementsApi";
+import { enrollmentApi } from "@/features/enrollment/enrollmentApi";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { openingProgramApi } from "@/components/program/openingProgramApi";
+import { documentApi } from "@/features/document/documentApi";
 
 const rootReducer = combineReducers({
     [masterprogramApi.reducerPath]: masterprogramApi.reducer,
@@ -20,6 +22,8 @@ const rootReducer = combineReducers({
     [faqApi.reducerPath]: faqApi.reducer,
     [curriculumApi.reducerPath]: curriculumApi.reducer,
     [activityApi.reducerPath]: activityApi.reducer,
+    [enrollmentApi.reducerPath]: enrollmentApi.reducer,
+    [documentApi.reducerPath]: documentApi.reducer,
 });
 
 const persistConfig = {
@@ -43,7 +47,8 @@ export const makeStore = () => {
           faqApi.middleware,
           curriculumApi.middleware,
           activityApi.middleware,
-
+          enrollmentApi.middleware,
+          documentApi.middleware,
       ),
   });
 

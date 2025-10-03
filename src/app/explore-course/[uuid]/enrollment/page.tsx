@@ -24,7 +24,7 @@ import { universitiesData, University } from "@/data/universities";
 import {
   Form,
   FormControl,
-  FormDescription,
+  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -39,7 +39,7 @@ import {
   ChevronsUpDown,
   CloudUpload,
   Paperclip,
-} from "lucide-react"; 
+} from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -57,7 +57,15 @@ import {
 import * as React from "react";
 import { educationQualificationData } from "@/data/educationQualification";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { openingProgramData } from "@/data/openingProgramData";
+// import { openingProgramData } from "@/data/openingProgramData";
+// import { useGetOpeningProgramBySlugQuery } from "@/features/opening-program/openingProgramApi";
+import { useCreateEnrollmentMutation } from "@/features/enrollment/enrollmentApi";
+import { useCreateDocumentMutation } from "@/features/document/documentApi";
+import {
+  useGetAllOpeningProgramsQuery,
+  useGetOpeningProgramByUuidQuery,
+} from "@/components/program/openingProgramApi";
+import { useParams } from "next/navigation";
 
 function formatDate(date: Date | undefined) {
   if (!date) {
@@ -82,6 +90,7 @@ const formSchema = z.object({
   grade: z.string().min(1, "Grade is required"),
   university: z.string().min(1, "University is required"),
   avatar: z.string().optional(),
+  province: z.string().optional(),
   phoneNumber: z.string().min(1, "Phone number is required"),
   educationQualification: z
     .string()
@@ -94,26 +103,41 @@ const formSchema = z.object({
   extra: z.record(z.string(), z.any()).optional(),
 });
 
-export default function EnrollmentPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>; 
-}) {
+export default function EnrollmentPage() {
+  const params = useParams();
+  const uuid = params?.uuid as string;
   // State
   const [addressOpen, setAddressOpen] = React.useState(false);
   const [universityOpen, setUniversityOpen] = React.useState(false);
   const [dobOpen, setDobOpen] = React.useState(false);
   const [files, setFiles] = React.useState<File[] | null>(null);
   const [openingProgramOpen, setOpeningProgramOpen] = React.useState(false);
-  const [programSlug, setProgramSlug] = React.useState<string>("");
 
-  const dropZoneConfig = {
-    maxFiles: 5,
-    maxSize: 1024 * 1024 * 4,
-    multiple: true,
-  };
+  // Fetch opening program by slug
+  // const {
+  //   data: openingProgram,
+  //   isLoading,
+  //   isError,
+  // } = useGetOpeningProgramBySlugQuery({ slug: params.slug });
+  // console.log("Slug:", params.slug);
+  // console.log("Opening Program:", openingProgram);
 
-  // Form setup
+  // get all opening program for course selection
+  const { data: openingPrograms } = useGetAllOpeningProgramsQuery();
+
+  const {
+    data: openingProgram,
+    isLoading,
+    isError,
+  } = useGetOpeningProgramByUuidQuery({ uuid });
+
+  // Enrollment mutation
+  const [createEnrollment, { isLoading: isSubmitting }] =
+    useCreateEnrollmentMutation();
+
+  // Document upload mutation
+  const [createDocument] = useCreateDocumentMutation();
+
   // Form setup
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -124,85 +148,87 @@ export default function EnrollmentPage({
       university: "",
       currentAddress: "",
       avatar: "",
+      province: "",
       phoneNumber: "",
       educationQualification: "",
       howLongProgramming: "",
       howDoYouKnewISTAD: "",
       ifBachelorDegree: "",
       grade: "",
-      openingProgramUuid: programSlug,
+      openingProgramUuid: openingProgram?.uuid || "",
       email: "",
       request: "",
       dob: new Date(),
     },
   });
 
+  // Set openingProgramUuid when openingProgram is loaded
   React.useEffect(() => {
-    const resolveParams = async () => {
-      try {
-        const resolvedParams = await params;
-        setProgramSlug(resolvedParams.slug);
-        form.setValue("openingProgramUuid", resolvedParams.slug);
-      } catch (error) {
-        console.error("Error resolving params:", error);
-      }
-    };
+    if (openingProgram?.uuid) {
+      form.setValue("openingProgramUuid", openingProgram.uuid);
+    }
+  }, [openingProgram, form]);
 
-    resolveParams();
-  }, [params, form]);
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const extra: Record<string, string> = {};
+      let avatarUri = "";
+      // Upload document first if file exists
+      if (files && files.length > 0) {
+        const file = files[0];
+        const documentPayload = {
+          programSlug: openingProgram?.slug ?? "",
+          gen: openingProgram?.generation ?? 1,
+          documentType: "avatar",
+          filename: "null",
+          file,
+        };
+        const document = await createDocument(documentPayload).unwrap();
+        console.log("Uploaded document:", document);
+        avatarUri = document.uri;
+        form.setValue("avatar", avatarUri);
+      }
 
-      // Put howLongProgramming in extra object
-      if (values.grade) {
-        extra.grade = values.grade;
-      }
-      if (values.howLongProgramming) {
+      const extra: Record<string, string> = {};
+      if (values.grade) extra.grade = values.grade;
+      if (values.howLongProgramming)
         extra.howLongProgramming = values.howLongProgramming;
-      }
-      if (values.howDoYouKnewISTAD) {
+      if (values.howDoYouKnewISTAD)
         extra.howDoYouKnewISTAD = values.howDoYouKnewISTAD;
-      }
-      if (values.ifBachelorDegree) {
+      if (values.ifBachelorDegree)
         extra.ifBachelorDegree = values.ifBachelorDegree;
-      }
-      if (values.request) {
-        extra.request = values.request;
-      }
+      if (values.request) extra.request = values.request;
 
       const enrollmentData = {
         englishName: values.englishName,
         khmerName: values.khmerName,
         openingProgramUuid: values.openingProgramUuid,
-        dob: values.dob,
+        dob: values.dob instanceof Date ? values.dob.toISOString().slice(0, 10) : values.dob,
         university: values.university,
         currentAddress: values.currentAddress,
-        avatar: files,
+        avatar: avatarUri,
+        province: "Phnom Penh",
         phoneNumber: values.phoneNumber,
         educationQualification: values.educationQualification,
         email: values.email,
         extra: Object.keys(extra).length > 0 ? extra : undefined,
+        gender: values.gender,
       };
 
+      await createEnrollment(enrollmentData).unwrap();
       toast.success("Registration Successful!");
 
-      console.log("Form Values:", values);
-      console.log("Enrollment Data:", enrollmentData);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
+      form.reset();
+      setFiles(null);
     } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+      toast.error("Failed to submit the form. Please try again." + error);
     }
   }
 
+  if (isLoading) return <div>Loading program...</div>;
+  if (isError || !openingProgram) return <div>Program not found.</div>;
+
   return (
-    <div className="max-w-7xl mx-auto bg-background sm:p-8 p-4 rounded-md m-8 ">
+    <div className="max-w-7xl mx-auto bg-background sm:p-8 p-4 rounded-md mt-32 mb-16">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid md:grid-cols-2 grid-cols-1 gap-16 mt-8">
@@ -335,7 +361,7 @@ export default function EnrollmentPage({
                 )}
               />
 
-              {/* University - UPDATED TO COMBOBOX */}
+              {/* University - ComboBox */}
               <FormField
                 control={form.control}
                 name="university"
@@ -527,7 +553,7 @@ export default function EnrollmentPage({
                             )}
                           >
                             {field.value
-                              ? openingProgramData.find(
+                              ? openingPrograms?.find(
                                   (program) => program.uuid === field.value
                                 )?.title
                               : "Select opening program"}
@@ -547,20 +573,15 @@ export default function EnrollmentPage({
                           <CommandList>
                             <CommandEmpty>No program found.</CommandEmpty>
                             <CommandGroup>
-                              {openingProgramData.map((program) => (
+                              {openingPrograms?.map((program) => (
                                 <CommandItem
                                   key={program.uuid}
                                   value={program.title}
-                                  onSelect={(currentValue) => {
-                                    const selectedProgram =
-                                      openingProgramData.find(
-                                        (p) => p.title === currentValue
-                                      );
-
+                                  onSelect={() => {
                                     field.onChange(
-                                      selectedProgram?.uuid === field.value
+                                      program.uuid === field.value
                                         ? ""
-                                        : selectedProgram?.uuid || ""
+                                        : program.uuid
                                     );
                                     setOpeningProgramOpen(false);
                                   }}
@@ -610,7 +631,7 @@ export default function EnrollmentPage({
                 )}
               />
 
-              {/* Current Address - UPDATED TO COMBOBOX */}
+              {/* Current Address - ComboBox */}
               <FormField
                 control={form.control}
                 name="currentAddress"
@@ -771,7 +792,6 @@ export default function EnrollmentPage({
               />
 
               {/* Any Request */}
-              {/* Extra Information (How do you know ISTAD?) */}
               <FormField
                 control={form.control}
                 name="request"
@@ -801,7 +821,11 @@ export default function EnrollmentPage({
                       <FileUploader
                         value={files}
                         onValueChange={setFiles}
-                        dropzoneOptions={dropZoneConfig}
+                        dropzoneOptions={{
+                          maxFiles: 5,
+                          maxSize: 1024 * 1024 * 4,
+                          multiple: true,
+                        }}
                         className="relative bg-background rounded-lg p-2"
                       >
                         <FileInput
@@ -833,22 +857,22 @@ export default function EnrollmentPage({
                         </FileUploaderContent>
                       </FileUploader>
                     </FormControl>
-                    <FormDescription>Select a file to upload.</FormDescription>
+                    {/* <FormDescription>Select a file to upload.</FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
           </div>
-
           {/* Submit Button */}
           <div className="flex justify-end pt-6">
             <Button
               type="submit"
-              className="max-w-md text-primary border-primary hover:bg-primary/10 px-8"
-              variant="outline"
+              className="max-w-md text-foreground border-primary hover:bg-primary/90 px-8 bg-primary"
+              // variant="outline"
+              disabled={isSubmitting}
             >
-              Enroll Now
+              {isSubmitting ? "Submitting..." : "Enroll Now"}
             </Button>
           </div>
         </form>

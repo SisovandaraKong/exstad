@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useGetAllMasterProgramsQuery } from "../masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "../openingProgramApi";
+import { useGetAllOpeningProgramsQuery } from "../../../features/opening-program/openingProgramApi";
 import ShortCourseCard from "./ShortCourseCard";
 import ShortCourseCardSkeleton from "../skeleton/ShortCourseCardSkeleton";
 const ShortCourseCardList = () => {

@@ -61,11 +61,11 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const cookieLocale = cookieStore.get("locale")?.value;
+	const cookieStore = await cookies();
+	const cookieLocale = cookieStore.get("locale")?.value;
 
-  const internalLocale = cookieLocale === "kh" ? "kh" : cookieLocale ?? "en";
-  const htmlLang = internalLocale === "kh" ? "km" : internalLocale;
+	const internalLocale = cookieLocale === "kh" ? "kh" : cookieLocale ?? "en";
+	const htmlLang = internalLocale === "kh" ? "km" : internalLocale;
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>

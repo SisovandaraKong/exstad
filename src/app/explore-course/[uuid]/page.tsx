@@ -14,9 +14,11 @@ import ProgramOverviewSidebarSkeleton from "@/components/program/skeleton/Progra
 import ProgramOverviewCardSkeleton from "@/components/program/skeleton/ProgramOverviewTapSkeleton";
 import ProgramCurriculumSkeleton from "@/components/program/skeleton/ProgramCurriculumSkeleton";
 import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivitySkeleton";
-
 import { useGetMasterProgramByUuidQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
+// import { useGetAllOpeningProgramsQuery } from "@/features/opening-program/openingProgramApi";
+
+
 
 const ProgramDetailPage: React.FC = () => {
   const params = useParams();
