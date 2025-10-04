@@ -41,9 +41,9 @@ export const teamData: TeamData = {
 				"TypeScript",
 			],
 			social: {
-				facebook: "https://facebook.com/ly.zia",
-				github: "https://github.com/ly-zia",
-				telegram: "https://t.me/ly_zia",
+				facebook: "https://www.facebook.com/lyzhia.eung",
+				github: "https://github.com/lyzhiaa",
+				telegram: "https://t.me/lyzhia",
 			},
 		},
 	},
@@ -78,9 +78,9 @@ export const teamData: TeamData = {
 				"Frontend Development",
 			],
 			social: {
-				facebook: "https://facebook.com/lengnarak",
+				facebook: "https://www.facebook.com/share/1ARwNegGV7/?mibextid=wwXIfr",
 				github: "https://github.com/Narak-168",
-				telegram: "https://t.me/lengnarak",
+				telegram: "https://t.me/Narak_Leng",
 			},
 		},
 		vanda: {
@@ -154,9 +154,9 @@ export const teamData: TeamData = {
 				"HTML",
 			],
 			social: {
-				facebook: "https://facebook.com/keomenghouy",
+				facebook: "https://www.facebook.com/share/1HcowJBeb6/",
 				github: "https://github.com/TengMengHouy",
-				telegram: "https://t.me/keomenghouy",
+				telegram: "https://t.me/Menghouy1688",
 			},
 		},
 		meyling: {
@@ -193,9 +193,9 @@ export const teamData: TeamData = {
 				"HTML",
 			],
 			social: {
-				facebook: "https://facebook.com/chhumsreynuch",
+				facebook: "https://www.facebook.com/share/16UND1s9oF/",
 				github: "https://github.com/noch-08",
-				telegram: "https://t.me/chhumsreynuch",
+				telegram: "https://t.me/sreynoch_phum",
 			},
 		},
 	},
