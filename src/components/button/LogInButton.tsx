@@ -23,7 +23,7 @@ export default function LogInButton() {
       className="flex items-center font-description-5 font-semibold text-white px-4 py-1 border bg-accent hover:bg-accent-hover rounded-full transition-colors"
     >
       <FaUserGraduate className="h-4 w-4" />
-      <span className="ml-2">{t("log-in")}</span>
+      <span className="ml-0">{t("log-in")}</span>
     </Button>
   );
 }

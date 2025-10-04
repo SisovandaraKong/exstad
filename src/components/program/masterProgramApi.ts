@@ -63,14 +63,21 @@ export const masterprogramApi = createApi({
         // DELETE a master program 
         deleteMasterProgram: builder.mutation<void, string>({
             query: (uuid) => ({
-                url: `/api/v1/programs/${uuid}`,
+                url: `/programs/${uuid}`,
                 method:"DELETE",
             }),
             invalidatesTags:(result,error,uuid) =>[
                 {type: "MasterProgram", id:uuid},
                 {type: "MasterProgram", id:"LIST"}
             ]
-        })
+        }),
+        // Fetch a single master program by TITLE
+getMasterProgramByTitle: builder.query<MasterProgramType, { title: string }>({
+    query: ({ title }) => `/programs/title/${title}`,
+    providesTags: (result) =>
+        result ? [{ type: "MasterProgram", id: result.uuid }] : [],
+}),
+
     }),
 });
 
@@ -80,5 +87,6 @@ export const {
     useGetMasterProgramBySlugQuery,
     useCreateMasterProgramMutation,
     useUpdateMasterProgramMutation,
-    useDeleteMasterProgramMutation
+    useDeleteMasterProgramMutation,
+    useGetMasterProgramByTitleQuery
 } = masterprogramApi;

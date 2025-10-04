@@ -14,24 +14,41 @@ import ProgramOverviewSidebarSkeleton from "@/components/program/skeleton/Progra
 import ProgramOverviewCardSkeleton from "@/components/program/skeleton/ProgramOverviewTapSkeleton";
 import ProgramCurriculumSkeleton from "@/components/program/skeleton/ProgramCurriculumSkeleton";
 import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivitySkeleton";
-import { useGetMasterProgramByUuidQuery } from "@/components/program/masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
+import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
+import { useGetOpeningProgramBySlugQuery } from "@/components/program/openingProgramApi";
+
+// Define proper types
+// interface OpeningProgramType {
+//   uuid: string;
+//   programName: string;
+//   generation?: number;
+//   // Add other fields if needed
+// }
 
 const ProgramDetailPage: React.FC = () => {
   const params = useParams();
-  const masterProgramUuid = params?.uuid as string;
+  const openingProgramSlug = params?.slug as string;
   const [activeTab, setActiveTab] = useState("Overview");
 
-  // Fetch program data from API
-  const { data: program, isLoading: isProgramLoading, isError: isProgramError } =
-    useGetMasterProgramByUuidQuery({ uuid: masterProgramUuid });
+  // Fetch opening program by slug
+  const {
+    data: openingProgram,
+    isLoading: isOpeningLoading,
+    isError: isOpeningError,
+  } = useGetOpeningProgramBySlugQuery({ slug: openingProgramSlug });
 
-  // Fetch all opening programs for generations
-  const { data: openingPrograms = [], isLoading: isOpeningProgramsLoading, isError: isOpeningProgramsError } =
-    useGetAllOpeningProgramsQuery();
+  // Fetch master program by title (use programName from openingProgram)
+  const {
+    data: masterProgram,
+    isLoading: isMasterLoading,
+    isError: isMasterError,
+  } = useGetMasterProgramByTitleQuery(
+    { title: openingProgram?.programName ?? "" },
+    { skip: !openingProgram?.programName }
+  );
 
   // Loading skeletons
-  if (isProgramLoading || isOpeningProgramsLoading) {
+  if (isOpeningLoading || isMasterLoading) {
     return (
       <div className="flex flex-col xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl">
         <div className="flex-1">
@@ -45,25 +62,26 @@ const ProgramDetailPage: React.FC = () => {
     );
   }
 
-  if (isProgramError || !program)
+  if (isMasterError || !masterProgram)
     return <p className="text-center text-red-500">Program not found!</p>;
-  if (isOpeningProgramsError)
+  if (isOpeningError || !openingProgram)
     return <p className="text-center text-red-500">Failed to load opening programs!</p>;
 
-  // Filter opening programs belonging to this master program
-  const programOpeningPrograms = openingPrograms.filter(
-    (op) => op.programName === program.title
-  );
-
-  // Prepare generations array for tabs
-  const generations = programOpeningPrograms.map((op) => ({
-    uuid: op.uuid,
-    title: `Generation ${op.generation}`,
-  }));
+  // Prepare generations array (since openingProgram is a single object)
+  const generations: { uuid: string; title: string }[] = openingProgram
+    ? [
+        {
+          uuid: openingProgram.uuid,
+          title: `Generation ${openingProgram.generation ?? 1}`,
+        },
+      ]
+    : [];
 
   const tabComponents: { [key: string]: React.FC } = {
-    Overview: () => <ProgramOverviewTap program={program} />,
-    Curriculum: () => <ProgramCurriculumTap programUuid={program.uuid} />,
+    Overview: () => <ProgramOverviewTap program={masterProgram} />,
+    Curriculum: () => (
+      <ProgramCurriculumTap openingUuid={openingProgram.uuid} masterUuid={masterProgram.uuid} />
+    ),
     Activity: () =>
       generations.length ? (
         <ProgramActivityTap generations={generations} />
@@ -78,12 +96,12 @@ const ProgramDetailPage: React.FC = () => {
   return (
     <div className="flex lg:flex-col md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
       <div className="flex-1">
-        <ProgramHeader uuid={program.uuid} activeTab={activeTab} setActiveTab={setActiveTab} />
+        <ProgramHeader uuid={masterProgram.uuid} activeTab={activeTab} setActiveTab={setActiveTab} />
         <div>
           <ActiveTabComponent />
         </div>
       </div>
-      <ProgramSidebar uuid={program.uuid} />
+      <ProgramSidebar uuid={masterProgram.uuid} />
     </div>
   );
 };
