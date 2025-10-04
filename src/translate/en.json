@@ -1,5 +1,5 @@
 {
-	  "hello": "Hello",
+  "hello": "Hello",
   "welcome": "Welcome to my website",
 
   "our-program": "Our Program",
@@ -10,25 +10,44 @@
 
   "log-in": "Log In",
 
-	
+  "enrollment": "ENROLLMENT",
+  "full-name-en": "Full Name (en)",
+  "full-name-kh": "Full Name (kh)",
+  "gender": "Gender",
+  "dob": "Date of Birth",
+  "grade": "Grade (Bac II)",
+  "university": "University",
+  "how-long-have-you-been-learning-programming": "How long have you been learning programming?",
+  "how-do-you-know-istad": "How do you know ISTAD?",
+  "istad-will-create-it-bacchelor-degree-course-from-next-year": "ISTAD will create IT bachelor degree course from next year for BacII student. Would you like to recommend someone this course? What is your reason?",
+  "opening-program": "Opening Program",
+  "current-address": "Current Address",
+  "phone-number": "Phone Number",
+  "email": "Email",
+  "education-qualification": "Education Qualification",
+  "any-request": "Any Request to ISTAD",
+  "picture-file": "Picture File",
+  "enroll-now": "Enroll Now",
 
-	"footer": {
-		"description": "exSTAD is created by ISTAD students streamlines enrollment and verifies student profiles.",
-		"explore": "EXPLORE",
-		"bachelor-degree": "Bachelor Degree",
-		"short-courses": "Short Courses",
-		"scholarship": "Scholarship",
-		"news-events": "News & Events",
-		"support-legal": "SUPPORT & LEGAL",
-		"faqs": "FAQs",
-		"policy-privacy": "Policy Privacy",
-		"terms-of-service": "Term of Service",
-		"our-sponsors": "OUR SPONSORS",
-		"copyright": "© 2025 exSTAD, Inc.",
-		"all-rights-reserved": "All rights reserved.",
-		"privacy-policy": "Privacy Policy",
-		"telegram": "Telegram",
-		"email": "Email",
-		"facebook": "Facebook"
-	}
+  "select-gender": "Select Gender",
+
+  "footer": {
+    "description": "exSTAD is created by ISTAD students streamlines enrollment and verifies student profiles.",
+    "explore": "EXPLORE",
+    "bachelor-degree": "Bachelor Degree",
+    "short-courses": "Short Courses",
+    "scholarship": "Scholarship",
+    "news-events": "News & Events",
+    "support-legal": "SUPPORT & LEGAL",
+    "faqs": "FAQs",
+    "policy-privacy": "Policy Privacy",
+    "terms-of-service": "Term of Service",
+    "our-sponsors": "OUR SPONSORS",
+    "copyright": "© 2025 exSTAD, Inc.",
+    "all-rights-reserved": "All rights reserved.",
+    "privacy-policy": "Privacy Policy",
+    "telegram": "Telegram",
+    "email": "Email",
+    "facebook": "Facebook"
+  }
 }

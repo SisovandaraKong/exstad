@@ -2,9 +2,9 @@
 
 import React from "react";
 import { useGetAllMasterProgramsQuery } from "../masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "../openingProgramApi";
 import ShortCourseCard from "./ShortCourseCard";
 import ShortCourseCardSkeleton from "../skeleton/ShortCourseCardSkeleton";
+import { useGetAllOpeningProgramsQuery } from "../openingProgramApi";
 const ShortCourseCardList = () => {
   const {
     data: programs = [],

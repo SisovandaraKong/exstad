@@ -1,16 +1,15 @@
-/** @format */
-
 import type { Metadata } from "next";
 import { Inter, Koh_Santepheap } from "next/font/google";
 import { cookies } from "next/headers";
-import "./globals.css";
-// import Providers from "@/services/store/Providers";
 import Footer from "@/components/footer/Footer";
+import OnlineStatusIndicator from "@/components/offline/online-status-indicator";
 import Navbar from "@/components/navbar/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import AuthProvider from "@/lib/auth-provider";
 import I18nProvider from "@/lib/I18nProvider";
 import Providers from "@/lib/providers";
+import "../app/globals.css";
+
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -68,30 +67,25 @@ export default async function RootLayout({
 	const internalLocale = cookieLocale === "kh" ? "kh" : cookieLocale ?? "en";
 	const htmlLang = internalLocale === "kh" ? "km" : internalLocale;
 
-  // Fallback empty strings for font variables to avoid hydration mismatch
-  // const interVariable = inter.variable ?? "";
-  // const kohVariable = koh.variable ?? "";
- 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
-      <body
-        className={`${inter.variable} ${koh.variable} antialiased relative  bg-whitesmoke`}
-      >
+      <body className={`${inter.variable} ${koh.variable} antialiased relative bg-whitesmoke`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>
-            <Providers>
-              <I18nProvider initialLocale={internalLocale}>
+          <OnlineStatusIndicator />
+          <Providers>
+            <I18nProvider initialLocale={internalLocale}>
+              <AuthProvider>
                 <Navbar />
                 <main className="mt-20">{children}</main>
                 <Footer />
-              </I18nProvider>
-            </Providers>
-          </AuthProvider>
+              </AuthProvider>
+            </I18nProvider>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>

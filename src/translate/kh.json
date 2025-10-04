@@ -10,25 +10,42 @@
 
   "log-in": "ចូលគណនី",
 
+  "enrollment": "ការចុះឈ្មោះ",
+  "full-name-en": "ឈ្មោះពេញ (អង់គ្លេស)",
+  "full-name-kh": "ឈ្មោះពេញ (ខ្មែរ)",
+  "gender": "ភេទ",
+  "dob": "ថ្ងៃខែឆ្នាំកំណើត",
+  "grade": "និទ្ទេស (បាក់ឌុប)",
+  "university": "សាកលវិទ្យាល័យ",
+  "how-long-have-you-been-learning-programming": "តើអ្នកបានសិក្សាភាសា Programming រយៈពេលប៉ុន្មាន?",
+  "how-do-you-know-istad": "តើអ្នកស្គាល់ ISTAD ដោយរបៀបណា?",
+  "istad-will-create-it-bacchelor-degree-course-from-next-year": "ISTAD នឹងបង្កើតវគ្គសិក្សាបរិញ្ញាបត្រផ្នែក IT ចាប់ពីឆ្នាំក្រោយសម្រាប់សិស្សបាក់ឌុប។ តើអ្នកចង់ណែនាំអ្នកណាម្នាក់វគ្គនេះទេ? ហេតុអ្វី?",
+  "opening-program": "វគ្គសិក្សាបើកថ្មី",
+  "current-address": "អាសយដ្ឋានបច្ចុប្បន្ន",
+  "phone-number": "លេខទូរស័ព្ទ",
+  "email": "អ៊ីមែល",
+  "education-qualification": "កម្រិតសិក្សា",
+  "any-request": "សំណើរទៅកាន់ ISTAD",
+  "picture-file": "រូបភាព",
+  "enroll-now": "ចុះឈ្មោះឥឡូវនេះ",
 
-
-	"footer": {
-		"description": "exSTAD ត្រូវបានបង្កើតឡើងដោយសិស្សនៃ ISTAD ដើម្បីបង្កើនប្រសិទ្ធភាពនៃការចុះឈ្មោះ និងការផ្ទៀងផ្ទាត់ទម្រង់សិស្ស។",
-		"explore": "ស្វែងរក",
-		"bachelor-degree": "កម្រិតបរិញ្ញាបត្រ",
-		"short-courses": "វគ្គសិក្សាខ្លី",
-		"scholarship": "អាហារូបករណ៍",
-		"news-events": "ព័ត៌មាន និងព្រឹត្តិការណ៍",
-		"support-legal": "ការគាំទ្រ និងច្បាប់",
-		"faqs": "សំណួរកំសាល់",
-		"policy-privacy": "គោលការណ៍ភាពឯកជន",
-		"terms-of-service": "លក្ខខណ្ឌនៃសេវាកម្ម",
-		"our-sponsors": "ម្ចាស់ឧបត្ថម្ភរបស់យើង",
-		"copyright": "© ២០២៥ exSTAD, Inc.",
-		"all-rights-reserved": "រក្សាសិទ្ធិទាំងអស់។",
-		"privacy-policy": "គោលការណ៍ភាពឯកជន",
-		"telegram": "តេឡេក្រាម",
-		"email": "អ៊ីមែល",
-		"facebook": "ហ្វេសប៊ុក"
-	}
+  "footer": {
+    "description": "exSTAD ត្រូវបានបង្កើតឡើងដោយសិស្សនៃ ISTAD ដើម្បីបង្កើនប្រសិទ្ធភាពនៃការចុះឈ្មោះ និងការផ្ទៀងផ្ទាត់ទម្រង់សិស្ស។",
+    "explore": "ស្វែងរក",
+    "bachelor-degree": "កម្រិតបរិញ្ញាបត្រ",
+    "short-courses": "វគ្គសិក្សាខ្លី",
+    "scholarship": "អាហារូបករណ៍",
+    "news-events": "ព័ត៌មាន និងព្រឹត្តិការណ៍",
+    "support-legal": "ការគាំទ្រ និងច្បាប់",
+    "faqs": "សំណួរកំសាល់",
+    "policy-privacy": "គោលការណ៍ភាពឯកជន",
+    "terms-of-service": "លក្ខខណ្ឌនៃសេវាកម្ម",
+    "our-sponsors": "ម្ចាស់ឧបត្ថម្ភរបស់យើង",
+    "copyright": "© ២០២៥ exSTAD, Inc.",
+    "all-rights-reserved": "រក្សាសិទ្ធិទាំងអស់។",
+    "privacy-policy": "គោលការណ៍ភាពឯកជន",
+    "telegram": "តេឡេក្រាម",
+    "email": "អ៊ីមែល",
+    "facebook": "ហ្វេសប៊ុក"
+  }
 }

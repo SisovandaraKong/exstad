@@ -33,7 +33,7 @@ function Navbar({ className }: { className?: string }) {
       "relative rounded-md transition-colors font-d4 font-medium duration-200";
     const hoverClasses = "hover:text-foreground hover:after:opacity-100";
     const afterClasses =
-      "after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[3px] after:bg-primary after:transition-opacity after:duration-200";
+      "after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[4px] after:bg-primary after:transition-opacity after:duration-200";
 
     if (isActive(href)) {
       return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
@@ -80,12 +80,12 @@ function Navbar({ className }: { className?: string }) {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="block">
-              	<Image
-								src='/favicon.ico'
-								alt='Logo'
-								width={50}
-								height={70}
-							/>
+              <Image
+                src="/image/logo/exSTAD-03.png"
+                alt="Logo"
+                width={50}
+                height={70}
+              />
             </Link>
 
             {/* Desktop Navigation Links */}
@@ -98,10 +98,7 @@ function Navbar({ className }: { className?: string }) {
                 >
                   {t("explore-course")}
                 </Link>
-                <Link
-                  href="/scholar"
-                  className={getNavLinkClasses('/scholar')}
-                >
+                <Link href="/scholar" className={getNavLinkClasses("/scholar")}>
                   {t("scholar")}
                 </Link>
                 <Link href="/roadmap" className={getNavLinkClasses("/roadmap")}>
@@ -109,13 +106,12 @@ function Navbar({ className }: { className?: string }) {
                 </Link>
                 <Link
                   href="/about-us"
-                  className={getNavLinkClasses('/about-us')}
+                  className={getNavLinkClasses("/about-us")}
                 >
                   {t("about-us")}
                 </Link>
               </div>
             </div>
-
 
             {/* Desktop Right Side */}
             <div className="hidden md:block">

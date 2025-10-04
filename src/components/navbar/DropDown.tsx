@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-// import { programData } from "@/data/programData";
 import { useGetAllMasterProgramsQuery } from "../program/masterProgramApi";
 
 export default function DropDown() {
@@ -13,9 +12,7 @@ export default function DropDown() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const t = useTranslations();
 
-  const {
-    data: programs = [],
-  } = useGetAllMasterProgramsQuery();
+  const { data: programs = [] } = useGetAllMasterProgramsQuery();
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) {
@@ -59,7 +56,7 @@ export default function DropDown() {
       className="relative"
     >
       <button
-        className={`relative rounded-md transition-colors font-d4 font-medium duration-200 hover:text-foreground hover:after:opacity-100 bg-transparent border-none outline-none cursor-pointer after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[3px] after:bg-primary after:transition-opacity after:duration-200 after:opacity-0 ${
+        className={`relative rounded-md transition-colors font-d4 font-medium duration-200 hover:text-foreground hover:after:opacity-100 bg-transparent border-none outline-none cursor-pointer after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[4px] after:bg-primary after:transition-opacity after:duration-200 after:opacity-0 ${
           open ? "text-foreground after:opacity-100" : ""
         }`}
       >
@@ -67,7 +64,7 @@ export default function DropDown() {
       </button>
 
       {open && (
-        <div className="fixed left-0 right-0 top-[80px] z-50 bg-background border-b border-border shadow-lg w-full">
+        <div className="fixed left-0 right-0 top-[80px] z-50 bg-background border-b border-border shadow-lg w-full border-t-1 border-text-whitesmoke">
           <div className="mx-auto max-w-7xl px-6 py-8">
             <ul className="grid font-d4 gap-6 w-full grid-cols-1 md:grid-cols-2 md:grid-rows-2">
               {components.slice(0, 4).map((component) => (

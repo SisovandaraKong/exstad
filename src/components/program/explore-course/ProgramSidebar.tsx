@@ -4,7 +4,11 @@ import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PiNotePencilBold } from "react-icons/pi";
-import { MdOutlineAccessTime, MdOutlineSchool, MdOutlinePaid } from "react-icons/md";
+import {
+  MdOutlineAccessTime,
+  MdOutlineSchool,
+  MdOutlinePaid,
+} from "react-icons/md";
 import { VscGraph } from "react-icons/vsc";
 import { BsPeople } from "react-icons/bs";
 import { FaTelegram } from "react-icons/fa6";
@@ -26,17 +30,24 @@ interface ProgramSidebarProps extends MasterProgramType {
 const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
   const router = useRouter();
 
-  const { data: masterProgram, isLoading: loadingMaster, isError: errorMaster } =
-    useGetMasterProgramByUuidQuery({ uuid });
+  const {
+    data: masterProgram,
+    isLoading: loadingMaster,
+    isError: errorMaster,
+  } = useGetMasterProgramByUuidQuery({ uuid });
 
-  const { data: openingPrograms = [], isLoading: loadingOpening, isError: errorOpening } =
-    useGetAllOpeningProgramsQuery();
+  const {
+    data: openingPrograms = [],
+    isLoading: loadingOpening,
+    isError: errorOpening,
+  } = useGetAllOpeningProgramsQuery();
 
   const isLoading = loadingMaster || loadingOpening;
   const isError = errorMaster || errorOpening;
 
   if (isLoading) return <ProgramOverviewSidebarSkeleton />;
-  if (isError || !masterProgram) return <p className="text-red-500">Failed to load sidebar.</p>;
+  if (isError || !masterProgram)
+    return <p className="text-red-500">Failed to load sidebar.</p>;
 
   // Attach matching opening program
   const openingProgram = openingPrograms.find(
@@ -47,8 +58,8 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
   const program: ProgramSidebarProps = { ...masterProgram, openingProgram };
 
   const handleEnrollmentClick = () => {
-    if (!program.openingProgram?.uuid) return;
-    router.push(`/explore-course/${program.openingProgram.uuid}/enrollment`);
+    if (!program.openingProgram?.slug) return;
+    router.push(`/explore-course/${program.openingProgram.slug}/enrollment`);
   };
 
   return (
@@ -93,7 +104,9 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
           <p className="font-normal flex items-center gap-2 text-[14px] text-foreground">
             <VscGraph /> Level
           </p>
-          <p className="font-bold text-[14px] text-foreground">{program.programLevel}</p>
+          <p className="font-bold text-[14px] text-foreground">
+            {program.programLevel}
+          </p>
         </div>
 
         <div className="flex justify-between">

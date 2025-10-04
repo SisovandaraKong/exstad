@@ -84,7 +84,9 @@ const CustomNode = ({ data }: CustomNodeProps) => {
   let extraClasses = "";
   if (isCompleted) {
     colorClass = "bg-green-600";
+    colorClass = "bg-green-600";
   } else if (isCurrent) {
+    colorClass = "bg-red-600";
     colorClass = "bg-red-600";
     extraClasses = " animate-pulse";
   }
