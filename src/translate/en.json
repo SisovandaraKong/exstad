@@ -1,32 +1,34 @@
 {
-	"hello": "Hello",
-	"welcome": "Welcome to my website",
+    "hello": "Hello",
+  "welcome": "Welcome to my website",
 
-	"explore-program": "Explore Program",
-	"available-programs": "Available Programs",
-	"scholar": "Scholar",
-	"roadmap": "Roadmap",
-	"about-us": "About Us",
+  "our-program": "Our Program",
+  "explore-course": "Explore Course",
+  "scholar": "Scholar",
+  "roadmap": "Roadmap",
+  "about-us": "About Us",
 
-	"log-in": "Log In",
+  "log-in": "Log In",
 
-	"footer": {
-		"description": "exSTAD is created by ISTAD students streamlines enrollment and verifies student profiles.",
-		"explore": "EXPLORE",
-		"bachelor-degree": "Bachelor Degree",
-		"short-courses": "Short Courses",
-		"scholarship": "Scholarship",
-		"news-events": "News & Events",
-		"support-legal": "SUPPORT & LEGAL",
-		"faqs": "FAQs",
-		"policy-privacy": "Policy Privacy",
-		"terms-of-service": "Term of Service",
-		"our-sponsors": "OUR SPONSORS",
-		"copyright": "© 2025 exSTAD, Inc.",
-		"all-rights-reserved": "All rights reserved.",
-		"privacy-policy": "Privacy Policy",
-		"telegram": "Telegram",
-		"email": "Email",
-		"facebook": "Facebook"
-	}
+  
+
+  "footer": {
+    "description": "exSTAD is created by ISTAD students streamlines enrollment and verifies student profiles.",
+    "explore": "EXPLORE",
+    "bachelor-degree": "Bachelor Degree",
+    "short-courses": "Short Courses",
+    "scholarship": "Scholarship",
+    "news-events": "News & Events",
+    "support-legal": "SUPPORT & LEGAL",
+    "faqs": "FAQs",
+    "policy-privacy": "Policy Privacy",
+    "terms-of-service": "Term of Service",
+    "our-sponsors": "OUR SPONSORS",
+    "copyright": "© 2025 exSTAD, Inc.",
+    "all-rights-reserved": "All rights reserved.",
+    "privacy-policy": "Privacy Policy",
+    "telegram": "Telegram",
+    "email": "Email",
+    "facebook": "Facebook"
+  }
 }
