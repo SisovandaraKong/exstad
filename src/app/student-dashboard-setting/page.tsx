@@ -90,20 +90,19 @@
 
 // export default ProfileSection;
 
-import ProfilePortfolioSetting from "@/components/student/ProfilePortfolioSetting";
 import { ProfileSection } from "@/components/student/ProfileSection";
-// import Schorlar from "@/components/scholar/Schorlar";
-export default function AboutPage() {
-  return (
-    <main className="" >
-      {/* <Schorlar /> */}
-      <ProfileSection />
-      <ProfilePortfolioSetting />
+import ProfilePortfolio from "@/components/student/ProfilePortfolioSetting";
 
-     {/* <Footer></Footer> */}
-      
-     
-      
-    </main>
+export default function Page({ params }: { params: { username: string } }) {
+  return (
+    <div className="flex flex-col gap-16">
+      {/* Hero Profile Section */}
+      <ProfileSection username={params.username} />
+
+      {/* Portfolio (certificates, achievements, courses) */}
+     <div className="-mt-10 md:-mt-16">
+        <ProfilePortfolio username={params.username} />
+      </div>
+    </div>
   );
 }

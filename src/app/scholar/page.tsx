@@ -1,5 +1,6 @@
 "use client";
 import HeroScholars from "@/components/scholar/Scholar";
+
 export default function Scholar() {
 
   return (
@@ -7,6 +8,8 @@ export default function Scholar() {
 
      
       <HeroScholars/>
+ 
+      
      
       
     </main>
