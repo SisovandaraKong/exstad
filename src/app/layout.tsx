@@ -16,6 +16,7 @@ const inter = Inter({
   display: "swap",
 });
 
+// koh-santepheap
 const koh = Koh_Santepheap({
   variable: "--font-koh",
   weight: "400",
