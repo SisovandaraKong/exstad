@@ -13,7 +13,6 @@ interface ScholarshipCardProps extends MasterProgramType {
 }
 
 const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
-  uuid,
   title,
   description,
   openingProgram,
@@ -21,8 +20,8 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
   const router = useRouter();
 
   const handleEnrollClick = () => {
-    if (!openingProgram?.uuid) return; // Safety check
-    router.push(`/explore-course/${openingProgram.uuid}/enrollment`);
+    if (!openingProgram?.slug) return; // Safety check
+    router.push(`/explore-course/${openingProgram.slug}/enrollment`);
   };
 
   return (
@@ -34,7 +33,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
       whileHover={{ boxShadow: "0px 8px 30px rgba(0,0,0,0.1)" }}
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]"
     >
-      <Link href={`/explore-course/${uuid}`} className="block">
+      <Link href={`/explore-course/${openingProgram?.slug}`} className="block">
         <Image
           unoptimized
           height={500}
@@ -71,7 +70,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
           <div className="flex justify-between items-center w-full gap-4">
             {/* Deadline */}
             <div className="border-b-4 text-center rounded-[8px] border-secondary text-secondary px-2 sm:px-6 md:px-6 py-1 sm:py-2">
-              <p className="text-secondary font-bold text-[16px] md:text-[18px] lg:text-[22px]">
+              <p className="text-secondary font-bold text-sm sm:text-base md:text-lg lg:text-xl">
                 {openingProgram?.deadline}
               </p>
               <p className="text-sm md:text-base lg:text-lg">Deadline</p>

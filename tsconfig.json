@@ -31,8 +31,8 @@
   "include": [
     "next-env.d.ts",
     "next-auth.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "/*.ts",
+    "/*.tsx",
     ".next/types/**/*.ts",
     "tailwind.config.ts",
     "globals.d.ts"  // Add this
@@ -41,4 +41,3 @@
     "node_modules"
   ]
 }
-

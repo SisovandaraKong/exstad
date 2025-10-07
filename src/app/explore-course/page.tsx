@@ -6,7 +6,7 @@ import ProgramSearch from "@/components/program/ProgramSearch";
 import ProgramActiveSidebarSkeleton from "@/components/program/skeleton/ProgramActiveSidebarSkeleton";
 import ProgramCardList from "@/components/program/explore-course/ProgramCardList";
 import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi"; // ✅ add this
+import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi"; 
 
 export default function ExploreProgramPage() {
   const [programFilter, setProgramFilter] = useState("All");
@@ -58,11 +58,11 @@ export default function ExploreProgramPage() {
         <div >
           <ProgramCardList
             programs={programs}
+            openingPrograms={openingPrograms} 
             programFilter={programFilter}
             subFilter={subFilter}
             levelFilter={levelFilter}
             searchValue={searchValue}
-            openingPrograms={openingPrograms} 
             isLoading={isLoading}
           />
         </div>

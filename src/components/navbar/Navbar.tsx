@@ -14,10 +14,10 @@ import { usePathname } from "next/navigation";
 import DropDown from "./DropDown";
 
 function Navbar({ className }: { className?: string }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const navRef = React.useRef<HTMLDivElement | null>(null);
-  const pathname = usePathname();
-  const t = useTranslations();
+	const [mobileOpen, setMobileOpen] = useState(false);
+	const navRef = React.useRef<HTMLDivElement | null>(null);
+	const pathname = usePathname();
+	const t = useTranslations();
 
   // Function to check if a link is active
   const isActive = (href: string) => {
@@ -33,7 +33,7 @@ function Navbar({ className }: { className?: string }) {
       "relative rounded-md transition-colors font-d4 font-medium duration-200";
     const hoverClasses = "hover:text-foreground hover:after:opacity-100";
     const afterClasses =
-      "after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[3px] after:bg-primary after:transition-opacity after:duration-200";
+      "after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[4px] after:bg-primary after:transition-opacity after:duration-200";
 
     if (isActive(href)) {
       return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
@@ -81,7 +81,7 @@ function Navbar({ className }: { className?: string }) {
             {/* Logo */}
             <Link href="/" className="block">
               <Image
-                src="/image/logo/exSTAD-03.png"
+                src="/favicon.ico"
                 alt="Logo"
                 width={50}
                 height={70}
@@ -178,7 +178,7 @@ function Navbar({ className }: { className?: string }) {
                   </Link>
                   <Link
                     href="/about"
-                    className={getNavLinkClasses("/about")}
+                    className={getNavLinkClasses("/about-us")}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("about-us")}

@@ -13,7 +13,6 @@ export const enrollmentColumns: ColumnDef<Enrollment>[] = [
   {
     accessorKey: "id",
     header: "#",
-    size: 120,
     cell: ({ row }) => (
       <div className="font-medium text-gray-400">{row.index + 1}</div>
     ),
@@ -23,15 +22,18 @@ export const enrollmentColumns: ColumnDef<Enrollment>[] = [
     header: "Name",
     cell: ({ row }) => (
       <UserProfileCell
-        name={row.original.englishName}
+        name={row.original.englishName + " - " + row.original.khmerName}
         title={row.original.email}
       />
     ),
   },
   {
-    accessorKey: "khmerName",
-    header: "Khmer name",
-    size: 140,
+    accessorKey: "university",
+    header: "University",
+  },
+  {
+    accessorKey: "dob",
+    header: "Date of Birth",
   },
   {
     accessorKey: "gender",
@@ -42,6 +44,7 @@ export const enrollmentColumns: ColumnDef<Enrollment>[] = [
     header: "Address",
   },
   {
+    enablePinning: true,
     accessorKey: "isPaid",
     header: "Status",
     cell: ({ row }) => {
@@ -58,19 +61,30 @@ export const enrollmentColumns: ColumnDef<Enrollment>[] = [
     },
   },
   {
+    enablePinning: true,
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
       const i = row.original;
       return (
         <Tooltip disableHoverableContent={i.isPaid}>
-          <TooltipTrigger>
-            <Button variant={"ghost"} disabled={i.isPaid}>
+          <TooltipTrigger asChild>
+            <Button
+              className={`transition-colors duration-300 ease-in-out cursor-pointer ${
+                i.isPaid ? "" : "text-[#B25E00] bg-[#FFF4E5]"
+              }`}
+              variant={"ghost"}
+              disabled={i.isPaid}
+            >
               <BadgeDollarSign />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Click to process payment</p>
+            <p>
+              {i.isPaid
+                ? "Payment already processed"
+                : "Click to process payment"}
+            </p>
           </TooltipContent>
         </Tooltip>
       );

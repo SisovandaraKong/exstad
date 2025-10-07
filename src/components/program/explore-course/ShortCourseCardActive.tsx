@@ -12,7 +12,7 @@ interface ShortCourseCardProps extends MasterProgramType {
 }
 
 const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
-  uuid,
+  // uuid,
   title,
   description,
   openingProgram,
@@ -20,14 +20,14 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
   const router = useRouter();
 
   const handleEnrollClick = () => {
-    if (!openingProgram?.uuid) return; // safety check
-    router.push(`/explore-course/${openingProgram.uuid}/enrollment`);
+    if (!openingProgram?.slug) return; // safety check
+    router.push(`/explore-course/${openingProgram.slug}/enrollment`);
   };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]">
       {/* Course Image */}
-      <Link href={`/explore-course/${uuid}`} className="block">
+      <Link href={`/explore-course/${openingProgram?.slug}`} className="block">
         <Image
           unoptimized
           src={openingProgram?.posterUrl || "/placeholder.jpg"}

@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 import { CometCard } from "@/components/ui/comet-card";
 import { FaFacebook, FaGithub, FaStarOfLife, FaTelegram } from "react-icons/fa";
 import MentorCard from "@/components/ui/mentorCard";
-import MorphTo from "@/components/ui/morphTo";
+// import MorphTo from "@/components/ui/morphTo";
 import { BackgroundBeams } from "@/components/ui/background-beam";
 import { teamData } from "@/data/teamMembers";
 import { HiChip } from "react-icons/hi";
