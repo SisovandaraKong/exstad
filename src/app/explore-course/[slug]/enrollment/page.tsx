@@ -21,6 +21,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { universitiesData, University } from "@/data/universities";
+import { provinceData, Province } from "@/data/provinceData";
 import {
   Form,
   FormControl,
@@ -81,6 +82,7 @@ function formatDate(date: Date | undefined) {
 }
 
 const universities: University[] = universitiesData;
+const provinces: Province[] = provinceData;
 
 const formSchema = z.object({
   englishName: z.string().min(1, "English name is required"),
@@ -112,6 +114,7 @@ export default function EnrollmentPage() {
   const t = useTranslations();
   // State
   const [addressOpen, setAddressOpen] = React.useState(false);
+  const [provinceOpen, setProvinceOpen] = React.useState(false);
   const [universityOpen, setUniversityOpen] = React.useState(false);
   const [dobOpen, setDobOpen] = React.useState(false);
   const [files, setFiles] = React.useState<File[] | null>(null);
@@ -212,7 +215,7 @@ export default function EnrollmentPage() {
         university: values.university,
         currentAddress: values.currentAddress,
         avatar: avatarUri,
-        province: "Phnom Penh",
+        province: values.province,
         phoneNumber: values.phoneNumber,
         educationQualification: values.educationQualification,
         email: values.email,
@@ -338,6 +341,86 @@ export default function EnrollmentPage() {
                             }}
                             initialFocus
                           />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Province */}
+                <FormField
+                  control={form.control}
+                  name="province"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Place of Birth
+                        <span className="text-red-600">*</span>
+                      </FormLabel>
+                      <Popover open={provinceOpen} onOpenChange={setProvinceOpen}>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              aria-expanded={provinceOpen}
+                              className={cn(
+                                "w-full py-7 bg-whitesmoke justify-between font-normal hover:bg-whitesmoke",
+                                field.value
+                                  ? "text-accent-foreground"
+                                  : "text-muted-foreground"
+                              )}
+                            >
+                              {field.value
+                                ? provinces.find(
+                                    (province) =>
+                                      province.englishName === field.value
+                                  )?.englishName
+                                : "Select province"}
+                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="!w-full min-w-[300px] max-h-[200px] p-0"
+                          align="end"
+                        >
+                          <Command>
+                            <CommandInput
+                              placeholder="Search address"
+                              className="h-9"
+                            />
+                            <CommandList>
+                              <CommandEmpty>No province found.</CommandEmpty>
+                              <CommandGroup>
+                                {provinces.map((province) => (
+                                  <CommandItem
+                                    key={province.uuid}
+                                    value={province.englishName}
+                                    onSelect={(currentValue) => {
+                                      field.onChange(
+                                        currentValue === field.value
+                                          ? ""
+                                          : currentValue
+                                      );
+                                      setAddressOpen(false);
+                                    }}
+                                  >
+                                    {province.englishName}
+                                    <Check
+                                      className={cn(
+                                        "ml-auto h-4 w-4",
+                                        field.value === province.englishName
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
                         </PopoverContent>
                       </Popover>
                       <FormMessage />
@@ -653,86 +736,6 @@ export default function EnrollmentPage() {
                     </FormItem>
                   )}
                 />
-
-                {/* Province */}
-                {/* <FormField
-                  control={form.control}
-                  name="province"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Province
-                        <span className="text-red-600">*</span>
-                      </FormLabel>
-                      <Popover open={addressOpen} onOpenChange={setAddressOpen}>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              aria-expanded={addressOpen}
-                              className={cn(
-                                "w-full py-7 bg-whitesmoke justify-between font-normal hover:bg-whitesmoke",
-                                field.value
-                                  ? "text-accent-foreground"
-                                  : "text-muted-foreground"
-                              )}
-                            >
-                              {field.value
-                                ? currentAddressData.find(
-                                    (address) =>
-                                      address.englishName === field.value
-                                  )?.englishName
-                                : "Select province"}
-                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent
-                          className="!w-full min-w-[300px] max-h-[200px] p-0"
-                          align="end"
-                        >
-                          <Command>
-                            <CommandInput
-                              placeholder="Search address"
-                              className="h-9"
-                            />
-                            <CommandList>
-                              <CommandEmpty>No province found.</CommandEmpty>
-                              <CommandGroup>
-                                {currentAddressData.map((address) => (
-                                  <CommandItem
-                                    key={address.uuid}
-                                    value={address.englishName}
-                                    onSelect={(currentValue) => {
-                                      field.onChange(
-                                        currentValue === field.value
-                                          ? ""
-                                          : currentValue
-                                      );
-                                      setAddressOpen(false);
-                                    }}
-                                  >
-                                    {address.englishName}
-                                    <Check
-                                      className={cn(
-                                        "ml-auto h-4 w-4",
-                                        field.value === address.englishName
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
 
                 {/* Current Address - ComboBox */}
                 <FormField

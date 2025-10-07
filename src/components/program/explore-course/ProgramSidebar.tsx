@@ -47,8 +47,8 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
   const program: ProgramSidebarProps = { ...masterProgram, openingProgram };
 
   const handleEnrollmentClick = () => {
-    if (!program.openingProgram?.uuid) return;
-    router.push(`/explore-course/${program.openingProgram.uuid}/enrollment`);
+    if (!program.openingProgram?.slug) return;
+    router.push(`/explore-course/${program.openingProgram.slug}/enrollment`);
   };
 
   return (

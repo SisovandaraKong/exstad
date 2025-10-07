@@ -30,10 +30,10 @@ function Navbar({ className }: { className?: string }) {
   // Function to get navigation link classes
   const getNavLinkClasses = (href: string) => {
     const baseClasses =
-      "relative rounded-md transition-colors font-d4 font-medium duration-200";
+      "relative rounded-md transition-colors font-d4 font-normal duration-200";
     const hoverClasses = "hover:text-foreground hover:after:opacity-100";
     const afterClasses =
-      "after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[4px] after:bg-primary after:transition-opacity after:duration-200";
+      "after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200";
 
     if (isActive(href)) {
       return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;

@@ -58,7 +58,7 @@ export default function DropDown() {
       className="relative"
     >
       <button
-        className={`relative rounded-md transition-colors font-d4 font-medium duration-200 hover:text-foreground hover:after:opacity-100 bg-transparent border-none outline-none cursor-pointer after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[4px] after:bg-primary after:transition-opacity after:duration-200 after:opacity-0 ${
+        className={`relative rounded-md transition-colors font-d4 font-normal duration-200 hover:text-foreground hover:after:opacity-100 bg-transparent border-none outline-none cursor-pointer after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200 after:opacity-0 ${
           open ? "text-foreground after:opacity-100" : ""
         }`}
       >

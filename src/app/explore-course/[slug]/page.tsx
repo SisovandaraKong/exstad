@@ -72,7 +72,7 @@ const ProgramDetailPage: React.FC = () => {
 
   // Tabs
   const tabComponents: Record<string, React.FC> = {
-    Overview: () => <ProgramOverviewTap program={masterProgram} />, // ✅ use master program
+    Overview: () => <ProgramOverviewTap program={masterProgram} />, 
     Curriculum: () => <ProgramCurriculumTap openingUuid={openingProgram.uuid} masterUuid={masterProgram.uuid} />,
     Activity: () =>
       generations.length ? (
