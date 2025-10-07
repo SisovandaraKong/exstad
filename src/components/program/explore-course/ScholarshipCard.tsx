@@ -31,7 +31,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
       transition={{ duration: 0.9, ease: "easeOut" }}
       viewport={{ once: false, amount: 0.2 }}
       whileHover={{ boxShadow: "0px 8px 30px rgba(0,0,0,0.1)" }}
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]"
+      className="w-full max-h-[550px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]"
     >
       <Link href={`/explore-course/${openingProgram?.slug}`} className="block">
         <Image
@@ -40,7 +40,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
           width={500}
           src={openingProgram?.posterUrl ?? "/fallback.png"}
           alt={title}
-          className="w-fit h-auto rounded-[20px] object-cover sm:w-[300px] md:w-[400px] lg:w-[500px]"
+          className="w-fit max-h-[500px] rounded-[20px] object-cover sm:w-[300px] md:w-[400px] lg:w-[500px]"
         />
       </Link>
 

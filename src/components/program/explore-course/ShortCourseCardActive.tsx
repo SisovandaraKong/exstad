@@ -25,7 +25,7 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]">
+    <div className="w-full max-h-[550px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]">
       {/* Course Image */}
       <Link href={`/explore-course/${openingProgram?.slug}`} className="block">
         <Image
@@ -34,7 +34,7 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
           alt={title}
           width={500}
           height={300}
-          className="w-full h-auto max-w-[500px] rounded-[20px] object-cover sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px]"
+          className="w-full max-h-[500px]  rounded-[20px] object-cover sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px]"
         />
       </Link>
 
