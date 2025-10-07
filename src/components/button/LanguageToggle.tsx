@@ -40,10 +40,10 @@ export default function LanguageToggle() {
           alt={altText}
           width={38}
           height={38}
-          className=" shadow"
+          className="w-[38px] h-[25px] shadow object-cover"
         />
       ) : (
-        <span className="w-6 h-6 inline-block bg-gray-200" />
+        <span className="w-[38px] h-[25px] inline-block dark:bg-foreground/30 bg-gray-200" />
       )}
     </button>
   );

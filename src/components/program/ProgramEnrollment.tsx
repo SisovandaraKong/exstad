@@ -5,7 +5,7 @@ import React from "react";
 
 export default function ProgramEnrollment() {
   return (
-    <div className="p-6">
+    <div className="w-full max-w-full p-6 bg-background rounded-b-[24px]">
       <EnrollmentDataTable data={enrollments} columns={enrollmentColumns} />
     </div>
   );
