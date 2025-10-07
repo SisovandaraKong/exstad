@@ -11,13 +11,13 @@ export default function OnlineStatusIndicator() {
   useEffect(() => {
     setIsOnline(navigator.onLine);
 
-    const onOnline = () => {
-      setShowReconnecting(true);
-      setTimeout(() => {
-        setIsOnline(true);
-        setShowReconnecting(false);
-      }, 1500);
-    };
+const onOnline = () => {
+  setShowReconnecting(true);  // Show reconnecting first
+  setTimeout(() => {
+    setShowReconnecting(false); // Hide reconnecting
+    setIsOnline(true);          // Then hide everything
+  }, 1500);
+};
 
     const onOffline = () => setIsOnline(false);
 
@@ -30,7 +30,7 @@ export default function OnlineStatusIndicator() {
     };
   }, []);
 
-  if (isOnline) return null;
+if (isOnline && !showReconnecting) return null;
 
   return (
     <div className="w-[100vw] h-[100vh] bg-background text-foreground z-[9999] fixed top-0 left-0 flex items-center justify-center overflow-hidden font-koh">
@@ -48,16 +48,6 @@ export default function OnlineStatusIndicator() {
       <div className="relative z-10 flex flex-col items-center justify-center px-6 max-w-2xl mx-auto">
         {showReconnecting ? (
           <div className="animate-in fade-in duration-500">
-            {/* Logo/Favicon */}
-            <div className="mb-6 animate-in zoom-in duration-500">
-              <Image
-                src="/favicon.ico"
-                alt="EXSTAD Logo"
-                width={64}
-                height={64}
-                className="mx-auto"
-              />
-            </div>
             <div className="mb-8 relative">
               <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-2xl animate-bounce">
                 <svg
@@ -84,16 +74,6 @@ export default function OnlineStatusIndicator() {
           </div>
         ) : (
           <div className="animate-in fade-in duration-500">
-            {/* Logo/Favicon */}
-            <div className="mb-6 animate-in zoom-in duration-500">
-              <Image
-                src="/favicon.ico"
-                alt="EXSTAD Logo"
-                width={64}
-                height={64}
-                className="mx-auto"
-              />
-            </div>
             {/* WiFi Off Icon with Animation */}
             <div className="mb-8 relative">
               <div className="absolute inset-0 animate-ping">
