@@ -6,6 +6,8 @@ export type EnrollmentRequest = {
   englishName: string;
   khmerName: string;
   openingProgramUuid: string;
+  classUuid: string;
+  amount: number;
   gender: string;
   dob: string;
   phoneNumber: string;

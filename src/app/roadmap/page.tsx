@@ -1,16 +1,11 @@
 "use client";
 
-import GlowingCards, {
-  GlowingCard,
-} from "@/components/lightswind/glowing-cards";
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import BackgroundCircle from "@/components/roadmap/BackgroundCircle";
 import HorizontalScrollText from "@/components/roadmap/HorizontalScrollText";
-import LabelLevel from "@/components/roadmap/LabelLevel";
+import RoadmapGrid from "@/components/roadmap/RoadmapGrid";
 import { Button } from "@/components/ui/button";
 import { programData } from "@/data/programData";
-import Image from "next/image";
-import React from "react";
 
 export default function page() {
   return (
@@ -38,33 +33,48 @@ export default function page() {
         </div>
       </div>
       <HorizontalScrollText />
+      <RoadmapGrid programData={programData} />
 
-      <GlowingCards
-        enableGlow={true}
-        glowRadius={20}
-        glowOpacity={0.8}
-        animationDuration={500}
-        borderRadius="0rem"
-        gap="20px"
+      {/* <GlowingCards
+        enableGlow={false}
+        glowRadius={0}
+        glowOpacity={0}
+        borderRadius="0.75rem"
+        gap="24px"
         responsive={true}
-        className="gap-6 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8"
-        backgroundColor="#ffffff"
-        customTheme={''}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl w-full mx-auto px-6 py-12"
       >
         {programData.map((data) => (
           <GlowingCard
             key={data.title}
-            glowColor="#FF0000"
-            className="flex-1 basis-1/3 flex-col rounded-md justify-between p-4"
+            glowColor="#d1d1d1"
+            className="
+        group bg-white/80 dark:bg-[#1c1c1e] 
+        backdrop-blur-md 
+        rounded-xl 
+        shadow-[0_4px_20px_rgba(0,0,0,0.05)]
+        border border-gray-200 dark:border-gray-700
+        transition-all duration-300 ease-in-out
+        hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)]
+        hover:-translate-y-1
+        flex flex-col justify-between p-6
+      "
           >
+          
             <div className="flex items-start justify-between">
-              <div className="h-20 w-20 flex justify-center items-center border rounded-md shadow-sm overflow-hidden">
+              <div
+                className="
+          h-20 w-20 flex justify-center items-center 
+          rounded-lg bg-gray-50 dark:bg-[#2c2c2e] 
+          shadow-inner overflow-hidden
+        "
+              >
                 <Image
                   src={data.image}
                   alt={data.title}
                   width={80}
                   height={80}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
                   unoptimized
                 />
               </div>
@@ -72,12 +82,21 @@ export default function page() {
                 level={data.level as "Beginner" | "Advanced" | "Intermediate"}
               />
             </div>
-            <span className="mt-4 text-lg md:text-xl line-clamp-2">
+
+         
+            <span
+              className="
+        mt-5 text-xl font-medium text-gray-900 dark:text-gray-100 
+        leading-snug line-clamp-2
+        transition-colors duration-200
+        group-hover:text-gray-800 dark:group-hover:text-white
+      "
+            >
               {data.title}
             </span>
           </GlowingCard>
         ))}
-      </GlowingCards>
+      </GlowingCards> */}
     </main>
   );
 }

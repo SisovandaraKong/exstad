@@ -1,46 +1,6 @@
 "use client";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { universitiesData, University } from "@/data/universities";
-import { provinceData, Province } from "@/data/provinceData";
-import {
-  Form,
-  FormControl,
-  // FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import { currentAddressData } from "@/data/currentAddress";
-import {
-  CalendarIcon,
-  Check,
-  ChevronsUpDown,
-  CloudUpload,
-  Paperclip,
-} from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -55,20 +15,60 @@ import {
   FileUploaderContent,
   FileUploaderItem,
 } from "@/components/ui/file-upload";
-import * as React from "react";
-import { educationQualificationData } from "@/data/educationQualification";
+import { provinceData, Province } from "@/data/provinceData";
+import {
+  Form,
+  FormControl,
+  // FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
-// import { openingProgramData } from "@/data/openingProgramData";
-// import { useGetOpeningProgramBySlugQuery } from "@/features/opening-program/openingProgramApi";
-import { useCreateEnrollmentMutation } from "@/features/enrollment/enrollmentApi";
-import { useCreateDocumentMutation } from "@/features/document/documentApi";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { currentAddressData } from "@/data/currentAddress";
+import { educationQualificationData } from "@/data/educationQualification";
+import { universitiesData, University } from "@/data/universities";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  CloudUpload,
+  Paperclip,
+} from "lucide-react";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import {
   useGetAllOpeningProgramsQuery,
   useGetOpeningProgramBySlugQuery,
-  // useGetOpeningProgramByUuidQuery,
 } from "@/components/program/openingProgramApi";
-import { useParams } from "next/navigation";
+import { useCreateDocumentMutation } from "@/features/document/documentApi";
+import { useCreateEnrollmentMutation } from "@/features/enrollment/enrollmentApi";
+import { useSendTelegramMessageMutation } from "@/features/telegram/telegramApi";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import { enrollmentMessageFormatter } from "@/services/enrollment-message-formatter";
+import { useGetClassesByOpeningProgramUuidQuery } from "@/features/class/classApi";
 
 function formatDate(date: Date | undefined) {
   if (!date) {
@@ -88,6 +88,7 @@ const formSchema = z.object({
   englishName: z.string().min(1, "English name is required"),
   khmerName: z.string().min(1, "Khmer name is required"),
   openingProgramUuid: z.string().min(1, "Opening program is required"),
+  classUuid: z.string().min(1, "Class is required"),
   gender: z.string().min(1, "Gender is required"),
   dob: z.date().min(1, "Date of birth is required"),
   currentAddress: z.string().min(1, "Current address is required"),
@@ -128,14 +129,17 @@ export default function EnrollmentPage() {
   } = useGetOpeningProgramBySlugQuery({ slug });
   console.log("Opening Program:", openingProgram);
 
+  const [selectedProgramUuid, setSelectedProgramUuid] = React.useState(
+    openingProgram?.uuid ?? ""
+  );
+
+  const { data } = useGetClassesByOpeningProgramUuidQuery(selectedProgramUuid);
+  const classes = data?.classes ?? [];
+  console.log("data", data);
+  console.log("Classes:", classes);
+
   // get all opening program for course selection
   const { data: openingPrograms } = useGetAllOpeningProgramsQuery();
-
-  // const {
-  //   data: openingProgram,
-  //   isLoading,
-  //   isError,
-  // } = useGetOpeningProgramByUuidQuery({ uuid });
 
   // Enrollment mutation
   const [createEnrollment, { isLoading: isSubmitting }] =
@@ -162,6 +166,7 @@ export default function EnrollmentPage() {
       ifBachelorDegree: "",
       grade: "",
       openingProgramUuid: openingProgram?.uuid || "",
+      classUuid: "",
       email: "",
       request: "",
       dob: new Date(),
@@ -175,6 +180,8 @@ export default function EnrollmentPage() {
     }
   }, [openingProgram, form]);
 
+  const [sendTelegramMessage] = useSendTelegramMessageMutation();
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       let avatarUri = "";
@@ -182,7 +189,9 @@ export default function EnrollmentPage() {
       if (files && files.length > 0) {
         const file = files[0];
         const documentPayload = {
-          programSlug: openingProgram?.slug ?? "",
+          programSlug:
+            openingProgram?.programName.replaceAll(" ", "-").toLowerCase() ??
+            "",
           gen: openingProgram?.generation ?? 1,
           documentType: "avatar",
           filename: "null",
@@ -208,6 +217,8 @@ export default function EnrollmentPage() {
         englishName: values.englishName,
         khmerName: values.khmerName,
         openingProgramUuid: values.openingProgramUuid,
+        classUuid: values.classUuid,
+        amount: 5.0,
         dob:
           values.dob instanceof Date
             ? values.dob.toISOString().slice(0, 10)
@@ -223,8 +234,21 @@ export default function EnrollmentPage() {
         gender: values.gender,
       };
 
-      await createEnrollment(enrollmentData).unwrap();
+      const enroll = await createEnrollment(enrollmentData).unwrap();
+      console.log("Enrollment successful:", enroll);
       toast.success("Registration Successful!");
+
+      const message = enrollmentMessageFormatter(enroll);
+
+      const threadId = Number(
+        process.env.NEXT_PUBLIC_TELEGRAM_ENROLLMENT_THREAD_ID || 0
+      );
+      console.log(threadId);
+      await sendTelegramMessage({
+        message: message,
+        photoUrl: enrollmentData.avatar || undefined,
+        threadId: threadId || undefined,
+      });
 
       form.reset();
       setFiles(null);
@@ -358,7 +382,10 @@ export default function EnrollmentPage() {
                         Place of Birth
                         <span className="text-red-600">*</span>
                       </FormLabel>
-                      <Popover open={provinceOpen} onOpenChange={setProvinceOpen}>
+                      <Popover
+                        open={provinceOpen}
+                        onOpenChange={setProvinceOpen}
+                      >
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -688,6 +715,7 @@ export default function EnrollmentPage() {
                                           ? ""
                                           : program.uuid
                                       );
+                                      setSelectedProgramUuid(program.uuid);
                                       setOpeningProgramOpen(false);
                                     }}
                                   >
@@ -707,6 +735,37 @@ export default function EnrollmentPage() {
                           </Command>
                         </PopoverContent>
                       </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Class Selection */}
+                <FormField
+                  control={form.control}
+                  name="classUuid"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Shift</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl className="w-full py-7 bg-whitesmoke">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a shift" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {classes.map((cls) => (
+                            <SelectItem key={cls.uuid} value={cls.uuid}>
+                              {cls.shift.toUpperCase()}{" "}
+                              {cls.isWeekend ? "(Sat - Sun)" : "(Mon - Fri)"} |{" "}
+                              {cls.startTime} - {cls.endTime}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

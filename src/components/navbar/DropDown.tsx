@@ -12,9 +12,7 @@ export default function DropDown() {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const t = useTranslations();
 
-  const {
-    data: programs = [],
-  } = useGetAllMasterProgramsQuery();
+  const { data: programs = [] } = useGetAllMasterProgramsQuery();
 
   const handleMouseEnter = () => {
     if (timeoutRef.current) {

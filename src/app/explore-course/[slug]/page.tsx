@@ -7,7 +7,9 @@ import ProgramHeader from "@/components/program/ProgramHeader";
 import ProgramSidebar from "@/components/program/explore-course/ProgramSidebar";
 import ProgramOverviewTap from "@/components/program/detail-program/ProgramOverviewTap";
 import ProgramCurriculumTap from "@/components/program/detail-program/curriculum/ProgramCurriculum";
-import ProgramActivityTap from "@/components/program/detail-program/activity/ProgramActivity";
+import ProgramActivityTap, {
+  ProgramGeneration,
+} from "@/components/program/detail-program/activity/ProgramActivity";
 import ProgramEnrollment from "@/components/program/ProgramEnrollment";
 
 import ProgramHeaderSkeleton from "@/components/program/skeleton/ProgramHeaderSkeleton";
@@ -15,22 +17,27 @@ import ProgramOverviewCardSkeleton from "@/components/program/skeleton/ProgramOv
 import ProgramCurriculumSkeleton from "@/components/program/skeleton/ProgramCurriculumSkeleton";
 import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivitySkeleton";
 
-import { useGetOpeningProgramBySlugQuery } from "@/components/program/openingProgramApi";
-import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi"; // 👈 Fetch by title
+import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
+import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 
 const ProgramDetailPage: React.FC = () => {
   const params = useParams();
   const openingProgramSlug = params?.slug as string;
   const [activeTab, setActiveTab] = useState("Overview");
 
-  // Fetch opening program by slug
+  // Fetch all opening programs
   const {
-    data: openingProgram,
-    isLoading: isOpeningLoading,
-    isError: isOpeningError,
-  } = useGetOpeningProgramBySlugQuery({ slug: openingProgramSlug });
+    data: allPrograms = [],
+    isLoading: isAllLoading,
+    isError: isAllError,
+  } = useGetAllOpeningProgramsQuery();
 
-  // Fetch master program by title (use programName from openingProgram)
+  // Find current program by slug
+  const openingProgram = allPrograms.find(
+    (op) => op.slug === openingProgramSlug
+  );
+
+  // Always call master program hook
   const {
     data: masterProgram,
     isLoading: isMasterLoading,
@@ -40,8 +47,8 @@ const ProgramDetailPage: React.FC = () => {
     { skip: !openingProgram?.programName }
   );
 
-  // Loading
-  if (isOpeningLoading || isMasterLoading) {
+  // Loading skeletons
+  if (isAllLoading || isMasterLoading) {
     return (
       <div className="flex flex-col min-h-screen xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl">
         <div className="flex-1">
@@ -54,31 +61,40 @@ const ProgramDetailPage: React.FC = () => {
     );
   }
 
-  // Errors
-  if (isOpeningError || !openingProgram) {
-    return <p className="text-center text-red-500">Opening program not found!</p>;
-  }
-  if (isMasterError || !masterProgram) {
-    return <p className="text-center text-red-500">Master program not found!</p>;
-  }
+  // Error handling
+  if (isAllError || !allPrograms)
+    return <p className="text-center text-red-500">Failed to load programs!</p>;
+  if (!openingProgram)
+    return <p className="text-center text-red-500">Program not found!</p>;
+  if (isMasterError || !masterProgram)
+    return (
+      <p className="text-center text-red-500">Master program not found!</p>
+    );
 
-  // Generations
-  const generations = [
-    {
-      uuid: openingProgram.uuid,
-      title: `Generation ${openingProgram.generation}`,
-    },
-  ];
+  // Build all generations for this program
+  const generations: ProgramGeneration[] = allPrograms
+    .filter((op) => op.programName === openingProgram.programName)
+    .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))
+    .map((op) => ({
+      uuid: op.uuid,
+      title: `Generation ${op.generation ?? 1}`,
+    }));
 
-  // Tabs
   const tabComponents: Record<string, React.FC> = {
-    Overview: () => <ProgramOverviewTap program={masterProgram} />, 
-    Curriculum: () => <ProgramCurriculumTap openingUuid={openingProgram.uuid} masterUuid={masterProgram.uuid} />,
+    Overview: () => <ProgramOverviewTap program={masterProgram} />,
+    Curriculum: () => (
+      <ProgramCurriculumTap
+        openingUuid={openingProgram.uuid}
+        masterUuid={masterProgram.uuid}
+      />
+    ),
     Activity: () =>
       generations.length ? (
         <ProgramActivityTap generations={generations} />
       ) : (
-        <p className="text-gray-500 text-center">No opening programs available.</p>
+        <p className="text-gray-500 text-center">
+          No opening programs available.
+        </p>
       ),
     Enrollment: () => <ProgramEnrollment />,
   };
@@ -87,13 +103,13 @@ const ProgramDetailPage: React.FC = () => {
 
   return (
     <div className="flex lg:flex-col min-h-screen md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
-      <div className="flex-1">
+      <div className="flex-1 w-full min-w-0 shrink-0">
         <ProgramHeader
           uuid={masterProgram.uuid}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <div>
+        <div className="w-full">
           <ActiveTabComponent />
         </div>
       </div>

@@ -14,10 +14,10 @@ import { usePathname } from "next/navigation";
 import DropDown from "./DropDown";
 
 function Navbar({ className }: { className?: string }) {
-	const [mobileOpen, setMobileOpen] = useState(false);
-	const navRef = React.useRef<HTMLDivElement | null>(null);
-	const pathname = usePathname();
-	const t = useTranslations();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const navRef = React.useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
+  const t = useTranslations();
 
   // Function to check if a link is active
   const isActive = (href: string) => {
@@ -98,10 +98,7 @@ function Navbar({ className }: { className?: string }) {
                 >
                   {t("explore-course")}
                 </Link>
-                <Link
-                  href="/scholar"
-                  className={getNavLinkClasses('/scholar')}
-                >
+                <Link href="/scholar" className={getNavLinkClasses("/scholar")}>
                   {t("scholar")}
                 </Link>
                 <Link href="/roadmap" className={getNavLinkClasses("/roadmap")}>
@@ -109,7 +106,7 @@ function Navbar({ className }: { className?: string }) {
                 </Link>
                 <Link
                   href="/about-us"
-                  className={getNavLinkClasses('/about-us')}
+                  className={getNavLinkClasses("/about-us")}
                 >
                   {t("about-us")}
                 </Link>
