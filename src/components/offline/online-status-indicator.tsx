@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { WifiOff } from "lucide-react";
+import Image from "next/image";
 
 export default function OnlineStatusIndicator() {
   const [isOnline, setIsOnline] = useState(true);
@@ -32,7 +33,7 @@ export default function OnlineStatusIndicator() {
   if (isOnline) return null;
 
   return (
-    <div className="w-[100vw] h-[100vh] bg-background text-foreground z-[9999] fixed top-0 left-0 flex items-center justify-center overflow-hidden">
+    <div className="w-[100vw] h-[100vh] bg-background text-foreground z-[9999] fixed top-0 left-0 flex items-center justify-center overflow-hidden font-koh">
       {/* Animated Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-whitesmoke to-background opacity-50" />
 
@@ -47,6 +48,16 @@ export default function OnlineStatusIndicator() {
       <div className="relative z-10 flex flex-col items-center justify-center px-6 max-w-2xl mx-auto">
         {showReconnecting ? (
           <div className="animate-in fade-in duration-500">
+            {/* Logo/Favicon */}
+            <div className="mb-6 animate-in zoom-in duration-500">
+              <Image
+                src="/favicon.ico"
+                alt="EXSTAD Logo"
+                width={64}
+                height={64}
+                className="mx-auto"
+              />
+            </div>
             <div className="mb-8 relative">
               <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-2xl animate-bounce">
                 <svg
@@ -65,14 +76,24 @@ export default function OnlineStatusIndicator() {
               </div>
             </div>
             <h1 className="font-h2 font-bold bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent mb-4 animate-in slide-in-from-bottom duration-700">
-              Reconnecting...
+              កំពុងតភ្ជាប់ឡើងវិញ...
             </h1>
             <p className="font-d3 text-muted-foreground animate-in slide-in-from-bottom duration-700 delay-150">
-              Getting you back online
+              កំពុងត្រឡប់មកវិញ
             </p>
           </div>
         ) : (
           <div className="animate-in fade-in duration-500">
+            {/* Logo/Favicon */}
+            <div className="mb-6 animate-in zoom-in duration-500">
+              <Image
+                src="/favicon.ico"
+                alt="EXSTAD Logo"
+                width={64}
+                height={64}
+                className="mx-auto"
+              />
+            </div>
             {/* WiFi Off Icon with Animation */}
             <div className="mb-8 relative">
               <div className="absolute inset-0 animate-ping">
@@ -88,38 +109,33 @@ export default function OnlineStatusIndicator() {
 
             {/* Title with Gradient */}
             <h1 className="font-h1 font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-4 animate-in slide-in-from-bottom duration-700">
-              No Internet Connection
+              គ្មានការតភ្ជាប់អ៊ីនធឺណិត
             </h1>
 
             {/* Description */}
             <p className="font-d2 text-text mb-8 animate-in slide-in-from-bottom duration-700 delay-150">
-              Oops! Looks like you&apos;re offline
+              អូ! អ្នកមិនមានការតភ្ជាប់អ៊ីនធឺណិតទេ។
+              សូមពិនិត្យមើលការតភ្ជាប់របស់អ្នក។
             </p>
 
             {/* Troubleshooting Steps */}
             <div className="bg-card/50 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-border animate-in slide-in-from-bottom duration-700 delay-300 max-w-md">
               <h2 className="font-h5 font-semibold text-foreground mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
-                Quick Fixes:
+                វិធីដោះស្រាយរហ័ស:
               </h2>
               <ul className="space-y-3 text-left">
                 <li className="flex items-start gap-3 font-d4 text-muted-foreground">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
-                    1
+                    ១
                   </span>
-                  <span>Check your WiFi or mobile data connection</span>
+                  <span>ពិនិត្យមើលការតភ្ជាប់ WiFi ឬទិន្នន័យចល័តរបស់អ្នក</span>
                 </li>
                 <li className="flex items-start gap-3 font-d4 text-muted-foreground">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
-                    2
+                    ២
                   </span>
-                  <span>Try turning airplane mode on and off</span>
-                </li>
-                <li className="flex items-start gap-3 font-d4 text-muted-foreground">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
-                    3
-                  </span>
-                  <span>Restart your router or modem</span>
+                  <span>សាកល្បងបើកនិងបិទ Airplane Mode</span>
                 </li>
               </ul>
             </div>
@@ -132,7 +148,7 @@ export default function OnlineStatusIndicator() {
                   <span className="w-2 h-2 bg-secondary rounded-full animate-bounce offline-dot-2" />
                   <span className="w-2 h-2 bg-accent rounded-full animate-bounce offline-dot-3" />
                 </div>
-                <span>Waiting for connection...</span>
+                <span>កំពុងរង់ចាំការតភ្ជាប់...</span>
               </div>
             </div>
           </div>
