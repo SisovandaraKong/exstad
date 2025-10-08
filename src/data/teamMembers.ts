@@ -194,7 +194,7 @@ export const teamData: TeamData = {
 };
 
 // Helper functions to simulate API calls
-export const getMentors = (): Promise<{ [key: string]: any }> => {
+export const getMentors = (): Promise<{ [key: string]: unknown }> => {
 	return new Promise((resolve) => {
 		// Simulate API delay
 		setTimeout(() => {
@@ -203,7 +203,7 @@ export const getMentors = (): Promise<{ [key: string]: any }> => {
 	});
 };
 
-export const getMembers = (): Promise<{ [key: string]: any }> => {
+export const getMembers = (): Promise<{ [key: string]: unknown }> => {
 	return new Promise((resolve) => {
 		// Simulate API delay
 		setTimeout(() => {

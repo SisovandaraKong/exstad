@@ -108,11 +108,11 @@ const ContactForm = () => {
 					{/* Left Column - Contact Info and Intro */}
 					<div>
 						<h1 className='text-4xl font-extrabold text-primary mb-3'>
-							Let's Talk
+							Let&apos;s Talk
 						</h1>
 						<p className='text-base text-gray-500 dark:text-gray-200 mt-3 mb-10'>
-							Have a big idea or brand to develop and need help? Reach out; we'd
-							love to hear about your project and provide assistance.
+							Have a big idea or brand to develop and need help? Reach out;
+							we&apos;d love to hear about your project and provide assistance.
 						</p>
 
 						{/* Status Message Display */}
