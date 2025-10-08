@@ -105,7 +105,9 @@ function Navbar({ className }: { className?: string }) {
 								<Link href='/roadmap' className={getNavLinkClasses("/roadmap")}>
 									{t("roadmap")}
 								</Link>
-								<Link href='/about' className={getNavLinkClasses("/about")}>
+								<Link
+									href='/about-us'
+									className={getNavLinkClasses("/about-us")}>
 									{t("about-us")}
 								</Link>
 							</div>

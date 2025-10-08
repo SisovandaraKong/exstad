@@ -8,6 +8,7 @@ import {
 	FaTelegram,
 	FaMapMarkerAlt,
 	FaPhone,
+	FaPhoneVolume,
 } from "react-icons/fa";
 import { MdPhoneIphone } from "react-icons/md";
 
@@ -30,8 +31,9 @@ export default function Footer() {
 							</Link>
 						</div>
 						<p className='text-sm text-white leading-relaxed'>
-							exSTAD is created by ISTAD students streamlines enrollment and
-							verifies student profiles.
+							<span className='font-semibold'>exSTAD</span> is a tech learning
+							platform designed for Cambodian students to explore and engage
+							with ISTAD’s scholarship programs.
 						</p>
 					</div>
 
@@ -99,24 +101,24 @@ export default function Footer() {
 								<FaMapMarkerAlt className='w-5 h-5 text-white mt-1 flex-shrink-0' />
 								<div>
 									<p className='text-sm text-white leading-relaxed'>
-										#12, St 323, Sangkat Boeung Kak II,
+										#40, St 273, Sangkat Boeung Kak II,{" "}
 									</p>
 									<p className='text-sm text-white leading-relaxed'>
-										Khan Toul Kork, Phnom Penh, Cambodia
+										Khan Toul Kork, Phnom Penh, Cambodia{" "}
 									</p>
 								</div>
 							</div>
 							<div className='flex items-center space-x-3'>
-								<MdPhoneIphone className='w-4 h-4 text-white flex-shrink-0' />
+								<MdPhoneIphone className='w-5 h-5 text-white flex-shrink-0' />
 								<p className='text-sm text-white'>(+855) 95-990-910</p>
 							</div>
 							<div className='flex items-center space-x-3'>
-								<MdPhoneIphone className='w-4 h-4 text-white flex-shrink-0' />
+								<MdPhoneIphone className='w-5 h-5 text-white flex-shrink-0' />
 								<p className='text-sm text-white'>(+855) 93-990-910</p>
 							</div>
 							<div className='flex items-center space-x-3'>
 								<IoMdMail className='w-5 h-5 text-white flex-shrink-0' />
-								<p className='text-sm text-white'>info@exstad.edu.kh</p>
+								<p className='text-sm text-white'>info.istad@gmail.com</p>
 							</div>
 						</div>
 					</div>

@@ -14,6 +14,7 @@ import { teamData } from "@/data/teamMembers";
 import { HiChip } from "react-icons/hi";
 import { StarburstIcon } from "@/components/ui/starburst-ui";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
+import ContactForm from "@/components/contact/ContactForm";
 
 export default function AboutUsPage() {
 	// Extract mentor and member data from imported teamData
@@ -539,6 +540,9 @@ export default function AboutUsPage() {
 					</motion.div>
 				</div>
 			</section>
+
+			{/* Contact Form Section */}
+			<ContactForm />
 		</div>
 	);
 }

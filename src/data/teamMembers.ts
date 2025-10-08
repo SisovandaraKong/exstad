@@ -79,7 +79,7 @@ export const teamData: TeamData = {
 			},
 		},
 		vanda: {
-			name: "Kong Sovannda",
+			name: "Kung Sovannda",
 			role: "Head of Frontend",
 			image: "/team/vanda.JPG",
 			bio: "Versatile developer with experience in both frontend and backend technologies.",
