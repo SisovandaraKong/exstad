@@ -31,9 +31,9 @@ export default function Footer() {
 							</Link>
 						</div>
 						<p className='text-sm text-white leading-relaxed'>
-							<span className='font-semibold'>exSTAD</span> is a tech learning
-							platform designed for Cambodian students to explore and engage
-							with ISTAD’s scholarship programs.
+							<span className='font-semibold'>exSTAD</span> is an experimental
+							technology learning space for Cambodian students, especially those
+							who want to explore ISTAD&apos;s scholarship program.
 						</p>
 					</div>
 
@@ -109,11 +109,11 @@ export default function Footer() {
 								</div>
 							</div>
 							<div className='flex items-center space-x-3'>
-								<MdPhoneIphone className='w-5 h-5 text-white flex-shrink-0' />
+								<MdPhoneIphone className='w-6 h-6 text-white flex-shrink-0' />
 								<p className='text-sm text-white'>(+855) 95-990-910</p>
 							</div>
 							<div className='flex items-center space-x-3'>
-								<MdPhoneIphone className='w-5 h-5 text-white flex-shrink-0' />
+								<MdPhoneIphone className='w-6 h-6 text-white flex-shrink-0' />
 								<p className='text-sm text-white'>(+855) 93-990-910</p>
 							</div>
 							<div className='flex items-center space-x-3'>
