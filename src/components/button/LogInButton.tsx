@@ -10,7 +10,7 @@ export default function LogInButton() {
   const { data } = useSession();
   if (data) {
     return (
-      <Link href={`/${data.user.username}`}>
+      <Link href={`/setting/${data.user.username}`}>
         {" "}
         <button className="flex items-center font-description-5 font-semibold text-white px-4 py-1 border bg-accent hover:bg-accent-hover rounded-full transition-colors">
           <FaUserGraduate className="h-4 w-4" />

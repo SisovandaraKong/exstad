@@ -426,3 +426,24 @@
 .hide-scroll-bar::-webkit-scrollbar{
   display: none;
 }
+/* Fade out the local hero fallback photo once the shared avatar is ready */
+.hero-avatar-fallback {
+  transition: opacity .18s ease;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+:root[data-shared-avatar-ready="true"] .hero-avatar-fallback {
+  opacity: 0;
+}
+/* @media (prefers-reduced-motion: reduce) {
+  .hero-avatar-fallback {
+    transition: none !important;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+} */

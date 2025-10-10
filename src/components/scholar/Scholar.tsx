@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import AOS from "aos";
@@ -28,7 +28,18 @@ import scholarData from "@/data/Scholar.json";
 import styles from "./styles.module.css";
 import { useGetAllScholarsQuery } from "./scholarApi";
 
-// --- Types (UI-only, keep your originals) ---
+// --- Types for API response and UI ---
+interface ApiScholar {
+  englishName?: string;
+  khmerName?: string;
+  username?: string;
+  university?: string;
+  role?: string;
+  avatar?: string;
+  quote?: string;
+  category?: string;
+}
+
 interface Scholar {
   id: number;
   name: string;
@@ -41,16 +52,16 @@ interface ScholarWithQuote extends Scholar {
   category: string;
 }
 
-interface SpotlightData {
-  image: string;
-  badge: string;
-  headline: string;
-  sub: string;
-  description: string;
+// Type for error response
+interface ApiError {
+  data?: {
+    message?: string;
+  };
+  error?: string;
 }
 
 // --- Data (keep originals for other sections) ---
-const { MOCK_SCHOLARS, MOCK_SCHOLARS_2, SPOTLIGHT } = scholarData;
+const { MOCK_SCHOLARS, SPOTLIGHT } = scholarData;
 
 // --- Section 1 Card ---
 const Card1 = ({ person }: { person: Scholar }) => {
@@ -105,10 +116,16 @@ const Card2 = ({ person }: { person: ScholarWithQuote }) => {
           />
         </div>
 
-        <h3 className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-white line-clamp-2" title={displayName}>
+        <h3
+          className="mt-4 sm:mt-6 text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-white line-clamp-2"
+          title={displayName}
+        >
           {displayName}
         </h3>
-        <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 line-clamp-2" title={displayTitle}>
+        <p
+          className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-300 line-clamp-2"
+          title={displayTitle}
+        >
           {displayTitle}
         </p>
 
@@ -122,15 +139,17 @@ const Card2 = ({ person }: { person: ScholarWithQuote }) => {
   );
 };
 
-
-
-
 export default function HeroScholars() {
   const [activeCategory, setActiveCategory] = useState("All");
 
   // Keep AOS from your original
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true, offset: 100, easing: "ease-in-out" });
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100,
+      easing: "ease-in-out",
+    });
   }, []);
 
   // Keep your original categories
@@ -155,23 +174,20 @@ export default function HeroScholars() {
 
   // Map API → UI fields used by Card2 & filters; fall back sensibly
   // Good: always provide a string for `title`
-const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
-  (s: any, idx: number) => ({
-    id: idx + 1,
-    name: s?.englishName || s?.khmerName || s?.username || "Unnamed Scholar",
+  const allFromApi: ScholarWithQuote[] = (apiScholars as ApiScholar[]).map(
+    (s: ApiScholar, idx: number) => ({
+      id: idx + 1,
+      name: s?.englishName || s?.khmerName || s?.username || "Unnamed Scholar",
 
-    // Build a readable title from fields you DO have
-    // e.g. "ISTAD • SCHOLAR" or fallback to "Scholar"
-    title:
-      [s?.university, s?.role].filter(Boolean).join(" • ") || "Scholar",
+      // Build a readable title from fields you DO have
+      // e.g. "ISTAD • SCHOLAR" or fallback to "Scholar"
+      title: [s?.university, s?.role].filter(Boolean).join(" • ") || "Scholar",
 
-    image: s?.avatar || "/placeholder.svg",
-    quote: s?.quote || "",
-    category: s?.category || "Uncategorized",
-  })
-);
-
-
+      image: s?.avatar || "/placeholder.svg",
+      quote: s?.quote || "",
+      category: s?.category || "Uncategorized",
+    })
+  );
 
   const filtered =
     activeCategory === "All"
@@ -182,7 +198,9 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
     <>
       {/* === SECTION 4: Hero + Marquee (keep original, uses MOCK_SCHOLARS) === */}
       <section className="relative isolate overflow-hidden dark:bg-slate-900 h-[calc(100vh-4rem)] sm:h-screen">
-        <div className={`absolute inset-0 -z-10 ${styles.gradientBackground}`} />
+        <div
+          className={`absolute inset-0 -z-10 ${styles.gradientBackground}`}
+        />
         <div className="w-full h-full flex flex-col justify-center px-4 sm:px-6 lg:px-8">
           <div className="text-center" data-aos="fade-down">
             <h1
@@ -200,9 +218,16 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
             </p>
           </div>
           <div className="mt-6">
-            <Marquee pauseOnHover repeat={3} className="[--duration:30s] [--gap:0.75rem]">
+            <Marquee
+              pauseOnHover
+              repeat={3}
+              className="[--duration:30s] [--gap:0.75rem]"
+            >
               {MOCK_SCHOLARS.map((person) => (
-                <div key={`s1-${person.id}`} className="w-40 sm:w-56 md:w-64 shrink-0">
+                <div
+                  key={`s1-${person.id}`}
+                  className="w-40 sm:w-56 md:w-64 shrink-0"
+                >
                   <Card1 person={person} />
                 </div>
               ))}
@@ -225,8 +250,14 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
               </h2>
               <div className="mt-12 flex flex-col gap-10">
                 {/* Step 1 */}
-                <div className="flex items-center gap-6 relative" data-aos="fade-right" data-aos-delay="100">
-                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">01</span>
+                <div
+                  className="flex items-center gap-6 relative"
+                  data-aos="fade-right"
+                  data-aos-delay="100"
+                >
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
+                    01
+                  </span>
                   <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-3">
                     <div className="shrink-0 rounded-xl bg-blue-50 text-blue-600 p-2 ring-1 ring-blue-100">
                       <Layers className="h-5 w-5" />
@@ -256,11 +287,15 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
                       </p>
                     </div>
                   </div>
-                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">02</span>
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
+                    02
+                  </span>
                 </div>
                 {/* Step 3 */}
                 <div className="flex items-center gap-6 relative">
-                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">03</span>
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
+                    03
+                  </span>
                   <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-3">
                     <div className="shrink-0 rounded-xl bg-rose-50 text-rose-600 p-2 ring-1 ring-rose-100">
                       <Award className="h-5 w-5" />
@@ -307,7 +342,13 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
               {MOCK_SCHOLARS.map((person) => (
                 <CarouselItem key={`spotlight-card-${person.id}`}>
                   <div className="relative rounded-2xl border border-slate-200 dark:border-slate-700 p-6 md:p-10 overflow-hidden">
-                    <BorderBeam size={200} duration={5} colorFrom="#ff4d4d" colorTo="#4d9cff" borderWidth={1} />
+                    <BorderBeam
+                      size={200}
+                      duration={5}
+                      colorFrom="#ff4d4d"
+                      colorTo="#4d9cff"
+                      borderWidth={1}
+                    />
                     <div className="flex flex-col gap-6 md:grid md:grid-cols-5 md:items-center relative z-10">
                       <div className="md:col-span-2">
                         <div className="rounded-2xl p-[2px] bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-indigo-500 shadow-lg">
@@ -338,7 +379,10 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
                           {SPOTLIGHT.description}
                         </p>
                         <div className="mt-4 sm:mt-6 flex flex-wrap gap-3">
-                          <Link href={`/scholars/${person.id}`} className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-rose-600 to-indigo-600 shadow hover:opacity-90">
+                          <Link
+                            href={`/scholars/${person.id}`}
+                            className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-rose-600 to-indigo-600 shadow hover:opacity-90"
+                          >
                             View Full Story
                           </Link>
                         </div>
@@ -382,7 +426,8 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
               Discover Our <br /> exSTAD Scholar
             </h2>
             <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Find the best student for your company and boost your business too.
+              Find the best student for your company and boost your business
+              too.
             </p>
           </div>
 
@@ -402,7 +447,9 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
                 >
                   <Icon
                     className={`h-4 w-4 ${
-                      active ? "text-blue-600" : "text-slate-400 dark:text-slate-500"
+                      active
+                        ? "text-blue-600"
+                        : "text-slate-400 dark:text-slate-500"
                     }`}
                     aria-hidden="true"
                   />
@@ -423,7 +470,7 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
             <p className="mt-10 text-center text-sm md:text-base text-rose-600">
               Failed to load scholars{": "}
               {(() => {
-                const e = error as any;
+                const e = error as ApiError;
                 return e?.data?.message ?? e?.error ?? "Unknown error";
               })()}
             </p>
@@ -431,7 +478,10 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
             // Inline skeletons (no extra components added)
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="rounded-xl p-[2px] bg-slate-200 dark:bg-slate-700 animate-pulse">
+                <div
+                  key={i}
+                  className="rounded-xl p-[2px] bg-slate-200 dark:bg-slate-700 animate-pulse"
+                >
                   <div className="rounded-xl bg-white dark:bg-slate-800 p-8 text-center">
                     <div className="mx-auto h-40 w-40 rounded-full bg-slate-200 dark:bg-slate-700" />
                     <div className="mt-6 h-6 bg-slate-200 dark:bg-slate-700 rounded" />
@@ -465,16 +515,46 @@ const allFromApi: ScholarWithQuote[] = (apiScholars as any[]).map(
             of the Family
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-10 sm:mb-12">
-            Our alumni are part of our family for life. Celebrate achievements, stay connected, and share your journey with a community that lasts beyond the classroom.
+            Our alumni are part of our family for life. Celebrate achievements,
+            stay connected, and share your journey with a community that lasts
+            beyond the classroom.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             <div className="sm:col-span-2">
-              <Image unoptimized width={500} height={500} src="/image/IMG_1518.jpg" alt="Group of alumni" className="w-full rounded-2xl shadow-md object-cover" />
+              <Image
+                unoptimized
+                width={500}
+                height={500}
+                src="/image/IMG_1518.jpg"
+                alt="Group of alumni"
+                className="w-full rounded-2xl shadow-md object-cover"
+              />
             </div>
-            <Image unoptimized width={500} height={500} src="https://z-p3-scontent.fpnh5-2.fna.fbcdn.net/v/t39.30808-6/482004918_646817148098789_6516389147884209010_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEVwykBn4VP38YIgK6-vHVSQjq8w9SqqJ5COrzD1Kqongw98nuJ07FCzw0w1DN2VZNYgNaWwZCZQSMsokRebut0&_nc_ohc=iMapw9jFeLoQ7kNvwGXY3Ju&_nc_oc=AdlLOCXae2eXtqjbu1L1iF3cRxvp0ex82aINp56e5lHnRoWt8znY9FVFPjk6FQ2PLYo&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-2.fna&_nc_gid=NVh5km8Ujfb6g6zdUaApzA&oh=00_AfYn_O75nIafL6YVpYyXnTRzr8CWlpF9_UUGEWOTAqkwww&oe=68C9D144" alt="Alumni" className="w-full rounded-2xl shadow-md object-cover" />
-            <Image unoptimized width={500} height={500} src="https://z-p3-scontent.fpnh5-2.fna.fbcdn.net/v/t39.30808-6/489964894_674024462044724_7791242851026023255_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEkNbqTLsp9qLERrSHEGm11oyHmE_gLp4WjIeYT-AunhflXwXbIIPl9fTWS2JI6gy0O3HRmYVmQ8BgWhwGvr2uP&_nc_ohc=UhuDrdgWmCIQ7kNvwGjpQ9p&_nc_oc=AdkpGkFlFonZiht9GCmU8KPkZFVP19_PEQHNKvXAjoykadTmT2xRfkyvLgHfwkSIaCc&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-2.fna&_nc_gid=jSBCAyHxc7dD7IXI4YyMXQ&oh=00_AfZzFe-ewLXHqMRKeU3RZCCn6kgpCzhYm83bRi6Qd6tVVQ&oe=68C9EC05" alt="Alumni" className="w-full rounded-2xl shadow-md object-cover" />
+            <Image
+              unoptimized
+              width={500}
+              height={500}
+              src="https://z-p3-scontent.fpnh5-2.fna.fbcdn.net/v/t39.30808-6/482004918_646817148098789_6516389147884209010_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEVwykBn4VP38YIgK6-vHVSQjq8w9SqqJ5COrzD1Kqongw98nuJ07FCzw0w1DN2VZNYgNaWwZCZQSMsokRebut0&_nc_ohc=iMapw9jFeLoQ7kNvwGXY3Ju&_nc_oc=AdlLOCXae2eXtqjbu1L1iF3cRxvp0ex82aINp56e5lHnRoWt8znY9FVFPjk6FQ2PLYo&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-2.fna&_nc_gid=NVh5km8Ujfb6g6zdUaApzA&oh=00_AfYn_O75nIafL6YVpYyXnTRzr8CWlpF9_UUGEWOTAqkwww&oe=68C9D144"
+              alt="Alumni"
+              className="w-full rounded-2xl shadow-md object-cover"
+            />
+            <Image
+              unoptimized
+              width={500}
+              height={500}
+              src="https://z-p3-scontent.fpnh5-2.fna.fbcdn.net/v/t39.30808-6/489964894_674024462044724_7791242851026023255_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeEkNbqTLsp9qLERrSHEGm11oyHmE_gLp4WjIeYT-AunhflXwXbIIPl9fTWS2JI6gy0O3HRmYVmQ8BgWhwGvr2uP&_nc_ohc=UhuDrdgWmCIQ7kNvwGjpQ9p&_nc_oc=AdkpGkFlFonZiht9GCmU8KPkZFVP19_PEQHNKvXAjoykadTmT2xRfkyvLgHfwkSIaCc&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-2.fna&_nc_gid=jSBCAyHxc7dD7IXI4YyMXQ&oh=00_AfZzFe-ewLXHqMRKeU3RZCCn6kgpCzhYm83bRi6Qd6tVVQ&oe=68C9EC05"
+              alt="Alumni"
+              className="w-full rounded-2xl shadow-md object-cover"
+            />
             <div className="sm:col-span-2">
-              <Image unoptimized width={500} height={500} src="https://z-p3-scontent.fpnh5-5.fna.fbcdn.net/v/t39.30808-6/486502152_657980043649166_3017000215226357790_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeF1Jh4kM2ryul626KzSWurP5Stc0-Q0TgXlK1zT5DROBZmLU3vMrk9w_auX5vErta6qOrwlrdPfDa6iyheaV6-I&_nc_ohc=68_-Ng9BorQQ7kNvwEpeCft&_nc_oc=AdnIbcy2qqxlE57ghJgpmjF3DpZRu9iJu0HbOzDHg-gfjrYvlzPbSB6WGLyyZ9c4r18&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-5.fna&_nc_gid=0X2bAsfQEL-d-wjMcRr1Ew&oh=00_AfaVy_c1V0lu-PmaQ_hkOYX2Dvd9EG7xJZeWTEkqMTrvNw&oe=68C9D7F9" alt="Alumni" className="w-full rounded-2xl shadow-md object-cover" />
+              <Image
+                unoptimized
+                width={500}
+                height={500}
+                src="https://z-p3-scontent.fpnh5-5.fna.fbcdn.net/v/t39.30808-6/486502152_657980043649166_3017000215226357790_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeF1Jh4kM2ryul626KzSWurP5Stc0-Q0TgXlK1zT5DROBZmLU3vMrk9w_auX5vErta6qOrwlrdPfDa6iyheaV6-I&_nc_ohc=68_-Ng9BorQQ7kNvwEpeCft&_nc_oc=AdnIbcy2qqxlE57ghJgpmjF3DpZRu9iJu0HbOzDHg-gfjrYvlzPbSB6WGLyyZ9c4r18&_nc_zt=23&_nc_ht=z-p3-scontent.fpnh5-5.fna&_nc_gid=0X2bAsfQEL-d-wjMcRr1Ew&oh=00_AfaVy_c1V0lu-PmaQ_hkOYX2Dvd9EG7xJZeWTEkqMTrvNw&oe=68C9D7F9"
+                alt="Alumni"
+                className="w-full rounded-2xl shadow-md object-cover"
+              />
             </div>
           </div>
         </div>

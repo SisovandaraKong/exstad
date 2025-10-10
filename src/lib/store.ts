@@ -9,7 +9,7 @@ import { programOverviewsApi } from "@/components/program/detail-program/overvie
 import { requiementApi } from "@/components/program/detail-program/requirement/requirementsApi";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
-import { scholarApi } from "@/components/scholar/scholarApi";
+import { scholarApi } from "@/components/student/StudentApi";
 import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({

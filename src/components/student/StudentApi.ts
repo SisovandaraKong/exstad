@@ -158,33 +158,29 @@
 
 
 
-
-import { useBaseQuery } from "@/services/use-base-query";
-import {
-  CreateScholarSocialLink,
-  ScholarSocialLink,
-  UpdateScholar,
-} from "@/types/scholar";
-import { Scholar } from "@/types/scholar/scholar";
 import { createApi } from "@reduxjs/toolkit/query/react";
+import { useBaseQuery } from "@/services/use-base-query";
+import type {
+  Scholar,
+  UpdateScholar,
+  ScholarSocialLink,
+  CreateScholarSocialLink,
+} from "@/types/scholar";
 
 export const scholarApi = createApi({
   reducerPath: "scholarApi",
   baseQuery: useBaseQuery,
   tagTypes: ["Scholar", "ScholarSocialLink"],
-  endpoints: (builder) => ({
 
+  endpoints: (builder) => ({
     // 🔹 GET all scholars
     getAllScholars: builder.query<Scholar[], void>({
-      query: () => "/scholars",
+      query: () => `/scholars`,
       transformResponse: (response: { scholars: Scholar[] }) => response.scholars,
       providesTags: (result) =>
-        result
+        result && result.length
           ? [
-              ...result.map(({ uuid }) => ({
-                type: "Scholar" as const,
-                id: uuid,
-              })),
+              ...result.map(({ uuid }) => ({ type: "Scholar" as const, id: uuid })),
               { type: "Scholar", id: "LIST" },
             ]
           : [{ type: "Scholar", id: "LIST" }],
@@ -197,7 +193,7 @@ export const scholarApi = createApi({
       providesTags: [{ type: "Scholar", id: "LIST" }],
     }),
 
-    // 🔹 GET scholar by uuid
+    // 🔹 GET scholar by UUID
     getScholarByUuid: builder.query<Scholar, string>({
       query: (uuid) => `/scholars/${uuid}`,
       providesTags: (result, error, uuid) => [{ type: "Scholar", id: uuid }],
@@ -206,78 +202,42 @@ export const scholarApi = createApi({
     // 🔹 GET scholar by username
     getScholarByUsername: builder.query<Scholar, string>({
       query: (username) => `/scholars/username/${username}`,
-      providesTags: (result, error, username) => [
-        { type: "Scholar", id: `username-${username}` },
-      ],
+      providesTags: (result, error, username) => [{ type: "Scholar", id: `username-${username}` }],
     }),
 
     // 🔹 Search scholars
     searchScholars: builder.query<Scholar[], { username?: string; name?: string }>({
-      query: ({ username = "", name = "" }) =>
-        `/scholars/search?username=${username}&name=${name}`,
+      query: ({ username = "", name = "" }) => `/scholars/search?username=${username}&name=${name}`,
       providesTags: [{ type: "Scholar", id: "LIST" }],
     }),
 
     // 🔹 Count scholars
     countScholars: builder.query<number, void>({
-      query: () => "/scholars/count",
+      query: () => `/scholars/count`,
       transformResponse: (response: { scholars: number }) => response.scholars,
       providesTags: [{ type: "Scholar", id: "LIST" }],
     }),
 
-    // 🔹 Get "me"
-    getMe: builder.query<Scholar, void>({
-      query: () => "/scholars/me",
-      providesTags: [{ type: "Scholar", id: "me" }],
+    // 🔹 GET current user by UUID (since /me doesn’t exist)
+    getScholarByUuidForMe: builder.query<Scholar, string>({
+      query: (uuid) => `/scholars/${uuid}`,
+      providesTags: (result, error, uuid) => [{ type: "Scholar", id: uuid }],
     }),
 
-    // 🔹 Update "me"
-    updateMe: builder.mutation<Scholar, UpdateScholar>({
-      query: (body) => ({
-        url: "/scholars/me",
+    // 🔹 UPDATE scholar (by UUID) -> PATCH /api/v1/scholars/:uuid
+    updateScholar: builder.mutation<Scholar, { uuid: string; body: UpdateScholar }>({
+      query: ({ uuid, body }) => ({
+        url: `/scholars/${uuid}`,
         method: "PATCH",
         body,
       }),
-      invalidatesTags: [{ type: "Scholar", id: "me" }],
-    }),
-
-    updateScholar: builder.mutation<Scholar, { uuid: string; body: UpdateScholar }>(
-  {
-    query: ({ uuid, body }) => ({
-      url: `api/v1/scholars/${uuid}`,
-      method: "PATCH", // ✅ PATCH instead of PUT
-      body,
-    }),
-    invalidatesTags: (result, error, { uuid }) => {
-      const tags: { type: "Scholar"; id: string }[] = [
+      invalidatesTags: (result, error, { uuid }) => [
         { type: "Scholar", id: uuid },
-        { type: "Scholar", id: "me" },
-      ];
-      if (result?.username) {
-        tags.push({ type: "Scholar", id: `username-${result.username}` });
-      }
-      return tags;
-    },
-    async onQueryStarted({ uuid, body }, { dispatch, queryFulfilled }) {
-      // Optimistic update for smoother UX
-      const patch = dispatch(
-        scholarApi.util.updateQueryData("getScholarByUuid", uuid, (draft) => {
-          Object.assign(draft, body);
-        })
-      );
-      try {
-        await queryFulfilled;
-      } catch {
-        patch.undo();
-      }
-    },
-  }
-),
+        { type: "Scholar", id: "LIST" },
+      ],
+    }),
 
-
-   
-
-    // 🔹 Scholar social links
+    // 🔹 Social links (GET)
     getScholarSocialLinks: builder.query<ScholarSocialLink[], string>({
       query: (uuid) => `/scholars/${uuid}/social-links`,
       providesTags: (result, error, uuid) => [
@@ -285,6 +245,7 @@ export const scholarApi = createApi({
       ],
     }),
 
+    // 🔹 Add new social link
     addScholarSocialLink: builder.mutation<
       ScholarSocialLink,
       { uuid: string; body: CreateScholarSocialLink }
@@ -299,6 +260,7 @@ export const scholarApi = createApi({
       ],
     }),
 
+    // 🔹 Update social link
     updateSocialLinkStatus: builder.mutation<
       ScholarSocialLink,
       { scholarUuid: string; socialLinkUuid: string; status: boolean }
@@ -306,13 +268,14 @@ export const scholarApi = createApi({
       query: ({ scholarUuid, socialLinkUuid, status }) => ({
         url: `/scholars/${scholarUuid}/social-link/${socialLinkUuid}`,
         method: "PATCH",
-        body: status,
+        body: { isActive: status },
       }),
       invalidatesTags: (result, error, { scholarUuid }) => [
         { type: "ScholarSocialLink", id: `scholar-${scholarUuid}` },
       ],
     }),
 
+    // 🔹 Delete social link
     deleteSocialLink: builder.mutation<
       void,
       { scholarUuid: string; socialLinkUuid: string }
@@ -326,12 +289,11 @@ export const scholarApi = createApi({
       ],
     }),
 
-    // 🔹 Scholars by opening program
+    // 🔹 Scholars by program
     getScholarsByOpeningProgram: builder.query<Scholar[], string>({
       query: (uuid) => `/scholars/${uuid}/opening-program`,
-      transformResponse: (response: {
-        "opening-program-scholars": Scholar[];
-      }) => response["opening-program-scholars"],
+      transformResponse: (response: { "opening-program-scholars": Scholar[] }) =>
+        response["opening-program-scholars"],
       providesTags: [{ type: "Scholar", id: "LIST" }],
     }),
   }),
@@ -344,12 +306,11 @@ export const {
   useGetScholarByUsernameQuery,
   useSearchScholarsQuery,
   useCountScholarsQuery,
-  useGetMeQuery,
-  useUpdateMeMutation,
+  useGetScholarByUuidForMeQuery,
+  useUpdateScholarMutation,
   useGetScholarSocialLinksQuery,
   useAddScholarSocialLinkMutation,
   useUpdateSocialLinkStatusMutation,
   useDeleteSocialLinkMutation,
   useGetScholarsByOpeningProgramQuery,
-  useUpdateScholarMutation,
-} = scholarApi;
+} = scholarApi; 

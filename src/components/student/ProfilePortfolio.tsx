@@ -244,10 +244,288 @@
 // };
 
 // export default ProfilePortfolio;
+// "use client";
+
+// import React, { useMemo, useState, useEffect } from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { FaFacebook, FaGithub } from "react-icons/fa";
+// import { FaTelegram } from "react-icons/fa6";
+// import { CgMail } from "react-icons/cg";
+// import { FiArrowUpRight } from "react-icons/fi";
+
+// import { CompletedCourseCard } from "@/components/Card/CompletedCourse";
+// import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+
+// import achievements from "@/data/Achievement.json";
+// import completedCourses from "@/data/CompletedCourse.json";
+// import certificate from "@/data/Certificate.json";
+
+
+// import {
+//   useGetScholarByUsernameQuery,
+//   useGetScholarSocialLinksQuery,
+// } from "@/components/student/StudentApi";
+// import { skipToken } from "@reduxjs/toolkit/query";
+
+// type Props = { username: string };
+
+// const BLUR =
+//   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjZWVlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+";
+
+// const iconFor = (title: string) => {
+//   const key = title.toLowerCase();
+//   if (key.includes("facebook")) return <FaFacebook className="text-blue-600" />;
+//   if (key.includes("github"))
+//     return <FaGithub className="text-gray-900 dark:text-white" />;
+//   if (key.includes("telegram")) return <FaTelegram className="text-sky-500" />;
+//   if (key.includes("mail") || key.includes("email"))
+//     return <CgMail className="text-red-500" />;
+//   return <FiArrowUpRight />;
+// };
+
+// const isHttpUrl = (u?: string) => {
+//   if (!u) return false;
+//   try {
+//     const url = new URL(u);
+//     return url.protocol === "http:" || url.protocol === "https:";
+//   } catch {
+//     return false;
+//   }
+// };
+
+// // add version so browser doesn’t show cached image
+// const withVersion = (src: string, version: string | number) => {
+//   const sep = src.includes("?") ? "&" : "?";
+//   return `${src}${sep}v=${encodeURIComponent(String(version))}`;
+// };
+
+// const ProfilePortfolio = ({ username }: Props) => {
+//   // 1) scholar
+//   const {
+//     data: scholar,
+//     isLoading,
+//     isError,
+//   } = useGetScholarByUsernameQuery(username, {
+//     refetchOnMountOrArgChange: true,
+//     refetchOnFocus: true,
+//     refetchOnReconnect: true,
+//   });
+
+//   // 2) social links
+//   const { data: socialLinks = [] } = useGetScholarSocialLinksQuery(
+//     scholar?.uuid ?? skipToken,
+//     { refetchOnMountOrArgChange: true, refetchOnFocus: true }
+//   );
+
+//   // 3) avatar cache-busting
+//   const avatarVersion = useMemo(
+//     () =>
+//       scholar?.audit?.updatedAt
+//         ? new Date(scholar.audit.updatedAt).getTime()
+//         : Date.now(),
+//     [scholar?.audit?.updatedAt]
+//   );
+
+//   const computedAvatar = useMemo(() => {
+//     const raw = isHttpUrl(scholar?.avatar)
+//       ? (scholar!.avatar as string)
+//       : "/avatar-fallback.png";
+//     return withVersion(raw, avatarVersion);
+//   }, [scholar?.avatar, avatarVersion]);
+
+//   const [imgSrc, setImgSrc] = useState<string>(computedAvatar);
+//   useEffect(() => setImgSrc(computedAvatar), [computedAvatar]);
+
+//   if (isLoading) {
+//     return (
+//       <div className="flex items-center justify-center min-h-screen text-gray-500 animate-pulse">
+//         Loading profile...
+//       </div>
+//     );
+//   }
+//   if (isError || !scholar) {
+//     return (
+//       <div className="flex items-center justify-center min-h-screen text-red-500">
+//         Failed to load profile for {username}
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="px-4 sm:px-6 lg:px-12 py-6 md:py-8 grid grid-cols-1 md:grid-cols-12 gap-6">
+//       {/* LEFT: Profile card */}
+//       <div className="md:col-span-6 lg:col-span-4">
+//         <div className="sticky top-6 md:top-20 self-start">
+//           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 w-full box-border">
+//             {/* Avatar */}
+//             <div className="flex flex-col items-center">
+//               <div className="relative w-40 h-40 md:w-48 md:h-48 mb-4">
+//                 <Image
+//                   key={imgSrc}
+//                   src={imgSrc}
+//                   alt={scholar.englishName || scholar.username}
+//                   fill
+//                   className="rounded-full object-cover border-4 border-primary shadow-md"
+//                   placeholder="blur"
+//                   blurDataURL={BLUR}
+//                   onError={() => setImgSrc("/avatar-fallback.png")}
+//                 />
+//               </div>
+//               <div className="text-center mb-3">
+//                 <h2 className="font-d1 font-bold text-gray-900 dark:text-white text-2xl">
+//                   {scholar.englishName}
+//                   {scholar.khmerName ? ` (${scholar.khmerName})` : ""}
+//                 </h2>
+//                 <p className="text-gray-400 text-sm sm:text-base">
+//                   {scholar.university} • {scholar.role}
+//                 </p>
+//               </div>
+//             </div>
+
+//             {/* About */}
+//             <div className="pt-4">
+//               <h3 className="font-d2 font-semibold mb-2 dark:text-white text-lg">
+//                 About
+//               </h3>
+//               <p className="font-d3 text-gray-600 dark:text-gray-300 text-sm sm:text-base">
+//                 {scholar.bio || "No bio yet."}
+//               </p>
+//             </div>
+
+//             {/* Social */}
+//             <div className="pt-4">
+//               <h3 className="font-d2 font-semibold mb-2 dark:text-white text-lg">
+//                 Social Media
+//               </h3>
+//               <div className="space-y-2 text-sm sm:text-base dark:text-white">
+//                 {scholar.email && (
+//                   <div className="flex items-center gap-2 break-words">
+//                     <CgMail className="text-red-500" /> {scholar.email}
+//                   </div>
+//                 )}
+//                 {socialLinks
+//                   .filter((s) => s.isActive)
+//                   .map((s) => {
+//                     const href = /^https?:\/\//i.test(s.link)
+//                       ? s.link
+//                       : `https://${s.link}`;
+//                     return (
+//                       <div
+//                         key={s.uuid}
+//                         className="flex items-center gap-2 break-words"
+//                       >
+//                         {iconFor(s.title)}
+//                         <Link
+//                           href={href}
+//                           target="_blank"
+//                           rel="noopener noreferrer"
+//                           className="hover:underline"
+//                         >
+//                           {s.title}
+//                         </Link>
+//                       </div>
+//                     );
+//                   })}
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* RIGHT: Content */}
+//       <div className="md:col-span-6 lg:col-span-8 flex flex-col gap-10 md:ml-5">
+//         {/* Certificate Gallery */}
+//         <div>
+//           <h3 className="font-h4 font-semibold mb-4">Certificate</h3>
+//           <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4 ">
+//             {certificate.map((cert) => (
+//               <Link
+//                 key={cert.id}
+//                 href={`/certificate/${cert.id}`}
+//                 className="flex-shrink-0 w-72 sm:w-80 md:w-96 relative hover:shadow-lg transition-shadow rounded-xl"
+//               >
+//                 <Image
+//                   src={cert.logo}
+//                   alt={cert.title}
+//                   width={384}
+//                   height={384}
+//                   className="object-cover rounded-xl"
+//                 />
+//               </Link>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Achievements */}
+//         <div>
+//           <h3 className="font-h4 font-semibold mb-4">Achievement</h3>
+//           <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4">
+//             {achievements.map((ach) => (
+//               <div
+//                 key={ach.id}
+//                 className="min-w-[300px] md:min-w-[350px] lg:min-w-[400px] bg-card dark:bg-gray-900 rounded-xl shadow-md p-4 sm:p-6 hover:shadow-lg transition flex flex-col"
+//               >
+//                 <div className="w-full h-40 flex justify-center items-center mb-4">
+//                   <Image
+//                     src={ach.logo}
+//                     alt={ach.title}
+//                     width={150}
+//                     height={150}
+//                     className="object-contain"
+//                   />
+//                 </div>
+//                 <h4 className="font-bold text-gray-900 dark:text-white mb-2 text-sm sm:text-base">
+//                   {ach.title}
+//                 </h4>
+//                 <p className="text-sm text-gray-500 mb-2 line-clamp-3">
+//                   {ach.description}
+//                 </p>
+//                 <div className="mt-auto flex justify-between text-xs text-gray-500">
+//                   <span>{ach.date}</span>
+//                   <span>{ach.type}</span>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Completed Courses */}
+//         <div>
+//           <h3 className="font-h4 font-semibold">Completed Courses</h3>
+//           <InfiniteMovingCards
+//             items={completedCourses.map((course) => (
+//               <CompletedCourseCard key={course.id} course={course} />
+//             ))}
+//             direction="left"
+//             speed="normal"
+//             pauseOnHover
+//           />
+//         </div>
+//       </div>
+
+//       {/* Hide scrollbar style */}
+//       <style jsx>{`
+//         .hide-scroll-bar {
+//           -ms-overflow-style: none;
+//           scrollbar-width: none;
+//         }
+//         .hide-scroll-bar::-webkit-scrollbar {
+//           display: none;
+//         }
+//       `}</style>
+//     </div>
+//   );
+// };
+
+// export default ProfilePortfolio;
+
+
+
+
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
-import Image from "next/image";
+import React from "react";
 import Link from "next/link";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { FaTelegram } from "react-icons/fa6";
@@ -267,10 +545,10 @@ import {
 } from "@/components/student/StudentApi";
 import { skipToken } from "@reduxjs/toolkit/query";
 
-type Props = { username: string };
-
-const BLUR =
-  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjZWVlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+";
+type Props = {
+  username: string;
+  avatarAnchorRef?: React.RefObject<HTMLDivElement>;
+};
 
 const iconFor = (title: string) => {
   const key = title.toLowerCase();
@@ -281,24 +559,9 @@ const iconFor = (title: string) => {
   return <FiArrowUpRight />;
 };
 
-const isHttpUrl = (u?: string) => {
-  if (!u) return false;
-  try {
-    const url = new URL(u);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
-};
+const AVATAR_PX = 192; // same size as SharedScrollAvatar bottomSize
 
-// add version so browser doesn’t show cached image
-const withVersion = (src: string, version: string | number) => {
-  const sep = src.includes("?") ? "&" : "?";
-  return `${src}${sep}v=${encodeURIComponent(String(version))}`;
-};
-
-const ProfilePortfolio = ({ username }: Props) => {
-  // 1) scholar
+export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
   const {
     data: scholar,
     isLoading,
@@ -309,25 +572,10 @@ const ProfilePortfolio = ({ username }: Props) => {
     refetchOnReconnect: true,
   });
 
-  // 2) social links
   const { data: socialLinks = [] } = useGetScholarSocialLinksQuery(
     scholar?.uuid ?? skipToken,
     { refetchOnMountOrArgChange: true, refetchOnFocus: true }
   );
-
-  // 3) avatar cache-busting
-  const avatarVersion = useMemo(
-    () => (scholar?.audit?.updatedAt ? new Date(scholar.audit.updatedAt).getTime() : Date.now()),
-    [scholar?.audit?.updatedAt]
-  );
-
-  const computedAvatar = useMemo(() => {
-    const raw = isHttpUrl(scholar?.avatar) ? (scholar!.avatar as string) : "/avatar-fallback.png";
-    return withVersion(raw, avatarVersion);
-  }, [scholar?.avatar, avatarVersion]);
-
-  const [imgSrc, setImgSrc] = useState<string>(computedAvatar);
-  useEffect(() => setImgSrc(computedAvatar), [computedAvatar]);
 
   if (isLoading) {
     return (
@@ -336,6 +584,7 @@ const ProfilePortfolio = ({ username }: Props) => {
       </div>
     );
   }
+
   if (isError || !scholar) {
     return (
       <div className="flex items-center justify-center min-h-screen text-red-500">
@@ -352,18 +601,24 @@ const ProfilePortfolio = ({ username }: Props) => {
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 w-full box-border">
             {/* Avatar */}
             <div className="flex flex-col items-center">
-              <div className="relative w-40 h-40 md:w-48 md:h-48 mb-4">
-                <Image
-                  key={imgSrc}
-                  src={imgSrc}
-                  alt={scholar.englishName || scholar.username}
-                  fill
-                  className="rounded-full object-cover border-4 border-primary shadow-md"
-                  placeholder="blur"
-                  blurDataURL={BLUR}
-                  onError={() => setImgSrc("/avatar-fallback.png")}
+              <div
+                className="relative mb-4 rounded-full overflow-hidden  animate-fall-straight"
+                style={{ width: AVATAR_PX, height: AVATAR_PX }}
+              >
+                <div
+                  ref={avatarAnchorRef}
+                  className="absolute inset-0 rounded-full overflow-hidden"
                 />
+                <div className="portfolio-avatar-fallback absolute inset-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={scholar?.avatar || "/avatar-fallback.png"}
+                    alt={scholar?.englishName || username}
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
               </div>
+
               <div className="text-center mb-3">
                 <h2 className="font-d1 font-bold text-gray-900 dark:text-white text-2xl">
                   {scholar.englishName}
@@ -393,8 +648,8 @@ const ProfilePortfolio = ({ username }: Props) => {
                   </div>
                 )}
                 {socialLinks
-                  .filter((s) => s.isActive)
-                  .map((s) => {
+                  .filter((s: any) => s.isActive)
+                  .map((s: any) => {
                     const href = /^https?:\/\//i.test(s.link) ? s.link : `https://${s.link}`;
                     return (
                       <div key={s.uuid} className="flex items-center gap-2 break-words">
@@ -418,17 +673,18 @@ const ProfilePortfolio = ({ username }: Props) => {
 
       {/* RIGHT: Content */}
       <div className="md:col-span-6 lg:col-span-8 flex flex-col gap-10 md:ml-5">
-        {/* Certificate Gallery */}
+        {/* Certificates */}
         <div>
           <h3 className="font-h4 font-semibold mb-4">Certificate</h3>
-          <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4 ">
-            {certificate.map((cert) => (
+          <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4">
+            {certificate.map((cert: any) => (
               <Link
                 key={cert.id}
                 href={`/certificate/${cert.id}`}
                 className="flex-shrink-0 w-72 sm:w-80 md:w-96 relative hover:shadow-lg transition-shadow rounded-xl"
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={cert.logo}
                   alt={cert.title}
                   width={384}
@@ -444,13 +700,14 @@ const ProfilePortfolio = ({ username }: Props) => {
         <div>
           <h3 className="font-h4 font-semibold mb-4">Achievement</h3>
           <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4">
-            {achievements.map((ach) => (
+            {achievements.map((ach: any) => (
               <div
                 key={ach.id}
                 className="min-w-[300px] md:min-w-[350px] lg:min-w-[400px] bg-card dark:bg-gray-900 rounded-xl shadow-md p-4 sm:p-6 hover:shadow-lg transition flex flex-col"
               >
                 <div className="w-full h-40 flex justify-center items-center mb-4">
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={ach.logo}
                     alt={ach.title}
                     width={150}
@@ -473,8 +730,8 @@ const ProfilePortfolio = ({ username }: Props) => {
 
         {/* Completed Courses */}
         <div>
-          <h3 className="font-h4 font-semibold">Completed Courses</h3>
-          <InfiniteMovingCards
+       <h3 className="font-h4 font-semibold">Completed Courses</h3>
+           <InfiniteMovingCards
             items={completedCourses.map((course) => (
               <CompletedCourseCard key={course.id} course={course} />
             ))}
@@ -485,7 +742,7 @@ const ProfilePortfolio = ({ username }: Props) => {
         </div>
       </div>
 
-      {/* Hide scrollbar style */}
+      {/* styles */}
       <style jsx>{`
         .hide-scroll-bar {
           -ms-overflow-style: none;
@@ -495,8 +752,44 @@ const ProfilePortfolio = ({ username }: Props) => {
           display: none;
         }
       `}</style>
+
+      <style jsx global>{`
+        .portfolio-avatar-fallback {
+          opacity: 1;
+          transition: opacity 0.18s ease;
+          pointer-events: none;
+        }
+        :root[data-shared-avatar-ready="true"] .portfolio-avatar-fallback {
+          opacity: 0;
+        }
+
+        /* --- Straight fall, always rotate(0deg) --- */
+        @keyframes fall-straight {
+          0% {
+            transform: translateY(-120px) rotate(90deg);
+            opacity: 0;
+          }
+          60% {
+            transform: translateY(10px) rotate(90deg);
+            opacity: 1;
+          }
+          80% {
+            transform: translateY(-5px) rotate(90deg);
+          }
+          100% {
+            transform: translateY(0) rotate(90deg);
+          }
+        }
+        .animate-fall-straight {
+          animation: fall-straight 0.9s ease-out forwards;
+          will-change: transform, opacity;
+        }
+      `}</style>
     </div>
   );
-};
+}
 
-export default ProfilePortfolio;
+
+
+ 
+      
