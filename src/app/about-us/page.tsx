@@ -4,11 +4,17 @@
 
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { CometCard } from "@/components/ui/comet-card";
-import { FaFacebook, FaGithub, FaStarOfLife, FaTelegram } from "react-icons/fa";
+import {
+	FaFacebook,
+	FaGithub,
+	FaHandPointRight,
+	FaStarOfLife,
+	FaTelegram,
+} from "react-icons/fa";
 import MentorCard from "@/components/ui/mentorCard";
-import MorphTo from "@/components/ui/morphTo";
 import { BackgroundBeams } from "@/components/ui/background-beam";
 import { teamData } from "@/data/teamMembers";
 import { HiChip } from "react-icons/hi";
@@ -17,6 +23,8 @@ import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import ContactForm from "@/components/contact/ContactForm";
 
 export default function AboutUsPage() {
+	const router = useRouter();
+
 	// Extract mentor and member data from imported teamData
 	const mentor = teamData.mentors;
 	const member = teamData.members;
@@ -83,16 +91,16 @@ export default function AboutUsPage() {
 								Our exSTAD is committed to:
 							</h3>
 							<p className='text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 mb-6 flex items-center gap-3'>
-								<FaStarOfLife className='text-red-500 flex-shrink-0' />
+								<FaHandPointRight className='text-primary flex-shrink-0' />
 								Provide the latest methodology with high-quality training and
 								mentoring
 							</p>
 							<p className='text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 mb-6 flex items-center gap-3'>
-								<FaStarOfLife className='text-red-500 flex-shrink-0' />
+								<FaHandPointRight className='text-primary flex-shrink-0' />
 								Build up the capacity and career of IT experts in Cambodia
 							</p>
 							<p className='text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 mb-6 flex items-center gap-3'>
-								<FaStarOfLife className='text-red-500 flex-shrink-0' />
+								<FaHandPointRight className='text-primary flex-shrink-0' />
 								Consult and connect ISTAD trainees to top IT careers
 							</p>
 						</motion.div>
@@ -102,29 +110,15 @@ export default function AboutUsPage() {
 							transition={{ duration: 0.6 }}
 							viewport={{ once: true }}
 							className='relative flex justify-end'>
-							<CometCard className='h-full w-fit'>
-								<div className='bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl'>
-									<div className='relative w-full h-64 sm:h-72 md:h-80 mb-6 mx-auto max-w-xs'>
-										<Image
-											src='/team/t_phirum.JPG'
-											alt='Mr. Chin Phirum'
-											fill
-											className='rounded-lg object-cover'
-											unoptimized
-										/>
-									</div>
-									<h3 className='text-xl sm:text-2xl font-semibold mb-4 text-gray-900 dark:text-white'>
-										Mr. Chin Phirum
-									</h3>
-									<span className='text-md leading-relaxed text-gray-600 dark:text-gray-300'>
-										Director of ISTAD
-									</span>
-
-									<p className='text-base leading-relaxed text-gray-600 dark:text-gray-300'>
-										“Giving yourself a chance is the first priority”
-									</p>
-								</div>
-							</CometCard>
+							<div className='relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'>
+								<Image
+									src='/istad-image/istad-icon.PNG'
+									alt='ISTAD Logo'
+									fill
+									className='object-cover'
+									unoptimized
+								/>
+							</div>
 						</motion.div>
 					</div>
 				</div>
@@ -533,10 +527,11 @@ export default function AboutUsPage() {
 							through our programs
 						</p>
 						<motion.button
+							onClick={() => router.push("/explor-program")}
 							whileHover={{ scale: 1.05 }}
 							whileTap={{ scale: 0.95 }}
 							className='bg-white text-blue-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-50 transition-colors duration-200'>
-							Get Started Today
+							Explore program
 						</motion.button>
 					</motion.div>
 				</div>

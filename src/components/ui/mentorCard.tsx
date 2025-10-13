@@ -108,7 +108,7 @@ export default function MentorCard({
 								href={social.facebook}
 								target='_blank'
 								rel='noopener noreferrer'
-								className='text-white hover:text-blue-300 transition-colors duration-200 p-1 sm:p-1.5 md:p-2 rounded-full hover:bg-white/20 backdrop-blur-sm'
+								className='text-white hover:text-[#1877F2] transition-all duration-200 p-1 sm:p-1.5 md:p-2 rounded-full hover:bg-white hover:shadow-md backdrop-blur-sm'
 								aria-label={`${name} Facebook`}>
 								<FaFacebook
 									size={12}
@@ -119,7 +119,7 @@ export default function MentorCard({
 								href={social.github}
 								target='_blank'
 								rel='noopener noreferrer'
-								className='text-white hover:text-gray-300 transition-colors duration-200 p-1 sm:p-1.5 md:p-2 rounded-full hover:bg-white/20 backdrop-blur-sm'
+								className='text-white hover:text-[#333333] transition-all duration-200 p-1 sm:p-1.5 md:p-2 rounded-full hover:bg-white hover:shadow-md backdrop-blur-sm'
 								aria-label={`${name} GitHub`}>
 								<FaGithub
 									size={12}
@@ -130,7 +130,7 @@ export default function MentorCard({
 								href={social.telegram}
 								target='_blank'
 								rel='noopener noreferrer'
-								className='text-white hover:text-blue-300 transition-colors duration-200 p-1 sm:p-1.5 md:p-2 rounded-full hover:bg-white/20 backdrop-blur-sm'
+								className='text-white hover:text-[#0088CC] transition-all duration-200 p-1 sm:p-1.5 md:p-2 rounded-full hover:bg-white hover:shadow-md backdrop-blur-sm'
 								aria-label={`${name} Telegram`}>
 								<FaTelegram
 									size={12}
