@@ -46,7 +46,7 @@ export function CourseCard({ course, className }: CourseCardProps) {
 									);
 								}}
 								href={course.joinCourseUrl}
-								className='inline-flex items-center justify-center rounded-2xl sm:rounded-3xl px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-sm sm:text-base md:text-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200 hover:scale-105 active:scale-95 w-full sm:w-auto'>
+								className='inline-flex items-center justify-center rounded-2xl sm:rounded-3xl px-6 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-sm sm:text-base md:text-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200 hover:scale-105 active:scale-95 w-full sm:w-auto'>
 								<span>Enroll Now</span>
 								<ArrowRight className='ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1' />
 							</a>
