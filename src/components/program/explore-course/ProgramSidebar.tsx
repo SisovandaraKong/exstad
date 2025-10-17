@@ -144,13 +144,13 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
 
       {/* Buttons */}
       {program.programType !== "SHORT_COURSE" && (
-        <button className="bg-background hover:bg-black hover:text-white flex items-center justify-center gap-2 border border-foreground text-foreground px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]">
+        <button className="bg-background cursor-pointer hover:bg-black hover:text-white flex items-center justify-center gap-2 border border-foreground text-foreground px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]">
           <FaTelegram /> Join Telegram Group
         </button>
       )}
 
       <button
-        className="bg-primary flex items-center justify-center gap-2 hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]"
+        className="bg-primary cursor-pointer flex items-center justify-center gap-2 hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]"
         onClick={handleEnrollmentClick}
       >
         <PiNotePencilBold /> Enroll Now

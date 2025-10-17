@@ -16,7 +16,7 @@ export const curriculumApi = createApi({
   endpoints: (builder) => ({ 
     // Master Program
     getMasterCurriculums: builder.query<CurriculumType[], string>({
-      query: (programUuid) => `/api/v1/programs/${programUuid}/curriculums`,
+      query: (programUuid) => `/programs/${programUuid}/curriculums`,
       providesTags: (result, error, uuid) =>
         result
           ? [
@@ -33,7 +33,7 @@ export const curriculumApi = createApi({
       { programUuid: string; curriculums: CurriculumPayload[] }
     >({
       query: ({ programUuid, curriculums }) => ({
-        url: `/api/v1/programs/${programUuid}/curriculums`,
+        url: `/programs/${programUuid}/curriculums`,
         method: "PUT",
         body: curriculums,
       }),

@@ -27,13 +27,13 @@ function Navbar({ className }: { className?: string }) {
     );
   };
 
-  // Function to get navigation link classes
+  
   const getNavLinkClasses = (href: string) => {
     const baseClasses =
       "relative rounded-md transition-colors font-d4 font-normal duration-200";
     const hoverClasses = "hover:text-foreground hover:after:opacity-100";
     const afterClasses =
-      "after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200";
+      "after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200";
 
     if (isActive(href)) {
       return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
@@ -76,12 +76,12 @@ function Navbar({ className }: { className?: string }) {
     >
       {/* Main navbar */}
       <nav className="bg-background relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0 md:py-3 py-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 xl:px-2 md:py-3 py-2">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="block">
               <Image
-                src="/image/logo/exSTAD-03.png"
+                src="/image/logo/exSTAD-01.png"
                 alt="Logo"
                 width={50}
                 height={70}

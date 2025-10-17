@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Koh_Santepheap } from "next/font/google";
+import { Inter, Koh_Santepheap, Nunito_Sans } from "next/font/google";
 import { cookies } from "next/headers";
 import Footer from "@/components/footer/Footer";
 import OnlineStatusIndicator from "@/components/offline/online-status-indicator";
@@ -9,6 +9,7 @@ import AuthProvider from "@/lib/auth-provider";
 import I18nProvider from "@/lib/I18nProvider";
 import Providers from "@/lib/providers";
 import "../app/globals.css";
+import AppToaster from "@/components/ui/app-toaster";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,6 +21,12 @@ const koh = Koh_Santepheap({
   variable: "--font-koh",
   weight: "400",
   subsets: ["khmer"],
+  display: "swap",
+});
+const nunito = Nunito_Sans({
+  variable: "--font-nunito",
+  weight: ["400", "700"],
+  subsets: ["latin"],
   display: "swap",
 });
 
@@ -61,15 +68,17 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-	const cookieStore = await cookies();
-	const cookieLocale = cookieStore.get("locale")?.value;
+  const cookieStore = await cookies();
+  const cookieLocale = cookieStore.get("locale")?.value;
 
-	const internalLocale = cookieLocale === "kh" ? "kh" : cookieLocale ?? "en";
-	const htmlLang = internalLocale === "kh" ? "km" : internalLocale;
+  const internalLocale = cookieLocale === "kh" ? "kh" : cookieLocale ?? "en";
+  const htmlLang = internalLocale === "kh" ? "km" : internalLocale;
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
-      <body className={`${inter.variable} ${koh.variable} antialiased relative bg-whitesmoke`}>
+      <body
+        className={`${inter.variable} ${koh.variable} ${nunito.variable} antialiased relative bg-whitesmoke`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -81,7 +90,10 @@ export default async function RootLayout({
             <I18nProvider initialLocale={internalLocale}>
               <AuthProvider>
                 <Navbar />
-                <main className="mt-20">{children}</main>
+                <main className="mt-20">
+                  {children}
+                   <AppToaster />
+                </main>
                 <Footer />
               </AuthProvider>
             </I18nProvider>
