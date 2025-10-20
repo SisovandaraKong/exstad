@@ -1,5 +1,7 @@
 import { Audit } from "..";
 import { openingProgramType } from "../opening-program";
+export type visibility = "PUBLIC" | "PRIVATE";
+
 export type MasterProgramType = {
   uuid: string;
   programType:programType;
@@ -24,7 +26,7 @@ export type MasterProgramType = {
   openingprograms: openingProgramType[]; 
   faq:FaqItem[];
   curricula:CurriculumType[];
-  visibility: visibility
+  visibility: visibility;
   status: "draft" | "active" | "archived"
   audit: Audit;
 };
@@ -66,7 +68,6 @@ export type HighlightType = {
 };
 export type HighlightPayload = Omit<HighlightType, "id">;
 type Level = "BASIC" | "INTERMEDIATE" | "ADVANCED";
-type  visibility="public" | "private";
 type programType= "SHORT_COURSE" |"SCHOLARSHIP"
 
 

@@ -1,3 +1,6 @@
+
+export type status = "OPEN" | "CLOSED" | "ACHIEVED" |"PENDING";
+
 export type openingProgramType = {
   programName:string
     programUuid:string;
@@ -15,9 +18,8 @@ export type openingProgramType = {
     totalSlot: number;
     posterUrl:string;
     qrCodeUrl: string;
-    // extra fields from backend
     telegramGroup: string;
-    status: "OPEN" | "CLOSED" | "ACHIEVED";
+    status: status;
     // image: string;
     // shortcourseimage:string; 
     // template?: string[];
