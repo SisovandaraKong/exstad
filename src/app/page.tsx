@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 import { motion } from "framer-motion";
 import ScholarshipCard from "@/components/scholarship_mainCard/ScholarshipCard";

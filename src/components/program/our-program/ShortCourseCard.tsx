@@ -16,7 +16,7 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
   description,
   bgColor,
   highlights,
-  posterUrl,
+  logoUrl,
   openingProgram,
 }) => {
   return (
@@ -47,7 +47,7 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
               </p>
             )}
           </div>
-          {posterUrl && (
+          {logoUrl && (
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 200 }}
@@ -56,7 +56,7 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
                 unoptimized
                 width={120}
                 height={120}
-                src={posterUrl}
+                src={logoUrl}
                 alt={title}
                 className="w-[120px] h-[120px] md:w-[192px] md:h-[192px] object-cover rounded-lg mx-auto md:mx-0"
               />

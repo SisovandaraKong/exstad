@@ -25,7 +25,7 @@ const ProgramDetailPage: React.FC = () => {
 
   // Fetch all opening programs
   const { data: allPrograms = [], isLoading: isAllLoading, isError: isAllError } = useGetAllOpeningProgramsQuery();
-
+  
   // Find current program by slug
   const openingProgram = allPrograms.find(op => op.slug === openingProgramSlug);
 
@@ -81,7 +81,6 @@ const ProgramDetailPage: React.FC = () => {
           <ActiveTabComponent />
         </div>
       </div>
-
       <ProgramSidebar uuid={masterProgram.uuid} />
     </div>
   );

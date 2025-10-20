@@ -47,15 +47,15 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
   const program: ProgramSidebarProps = { ...masterProgram, openingProgram };
 
   const handleEnrollmentClick = () => {
-    if (!program.openingProgram?.uuid) return;
-    router.push(`/explore-course/${program.openingProgram.uuid}/enrollment`);
+    if (!program.openingProgram?.slug) return;
+    router.push(`/explore-course/${program.openingProgram.slug}/enrollment`);
   };
 
   return (
     <div className="bg-background h-fit gap-[24px] sticky top-27 p-[24px] rounded-[24px] text-center flex flex-col">
       {/* Title */}
       <div>
-        <h1 className="font-bold text-[22px] text-primary">{program.title}</h1>
+        <h1 className="font-bold text-xl sm:text-2xl md:text-3xl lg:text-[22px]  text-primary">{program.title}</h1>
         <p className="font-medium text-[16px] text-foreground">
           Be ready for your journey at the university
         </p>
@@ -131,13 +131,12 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
 
       {/* Buttons */}
       {program.programType !== "SHORT_COURSE" && (
-        <button className="bg-background hover:bg-black hover:text-white flex items-center justify-center gap-2 border border-foreground text-foreground px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]">
-          <FaTelegram /> Join Telegram Group
-        </button>
+        <a href={program.openingProgram?.telegramGroup} className="bg-background hover:bg-black hover:text-white flex items-center justify-center gap-2 border border-foreground text-foreground px-[24px] py-[10px] rounded-[24px] text-center font-medium text-sm sm:text-base md:text-base">
+          <FaTelegram /> Join Telegram Group</a>
       )}
 
       <button
-        className="bg-primary flex items-center justify-center gap-2 hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]"
+        className="bg-primary flex items-center justify-center gap-2 hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-sm sm:text-base md:text-base"
         onClick={handleEnrollmentClick}
       >
         <PiNotePencilBold /> Enroll Now

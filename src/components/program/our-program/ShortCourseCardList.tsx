@@ -10,13 +10,13 @@ const ShortCourseCardList = () => {
     data: programs = [],
     isLoading: loadingPrograms,
     isError: errorPrograms,
-  } = useGetAllMasterProgramsQuery();
+  } = useGetAllMasterProgramsQuery(undefined,{refetchOnMountOrArgChange:true});
 
   const {
     data: openingPrograms = [],
     isLoading: loadingOpenings,
     isError: errorOpenings,
-  } = useGetAllOpeningProgramsQuery();
+  } = useGetAllOpeningProgramsQuery(undefined,{refetchOnMountOrArgChange:true});
 
   if (errorPrograms || errorOpenings) return <p>Failed to load programs.</p>;
 

@@ -95,7 +95,7 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
           {/* Enroll Now Button */}
           <button
             onClick={handleEnrollClick}
-            className="text-white text-center bg-primary p-3 md:p-3.5 lg:p-4 hover:bg-primary-hover cursor-pointer rounded-2xl font-bold text-[16px]"
+            className="text-white text-center bg-primary p-3 md:p-3.5 lg:p-4 hover:bg-primary-hover cursor-pointer rounded-2xl font-bold text-sm sm:text-base md:text-base"
           >
             Enroll Now
           </button>
