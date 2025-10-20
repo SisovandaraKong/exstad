@@ -38,7 +38,7 @@ export const learningOutcomesApi = createApi({
       query: ({ programUuid, learningOutcomes }) => ({
         url: `/programs/${programUuid}/learning-outcomes`,
         method: "PUT",
-        body: learningOutcomes, // ✅ send actual payload
+        body: learningOutcomes, 
       }),
       invalidatesTags: [{ type: "LearningOutcomes", id: "LIST" }],
     }),

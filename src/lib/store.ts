@@ -10,6 +10,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { openingProgramApi } from "@/components/program/openingProgramApi";
+import { timeLineApi } from "@/components/program/detail-program/timeline/timeLineApi";
 import { documentApi } from "@/features/document/documentApi";
 import { telegramApi } from "@/features/telegram/telegramApi";
 import { bakongApi } from "@/features/bakong/BakongApi";
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   [classApi.reducerPath]: classApi.reducer,
   [bakongKHQRApi.reducerPath]: bakongKHQRApi.reducer,
   [scholarApi.reducerPath]: scholarApi.reducer,
+  [timeLineApi.reducerPath]: timeLineApi.reducer,
 });
 
 const persistConfig = {
@@ -61,10 +63,11 @@ export const makeStore = () => {
         bakongApi.middleware,
         classApi.middleware,
         bakongKHQRApi.middleware,
-        scholarApi.middleware
+        scholarApi.middleware,
+        timeLineApi.middleware
       ),
   });
-  
+
   const persistor = persistStore(store);
   return { store, persistor };
 };

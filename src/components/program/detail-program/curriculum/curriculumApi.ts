@@ -43,7 +43,7 @@ export const curriculumApi = createApi({
     // Opening Program
     getOpeningCurriculums: builder.query<CurriculumType[], string>({
       query: (openingProgramUuid) =>
-        `/api/v1/opening-programs/${openingProgramUuid}/curriculums`,
+        `/opening-programs/${openingProgramUuid}/curriculums`,
       providesTags: (result, error, uuid) =>
         result
           ? [
@@ -60,7 +60,7 @@ export const curriculumApi = createApi({
       { openingProgramUuid: string; curriculums: CurriculumPayload[] }
     >({
       query: ({ openingProgramUuid, curriculums }) => ({
-        url: `/api/v1/opening-programs/${openingProgramUuid}/curriculums`,
+        url: `/opening-programs/${openingProgramUuid}/curriculums`,
         method: "PUT",
         body: curriculums,
       }),

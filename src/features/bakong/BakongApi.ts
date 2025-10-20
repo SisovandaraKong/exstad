@@ -41,7 +41,7 @@ export const bakongApi = createApi({
         url: "/bakong/get-qr-image",
         method: "POST",
         body,
-        responseHandler: (response) => response.blob(), // handle binary response
+        responseHandler: (response) => response.blob(), 
       }),
     }),
   }),

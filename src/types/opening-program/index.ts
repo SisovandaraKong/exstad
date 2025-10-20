@@ -64,10 +64,10 @@ export type ActivityType = {
 };
 
 export type TimelineType = {
+  uuid: string;
   title: string;
   startDate: string;
   endDate: string;
-  _clientId: string; // 🔑 local unique id
 };
 
 export type ClassPayload = {
