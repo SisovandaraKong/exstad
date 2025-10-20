@@ -14,3 +14,4 @@ export type State = {
   male?: number;
   female?: number;
 };
+// export * from "./technology";

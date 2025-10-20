@@ -110,14 +110,14 @@ export const Vortex = (props: VortexProps) => {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 
-		const i2 = 1 + i;
-		const i3 = 2 + i;
-		const i4 = 3 + i;
-		const i5 = 4 + i;
-		const i6 = 5 + i;
-		const i7 = 6 + i;
-		const i8 = 7 + i;
-		const i9 = 8 + i;
+		const i2 = 1 + i,
+			i3 = 2 + i,
+			i4 = 3 + i,
+			i5 = 4 + i,
+			i6 = 5 + i,
+			i7 = 6 + i,
+			i8 = 7 + i,
+			i9 = 8 + i;
 
 		const x = particleProps[i];
 		const y = particleProps[i2];

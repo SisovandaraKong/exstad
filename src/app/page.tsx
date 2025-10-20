@@ -77,27 +77,22 @@ export default function Home() {
 
 				{/* Short Courses and Scholarships Section */}
 				<motion.div
-					className='w-full pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto flex flex-col md:flex-row gap-4 md:gap-8 lg:gap-12 justify-center items-stretch'
+					className='w-full pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8'
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ duration: 0.6 }}
 					viewport={{ once: false, margin: "-50px" }}>
 					<motion.div
-						className='h-full w-full md:w-[45%] lg:w-[42%] xl:w-[40%]'
+						className='h-full w-full'
 						initial={{ opacity: 0, x: -50 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.8, delay: 0.2 }}
 						viewport={{ once: false }}
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
-						<ShortCourseCard
-							id='1'
-							title='Short Courses'
-							description='Compact learning programs focused on specific skills or topics.'
-							cardBackground=''
-						/>
+						<ShortCourseCard />
 					</motion.div>
 					<motion.div
-						className='h-full w-full md:w-[45%] lg:w-[42%] xl:w-[40%]'
+						className='h-full w-full'
 						initial={{ opacity: 0, x: 50 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.8, delay: 0.4 }}
@@ -160,10 +155,70 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										International Tech Company
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										1%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
 										Study Abroad
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										2%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										Outsourcing
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										2%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										Startup Company
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										5%
+									</dd>
+								</motion.div>
+								<motion.div
+									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
+									whileHover={{
+										scale: 1.05,
+										boxShadow:
+											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
+									}}
+									transition={{ duration: 0.2 }}>
+									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
+										ISTAD
+									</dt>
+									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
+										7%
 									</dd>
 								</motion.div>
 								<motion.div
@@ -209,66 +264,6 @@ export default function Home() {
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										38%
-									</dd>
-								</motion.div>
-								<motion.div
-									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
-									whileHover={{
-										scale: 1.05,
-										boxShadow:
-											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
-									}}
-									transition={{ duration: 0.2 }}>
-									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										ISTAD
-									</dt>
-									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
-										7%
-									</dd>
-								</motion.div>
-								<motion.div
-									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
-									whileHover={{
-										scale: 1.05,
-										boxShadow:
-											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
-									}}
-									transition={{ duration: 0.2 }}>
-									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Outsourcing
-									</dt>
-									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
-										2%
-									</dd>
-								</motion.div>
-								<motion.div
-									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
-									whileHover={{
-										scale: 1.05,
-										boxShadow:
-											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
-									}}
-									transition={{ duration: 0.2 }}>
-									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										International Tech Company
-									</dt>
-									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
-										1%
-									</dd>
-								</motion.div>
-								<motion.div
-									className='flex flex-col bg-card border border-border p-6 sm:p-8 shadow-sm rounded-lg'
-									whileHover={{
-										scale: 1.05,
-										boxShadow:
-											"0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(255, 255, 255, 0.02)",
-									}}
-									transition={{ duration: 0.2 }}>
-									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Startup Company
-									</dt>
-									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
-										5%
 									</dd>
 								</motion.div>
 							</motion.dl>
