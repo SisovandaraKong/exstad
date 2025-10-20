@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
       "media.istockphoto.com",
       "encrypted-tbn0.gstatic.com",
       "hebbkx1anhila5yf.public.blob.vercel-storage.com",
-      "localhost:8080"
+      "localhost"
     ],
   },
 };

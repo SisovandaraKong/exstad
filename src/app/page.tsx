@@ -17,8 +17,25 @@ import AnimatedSpinner from "@/components/animation/animated_spinning";
 import { WhyChooseEXSTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
 import { WaveBackground } from "@/components/ui/wave-background";
 import SwiperSlideComponent_PopularCourse from "@/components/swiper/swiperSlide";
+import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
+import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 
 export default function Home() {
+	  const { data: allPrograms = [], isLoading, isError } = useGetAllMasterProgramsQuery(
+		  undefined, 
+	  { refetchOnMountOrArgChange: true }
+	  );
+	    const programs = allPrograms.filter(p => p.visibility === "PUBLIC");
+		
+	  const { data: allOpeningProgram = [] } = useGetAllOpeningProgramsQuery(
+			 undefined, 
+	  { refetchOnMountOrArgChange: true }
+	  );
+	    const openingPrograms = allOpeningProgram.filter(p=> p.status === "OPEN")
+
+		  const visiblePrograms = programs.filter((p) =>
+  openingPrograms.some((o) => o.programName === p.title)
+);
 	// const t = useTranslations();
 	// 90;
 	return (
@@ -114,7 +131,8 @@ export default function Home() {
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
 					viewport={{ once: false, margin: "-50px" }}>
-					<SwiperSlideComponent_PopularCourse />
+					<SwiperSlideComponent_PopularCourse programs={visiblePrograms}
+  						openingPrograms={openingPrograms}/>
 				</motion.div>
 
 				{/* Statistics Section */}
