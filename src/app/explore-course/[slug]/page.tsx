@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
 
 import ProgramHeader from "@/components/program/ProgramHeader";
 import ProgramSidebar from "@/components/program/explore-course/ProgramSidebar";
 import ProgramOverviewTap from "@/components/program/detail-program/ProgramOverviewTap";
 import ProgramCurriculumTap from "@/components/program/detail-program/curriculum/ProgramCurriculum";
+import TimeLine from "@/components/program/detail-program/timeline/TimeLine";
 import ProgramActivityTap, {
   ProgramGeneration,
 } from "@/components/program/detail-program/activity/ProgramActivity";
@@ -71,7 +72,6 @@ const ProgramDetailPage: React.FC = () => {
       <p className="text-center text-red-500">Master program not found!</p>
     );
 
-  // Build all generations for this program
   const generations: ProgramGeneration[] = allPrograms
     .filter((op) => op.programName === openingProgram.programName)
     .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))
@@ -96,6 +96,7 @@ const ProgramDetailPage: React.FC = () => {
           No opening programs available.
         </p>
       ),
+    Timeline: () => <TimeLine openingProgramUuid={openingProgram.uuid} />,
     Enrollment: () => <ProgramEnrollment />,
   };
 

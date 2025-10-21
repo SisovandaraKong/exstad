@@ -12,6 +12,7 @@
   /* font family */
   --font-inter: var(--font-inter);
   --font-koh: var(--font-koh);
+  --font-nunito: var(--font-nunito);
 
   /* Custom Color Variable */
   --color-background: var(--background);
@@ -25,6 +26,9 @@
   --color-secondary-hover: var(--secondary-hover);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-red: var(--red);
+  --color-black: var(--black);
+  --color-white: var(--white);
 
   /* Font Size */
   --font-size-h1: var(--heading-1);
@@ -174,6 +178,10 @@
   --secondary-hover: #f84545;
   --accent: #eab309;
   --accent-hover: #facc2a;
+
+  --red: #e1232e;
+  --black: #000000;
+  --white: #ffffff;
 
   /* Custom Font Size Variable */
   --heading-1: 40px;
@@ -458,4 +466,7 @@
 
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
+}
+.font-bilingual {
+  font-family: var(--font-inter), var(--font-koh), system-ui, sans-serif;
 }
