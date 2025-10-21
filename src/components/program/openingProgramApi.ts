@@ -77,7 +77,7 @@ export const openingProgramApi = createApi({
         }),
                 // Fetch a single master program by TITLE
         getOpeningProgramByTitle: builder.query<openingProgramType, { title: string }>({
-            query: ({ title }) => `/api/v1/opening-programs/title/${title}`,
+            query: ({ title }) => `/opening-programs/title/${title}`,
             providesTags: (result) =>
                 result ? [{ type: "OpeningProgram", id: result.uuid }] : [],
         }),

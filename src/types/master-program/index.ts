@@ -1,4 +1,7 @@
+import { Audit } from "..";
 import { openingProgramType } from "../opening-program";
+export type visibility = "PUBLIC" | "PRIVATE";
+
 export type MasterProgramType = {
   uuid: string;
   programType:programType;
@@ -8,8 +11,7 @@ export type MasterProgramType = {
   subtitle: string;
   description: string;
   programLevel:Level;
-  posterUrl:string;
-  thumbnailUrl:string;
+  logoUrl:string;
   price: string;
   duration: string;
   scholarship?: number;
@@ -19,13 +21,14 @@ export type MasterProgramType = {
   programOverviews: programOverviewType[];
   learningOutcomes: LearningOutcomeType[];
   requirements: RequirementsType[];
-  highlights: HighlightType[];   // 👈 new
-  curriculum: CurriculumType[]; // 👈 new
-  openingprograms: openingProgramType[]; // 👈 new
+  highlights: HighlightType[];   
+  curriculum: CurriculumType[]; 
+  openingprograms: openingProgramType[]; 
   faq:FaqItem[];
   curricula:CurriculumType[];
-  visibility: visibility
+  visibility: visibility;
   status: "draft" | "active" | "archived"
+  audit: Audit;
 };
 
 export type MasterProgramCreate = {
@@ -55,6 +58,7 @@ export type MasterProgramCreate = {
   // curricula?: CurriculumDataType[];
   visibility?: "public" | "private";
   status?: "draft" | "active" | "archived";
+  audit: Audit;
 };
 
 export type HighlightType = {
@@ -64,7 +68,6 @@ export type HighlightType = {
 };
 export type HighlightPayload = Omit<HighlightType, "id">;
 type Level = "BASIC" | "INTERMEDIATE" | "ADVANCED";
-type  visibility="public" | "private";
 type programType= "SHORT_COURSE" |"SCHOLARSHIP"
 
 

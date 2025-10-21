@@ -26,9 +26,9 @@ export type programType = {
   programOverview: programOverviewType[];
   learningOutcome: programLearningOutcomeType[];
   courseRequirement: courseRequirementType[];
-  highlights: HighlightType[];   // 👈 new
-  // curriculum: curriculumType[]; // 👈 new
-  openingprogram: openingProgramType[]; // 👈 new
+  highlights: HighlightType[]; 
+  // curriculum: curriculumType[];
+  openingprogram: openingProgramType[]; 
   faq:FaqDataType[];
   curriculum:curriculumDataType[];
 };

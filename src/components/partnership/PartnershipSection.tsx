@@ -9,13 +9,13 @@ import { useState } from "react";
 const partnerCategories = {
 	government: [
 		{
-			name: "Ministry of Education, Youth and Sport",
-			logo: "https://www.foodi-project.eu/wp-content/uploads/2019/01/P9.png",
+			name: "Ministry of Post and Telecommunications of Cambodia",
+			logo: "https://www.trc.gov.kh/_astro/MPTC.CJZrFdlr_Z1xXAUI.webp",
 			category: "Government",
 		},
 		{
-			name: "Ministry of Post and Telecommunications of Cambodia",
-			logo: "https://www.trc.gov.kh/_astro/MPTC.CJZrFdlr_Z1xXAUI.webp",
+			name: "Digital Government Committee ",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRshR37XmWDFaE_JZh2-FxVS5nh8lwXM2y5Iw&s",
 			category: "Government",
 		},
 	],
@@ -38,8 +38,8 @@ const partnerCategories = {
 			category: "Banking",
 		},
 		{
-			name: "ABA Bank",
-			logo: "https://play-lh.googleusercontent.com/WU6sZMD1UspzwqYnlACtmN60rckp8hoINSgsR21mKLJBbsHPwXtzwvOocpjC7FcO1g",
+			name: "Canada Bank",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ76IvnpQAwB5bhNKihsugJRh0rh2CtFfkA_KdQqqY7xN6tNQhTeCbmbIUVYa4KkCiFP50&usqp=CAU",
 			category: "Banking",
 		},
 		{
@@ -58,40 +58,40 @@ const partnerCategories = {
 			category: "Banking",
 		},
 		{
-			name: "KB Prasac Bank",
-			logo: "https://play-lh.googleusercontent.com/rbNyQIKGPrK5nNmJHdkwKG0uZ9rk4qDMJ52JPLV32ui38hysDrUJl2wJhqyIxUAgOu6_",
+			name: "Shinhan Bank",
+			logo: "https://shinhan.com.kh/themes/shinhan-cambodia/img/loading-icon-2.png",
 			category: "Banking",
 		},
 		{
-			name: "Hattha Bank",
-			logo: "https://eu-images.contentstack.com/v3/assets/blt7dacf616844cf077/blt25a971650c2ea2ee/67996d0f3b81de5614a817a4/Logo-on-blue-background.jpg?width=1280&auto=webp&quality=80&format=jpg&disable=upscale",
+			name: "PPCBank",
+			logo: "https://www.ppcbank.com.kh/wp-content/uploads/2024/09/013.jpg",
 			category: "Banking",
 		},
 		{
-			name: "MayBank",
-			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-nNOyLeCnSbIBbNDFQ9MTozu-HAJaWEuG_g&s",
+			name: "Amret Bank",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROYTk5csp8xr0BmalclqQ1bfNrKWEktgnDcQ&s",
 			category: "Banking",
 		},
 		{
-			name: "J Trust Bank",
-			logo: "https://webassets.jtrustroyal.com/about-us/JTRUST_Logo.jpg",
+			name: "Phillip Bank",
+			logo: "https://play-lh.googleusercontent.com/dvJ0JwsKi3n2NGvpJ7ZneV_FlhlpMb_g6eMRx9gUYZ0Uf2rNUGaFIySG5NqRnktZiQ",
 			category: "Banking",
 		},
 		{
-			name: "FTB Bank",
-			logo: "https://play-lh.googleusercontent.com/dBXpI2QOfWndhjQKboqdt6sOdSeeGk_pxeXqVC8hHD-xCDQIKoD_MLHhVH51gb25F1rY",
+			name: "Mohanokor Microfinance Institution",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXtC1rKHX3bw0EoM0GdiwZbHz5RiDOO6bNIg&s",
 			category: "Banking",
 		},
 	],
 	technology: [
 		{
-			name: "Smart",
-			logo: "https://cdn.bitrefill.com/primg/w360h216/smart-cambodia.webp",
+			name: "Bankong Open API",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwG-Zx92YNnU6BuabALnRRwBqX_5USd3AJJw&s",
 			category: "Technology",
 		},
 		{
-			name: "Bankong Open API",
-			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwG-Zx92YNnU6BuabALnRRwBqX_5USd3AJJw&s",
+			name: "Smart Axiata",
+			logo: "https://play-lh.googleusercontent.com/MBVY5PdixeXkomZJFWSYoV7Bk4V55OiaG9_GtxZnZKDUBn_cB8ZRL0ht8U9PK16re9M",
 			category: "Technology",
 		},
 	],
@@ -173,62 +173,68 @@ export function PartnersSection() {
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.5 }}
 					className='relative'>
-					<div className='overflow-hidden items-center py-4'>
-						<div className='flex animate-scroll mb-8 sm:mb-12'>
-							{/* Duplicate partners for seamless loop */}
-							{[...allPartners, ...allPartners].map((partner, index) => (
-								<div key={index} className='flex-shrink-0 mx-4'>
-									<motion.div
-										className='group relative cursor-pointer'
-										whileHover={{ scale: 1.05 }}
-										transition={{ duration: 0.3 }}>
-										{/* Glow effect */}
-										<div className='absolute -inset-1 bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 rounded-full blur opacity-0 group-hover:opacity-70 transition duration-500' />
+					<div className='overflow-hidden items-center py-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]'>
+						<div
+							className='flex animate-scroll mb-8 sm:mb-12'
+							style={{ width: "fit-content" }}>
+							{/* Create seamless infinite loop by ensuring beginning elements appear right after end */}
+							{[...allPartners, ...allPartners, ...allPartners].map(
+								(partner, index) => (
+									<div
+										key={`partner-${index}`}
+										className='flex-shrink-0 mx-2 sm:mx-3 md:mx-4'>
+										<motion.div
+											className='group relative cursor-pointer'
+											whileHover={{ scale: 1.05 }}
+											transition={{ duration: 0.3 }}>
+											{/* Glow effect */}
+											<div className='absolute -inset-1 bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 rounded-full blur opacity-0 group-hover:opacity-70 transition duration-500' />
 
-										{/* Circular logo container */}
-										<div className='relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full overflow-hidden bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-lg border-2 border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 hover:border-primary/30 group-hover:border-primary/50'>
-											{/* Logo content with higher z-index initially */}
-											<div className='relative z-10 w-full h-full group-hover:z-0 transition-all duration-300'>
-												{!imageErrors[index] ? (
-													<div className='w-full h-full p-2 flex items-center justify-center'>
-														<div className='w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-gray-50/50 to-gray-100/50 dark:from-gray-700/50 dark:to-gray-600/50 flex items-center justify-center'>
-															<Image
-																src={partner.logo || "/placeholder.svg"}
-																alt={partner.name}
-																width={80}
-																height={80}
-																className='w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-110 rounded-full'
-																unoptimized
-																onError={() => handleImageError(index)}
-															/>
+											{/* Circular logo container */}
+											<div className='relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full overflow-hidden bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-lg border-2 border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 hover:border-primary/30 group-hover:border-primary/50'>
+												{/* Logo content with higher z-index initially */}
+												<div className='relative z-10 w-full h-full group-hover:z-0 transition-all duration-300'>
+													{!imageErrors[index] ? (
+														<div className='w-full h-full p-2 flex items-center justify-center'>
+															<div className='w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-gray-50/50 to-gray-100/50 dark:from-gray-700/50 dark:to-gray-600/50 flex items-center justify-center'>
+																<Image
+																	src={partner.logo || "/placeholder.svg"}
+																	alt={partner.name}
+																	width={80}
+																	height={80}
+																	className='w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-110 rounded-full'
+																	unoptimized
+																	onError={() => handleImageError(index)}
+																/>
+															</div>
 														</div>
-													</div>
-												) : (
-													<div className='w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600'>
-														<div className='w-8 h-8 sm:w-10 sm:h-10 bg-primary/20 rounded-full flex items-center justify-center'>
-															<span className='text-primary font-bold text-sm sm:text-base'>
-																{partner.name.charAt(0)}
-															</span>
+													) : (
+														<div className='w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600'>
+															<div className='w-8 h-8 sm:w-10 sm:h-10 bg-primary/20 rounded-full flex items-center justify-center'>
+																<span className='text-primary font-bold text-sm sm:text-base'>
+																	{partner.name.charAt(0)}
+																</span>
+															</div>
 														</div>
-													</div>
-												)}
-											</div>
+													)}
+												</div>
 
-											{/* Hover overlay with partner info */}
-											<div className='absolute inset-0 bg-primary/90 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 group-hover:z-20 transition-all duration-300 flex items-center justify-center'>
-												<div className='text-center text-white p-2'>
-													<div className='text-xs sm:text-sm font-bold leading-tight line-clamp-2'>
-														{partner.name}
-													</div>
-													<div className='text-xs opacity-80 mt-1'>
-														{partner.category}
+												{/* Hover overlay with partner info */}
+												<div className='absolute inset-0 bg-primary/90 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 group-hover:z-20 transition-all duration-300 flex items-center justify-center'>
+													<div className='text-center text-white p-2'>
+														<div className='text-xs sm:text-sm font-bold leading-tight line-clamp-2'>
+															{partner.name}
+														</div>
+														<div className='text-xs opacity-80 mt-1'>
+															{partner.category}
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</motion.div>
-								</div>
-							))}
+										</motion.div>
+									</div>
+								)
+							)}
 						</div>
 					</div>
 				</motion.div>

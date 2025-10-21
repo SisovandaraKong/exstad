@@ -15,14 +15,22 @@ export default function ExploreProgramPage() {
   const [searchValue, setSearchValue] = useState("");
 
   // ✅ Fetch both master programs and opening programs
-  const { data: programs = [], isLoading, isError } = useGetAllMasterProgramsQuery(
+  const { data: allPrograms = [], isLoading, isError } = useGetAllMasterProgramsQuery(
       undefined, 
   { refetchOnMountOrArgChange: true }
   );
-  const { data: openingPrograms = [] } = useGetAllOpeningProgramsQuery(
+
+  const programs = allPrograms.filter(p => p.visibility === "PUBLIC");
+
+  const { data: allOpeningProgram = [] } = useGetAllOpeningProgramsQuery(
          undefined, 
   { refetchOnMountOrArgChange: true }
   );
+  const openingPrograms = allOpeningProgram.filter(p=> p.status === "OPEN")
+
+  const visiblePrograms = programs.filter((p) =>
+  openingPrograms.some((o) => o.programName === p.title)
+);
 
   if (isError) return <p>Failed to load programs.</p>;
 
@@ -49,7 +57,7 @@ export default function ExploreProgramPage() {
       <div className="flex-1">
         <div className="mb-6 ">
           <ProgramSearch
-            total={programs.length}
+            total={visiblePrograms.length}
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
@@ -57,7 +65,7 @@ export default function ExploreProgramPage() {
 
         <div >
           <ProgramCardList
-            programs={programs}
+            programs={visiblePrograms}
             openingPrograms={openingPrograms} 
             programFilter={programFilter}
             subFilter={subFilter}
