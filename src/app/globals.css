@@ -9,10 +9,16 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* font family */
-  --font-inter: var(--font-inter);
-  --font-koh: var(--font-koh);
-  --font-nunito: var(--font-nunito);
+	/* font family */
+	--font-inter: var(
+		--.animate-scroll: hover {animation-play-state: paused;}
+			/* Right to left scroll animation */ @keyframes scroll-rtl {0% {transform:
+			translateX(50%) ;} 100% {transform: translateX(-100%) ;}}
+			.animate-scroll-rtl {animation: scroll-rtl 60s linear infinite;}
+			.animate-scroll-rtl: hover {animation-play-state: paused;}
+			.hide-scroll-bar: : -webkit-scrollbar {display: none;}ter
+	);
+	--font-koh: var(--font-koh);
 
   /* Custom Color Variable */
   --color-background: var(--background);
@@ -386,8 +392,53 @@
   display: none;
 }
 .scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+/* Narak's Configuration */
+@keyframes scroll {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-33.333%);
+	}
+}
+
+.animate-scroll {
+	animation: scroll 60s linear infinite;
+	will-change: transform;
+}
+
+.animate-scroll:hover {
+	animation-play-state: paused;
+}
+
+/* Slower scroll animation */
+.animate-scroll-slow {
+	animation: scroll 60s linear infinite;
+}
+
+.animate-scroll-slow:hover {
+	animation-play-state: paused;
+}
+
+/* Right to left scroll animation */
+@keyframes scroll-rtl {
+	0% {
+		transform: translateX(50%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+.animate-scroll-rtl {
+	animation: scroll-rtl 60s linear infinite;
+}
+
+.animate-scroll-rtl:hover {
+	animation-play-state: paused;
 }
 
 .hide-scroll-bar::-webkit-scrollbar {

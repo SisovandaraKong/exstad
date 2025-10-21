@@ -41,7 +41,7 @@ export function WhyChooseEXSTAD_Card() {
 				{/* Image Section - Center */}
 				<div className='flex justify-center w-full md:w-1/3 order-first md:order-none'>
 					<Image
-						src='./image/sampleImage/3students.png'
+						src='./istad-image/istad-icon.png'
 						alt='Learn More'
 						width={320}
 						height={400}

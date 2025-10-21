@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import { useGetMasterCurriculumsQuery } from "./curriculumApi";
+import { useGetMasterCurriculumsQuery, useGetOpeningCurriculumsQuery } from "./curriculumApi";
 import AOS from "aos";
 
 type CurriculumProps = {
@@ -12,51 +12,58 @@ type CurriculumProps = {
 };
 
 const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ openingUuid, masterUuid }) => {
-  const [programUuid, setProgramUuid] = useState(openingUuid);
-  const { data = [], isLoading, refetch, isError } = useGetMasterCurriculumsQuery(programUuid, {
-    refetchOnMountOrArgChange: true,
-  });
+  const [fallback, setFallback] = useState(false);
 
-  const curriculumSections = data ?? [];
+  // Fetch opening program curriculum
+  const { data: openingData, isLoading: loadingOpening, refetch: refetchOpening } =
+    useGetOpeningCurriculumsQuery(openingUuid, { skip: fallback });
+
+  // Fetch master curriculum as fallback
+  const { data: masterData, isLoading: loadingMaster } =
+    useGetMasterCurriculumsQuery(masterUuid, { skip: !fallback });
+
+  // Determine which curriculum to show
+  const curriculumSections = fallback ? masterData ?? [] : openingData ?? [];
 
   const refs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({});
-  const initializedRef = useRef(false);
 
-  // Retry with masterUuid if openingUuid fails
+  // Automatically fallback if opening program is empty
   useEffect(() => {
-    if (isError && programUuid === openingUuid) {
-      console.warn(
-        `Curriculum for openingProgram.uuid failed. Falling back to masterProgram.uuid`
-      );
-      setProgramUuid(masterUuid);
-      refetch();
+    if (!fallback && !loadingOpening && (!openingData || openingData.length === 0)) {
+      console.warn("Opening program curriculum is empty. Falling back to master program curriculum.");
+      setFallback(true);
     }
-  }, [isError, programUuid, openingUuid, masterUuid, refetch]);
+  }, [openingData, loadingOpening, fallback]);
 
-  // Initialize all sections as open when data first loads
+  // Initialize open sections whenever curriculum changes
   useEffect(() => {
-    if (curriculumSections.length > 0 && !initializedRef.current) {
+    if (curriculumSections.length > 0) {
       const initialState: { [key: number]: boolean } = {};
       curriculumSections.forEach((section) => {
         initialState[section.order] = true;
       });
       setOpenSections(initialState);
-      initializedRef.current = true;
     }
-  }, [curriculumSections.length]);
+  }, [curriculumSections]);
+
+  // Refetch if openingUuid changes
+  useEffect(() => {
+    setFallback(false); // reset fallback
+    refetchOpening();
+  }, [openingUuid, refetchOpening]);
 
   const toggle = (key: number) => {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+  // Initialize AOS animations
   useEffect(() => {
     AOS.init({ duration: 1000, once: false });
   }, []);
 
-  if (isLoading) return <p>Loading curriculum...</p>;
-  if (isError) return <p>Failed to load curriculum.</p>;
-  if (!curriculumSections.length) return <p>No curriculum available.</p>;
+  if (loadingOpening || loadingMaster) return <p>Loading curriculum...</p>;
+  if (curriculumSections.length === 0) return <p>No curriculum available.</p>;
 
   return (
     <div className="w-full bg-background p-4 sm:p-6 md:p-6 space-y-8 md:space-y-10 rounded-b-[24px]">
@@ -68,6 +75,7 @@ const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ openingUuid, masterUu
           const key = section.order;
           const isOpen = openSections[key];
           const height = refs.current[key]?.scrollHeight || 0;
+
           return (
             <div key={key} className="border border-[#8AB9FF] rounded-2xl p-4 sm:p-6" data-aos="fade-up">
               <button

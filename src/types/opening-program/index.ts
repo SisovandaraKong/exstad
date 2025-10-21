@@ -1,37 +1,39 @@
-export type openingProgramType = {
-  programName: string;
-  programUuid: string;
-  uuid: string;
-  title: string;
-  generation: number;
-  thumbnail: string;
-  slug: string;
-  originalFee: number;
-  registerFee: number;
-  price: number;
-  scholarship: number;
-  deadline: string;
-  duration: string;
-  curriculumPdfUri: string;
-  totalSlot: number;
-  posterUrl: string;
-  qrCodeUrl: string;
-  // extra fields from backend
-  telegramGroup: string;
-  status: "OPEN" | "CLOSED" | "ACHIEVED";
-  // image: string;
-  // shortcourseimage:string;
-  // template?: string[];
 
-  // optional fields (if backend adds them later)
-  // description?: string;
-  programType: string;
-  // templates?: string[];
-  visibility: "public" | "private";
-  activities?: ActivityType[];
-  timeline?: TimelineType[];
-  classes?: ClassType[];
-};
+export type status = "OPEN" | "CLOSED" | "ACHIEVED" |"PENDING";
+
+export type openingProgramType = {
+  programName:string
+    programUuid:string;
+    uuid:string;
+    title: string;
+    generation:number;  
+    thumbnail:string;
+    slug:string;
+    originalFee:number;
+    price:number;
+    scholarship:number;
+    deadline:string;
+    duration:string;
+    curriculumPdfUri:string;
+    totalSlot: number;
+    posterUrl:string;
+    qrCodeUrl: string;
+    telegramGroup: string;
+    status: status;
+    // image: string;
+    // shortcourseimage:string; 
+    // template?: string[];
+
+    // optional fields (if backend adds them later)
+    // description?: string;
+    // programType: string;
+    // templates?: string[];
+    visibility: "public" | "private";
+    activities?: ActivityType[];
+    timeline?: TimelineType[];
+    classes?: ClassType[];
+   
+}
 
 export type openingProgramCreate = {
   programUuid: string;
