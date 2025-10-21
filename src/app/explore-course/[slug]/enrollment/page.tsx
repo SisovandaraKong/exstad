@@ -225,7 +225,8 @@ export default function EnrollmentPage() {
       };
 
       const enroll = await createEnrollment(enrollmentData).unwrap();
-      toast.success("Registration Successful!");
+    // beautiful toast success message
+      toast.success("Enrollment submitted successfully!");
 
       const message = enrollmentMessageFormatter(enroll);
 
