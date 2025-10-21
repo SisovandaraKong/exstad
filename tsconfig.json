@@ -35,7 +35,7 @@
     "/*.tsx",
     ".next/types/**/*.ts",
     "tailwind.config.ts",
-    "globals.d.ts"  // Add this
+    "globals.d.ts"  
   ],
   "exclude": [
     "node_modules"
