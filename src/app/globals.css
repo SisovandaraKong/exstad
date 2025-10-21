@@ -470,3 +470,7 @@
 .font-bilingual {
   font-family: var(--font-inter), var(--font-koh), system-ui, sans-serif;
 }
+body {
+  font-family: var(--font-inter), var(--font-koh), ui-sans-serif !important;
+}
+
