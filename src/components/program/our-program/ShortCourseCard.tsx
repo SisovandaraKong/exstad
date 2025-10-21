@@ -56,7 +56,7 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
                 unoptimized
                 width={120}
                 height={120}
-                src={logoUrl}
+                src={openingProgram?.posterUrl || "example.com"}
                 alt={title}
                 className="w-[120px] h-[120px] md:w-[192px] md:h-[192px] object-cover rounded-lg mx-auto md:mx-0"
               />
