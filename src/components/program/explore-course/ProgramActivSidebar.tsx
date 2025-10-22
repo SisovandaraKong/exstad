@@ -5,9 +5,10 @@ import { ScrollArea } from "../../ui/scroll-area";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
 import { MasterProgramType } from "@/types/master-program";
+import { X } from "lucide-react";
 
 type Props = {
-  programData: MasterProgramType[]; // ✅ accept from parent
+  programData: MasterProgramType[]; 
   programFilter: string;
   setProgramFilter: (filter: string) => void;
   levelFilter: string;
@@ -159,6 +160,16 @@ const   ProgramActiveSidebar: React.FC<Props> = ({
           ))}
         </ul>
       </div>
+      <button
+    onClick={() => {
+    setProgramFilter("All");
+    setLevelFilter("All");
+    setSubFilter([]);
+  }}
+  className="flex items-center  justify-center gap-1 mt-2 px-3 py-1 bg-secondary text-white text-sm rounded hover:bg-secondary-hover"
+>
+  <X className="w-4 h-4 "/>Reset Filters
+</button>
     </aside>
   );
 };

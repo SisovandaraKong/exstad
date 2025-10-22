@@ -56,8 +56,8 @@ const ProgramDetailPage: React.FC = () => {
 
   // Build all generations for this program
   const generations: ProgramGeneration[] = allPrograms
-    .filter(op => op.programName === openingProgram.programName) // get all generations
-    .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))    // sort by generation number
+    .filter(op => op.programName === openingProgram.programName) 
+    .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))
     .map(op => ({
       uuid: op.uuid,
       title: `Generation ${op.generation ?? 1}`,

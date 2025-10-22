@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useGetAllActivityQuery } from "@/components/program/detail-program/activity/activityApi";
 import AOS from "aos";
+import NotFoundProgram from "../../components/NotFound";
 
 type Activity = {
   uuid: string;
@@ -65,10 +66,10 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
     return <p className="text-gray-500 text-center">Loading activities...</p>;
   }
   if (isError) {
-    return <p className="text-red-500 text-center">Failed to load activities.</p>;
+    return <NotFoundProgram title="Failed to Load Activity" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;;;
   }
   if (!activities || activities.length === 0) {
-    return <p className="text-gray-500 text-center">No activities for this generation yet.</p>;
+    return  <NotFoundProgram title="No Activity Availbale" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
   }
 
   return (
