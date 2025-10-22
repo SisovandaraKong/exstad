@@ -138,8 +138,8 @@ function Navbar({ className }: { className?: string }) {
 							onClick={() => setMobileOpen(false)}
 						/>
 						{/* Mobile menu */}
-						<div className='md:hidden absolute top-full left-0 right-0 bg-background border-b shadow-lg z-50'>
-							<div className='h-[100vh] w-full p-4'>
+						<div className='md:hidden absolute top-full left-0 right-0 bg-background border-b shadow-lg z-50 max-h-[calc(100vh-5rem)] overflow-y-auto'>
+							<div className='w-full p-4'>
 								<div className='flex flex-col gap-8 items-center'>
 									{/* Mobile Navigation Links */}
 									<DropDown />

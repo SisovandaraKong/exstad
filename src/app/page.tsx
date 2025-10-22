@@ -16,7 +16,7 @@ import SwiperSlideComponent_RecommendedCourse from "@/components/swiper/SwiperSl
 import { Welcoming_Card } from "@/components/welcomeCard/Weloming_Card";
 import { Marquee3D } from "@/components/marquee3D/Marquee3D";
 import AnimatedSpinner from "@/components/animation/animated_spinning";
-import { WhyChooseEXSTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
+import { WhyChooseISTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
 import { WaveBackground } from "@/components/ui/wave-background";
 import SwiperSlideComponent_PopularCourse from "@/components/swiper/swiperSlide";
 import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
@@ -45,11 +45,11 @@ export default function Home() {
 	// 90;
 	return (
 		<motion.div
-			className='min-h-screen flex flex-col bg-background'
+			className='flex flex-col bg-background'
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6, ease: "easeOut" }}>
-			<main className='min-h-screen w-full mx-auto overflow-x-hidden'>
+			<div className='w-full mx-auto'>
 				<motion.div
 					className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto max-w-full'
 					initial={{ opacity: 0, y: 30 }}
@@ -66,7 +66,7 @@ export default function Home() {
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 0.6 }}>
-							Quality education is a key to your future success
+							Advanced IT institute in Cambodia is a key to your future success
 						</motion.h1>
 						<motion.div
 							className='w-full flex items-center justify-center relative z-10'
@@ -521,14 +521,14 @@ export default function Home() {
 					</motion.div>
 				</motion.div>
 
-				{/* Why Choose exSTAD Section */}
+				{/* Why Choose ISTAD Section */}
 				<motion.div
 					className='py-4 sm:py-6 md:py-8 lg:py-10 bg-background'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
 					viewport={{ once: false, margin: "-50px" }}>
-					<WhyChooseEXSTAD_Card />
+					<WhyChooseISTAD_Card />
 				</motion.div>
 
 				{/* Partnership Section */}
@@ -540,7 +540,7 @@ export default function Home() {
 					viewport={{ once: false, margin: "-50px" }}>
 					<PartnersSection />
 				</motion.div>
-			</main>
+			</div>
 		</motion.div>
 	);
 }

@@ -151,6 +151,24 @@
 				rotate(calc((var(--angle) * -1deg) - 360deg));
 		}
 	}
+
+	@keyframes marquee {
+		0% {
+			transform: translateX(0%);
+		}
+		100% {
+			transform: translateX(-100%);
+		}
+	}
+
+	@keyframes marquee-vertical {
+		0% {
+			transform: translateY(0%);
+		}
+		100% {
+			transform: translateY(-100%);
+		}
+	}
 }
 
 :root {
@@ -394,7 +412,7 @@
 
 /* Slower scroll animation */
 .animate-scroll-slow {
-	animation: scroll 60s linear infinite;
+	animation: scroll 70s linear infinite;
 }
 
 .animate-scroll-slow:hover {
@@ -421,6 +439,15 @@
 
 .hide-scroll-bar::-webkit-scrollbar {
 	display: none;
+}
+
+/* Marquee Animation Classes */
+.animate-marquee {
+	animation: marquee var(--duration, 60s) linear infinite;
+}
+
+.animate-marquee-vertical {
+	animation: marquee-vertical var(--duration, 60s) linear infinite;
 }
 
 /* Scroll animation */

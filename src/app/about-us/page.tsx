@@ -508,7 +508,6 @@ export default function AboutUsPage() {
 					</div>
 				</div>
 			</section>
-			{/* <MorphTo /> */}
 
 			{/* CTA Section */}
 			<section className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-32 bg-primary'>
@@ -526,12 +525,12 @@ export default function AboutUsPage() {
 							Join thousands of students who have transformed their lives
 							through our programs
 						</p>
-						<motion.button
-							onClick={() => router.push("/explor-program")}
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							className='bg-white text-blue-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-50 transition-colors duration-200'>
-							Explore program
+						<motion.button>
+							<a
+								href='/explore-course'
+								className='bg-white text-blue-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-50 transition-colors duration-200'>
+								Explore Courses
+							</a>
 						</motion.button>
 					</motion.div>
 				</div>
