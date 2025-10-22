@@ -91,7 +91,6 @@ function capitalizeWord(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }
 
-
 const SHIFT_LABELS: Record<string, { en: string; kh: string }> = {
   morning: { en: "Morning", kh: "ព្រឹក" },
   afternoon: { en: "Afternoon", kh: "រសៀល" },
@@ -421,7 +420,14 @@ export default function EnrollmentPage() {
           programSlug: masterProgram?.slug || "",
           gen: openingProgram?.generation ?? 1,
           documentType: "avatar" as const,
-          filename: file.name, // use real filename
+          filename:
+            "avatar_" +
+            values.englishName.toLocaleLowerCase().replaceAll(" ", "_") +
+            new Date()
+              .getTime()
+              .toLocaleString()
+              .toLocaleLowerCase()
+              .replaceAll(",", ""), // use real filename
           file,
         };
         const document = await createDocument(documentPayload).unwrap();

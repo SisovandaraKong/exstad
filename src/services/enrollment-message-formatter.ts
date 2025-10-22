@@ -1,3 +1,4 @@
+import { EnrollmentDetail } from "@/features/enrollment/enrollmentApi";
 import { Enrollment } from "@/types/enrollment";
 
 export function enrollmentMessageFormatter(enrollment: Enrollment): string {
@@ -40,4 +41,29 @@ export function formatRequestInfo(requestInfo: {
 📱 *User-Agent:* ${requestInfo.ua}
 🗣️ *Accept-Language:* ${requestInfo.acceptLanguage || "N/A"}
 🔗 *Referer:* ${requestInfo.referer || "N/A"}`.trim();
+}
+
+export function enrollmentPaymentMessageFormatter(
+  enrollment: EnrollmentDetail,
+  amount: number
+): string {
+  const divider = "━━━━━━━━━━━━━━━━━━━━";
+
+  const message =
+    `
+🎉 *New Payment Received!*
+
+👤 *Name (EN):* ${enrollment.englishName}
+📝 *Name (KH):* ${enrollment.khmerName}
+📚 *Program:* ${enrollment.program}
+
+📞 *Phone:* ${enrollment.phoneNumber}
+✉️ *Email:* ${enrollment.email}
+
+💰 *Payment:* "✅ Paid 🟢"
+💰 *Amount:* ${amount}
+
+${divider}` + "\n\n";
+
+  return message;
 }

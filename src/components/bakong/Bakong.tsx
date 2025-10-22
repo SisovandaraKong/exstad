@@ -18,6 +18,9 @@ import { FaTelegramPlane } from "react-icons/fa";
 import { useLocale, useTranslations } from "next-intl";
 import { useGetOpeningProgramByUuidQuery } from "../program/openingProgramApi";
 import { LoadingOverlay } from "../loading/LoadingOverlay";
+import { useSendTelegramMessageMutation } from "@/features/telegram/telegramApi";
+import { Enrollment } from "@/types/enrollment";
+import { enrollmentPaymentMessageFormatter } from "@/services/enrollment-message-formatter";
 
 interface BakongProps {
   open: boolean;
@@ -162,6 +165,8 @@ export default function Bakong({
     return () => window.clearInterval(id);
   }, [open, expiresAt]);
 
+  const [sendTelegramMessage] = useSendTelegramMessageMutation();
+
   // Poll transaction by md5 and mark isPaid + show receipt
   useEffect(() => {
     if (!open || !md5) return;
@@ -179,13 +184,21 @@ export default function Bakong({
           res?.responseCode === 0 &&
           res?.responseMessage === "Success" &&
           !!res?.data;
-
         if (isDone) {
           try {
-            await updateEnrollmentByUuid({
+            const enrollment = await updateEnrollmentByUuid({
               uuid: enrollmentUuid,
               body: { isPaid: true },
             }).unwrap();
+
+            const message = enrollmentPaymentMessageFormatter(enrollment, amount.toFixed(2) as unknown as number);
+            const threadId = Number(
+              process.env.NEXT_PUBLIC_TELEGRAM_ENROLLMENT_THREAD_ID || 0
+            );
+            await sendTelegramMessage({
+              message,
+              threadId: threadId || undefined,
+            });
           } catch (e) {
             console.warn("Failed to update enrollment isPaid:", e);
           }
@@ -214,9 +227,11 @@ export default function Bakong({
   }, [
     open,
     md5,
+    amount,
     checkTransactionByMd5,
     updateEnrollmentByUuid,
     enrollmentUuid,
+    sendTelegramMessage,
   ]);
 
   const isLoading = genLoading || localLoading;
@@ -251,7 +266,7 @@ export default function Bakong({
         {showSuccess && (
           <PaymentReceipt
             enrollmentUuid={enrollmentUuid}
-            openingProgramUuid={openingProgramUuid} 
+            openingProgramUuid={openingProgramUuid}
             amount={amount}
             onClose={() => {
               setShowSuccess(false);
@@ -410,7 +425,7 @@ function toHHmm(t?: string): string {
   return t;
 }
 
-// Payment receipt 
+// Payment receipt
 function PaymentReceipt({
   enrollmentUuid,
   openingProgramUuid,
@@ -433,7 +448,6 @@ function PaymentReceipt({
     uuid: openingProgramUuid,
   });
 
-  
   const isRecord = (v: unknown): v is Record<string, unknown> =>
     typeof v === "object" && v !== null;
 
@@ -462,7 +476,6 @@ function PaymentReceipt({
     }
     return typeof cur === "boolean" ? cur : undefined;
   };
-
 
   const enName = pickStr(data, ["englishName"]);
   const khName = pickStr(data, ["khmerName"]);
