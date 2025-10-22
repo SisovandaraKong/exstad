@@ -1,14 +1,16 @@
 {
-	"hello": "Hello",
-	"welcome": "Welcome to my website",
+	  "hello": "Hello",
+  "welcome": "Welcome to my website",
 
-	"explore-program": "Explore Program",
-	"available-programs": "Available Programs",
-	"scholar": "Scholar",
-	"roadmap": "Roadmap",
-	"about-us": "About Us",
+  "our-program": "Our Program",
+  "explore-course": "Explore Course",
+  "scholar": "Scholar",
+  "roadmap": "Roadmap",
+  "about-us": "About Us",
 
-	"log-in": "Log In",
+  "log-in": "Log In",
+
+	
 
 	"footer": {
 		"description": "exSTAD is created by ISTAD students streamlines enrollment and verifies student profiles.",

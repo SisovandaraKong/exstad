@@ -12,52 +12,28 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 // Import component-specific styles (make sure this file exists)
 import styles from "./SwiperSlideComponent.module.css";
 
-import { CourseCard } from "../mostPopularCourseCard/CourseCard";
+import CourseCard from "../mostPopularCourseCard/CourseCard";
 import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
+
+import { MasterProgramType } from "@/types/master-program";
+import { openingProgramType } from "@/types/opening-program";
 
 // --- Mock Data ---
 // In a real Next.js app, this data would likely come from getStaticProps,
 // getServerSideProps, or a client-side API call.
-const popularCourses = [
-	{
-		id: "1",
-		title: "UI/UX Design Masterclass",
-		description:
-			"Use Figma to get a job in UI Design, User Interface, User Experience design.",
-		category: "Design",
-		image:
-			"https://img.freepik.com/free-vector/gradient-ui-ux-background_23-2149052117.jpg?semt=ais_hybrid&w=740&q=80",
-	},
-	{
-		id: "2",
-		title: "React for Beginners",
-		description:
-			"Learn the fundamentals of React and build modern web applications.",
-		category: "Development",
-		image:
-			"https://img.freepik.com/free-photo/programming-background-with-person-working-with-codes-computer_23-2150010125.jpg?semt=ais_hybrid&w=740&q=80",
-	},
-	{
-		id: "3",
-		title: "Digital Marketing Essentials",
-		description:
-			"Master SEO, social media marketing, and content strategy to grow businesses.",
-		category: "Marketing",
-		image:
-			"https://img.freepik.com/free-photo/social-media-marketing-concept-marketing-with-applications_23-2150063134.jpg?semt=ais_hybrid&w=740&q=80",
-	},
-	{
-		id: "4",
-		title: "Advanced JavaScript Concepts",
-		description:
-			"Dive deep into closures, promises, and async/await to become a JS pro.",
-		category: "Development",
-		image:
-			"https://img.freepik.com/free-photo/person-front-computer-showing-html-codes_23-2150040428.jpg?semt=ais_hybrid&w=740&q=80",
-	},
-];
+type Props = {
+  programs: MasterProgramType[];
+  openingPrograms?: openingProgramType[];
+};
+const SwiperSlideComponent_PopularCourse:React.FC<Props> = ({
+ programs,
+  openingPrograms = [],
+}) => {
+	  const getOpeningProgram = (programTitle: string) =>
+    openingPrograms.find(
+      (o) => o.programName === programTitle && o.status === "OPEN"
+    )	;
 
-const SwiperSlideComponent_PopularCourse = () => {
 	// Correctly typed ref for Swiper instance
 	const swiperRef = useRef<SwiperType | null>(null);
 
@@ -119,12 +95,14 @@ const SwiperSlideComponent_PopularCourse = () => {
 				}}
 				// Apply the CSS Module class here
 				className={`w-full mx-auto h-auto ${styles.swiperContainer}`}>
-				{popularCourses.map((course) => (
-					<SwiperSlide key={course.id} className='self-stretch h-full'>
-						{/* Assuming CourseCard handles its own styling */}
-						<CourseCard course={course} />
-					</SwiperSlide>
-				))}
+				{programs.map((program) => {
+          const matchedOpeningProgram = getOpeningProgram(program.title);
+          return (
+            <SwiperSlide key={program.uuid} className="self-stretch h-full">
+              <CourseCard {...program} openingProgram={matchedOpeningProgram} />
+            </SwiperSlide>
+          );
+        })}
 			</Swiper>
 		</div>
 	);

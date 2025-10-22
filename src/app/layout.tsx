@@ -1,15 +1,16 @@
 /** @format */
 
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { Inter, Koh_Santepheap } from "next/font/google";
+import { cookies } from "next/headers";
 import "./globals.css";
-import Providers from "@/services/store/Providers";
-import { ThemeProvider } from "@/components/theme-provider";
-import Navbar from "@/components/navbar/Navbar";
-import I18nProvider from "@/lib/I18nProvider";
+// import Providers from "@/services/store/Providers";
 import Footer from "@/components/footer/Footer";
-
+import Navbar from "@/components/navbar/Navbar";
+import { ThemeProvider } from "@/components/theme-provider";
+import AuthProvider from "@/lib/auth-provider";
+import I18nProvider from "@/lib/I18nProvider";
+import Providers from "@/lib/providers";
 const inter = Inter({
 	variable: "--font-inter",
 	subsets: ["latin"],
@@ -72,24 +73,23 @@ export default async function RootLayout({
 	// const kohVariable = koh.variable ?? "";
 
 	return (
-		<html
-			lang={htmlLang}
-			suppressHydrationWarning
-			className='overflow-x-hidden'>
+		<html lang={htmlLang} suppressHydrationWarning>
 			<body
-				className={`${inter.variable} ${koh.variable} antialiased min-h-screen bg-whitesmoke overflow-x-hidden max-w-full`}>
+				className={`${inter.variable} ${koh.variable} antialiased relative  bg-whitesmoke`}>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'
 					enableSystem
 					disableTransitionOnChange>
-					<Providers>
-						<I18nProvider initialLocale={internalLocale}>
-							<Navbar />
-							<main className='pt-[5rem] min-h-screen'>{children}</main>
-							<Footer />
-						</I18nProvider>
-					</Providers>
+					<AuthProvider>
+						<Providers>
+							<I18nProvider initialLocale={internalLocale}>
+								<Navbar />
+								<main className='mt-20'>{children}</main>
+								<Footer />
+							</I18nProvider>
+						</Providers>
+					</AuthProvider>
 				</ThemeProvider>
 			</body>
 		</html>

@@ -30,12 +30,15 @@
   },
   "include": [
     "next-env.d.ts",
+    "next-auth.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "tailwind.config.ts"
+    "tailwind.config.ts",
+    "globals.d.ts"  // Add this
   ],
   "exclude": [
     "node_modules"
   ]
 }
+
