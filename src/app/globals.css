@@ -385,7 +385,8 @@
   scrollbar-width: none; /* Firefox */
 }
 /* Narak's Configuration */
-@keyframes scroll {
+/* Legacy scroll keyframes - deprecated, use main scroll animation instead */
+@keyframes scroll-legacy {
   0% {
     transform: translateX(0%);
   }
@@ -394,12 +395,12 @@
   }
 }
 
-.animate-scroll {
-  animation: scroll 60s linear infinite;
+.animate-scroll-legacy {
+  animation: scroll-legacy 60s linear infinite;
   will-change: transform;
 }
 
-.animate-scroll:hover {
+.animate-scroll-legacy:hover {
   animation-play-state: paused;
 }
 
@@ -434,7 +435,16 @@
   display: none;
 }
 
-/* Scroll animation */
+/* Marquee Animation Classes */
+.animate-marquee {
+  animation: marquee var(--duration, 60s) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 60s) linear infinite;
+}
+
+/* Scroll animation - optimized for smooth infinite scroll */
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -445,10 +455,12 @@
 }
 
 .animate-scroll {
-  animation: scroll 30s linear infinite;
+  animation: scroll 40s linear infinite;
+  will-change: transform;
 }
 
 .animate-scroll:hover {
+  animation-play-state: paused;
   animation-play-state: paused;
 }
 

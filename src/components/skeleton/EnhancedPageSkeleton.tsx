@@ -121,7 +121,7 @@ export const EnhancedPageSkeleton = () => {
 				}
 			`}</style>
 
-			<main className='min-h-screen w-full mx-auto overflow-x-hidden'>
+			<div className='w-full'>
 				{/* Hero Section */}
 				<motion.div
 					initial={{ opacity: 0 }}
@@ -243,7 +243,7 @@ export const EnhancedPageSkeleton = () => {
 						))}
 					</div>
 				</motion.div>
-			</main>
+			</div>
 		</div>
 	);
 };
