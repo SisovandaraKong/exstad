@@ -20,7 +20,7 @@
     const router = useRouter();
 
     const handleEnrollClick = () => {
-      if (!openingProgram?.slug) return; // Safety check
+      if (!openingProgram?.slug) return; 
       router.push(`/explore-course/${openingProgram.slug}/enrollment`);
     };
 
