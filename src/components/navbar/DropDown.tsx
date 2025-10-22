@@ -150,7 +150,7 @@ export default function DropDown() {
     {
       id: "short-courses",
       title: "Short Courses",
-      href: "/our-program",
+      href: "/our-program/short-courses",
     },
   ];
 
