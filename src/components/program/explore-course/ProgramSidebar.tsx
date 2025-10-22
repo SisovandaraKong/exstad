@@ -4,7 +4,11 @@ import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PiNotePencilBold } from "react-icons/pi";
-import { MdOutlineAccessTime, MdOutlineSchool, MdOutlinePaid } from "react-icons/md";
+import {
+  MdOutlineAccessTime,
+  MdOutlineSchool,
+  MdOutlinePaid,
+} from "react-icons/md";
 import { VscGraph } from "react-icons/vsc";
 import { BsPeople } from "react-icons/bs";
 import { FaTelegram } from "react-icons/fa6";
@@ -26,17 +30,24 @@ interface ProgramSidebarProps extends MasterProgramType {
 const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
   const router = useRouter();
 
-  const { data: masterProgram, isLoading: loadingMaster, isError: errorMaster } =
-    useGetMasterProgramByUuidQuery({ uuid });
+  const {
+    data: masterProgram,
+    isLoading: loadingMaster,
+    isError: errorMaster,
+  } = useGetMasterProgramByUuidQuery({ uuid });
 
-  const { data: openingPrograms = [], isLoading: loadingOpening, isError: errorOpening } =
-    useGetAllOpeningProgramsQuery();
+  const {
+    data: openingPrograms = [],
+    isLoading: loadingOpening,
+    isError: errorOpening,
+  } = useGetAllOpeningProgramsQuery();
 
   const isLoading = loadingMaster || loadingOpening;
   const isError = errorMaster || errorOpening;
 
   if (isLoading) return <ProgramOverviewSidebarSkeleton />;
-  if (isError || !masterProgram) return <p className="text-red-500">Failed to load sidebar.</p>;
+  if (isError || !masterProgram)
+    return <p className="text-red-500">Failed to load sidebar.</p>;
 
   // Attach matching opening program
   const openingProgram = openingPrograms.find(
@@ -47,6 +58,8 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
   const program: ProgramSidebarProps = { ...masterProgram, openingProgram };
 
   const handleEnrollmentClick = () => {
+    if (!program.openingProgram?.slug) return;
+    router.push(`/explore-course/${program.openingProgram.slug}/enrollment`);
     if (!program.openingProgram?.slug) return;
     router.push(`/explore-course/${program.openingProgram.slug}/enrollment`);
   };
@@ -93,7 +106,9 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
           <p className="font-normal flex items-center gap-2 text-[14px] text-foreground">
             <VscGraph /> Level
           </p>
-          <p className="font-bold text-[14px] text-foreground">{program.programLevel}</p>
+          <p className="font-bold text-[14px] text-foreground">
+            {program.programLevel}
+          </p>
         </div>
 
         <div className="flex justify-between">
@@ -131,12 +146,13 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
 
       {/* Buttons */}
       {program.programType !== "SHORT_COURSE" && (
-        <a href={program.openingProgram?.telegramGroup} className="bg-background hover:bg-black hover:text-white flex items-center justify-center gap-2 border border-foreground text-foreground px-[24px] py-[10px] rounded-[24px] text-center font-medium text-sm sm:text-base md:text-base">
-          <FaTelegram /> Join Telegram Group</a>
+        <button className="bg-background cursor-pointer hover:bg-black hover:text-white flex items-center justify-center gap-2 border border-foreground text-foreground px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]">
+          <FaTelegram /> Join Telegram Group
+        </button>
       )}
 
       <button
-        className="bg-primary flex items-center justify-center gap-2 hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-sm sm:text-base md:text-base"
+        className="bg-primary cursor-pointer flex items-center justify-center gap-2 hover:bg-primary-hover text-white px-[24px] py-[10px] rounded-[24px] text-center font-medium text-[16px]"
         onClick={handleEnrollmentClick}
       >
         <PiNotePencilBold /> Enroll Now

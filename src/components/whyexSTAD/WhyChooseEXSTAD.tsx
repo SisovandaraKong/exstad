@@ -3,9 +3,10 @@ import Image from "next/image";
 import { Ripple } from "../magicui/ripple";
 import { LuLaptopMinimalCheck } from "react-icons/lu";
 import { PiGlobeStand } from "react-icons/pi";
-import { FeatureCard } from "../whyexSTAD/FeatureCard"; // Assuming you have this component
+import { FeatureCard } from "./FeatureCard";
+import istadImage from "../../../public/istad-image/istad-icon.png";
 
-export function WhyChooseEXSTAD_Card() {
+export function WhyChooseISTAD_Card() {
 	return (
 		<div className='h-full relative'>
 			{/* Ripple as section background - moved down */}
@@ -14,7 +15,7 @@ export function WhyChooseEXSTAD_Card() {
 			</div>
 			<div className='relative z-10 text-center space-y-4 py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32'>
 				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary'>
-					Why Choose exSTAD?{" "}
+					Why Choose ISTAD?{" "}
 				</h2>
 				<p className='text-base sm:text-lg leading-8 text-gray-600 dark:text-gray-300'>
 					Unlock your true potential and discover a world of opportunities that
@@ -41,7 +42,7 @@ export function WhyChooseEXSTAD_Card() {
 				{/* Image Section - Center */}
 				<div className='flex justify-center w-full md:w-1/3 order-first md:order-none'>
 					<Image
-						src='./istad-image/istad-icon.png'
+						src={istadImage}
 						alt='Learn More'
 						width={320}
 						height={400}

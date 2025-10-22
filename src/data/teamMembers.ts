@@ -22,7 +22,7 @@ export const teamData: TeamData = {
 				"Java",
 			],
 			social: {
-				facebook: "fb.com/chhayadevkh",
+				facebook: "https://www.facebook.com/chhayadevkh",
 				github: "https://github.com/it-chhaya",
 				telegram: "https://t.me/chhayadevkh",
 			},
@@ -84,9 +84,9 @@ export const teamData: TeamData = {
 			},
 		},
 		vanda: {
-			name: "Kong Sovannda",
+			name: "Kung Sovannda",
 			role: "Full Stack Developer",
-			image: "/team/vanda.JPG",
+			image: "/team/vannda.JPG",
 			bio: "Versatile developer with experience in both frontend and backend technologies.",
 			skills: ["Spring", "Next.js", "TypeScript", "Java", "REST APIs", "SQL"],
 			social: {
@@ -114,7 +114,7 @@ export const teamData: TeamData = {
 			bio: "Full stack developer passionate about creating responsive and interactive web applications.",
 			skills: ["Spring", "Next.js", "TypeScript", "Java", "REST APIs", "SQL"],
 			social: {
-				facebook: "https://www.facebook.com/share/1CUrZLTKkV/",
+				facebook: "https://www.facebook.com/tongboraa",
 				github: "https://github.com/tongbora",
 				telegram: "https://t.me/tongboraa",
 			},
@@ -154,7 +154,7 @@ export const teamData: TeamData = {
 		sreynuch: {
 			name: "Phum Sreynoch",
 			role: "Frontend Developer",
-			image: "/team/sreynuch.JPG",
+			image: "/team/sreynoch.JPG",
 			bio: "Creative full stack developer specializing in educational content and technical documentation.",
 			skills: ["React", "Next.js", "TypeScript", "JavaScript", "CSS", "HTML"],
 			social: {

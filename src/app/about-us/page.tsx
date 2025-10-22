@@ -21,6 +21,7 @@ import { HiChip } from "react-icons/hi";
 import { StarburstIcon } from "@/components/ui/starburst-ui";
 import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import ContactForm from "@/components/contact/ContactForm";
+import Link from "next/link";
 
 export default function AboutUsPage() {
 	const router = useRouter();
@@ -103,13 +104,14 @@ export default function AboutUsPage() {
 								<FaHandPointRight className='text-primary flex-shrink-0' />
 								Consult and connect ISTAD trainees to top IT careers
 							</p>
+							
 						</motion.div>
 						<motion.div
 							initial={{ opacity: 0, x: 20 }}
 							whileInView={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.6 }}
 							viewport={{ once: true }}
-							className='relative flex justify-end'>
+							className='relative flex justify-center'>
 							<div className='relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'>
 								<Image
 									src='/istad-image/istad-icon.PNG'
@@ -508,7 +510,6 @@ export default function AboutUsPage() {
 					</div>
 				</div>
 			</section>
-			{/* <MorphTo /> */}
 
 			{/* CTA Section */}
 			<section className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-32 bg-primary'>
@@ -526,12 +527,12 @@ export default function AboutUsPage() {
 							Join thousands of students who have transformed their lives
 							through our programs
 						</p>
-						<motion.button
-							onClick={() => router.push("/explor-program")}
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							className='bg-white text-blue-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-50 transition-colors duration-200'>
-							Explore program
+						<motion.button>
+							<Link
+								href='/explore-course'
+								className='bg-white text-blue-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-50 transition-colors duration-200'>
+								Explore Courses
+							</Link>
 						</motion.button>
 					</motion.div>
 				</div>

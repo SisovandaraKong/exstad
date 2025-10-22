@@ -1,24 +1,13 @@
-/**
- * Global styles
- * @format
- */
-
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-	/* font family */
-	--font-inter: var(
-		--.animate-scroll: hover {animation-play-state: paused;}
-			/* Right to left scroll animation */ @keyframes scroll-rtl {0% {transform:
-			translateX(50%) ;} 100% {transform: translateX(-100%) ;}}
-			.animate-scroll-rtl {animation: scroll-rtl 60s linear infinite;}
-			.animate-scroll-rtl: hover {animation-play-state: paused;}
-			.hide-scroll-bar: : -webkit-scrollbar {display: none;}ter
-	);
-	--font-koh: var(--font-koh);
+  /* font family */
+  --font-inter: var(--font-inter);
+  --font-koh: var(--font-koh);
+  --font-nunito: var(--font-nunito);
 
   /* Custom Color Variable */
   --color-background: var(--background);
@@ -32,6 +21,9 @@
   --color-secondary-hover: var(--secondary-hover);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-red: var(--red);
+  --color-black: var(--black);
+  --color-white: var(--white);
 
   /* Font Size */
   --font-size-h1: var(--heading-1);
@@ -88,7 +80,8 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Animations */
-  --animate-ripple: ripple var(--duration, 2s) ease calc(var(--i, 0) * 0.2s) infinite;
+  --animate-ripple: ripple var(--duration, 2s) ease calc(var(--i, 0) * 0.2s)
+    infinite;
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
@@ -97,7 +90,8 @@
 
   /* Keyframes */
   @keyframes ripple {
-    0%, 100% {
+    0%,
+    100% {
       transform: translate(-50%, -50%) scale(1);
     }
     50% {
@@ -105,53 +99,71 @@
     }
   }
 
-	@keyframes grid {
-		0% {
-			transform: translateY(-50%);
-		}
-		100% {
-			transform: translateZ(0) rotate(360deg);
-		}
-	}
-	--animate-rainbow: rainbow var(--speed, 2s) infinite linear;
-	--color-color-5: var(--color-5);
-	--color-color-4: var(--color-4);
-	--color-color-3: var(--color-3);
-	--color-color-2: var(--color-2);
-	--color-color-1: var(--color-1);
-	@keyframes rainbow {
-		0% {
-			background-position: 0%;
-		}
-		100% {
-			background-position: 200%;
-		}
-	}
-	@keyframes scroll {
-		to {
-			transform: translate(calc(-50% - 0.5rem));
-		}
-	}
-	--animate-gradient: gradient 8s linear infinite;
-	@keyframes gradient {
-		to {
-			background-position: var(--bg-size, 300%) 0;
-		}
-	}
+  @keyframes gradient {
+    to {
+      background-position: var(--bg-size, 300%) 0;
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+
   @keyframes orbit {
-  0% {
-    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
-		}
-  100% {
-    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
-		}
-	}
+    0% {
+      transform: rotate(calc(var(--angle) * 1deg))
+        translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+    }
+    100% {
+      transform: rotate(calc(var(--angle) * 1deg + 360deg))
+        translateY(calc(var(--radius) * 1px))
+        rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+
+  @keyframes grid {
+    0% {
+      transform: translateY(-50%);
+    }
+    100% {
+      transform: translateY(0) rotate(360deg);
+    }
+  }
+
+  @keyframes rainbow {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 200%;
+    }
+  }
+
+  @keyframes scroll {
+    to {
+      transform: translate(calc(-50% - 0.5rem));
+    }
+  }
 }
 
 :root {
   /* Custom Color Variable */
   --background: #ffffff;
-  --whitesmoke: #F5F5F7;
+  --whitesmoke: #f5f5f7;
   --text-color: #333333;
   --icon-bg: #253c95;
 
@@ -161,6 +173,10 @@
   --secondary-hover: #f84545;
   --accent: #eab309;
   --accent-hover: #facc2a;
+
+  --red: #e1232e;
+  --black: #000000;
+  --white: #ffffff;
 
   /* Custom Font Size Variable */
   --heading-1: 40px;
@@ -365,60 +381,70 @@
   display: none;
 }
 .scrollbar-hide {
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 /* Narak's Configuration */
-@keyframes scroll {
-	0% {
-		transform: translateX(0%);
-	}
-	100% {
-		transform: translateX(-33.333%);
-	}
+/* Legacy scroll keyframes - deprecated, use main scroll animation instead */
+@keyframes scroll-legacy {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
 }
 
-.animate-scroll {
-	animation: scroll 60s linear infinite;
-	will-change: transform;
+.animate-scroll-legacy {
+  animation: scroll-legacy 60s linear infinite;
+  will-change: transform;
 }
 
-.animate-scroll:hover {
-	animation-play-state: paused;
+.animate-scroll-legacy:hover {
+  animation-play-state: paused;
 }
 
 /* Slower scroll animation */
 .animate-scroll-slow {
-	animation: scroll 60s linear infinite;
+  animation: scroll 60s linear infinite;
 }
 
 .animate-scroll-slow:hover {
-	animation-play-state: paused;
+  animation-play-state: paused;
 }
 
 /* Right to left scroll animation */
 @keyframes scroll-rtl {
-	0% {
-		transform: translateX(50%);
-	}
-	100% {
-		transform: translateX(-100%);
-	}
+  0% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .animate-scroll-rtl {
-	animation: scroll-rtl 60s linear infinite;
+  animation: scroll-rtl 60s linear infinite;
 }
 
 .animate-scroll-rtl:hover {
-	animation-play-state: paused;
+  animation-play-state: paused;
 }
 
 .hide-scroll-bar::-webkit-scrollbar {
   display: none;
 }
 
-/* Scroll animation */
+/* Marquee Animation Classes */
+.animate-marquee {
+  animation: marquee var(--duration, 60s) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 60s) linear infinite;
+}
+
+/* Scroll animation - optimized for smooth infinite scroll */
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -429,9 +455,72 @@
 }
 
 .animate-scroll {
-  animation: scroll 30s linear infinite;
+  animation: scroll 40s linear infinite;
+  will-change: transform;
 }
 
 .animate-scroll:hover {
   animation-play-state: paused;
+}
+
+/* Offline Component Custom Animations */
+.offline-circle-1 {
+  animation-duration: 3s;
+}
+
+.offline-circle-2 {
+  animation-duration: 4s;
+  animation-delay: 1s;
+}
+
+.offline-circle-3 {
+  animation-duration: 5s;
+  animation-delay: 2s;
+}
+
+.offline-dot-1 {
+  animation-delay: 0s;
+}
+
+.offline-dot-2 {
+  animation-delay: 0.2s;
+}
+
+.offline-dot-3 {
+  animation-delay: 0.4s;
+}
+
+/* Additional smooth animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(247, 48, 48, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(247, 48, 48, 0.8);
+  }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+.font-bilingual {
+  font-family: var(--font-inter), var(--font-koh), system-ui, sans-serif;
+}
+body {
+  font-family: var(--font-inter), var(--font-koh), ui-sans-serif !important;
 }

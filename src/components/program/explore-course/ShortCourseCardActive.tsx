@@ -12,7 +12,7 @@ interface ShortCourseCardProps extends MasterProgramType {
 }
 
 const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
-  uuid,
+  // uuid,
   title,
   description,
   openingProgram,
