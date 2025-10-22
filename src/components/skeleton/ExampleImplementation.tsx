@@ -18,7 +18,7 @@ import SwiperSlideComponent_RecommendedCourse from "@/components/swiper/SwiperSl
 import { Welcoming_Card } from "@/components/welcomeCard/Weloming_Card";
 import { Marquee3D } from "@/components/marquee3D/Marquee3D";
 import AnimatedSpinner from "@/components/animation/animated_spinning";
-import { WhyChooseEXSTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
+import { WhyChooseISTAD_Card } from "@/components/whyexSTAD/WhyChooseEXSTAD";
 import { WaveBackground } from "@/components/ui/wave-background";
 
 // Import skeleton components
