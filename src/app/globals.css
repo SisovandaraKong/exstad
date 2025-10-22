@@ -461,6 +461,7 @@
 
 .animate-scroll:hover {
   animation-play-state: paused;
+  animation-play-state: paused;
 }
 
 /* Offline Component Custom Animations */
