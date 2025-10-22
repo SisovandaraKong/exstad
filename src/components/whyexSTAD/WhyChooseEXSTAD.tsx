@@ -3,7 +3,8 @@ import Image from "next/image";
 import { Ripple } from "../magicui/ripple";
 import { LuLaptopMinimalCheck } from "react-icons/lu";
 import { PiGlobeStand } from "react-icons/pi";
-import { FeatureCard } from "../whyexSTAD/FeatureCard"; // Assuming you have this component
+import { FeatureCard } from "../whyexSTAD/FeatureCard";
+import istadImage from "../../../public/istad-image/istad-icon.png" // Assuming you have this component
 
 export function WhyChooseEXSTAD_Card() {
 	return (
@@ -41,7 +42,7 @@ export function WhyChooseEXSTAD_Card() {
 				{/* Image Section - Center */}
 				<div className='flex justify-center w-full md:w-1/3 order-first md:order-none'>
 					<Image
-						src='./istad-image/istad-icon.png'
+						src={istadImage}
 						alt='Learn More'
 						width={320}
 						height={400}

@@ -27,34 +27,34 @@ const ShortCourseCard = () => {
 					<p className='mb-3 sm:mb-4 md:mb-6 text-sm sm:text-base md:text-lg font-normal text-gray-700 dark:text-gray-400'>
 						Compact learning programs focused on specific skills or topics.
 					</p>
-					<Button className='bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium w-fit'>
+					<Button className='bg-primary hover:bg-primary-hover text-white px-4 sm:px-6 py-2 rounded-full text-sm font-medium w-fit mt-2'>
 						Up Your Skill
 					</Button>
 				</div>
 
 				{/* BELOW SECTION: Orbit Circle (Bottom-Right) */}
-				<div className='relative flex-1 min-h-[140px] sm:min-h-[200px] '>
+				<div className='relative flex-1 min-h-[140px] sm:min-h-[200px] md:min-h-[240px]'>
 					<div
 						className='absolute flex items-center justify-center'
 						style={{
-							width: "clamp(400px, 50vw, 200px)",
-							height: "clamp(400px, 50vw, 200px)",
-							bottom: "-150px",
-							right: "-150px",
+							width: "clamp(200px, 25vw, 400px)",
+							height: "clamp(200px, 25vw, 400px)",
+							bottom: "clamp(-120px, -15vw, -150px)",
+							right: "clamp(-100px, -12vw, -150px)",
 						}}>
 						{/* Single orbit circle border */}
 						<div
 							className='absolute rounded-full border-2 border-gray-300/50 dark:border-gray-600/50'
 							style={{
-								width: "clamp(200px, 25vw, 290px)",
-								height: "clamp(200px, 25vw, 290px)",
+								width: "clamp(140px, 18vw, 290px)",
+								height: "clamp(140px, 18vw, 290px)",
 							}}
 						/>
 
 						{/* Single Orbit - All Technologies */}
 						<OrbitingCircles
 							className='pointer-events-none'
-							radius={100}
+							radius={70}
 							duration={25}
 							iconSize={20}
 							path={false}>
