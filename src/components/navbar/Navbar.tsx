@@ -71,13 +71,13 @@ function Navbar({ className }: { className?: string }) {
 		<div
 			ref={navRef}
 			className={cn(
-				"w-full border-b-1 border-text-color z-50 fixed top-0",
+				"w-full border-b-1 border-text-color z-50 fixed top-0 left-0 right-0 overflow-x-hidden",
 				className
 			)}>
 			{/* Main navbar */}
-			<nav className='bg-background relative'>
-				<div className='w-full px-4 sm:px-8 md:px-16 lg:px-32 md:py-3 py-2'>
-					<div className='flex items-center justify-between h-16'>
+			<nav className='bg-background relative w-full max-w-full overflow-x-hidden'>
+				<div className='w-full px-3 sm:px-4 md:px-8 lg:px-16 xl:px-32 md:py-3 py-2 max-w-full'>
+					<div className='flex items-center justify-between h-16 max-w-full'>
 						{/* Logo */}
 						<Link href='/' className='block'>
 							<Image
@@ -113,38 +113,25 @@ function Navbar({ className }: { className?: string }) {
 							</div>
 						</div>
 
-						{/* Mobile menu toggle (visible on small screens) */}
-						<button
-							className='md:hidden p-2 rounded-md hover:bg-accent/10'
-							aria-label={mobileOpen ? "Close menu" : "Open menu"}
-							onClick={() => setMobileOpen((v) => !v)}
-							type='button'>
-							{mobileOpen ? (
-								<X className='h-5 w-5' />
-							) : (
-								<Menu className='h-5 w-5' />
-							)}
-						</button>
+						{/* Right side: Mobile menu toggle + Desktop actions */}
+						<div className='flex items-center gap-2'>
+							{/* Mobile menu toggle (visible on small screens) */}
+							<button
+								className='md:hidden p-2 rounded-md hover:bg-accent/10 flex-shrink-0'
+								aria-label={mobileOpen ? "Close menu" : "Open menu"}
+								onClick={() => setMobileOpen((v) => !v)}
+								type='button'>
+								{mobileOpen ? (
+									<X className='h-5 w-5' />
+								) : (
+									<Menu className='h-5 w-5' />
+								)}
+							</button>
 
-						{/* Mobile menu toggle (visible on small screens) */}
-						<button
-							className='md:hidden p-2 rounded-md hover:bg-background-white-smoke'
-							aria-label={mobileOpen ? "Close menu" : "Open menu"}
-							onClick={() => setMobileOpen((v) => !v)}
-							type='button'>
-							{mobileOpen ? (
-								<X className='h-5 w-5' />
-							) : (
-								<Menu className='h-5 w-5' />
-							)}
-						</button>
-						<div className='hidden md:block'>
-							<div className='flex items-center space-x-6 '>
+							{/* Desktop actions */}
+							<div className='hidden md:flex items-center space-x-4 lg:space-x-6'>
 								<LanguageToggle />
-
-								{/* ✅ Theme Toggle replaced */}
 								<AnimatedModeToggle />
-
 								<LogInButton />
 							</div>
 						</div>
@@ -160,8 +147,8 @@ function Navbar({ className }: { className?: string }) {
 							onClick={() => setMobileOpen(false)}
 						/>
 						{/* Mobile menu */}
-						<div className='md:hidden absolute top-full left-0 right-0 bg-background border-b  shadow-lg z-50'>
-							<div className='px-4 py-4'>
+						<div className='md:hidden absolute top-full left-0 right-0 bg-background border-b shadow-lg z-50 max-h-[calc(100vh-5rem)] overflow-y-auto'>
+							<div className='px-4 py-4 safe-area-inset-bottom'>
 								<div className='flex flex-col space-y-4 items-center'>
 									<DropDown />
 									<Link
@@ -186,11 +173,6 @@ function Navbar({ className }: { className?: string }) {
 								<div>
 									<div className='flex items-center justify-center space-x-6 mt-4'>
 										<LanguageToggle />
-
-										{/* Theme Toggle */}
-										{/* <ModeToggle /> */}
-
-										{/* Login Button */}
 										<LogInButton />
 									</div>
 								</div>

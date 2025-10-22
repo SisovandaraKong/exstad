@@ -25,28 +25,28 @@ export default function Home() {
 	// 90;
 	return (
 		<motion.div
-			className='min-h-screen flex flex-col bg-background'
+			className='w-full flex flex-col bg-background'
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6, ease: "easeOut" }}>
-			<main className='min-h-screen w-full mx-auto overflow-x-hidden'>
+			<div className='w-full'>
 				<motion.div
-					className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto max-w-full'
+					className='flex flex-col lg:flex-row w-full py-4 sm:py-6 md:py-8 lg:py-12 px-3 sm:px-4 md:px-8 lg:px-32 mx-auto max-w-full gap-4 lg:gap-8'
 					initial={{ opacity: 0, y: 30 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, delay: 0.2 }}>
 					{/* Hero Section */}
 					<motion.div
-						className='w-full lg:w-1/2 max-w-full mx-auto min-h-[120px] sm:min-h-[180px] flex flex-col items-center justify-center mb-4 relative overflow-hidden'
+						className='w-full lg:w-1/2 max-w-full mx-auto min-h-[120px] sm:min-h-[160px] md:min-h-[180px] lg:min-h-[200px] flex flex-col items-center justify-center mb-4 lg:mb-0 relative overflow-hidden'
 						initial={{ opacity: 0, scale: 0.9 }}
 						animate={{ opacity: 1, scale: 1 }}
 						transition={{ duration: 0.8, delay: 0.4 }}>
 						<motion.h1
-							className='absolute inset-0 flex items-center justify-center font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-center px-4 sm:px-2 z-20 overflow-hidden'
+							className='absolute inset-0 flex items-center justify-center font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent text-center px-2 sm:px-4 z-20 overflow-hidden leading-tight'
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 0.6 }}>
-							Quality education is a key to your future success
+							Advanced IT institute in Cambodia is a key to your future success
 						</motion.h1>
 						<motion.div
 							className='w-full flex items-center justify-center relative z-10'
@@ -69,7 +69,7 @@ export default function Home() {
 
 				{/* Welcoming Section */}
 				<motion.div
-					className='w-full py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='w-full py-4 sm:py-6 md:py-8 lg:py-12 px-3 sm:px-4 md:px-8 lg:px-32 mx-auto'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -79,7 +79,7 @@ export default function Home() {
 
 				{/* Short Courses and Scholarships Section */}
 				<motion.div
-					className='w-full pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8'
+					className='w-full pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-3 sm:px-4 md:px-8 lg:px-32 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-10 xl:gap-12'
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ duration: 0.6 }}
@@ -111,7 +111,7 @@ export default function Home() {
 
 				{/* Popular Course Section */}
 				<motion.div
-					className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4 md:px-8 lg:px-32 mx-auto'
 					initial={{ opacity: 0, scale: 0.95 }}
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -143,7 +143,7 @@ export default function Home() {
 								</p>
 							</motion.div>
 							<motion.dl
-								className='mt-16 py-8 grid grid-cols-1 gap-4 sm:gap-6 md:gap-4 lg:gap-6 rounded-2xl text-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+								className='mt-12 sm:mt-16 py-6 sm:py-8 grid grid-cols-1 gap-4 sm:gap-6 md:gap-4 lg:gap-6 xl:gap-8 rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4'
 								initial={{ opacity: 0, y: 40 }}
 								whileInView={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.8, delay: 0.4 }}
@@ -517,7 +517,7 @@ export default function Home() {
 					viewport={{ once: false, margin: "-50px" }}>
 					<PartnersSection />
 				</motion.div>
-			</main>
+			</div>
 		</motion.div>
 	);
 }

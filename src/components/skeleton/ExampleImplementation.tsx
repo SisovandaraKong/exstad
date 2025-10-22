@@ -34,7 +34,7 @@ export default function HomeWithSkeleton() {
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				transition={{ duration: 0.6, ease: "easeOut" }}>
-				<main className='min-h-screen w-full mx-auto overflow-x-hidden'>
+				<div className='w-full'>
 					<motion.div
 						className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto max-w-full'
 						initial={{ opacity: 0, y: 30 }}
@@ -74,7 +74,7 @@ export default function HomeWithSkeleton() {
 
 					{/* Rest of your page content... */}
 					{/* You would continue with all the sections from your original page.tsx */}
-				</main>
+				</div>
 			</motion.div>
 		</LoadingWrapper>
 	);

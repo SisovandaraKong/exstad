@@ -13,6 +13,10 @@
 }
 /** @format */
 
+*::-webkit-scrollbar {
+	display: none !important;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -170,12 +174,15 @@
 			background-position: var(--bg-size, 300%) 0;
 		}
 	}
-  @keyframes orbit {
-  0% {
-    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+	@keyframes orbit {
+		0% {
+			transform: rotate(calc(var(--angle) * 1deg))
+				translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
 		}
-  100% {
-    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
+		100% {
+			transform: rotate(calc(var(--angle) * 1deg + 360deg))
+				translateY(calc(var(--radius) * 1px))
+				rotate(calc((var(--angle) * -1deg) - 360deg));
 		}
 	}
 }

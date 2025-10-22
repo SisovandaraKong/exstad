@@ -31,7 +31,7 @@ export default function ScholarshipCourse_mc({
 					</p>
 					<Button
 						onClick={() => console.log("Button clicked")}
-						className='bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium w-fit'>
+						className='bg-primary hover:bg-primary-hover text-white px-4 sm:px-6 py-2 rounded-full text-sm font-medium w-fit mt-2'>
 						Up Your Skill
 					</Button>
 				</div>

@@ -33,7 +33,7 @@ const SkeletonElement = ({
 export const PageSkeleton = () => {
 	return (
 		<div className='min-h-screen flex flex-col bg-background'>
-			<main className='min-h-screen w-full mx-auto overflow-x-hidden'>
+			<div className='w-full'>
 				{/* Hero Section Skeleton */}
 				<div className='flex flex-col lg:flex-row w-full py-10 px-2 sm:px-4 md:px-8 lg:px-32 mx-auto max-w-full'>
 					{/* Hero Text Section */}
@@ -187,7 +187,7 @@ export const PageSkeleton = () => {
 						))}
 					</div>
 				</div>
-			</main>
+			</div>
 		</div>
 	);
 };
