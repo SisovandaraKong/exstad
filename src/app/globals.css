@@ -9,9 +9,16 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* font family */
-  --font-inter: var(--font-inter);
-  --font-koh: var(--font-koh);
+	/* font family */
+	--font-inter: var(
+		--.animate-scroll: hover {animation-play-state: paused;}
+			/* Right to left scroll animation */ @keyframes scroll-rtl {0% {transform:
+			translateX(50%) ;} 100% {transform: translateX(-100%) ;}}
+			.animate-scroll-rtl {animation: scroll-rtl 60s linear infinite;}
+			.animate-scroll-rtl: hover {animation-play-state: paused;}
+			.hide-scroll-bar: : -webkit-scrollbar {display: none;}ter
+	);
+	--font-koh: var(--font-koh);
 
   /* Custom Color Variable */
   --color-background: var(--background);
@@ -98,66 +105,47 @@
     }
   }
 
-  @keyframes gradient {
-    to {
-      background-position: var(--bg-size, 300%) 0;
-    }
-  }
-
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(-100% - var(--gap)));
-    }
-  }
-
-  @keyframes marquee-vertical {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(calc(-100% - var(--gap)));
-    }
-  }
-
+	@keyframes grid {
+		0% {
+			transform: translateY(-50%);
+		}
+		100% {
+			transform: translateZ(0) rotate(360deg);
+		}
+	}
+	--animate-rainbow: rainbow var(--speed, 2s) infinite linear;
+	--color-color-5: var(--color-5);
+	--color-color-4: var(--color-4);
+	--color-color-3: var(--color-3);
+	--color-color-2: var(--color-2);
+	--color-color-1: var(--color-1);
+	@keyframes rainbow {
+		0% {
+			background-position: 0%;
+		}
+		100% {
+			background-position: 200%;
+		}
+	}
+	@keyframes scroll {
+		to {
+			transform: translate(calc(-50% - 0.5rem));
+		}
+	}
+	--animate-gradient: gradient 8s linear infinite;
+	@keyframes gradient {
+		to {
+			background-position: var(--bg-size, 300%) 0;
+		}
+	}
   @keyframes orbit {
-    0% {
-      transform: rotate(calc(var(--angle) * 1deg))
-        translateY(calc(var(--radius) * 1px))
-        rotate(calc(var(--angle) * -1deg));
-    }
-    100% {
-      transform: rotate(calc(var(--angle) * 1deg + 360deg))
-        translateY(calc(var(--radius) * 1px))
-        rotate(calc((var(--angle) * -1deg) - 360deg));
-    }
-  }
-
-  @keyframes grid {
-    0% {
-      transform: translateY(-50%);
-    }
-    100% {
-      transform: translateY(0) rotate(360deg);
-    }
-  }
-
-  @keyframes rainbow {
-    0% {
-      background-position: 0%;
-    }
-    100% {
-      background-position: 200%;
-    }
-  }
-
-  @keyframes scroll {
-    to {
-      transform: translate(calc(-50% - 0.5rem));
-    }
-  }
+  0% {
+    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+		}
+  100% {
+    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
+		}
+	}
 }
 
 :root {
@@ -377,8 +365,53 @@
   display: none;
 }
 .scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+/* Narak's Configuration */
+@keyframes scroll {
+	0% {
+		transform: translateX(0%);
+	}
+	100% {
+		transform: translateX(-33.333%);
+	}
+}
+
+.animate-scroll {
+	animation: scroll 60s linear infinite;
+	will-change: transform;
+}
+
+.animate-scroll:hover {
+	animation-play-state: paused;
+}
+
+/* Slower scroll animation */
+.animate-scroll-slow {
+	animation: scroll 60s linear infinite;
+}
+
+.animate-scroll-slow:hover {
+	animation-play-state: paused;
+}
+
+/* Right to left scroll animation */
+@keyframes scroll-rtl {
+	0% {
+		transform: translateX(50%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+.animate-scroll-rtl {
+	animation: scroll-rtl 60s linear infinite;
+}
+
+.animate-scroll-rtl:hover {
+	animation-play-state: paused;
 }
 
 .hide-scroll-bar::-webkit-scrollbar {

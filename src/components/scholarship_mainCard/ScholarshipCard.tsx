@@ -18,49 +18,38 @@ export default function ScholarshipCourse_mc({
 	cardBackground,
 	imageSrc = "./image/sampleImage/graduate-cap.png",
 }: MainCardProps) {
-	const isWhiteCard = id === "2";
 	return (
-		<div className='rounded-3xl flex items-center justify-center w-full h-full'>
-			<div
-				className={`${
-					isWhiteCard ? "bg-white" : "bg-gray-900"
-				} rounded-3xl  flex flex-col h-[500px]  relative shadow-sm overflow-hidden`}
-				style={{
-					backgroundImage:
-						cardBackground && !isWhiteCard
-							? `url(${cardBackground})`
-							: undefined,
-					backgroundSize: "cover",
-				}}>
-				{/* Content Part */}
-				<div className='flex-1 flex flex-col justify-center px-6 pt-6 sm:pt-12'>
-					<h2
-						className={`${
-							isWhiteCard ? "text-black" : "text-white"
-						} text-xl sm:text-2xl font-semibold mb-2`}>
+		<div className='w-full h-full'>
+			<div className='flex flex-col w-full h-full p-4 sm:p-6 md:p-8 lg:p-10 bg-white border border-gray-200 rounded-3xl shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden'>
+				{/* ABOVE SECTION: Title + Description + Button */}
+				<div className='flex flex-col justify-start pb-4 sm:pb-6 md:pb-8'>
+					<h5 className='mb-2 sm:mb-3 md:mb-4 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>
 						{title}
-					</h2>
-					<p
-						className={`${
-							isWhiteCard ? "text-black" : "text-gray-300"
-						} text-base sm:text-[16px] mb-6 leading-relaxed`}>
+					</h5>
+					<p className='mb-3 sm:mb-4 md:mb-6 text-sm sm:text-base md:text-lg font-normal text-gray-700 dark:text-gray-400'>
 						{description}
 					</p>
-					<Button className='bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 rounded-full text-sm font-medium w-fit'>
+					<Button
+						onClick={() => console.log("Button clicked")}
+						className='bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium w-fit'>
 						Up Your Skill
 					</Button>
 				</div>
-				{/* Image Part */}
-				<div className='w-full flex justify-end items-end'>
-					<Image
-						unoptimized
-						width={500}
-						height={500}
-						src={imageSrc}
-						alt='Student with backpack holding books'
-						className='w-[60%] max-w-[220px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[460px] h-auto rounded-br-3xl object-contain'
-						style={{ objectPosition: "bottom right" }}
-					/>
+
+				{/* BELOW SECTION: Scholarship Image (Right-Bottom Edge) */}
+				<div className='relative flex-1 min-h-[140px] sm:min-h-[200px] -mb-4 sm:-mb-6 md:-mb-8 lg:-mb-10 -mr-4 sm:-mr-6 md:-mr-8 lg:-mr-10'>
+					{/* Scholarship Image - Hits Right-Bottom Edge */}
+					<div className='absolute bottom-0 right-0 w-[60%] max-w-[220px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[460px]'>
+						<Image
+							unoptimized
+							width={500}
+							height={500}
+							src={imageSrc}
+							alt='Scholarship student with graduation cap'
+							className='w-full h-auto object-contain rounded-br-3xl'
+							style={{ objectPosition: "bottom right" }}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>

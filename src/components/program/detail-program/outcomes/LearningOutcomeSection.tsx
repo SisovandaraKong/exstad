@@ -30,7 +30,7 @@ const LearningOutcomeSection: React.FC<LearningOutcomeProps> = ({ programUuid })
             <p className="mb-2 sm:mb-3 md:mb-4 text-sm sm:text-[18px]">{outcome.subtitle}</p>
           )}
           {outcome.description && outcome.description.length > 0 && (
-            <ul className="list-disc list-inside grid gap-4 sm:gap-6 text-foreground text-sm sm:text-base md:text-[16px] font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-primary-hover p-4 sm:p-6 md:p-8 rounded-lg">
+            <ul className="list-disc list-inside grid gap-4 sm:gap-6 text-foreground text-sm sm:text-base md:text-base font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-primary-hover p-4 sm:p-6 md:p-8 rounded-lg">
               {outcome.description.map((point, i) => (
                 <li key={i}>{point}</li>
               ))}
