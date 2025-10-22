@@ -21,11 +21,6 @@ const partnerCategories = {
 	],
 	education: [
 		{
-			name: "ISTAD",
-			logo: "https://www.cstad.edu.kh/icon.png?ff407d7ec1c2072a",
-			category: "Education",
-		},
-		{
 			name: "Chungbuk National University",
 			logo: "https://nturanking.csti.tw/static/NTURankingData/img/UnivImage/KRU000023.png",
 			category: "Education",

@@ -23,11 +23,7 @@ import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgram
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 
 export default function Home() {
-	const {
-		data: allPrograms = [],
-		isLoading,
-		isError,
-	} = useGetAllMasterProgramsQuery(undefined, {
+	const { data: allPrograms = [] } = useGetAllMasterProgramsQuery(undefined, {
 		refetchOnMountOrArgChange: true,
 	});
 	const programs = allPrograms.filter((p) => p.visibility === "PUBLIC");
