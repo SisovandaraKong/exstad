@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useGetAllProgramOverviewQuery } from "./programOverviewApi";
+import NotFoundProgram from "../../components/NotFound";
 
 interface Props {
   programUuid: string;
@@ -16,7 +17,8 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
   const overviews = data ?? []; // fallback if data is null or undefined
 
   if (isLoading) return <div>Loading program overviews...</div>;
-  if (isError) return <div>Failed to load program overviews.</div>;
+  if (isError) return <NotFoundProgram title="Failed to load Program Overview " className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
+  if (!ProgramOverviewSection || ProgramOverviewSection.length === 0) return <NotFoundProgram title="No Program Overview Availbale" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
 
   return (
     <div className="grid gap-[24px]" data-aos="fade-up">

@@ -44,7 +44,6 @@ const SwiperSlideComponent_PopularCourse:React.FC<Props> = ({
 				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary text-center sm:text-left'>
 					Our Most Popular Course
 				</h2>
-
 				{/* Custom Navigation */}
 				<div className='flex gap-4 sm:gap-6 '>
 					<button

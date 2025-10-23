@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useGetAllFaqQuery } from "./faqApi";
 import { TfiHelpAlt } from "react-icons/tfi";
+import NotFoundProgram from "../../components/NotFound";
 
 interface FaqProps {
   programUuid: string;
@@ -37,9 +38,9 @@ const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
 
   if (isLoading) return <p>Loading FAQs...</p>;
   if (isError) return <p>Failed to load FAQs.</p>;
-  if (!faqSections.length) return <p>No FAQs available.</p>;
+  if (!faqSections.length) return <NotFoundProgram title="No Faq Available" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
 
-  return (
+  return ( 
     <div className="grid gap-6">
       {faqSections.map((section, sectionIndex) => (
         <div key={sectionIndex} className="grid gap-6">
