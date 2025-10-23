@@ -151,6 +151,7 @@ export default function DropDown() {
       id: "short-courses",
       title: "Short Courses",
       href: "/our-program/short-courses",
+      subtitle: "Upgrade your tech skills through hands-on short programs.",
     },
   ];
 
@@ -233,7 +234,7 @@ function ListItem({
             <Icon className="h-4 w-4" />
           </span>
           <div className="min-w-0">
-            <div className="mt-1 font-d5 font-semibold leading-none truncate font-bilingual">
+            <div className=" font-d5 font-semibold leading-none truncate font-bilingual">
               {title}
             </div>
             {subtitle ? (

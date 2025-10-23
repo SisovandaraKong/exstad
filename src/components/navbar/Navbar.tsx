@@ -88,7 +88,7 @@ function Navbar({ className }: { className?: string }) {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <div className="ml-10 flex items-baseline space-x-8">
                 <DropDown />
                 <Link
@@ -113,7 +113,7 @@ function Navbar({ className }: { className?: string }) {
             </div>
 
             {/* Desktop Right Side */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <div className="flex items-center space-x-6">
                 <LanguageToggle />
                 <AnimatedModeToggle />
@@ -123,7 +123,7 @@ function Navbar({ className }: { className?: string }) {
 
             {/* Mobile menu toggle - SINGLE BUTTON */}
             <button
-              className="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-800/50 transition-colors"
+              className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-800/50 transition-colors"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               onClick={() => setMobileOpen((v) => !v)}
               type="button"
@@ -142,11 +142,11 @@ function Navbar({ className }: { className?: string }) {
           <>
             {/* Backdrop */}
             <div
-              className="md:hidden fixed inset-0 z-40"
+              className="lg:hidden fixed inset-0 z-40"
               onClick={() => setMobileOpen(false)}
             />
             {/* Mobile menu */}
-            <div className="md:hidden absolute top-full left-0 right-0 bg-background border-b shadow-lg z-50">
+            <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b shadow-lg z-50">
               <div className="h-[100vh] w-full p-4">
                 <div className="flex flex-col gap-8 items-center">
                   {/* Mobile Navigation Links */}
