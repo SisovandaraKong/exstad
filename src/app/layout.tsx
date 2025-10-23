@@ -78,7 +78,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${koh.variable} ${nunito.variable} antialiased relative bg-whitesmoke overflow-x-hidden`}
+        className={`${inter.variable} ${koh.variable} ${nunito.variable} antialiased relative bg-whitesmoke`}
       >
         <ThemeProvider
           attribute="class"
@@ -91,7 +91,7 @@ export default async function RootLayout({
             <I18nProvider initialLocale={internalLocale}>
               <AuthProvider>
                 <Navbar />
-                <main className="mt-20 overflow-x-hidden">
+                <main className="mt-20">
                   {children}
                   <AppToaster />
                 </main>

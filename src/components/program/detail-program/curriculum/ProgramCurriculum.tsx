@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useGetMasterCurriculumsQuery, useGetOpeningCurriculumsQuery } from "./curriculumApi";
@@ -27,7 +27,9 @@ const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ openingUuid, masterUu
   const curriculumSections = fallback ? masterData ?? [] : openingData ?? [];
 
   const refs = useRef<{ [key: number]: HTMLDivElement | null }>({});
-  const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({});
+  const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>(
+    {}
+  );
 
   // Automatically fallback if opening program is empty
   useEffect(() => {
