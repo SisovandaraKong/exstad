@@ -45,6 +45,67 @@ Strengthen the connection between students and the institute
 
 ## Key Feature
 
+### 1. Information Listing
+The first and most important feature of **exSTAD** is **Information Listing**.  
+Our team designed a **modern and intuitive experience** that allows users—especially students—to easily explore everything about **ISTAD**:
+- Scholarships  
+- Short Courses  
+- Roadmaps  
+- Projects  
+- Achievements  
+- Scholar Alumni  
+
+This feature opens a **digital space for IT students in Cambodia** to connect, learn, and start their IT careers with ISTAD.
+
+---
+
+### 2. Up Your Skill
+The second feature, which we call **“Up Your Skill,”** helps students grow in their IT journey.  
+ISTAD provides a wide range of opportunities such as **scholarships, sharing events, IT roadmaps, and short courses**—all of which are accessible directly on exSTAD.
+
+Students can easily:
+1. Fill in their basic information  
+2. Choose their favorite course  
+3. Select a schedule  
+
+And that’s it — enrollment is done **in just a few minutes**.
+
+Some programs even allow users to **track their registration, verify details, and get real-time updates** on schedules or announcements before it’s too late.
+
+Additionally, exSTAD offers **free IT roadmaps** to help students plan their learning path.  
+If they ever have questions or need guidance, **ISTAD provides free consultations** to support them throughout their journey.
+
+---
+
+### 3. Digital Verification Profile
+To recognize every student’s effort and journey with ISTAD, we built the **Digital Verification Profile** — a secure and trusted digital record of their achievements.
+
+Each profile includes:
+- Certificates  
+- Transcripts  
+- Completed Training Courses  
+- Accomplishment Projects  
+
+This feature helps students **showcase their verified skills and credentials** to employers, allowing companies and HR departments to easily **verify authenticity** and **evaluate talent** based on real achievements.
+
+---
+
+### 4. System Management
+Behind the scenes, exSTAD is powered by a robust **System Management** module designed for **Admins, Instructors, and Students**.  
+Each role has specific permissions and tools to manage their responsibilities efficiently.
+
+Core management functionalities include:
+- User & Role Management  
+- Program Management  
+- Scholar Management  
+- Enrollment Management  
+- Digital Verification Asset Management (Certificates, Transcripts, Student Info)
+
+This system delivers a **powerful and dynamic dashboard** experience with **comprehensive functionality** for all platform users.
+
+---
+
+
 ---
 
 ## Live Platform
