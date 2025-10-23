@@ -226,7 +226,19 @@ Together, they ensure that **exSTAD** is:
 
 ---
 
-## Navigation Structure
+## Navigation Structure — Public Pages
+
+| Endpoint | URL | Description |
+|----------|-----|-------------|
+| Home Page | [https://www.exstad.tech/](https://www.exstad.tech/) | Overview of courses, achievements, and partners. |
+| Short Courses | [https://www.exstad.tech/our-program/short-courses](https://www.exstad.tech/our-program/short-courses) | Lists all short courses with details. |
+| Explore Courses | [https://www.exstad.tech/explore-course](https://www.exstad.tech/explore-course) | Browse all courses with filters and enrollment info. |
+| Enrollment | [https://www.exstad.tech/explore-course/foundation/enrollment](https://www.exstad.tech/explore-course/foundation/enrollment) | Foundation course registration form. |
+| Scholars | [https://www.exstad.tech/scholar](https://www.exstad.tech/scholar) | Displays ISTAD students and alumni success stories. |
+| Student Roadmap | [https://www.exstad.tech/roadmap](https://www.exstad.tech/roadmap) | Guides students through learning and career steps. |
+| About Us | [https://www.exstad.tech/about-us](https://www.exstad.tech/about-us) | ISTAD mission, vision, and values. |
+| Student Dashboard | [https://www.exstad.tech/student-dashboard](https://www.exstad.tech/student-dashboard) | Profile, courses, certificates, and achievements. |
+| Account Settings | [https://www.exstad.tech/student-dashboard-setting](https://www.exstad.tech/student-dashboard-setting) | Manage student account info; uses Keycloak for login. |
 
 ---
 
