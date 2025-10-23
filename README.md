@@ -262,6 +262,72 @@ Together, they ensure that **exSTAD** is:
 
 ---
 
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- PostgreSQL database
+- Keycloak server (for authentication)
+
+### Installation
+Clone the repository:
+
+```bash
+git clone https://github.com/your-org/exstad.git
+cd exstad/public
+Install dependencies:
+
+bash
+Copy code
+npm install
+Environment Setup
+Copy the example environment file:
+
+bash
+Copy code
+cp .env.example .env.local
+Configure environment variables in .env.local:
+
+env
+Copy code
+# Next.js / NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret
+
+# Keycloak
+KEYCLOAK_ISSUER=https://auth.exstad.tech/realms/exstad
+KEYCLOAK_CLIENT_ID=exstad
+KEYCLOAK_CLIENT_SECRET=your-keycloak-client-secret
+
+# Backend API
+API_BASE=https://api.exstad.tech
+Start Development Server
+bash
+Copy code
+npm run dev
+Open your browser at http://localhost:3000
+
+📱 Available Scripts
+Command	Description
+npm run dev	Start development server
+npm run build	Build production-ready application
+npm run start	Start production server
+npm run lint	Run ESLint for code quality
+npm run clean:node	Clean node_modules (Linux/macOS)
+npm run clean:node:win	Clean node_modules (Windows)
+
+vbnet
+Copy code
+
+This is **fully customized for your exSTAD project**, reflecting your repo structure, environment variables, and scripts.  
+
+If you want, I can also **add a short section explaining the main libraries** your project uses (Tailwind, Shadcn/UI, Radix, Zod, etc.) for extra clarity. Do you want me to do that next?
+
+```
+
+---
+
 ## Acknowledgement
 
 We extend our heartfelt gratitude to our mentors:
