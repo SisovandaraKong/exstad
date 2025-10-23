@@ -246,22 +246,6 @@ Together, they ensure that **exSTAD** is:
 
 ---
 
-## 👥 Team Members
-
-| Name                  | Role & Responsibilities                        |
-|-----------------------|------------------------------------------------|
-| Leng Narak            | Repository setup, Contact Page, About Page     |
-| Srun Oudom Sambath    | Program Manangement               |
-| Kong Sisovandara      | Backend               |
-| Kung Sovannda         | Sign Up and Login Functionality                |
-| Tang Menghouy         | Cart and Checkout Implementation               |
-| Tong Bora             | Wishlist and Account Management                |
-| Chunn Meyling         | Product Detail Page                            |
-| Phum Sreynoch         |
-
-
----
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -325,15 +309,38 @@ Open your browser at http://localhost:3000
 
 ---
 
-## Acknowledgement
+## 👥 Team Members
 
-We extend our heartfelt gratitude to our mentors:
+Created with ❤️ by the talented students of ISTAD (Institute of Science and Technology Advanced Development).
 
-👩‍🏫 Mr. Chan Chhaya and 👨‍🏫 Ms. Eung Lyzhia
+| Name                  | Role & Responsibilities                        |
+|-----------------------|------------------------------------------------|
+| Chunn Meyling         | Full Stack Developer (Font-end,UX/UI)         |
+| Phum Sreynoch         | Full Stack Developer (Font-end,UX/UI)         |
+| Leng Narak            | Full Stack Developer (Font-end,UX/UI)         |
+| Kong Sisovandara      | Full Stack Developer (Font-end,UX/UI,Back-end)|
+| Tong Bora             | Full Stack Developer (Font-end,UX/UI,Back-end)|
+| Srun Oudomsambath     | Full Stack Developer (Font-end,UX/UI)         |
+| Kung Sovannda         | Full Stack Developer (Font-end,UX/UI,Back-end)|               
+| Tang Menghouy         | Full Stack Developer (Font-end,UX/UI)         |
 
-Their invaluable guidance, patience, and unwavering support have been instrumental in developing StackQuiz. This project would not have been possible without their dedication and belief in our abilities.
 
-🌟 Thank you for inspiring us to grow as developers!
+---
+
+
+## 🌟 Our Mentors
+
+We extend our heartfelt gratitude to the mentors who guided us throughout this journey.
+
+| Name              | Role / Contribution                                         |
+|------------------|------------------------------------------------------------|
+| 👩‍🏫 Mr. Chan Chhaya | Mentor – Guidance, Support, and Technical Advice          |
+| 👨‍🏫 Ms. Eung Lyzhia | Mentor – Inspiration, Feedback, and Encouragement         |
+
+Their invaluable guidance, patience, and unwavering support have been instrumental in bringing this project to life.  
+We are deeply grateful for their dedication and belief in our abilities.
+
+✨ Thank you for inspiring us to grow as developers!
 
 ---
 
