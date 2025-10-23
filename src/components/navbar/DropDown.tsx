@@ -149,6 +149,7 @@ export default function DropDown() {
       id: "short-courses",
       title: "Short Courses",
       href: "/our-program/short-courses",
+      subtitle: "Upgrade your tech skills through hands-on short programs.",
     },
   ];
 
@@ -213,32 +214,33 @@ function ListItem({
 	const lower = title.toLowerCase();
 	const Icon = lower.includes("short") ? BookOpen : GraduationCap;
 
-	return (
-		<li {...props}>
-			<Link
-				href={href}
-				onClick={onClick}
-				className={cn(
-					"group block w-full rounded-md p-4 no-underline outline-none transition-colors",
-					"hover:bg-primary/10 focus:bg-primary/10 hover:text-accent-foreground focus:text-accent-foreground font-bilingual",
-					className
-				)}>
-				<div className='flex items-start gap-3'>
-					<span className='inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bilingual'>
-						<Icon className='h-4 w-4' />
-					</span>
-					<div className='min-w-0'>
-						<div className='mt-1 font-d5 font-semibold leading-none truncate font-bilingual'>
-							{title}
-						</div>
-						{subtitle ? (
-							<p className='mt-1 text-sm text-muted-foreground leading-relaxed line-clamp-3 font-bilingual'>
-								{subtitle}
-							</p>
-						) : null}
-					</div>
-				</div>
-			</Link>
-		</li>
-	);
+  return (
+    <li {...props}>
+      <Link
+        href={href}
+        onClick={onClick}
+        className={cn(
+          "group block w-full rounded-md p-4 no-underline outline-none transition-colors",
+          "hover:bg-primary/10 focus:bg-primary/10 hover:text-accent-foreground focus:text-accent-foreground font-bilingual",
+          className
+        )}
+      >
+        <div className="flex items-start gap-3">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bilingual">
+            <Icon className="h-4 w-4" />
+          </span>
+          <div className="min-w-0">
+            <div className=" font-d5 font-semibold leading-none truncate font-bilingual">
+              {title}
+            </div>
+            {subtitle ? (
+              <p className="mt-1 text-sm text-muted-foreground leading-relaxed line-clamp-3 font-bilingual">
+                {subtitle}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      </Link>
+    </li>
+  );
 }
