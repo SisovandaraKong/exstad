@@ -45,12 +45,12 @@ export default function Home() {
   // 90;
   return (
     <motion.div
-      className="flex flex-col bg-background overflow-x-hidden"
+      className="flex flex-col bg-background"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="w-full mx-auto overflow-x-hidden">
+      <div className="w-full mx-auto">
         <motion.div
           className="flex flex-col lg:flex-row w-full py-10 px-4 sm:px-6 md:px-8 lg:px-32 mx-auto max-w-full"
           initial={{ opacity: 0, y: 30 }}
@@ -82,15 +82,14 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* Marquee Section */}
-          <motion.div
-            className="w-full lg:w-1/2 flex items-center justify-center mx-auto"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <Marquee3D />
-          </motion.div>
+					{/* Marquee Section */}
+					<motion.div
+						className='w-full lg:w-1/2 flex items-center justify-center mx-auto'
+						initial={{ opacity: 0, x: 50 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ duration: 0.8, delay: 0.6 }}>
+						<Marquee3D />
+					</motion.div>
         </motion.div>
 
         {/* Welcoming Section */}

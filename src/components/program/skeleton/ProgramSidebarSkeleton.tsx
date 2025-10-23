@@ -9,15 +9,7 @@ const ProgramOverviewSidebarSkeleton: React.FC = () => {
       <div className="h-4 w-64 bg-gray-200 mx-auto rounded mb-4"></div>
 
       {/* QR Code Placeholder Image */}
-      <div className="w-[143px] h-[142px] mx-auto mb-2">
-        <Image
-          src="/image/logo/placeholder.jpg"
-          alt="placeholder"
-          width={143}
-          height={142}
-          className="rounded"
-        />
-      </div>
+      <div className="w-[143px] h-[142px] bg-gray-300 rounded mx-auto mb-2"></div>
 
       <div className="h-3 w-48 bg-gray-200 mx-auto rounded mb-4"></div>
 
