@@ -11,4 +11,12 @@
 }
 
 
-
+/* hide inner scrollbar on Card1 ABOUT text but keep scrolling functional */
+.noScrollbar {
+  scrollbar-width: none;           /* Firefox */
+  -ms-overflow-style: none;        /* IE/Edge (legacy) */
+  scroll-behavior: smooth;         /* optional: nicer feel */
+}
+.noScrollbar::-webkit-scrollbar {
+  display: none;                   /* Chrome/Safari/Opera/Edge Chromium */
+}

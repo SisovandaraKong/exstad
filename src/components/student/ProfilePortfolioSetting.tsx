@@ -313,7 +313,9 @@ import {
 import { skipToken } from "@reduxjs/toolkit/query";
 
 // types purely for local helpers (no need to import UpdateScholar unless you want)
-type Props = { username: string };
+
+type Props = { username: string; avatarAnchorRef?: React.RefObject<HTMLDivElement> };
+
 
 type SocialLink = {
   uuid: string;

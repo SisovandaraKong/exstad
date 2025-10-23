@@ -127,10 +127,7 @@
 //     </section>
 //   );
 // }
-
-
 "use client";
-
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { SparklesText } from "@/components/magicui/sparkles-text";
@@ -140,7 +137,7 @@ type Props = { username: string; avatarAnchorRef?: React.RefObject<HTMLDivElemen
 
 // tiny blur placeholder
 const BLUR =
-  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjZWVlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+"; 
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjZWVlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+";
 
 const isHttpUrl = (u?: string) => {
   if (!u) return false;
@@ -164,7 +161,7 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
     const v = scholar?.audit?.updatedAt ? new Date(scholar.audit.updatedAt).getTime() : Date.now();
     const sep = raw.includes("?") ? "&" : "?";
     return `${raw}${sep}v=${v}`;
-  }, [scholar?.avatar, scholar?.audit?.updatedAt]);
+  }, [scholar]);
 
   const [localSrc, setLocalSrc] = useState<string>(computedSrc);
   useEffect(() => setLocalSrc(computedSrc), [computedSrc]);
@@ -195,7 +192,7 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden ">
+    <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
       {/* Background gradient */}
       <div
         className="absolute inset-0"
@@ -211,35 +208,30 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
         flex flex-col lg:flex-row
         items-center lg:items-start
         justify-center
-        gap-12 lg:gap-24 xl:gap-32"
+        gap-8 sm:gap-10 lg:gap-24 xl:gap-32"
       >
         {/* Avatar area */}
-        <div className="relative w-[220px] h-[220px] lg:w-[350px] lg:h-[350px] flex-shrink-0">
+        <div
+          className="
+            relative
+            w-20 h-20
+            sm:w-28 sm:h-28
+            md:w-40 md:h-40
+            lg:w-[350px] lg:h-[350px]
+            flex-shrink-0
+          "
+        >
           {/* Anchor for the shared scrolling avatar */}
-          <div ref={avatarAnchorRef} className="w-full h-full rounded-full bg-transparent mt-12 " />
-          {/* Local fallback — visible on first paint, fades out when shared avatar is ready */}
-          <div className="absolute inset-0 rounded-full overflow-hidden">
-            <Image
-              src={localSrc}
-              alt={scholar.englishName || scholar.username}
-              fill
-              className="hero-avatar-fallback rounded-full object-cover border-4 border-primary shadow-2xl "
-              placeholder="blur"
-              blurDataURL={BLUR}
-              priority
-              sizes="(min-width:1024px) 350px, 220px"
-              onError={() => setLocalSrc("/avatar-fallback.png")}
-            />
-          </div>
+          <div ref={avatarAnchorRef} className="w-full h-full rounded-full bg-transparent mt-4 sm:mt-6 lg:mt-12" />
         </div>
 
         {/* Text */}
-        <div className="flex-1 text-center lg:text-left space-y-3 lg:space-y-4 lg:self-start items-center mt-12">
-          <h1 className="font-h1 font-extrabold text-color leading-tight">
+        <div className="flex-1 text-center lg:text-left space-y-3 lg:space-y-4 lg:self-start items-center mt-6 sm:mt-8 lg:mt-12">
+          <h1 className="font-h1 font-extrabold text-color leading-tight  text-xl sm:text-xl md:text-5xl lg:text-6xl xl:text-7xl">
             <SparklesText>{scholar.englishName}</SparklesText>
           </h1>
           <h2 className="lg:font-h2 text-[#969696]">
-            {scholar.university} • {scholar.role}
+            {scholar.university}  {scholar.role}
           </h2>
           <p className="font-d2 leading-relaxed max-w-2xl mx-auto lg:mx-0">{scholar.bio}</p>
           {scholar.quote && (

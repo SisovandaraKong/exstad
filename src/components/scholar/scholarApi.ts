@@ -1,12 +1,17 @@
 import { useBaseQuery } from "@/services/use-base-query";
-import { CreateScholarSocialLink, ScholarSocialLink, UpdateScholar } from "@/types/scholar";
+import {
+  CreateScholarSocialLink,
+  ScholarSocialLink,
+  UpdateScholar,
+} from "@/types/scholar";
 import { Scholar } from "@/types/scholar/scholar";
+import { ScholarAchievementsResponse } from "@/types/achievement";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const scholarApi = createApi({
   reducerPath: "scholarApi",
   baseQuery: useBaseQuery,
-  tagTypes: ["Scholar", "ScholarSocialLink"],
+  tagTypes: ["Scholar", "ScholarSocialLink", "ScholarAchievement"],
   endpoints: (builder) => ({
     // GET all scholars
     getAllScholars: builder.query<Scholar[], void>({
@@ -46,7 +51,7 @@ export const scholarApi = createApi({
     //     { type: "Scholar", id: `username-${username}` },
     //   ],
     // }),
-     getScholarByUsername: builder.query<Scholar, string>({
+    getScholarByUsername: builder.query<Scholar, string>({
       query: (username) => `/scholars/username/${username}`,
       providesTags: (result, error, username) => [
         { type: "Scholar", id: `username-${username}` },
@@ -143,6 +148,33 @@ export const scholarApi = createApi({
       }) => response["opening-program-scholars"],
       providesTags: [{ type: "Scholar", id: "LIST" }],
     }),
+
+    // Get scholar achievements
+    getScholarAchievements: builder.query<ScholarAchievementsResponse, string>({
+      query: (uuid) => `/api/v1/scholars/${uuid}/achievements`,
+      providesTags: (result, error, uuid) => [
+        { type: "ScholarAchievement", id: uuid },
+      ],
+    }),
+    
+    // completed course by opening program
+    getScholarCompletedCourseByOpeningProgram: builder.query<
+      any,
+      { scholarUuid: string; openingProgramUuid: string }
+    >({
+      query: ({ scholarUuid, openingProgramUuid }) =>
+        `/api/v1/scholars/${scholarUuid}/completed-course/${openingProgramUuid}`,
+      // Tagging the owning Scholar so related views can refetch if needed
+      providesTags: (result, error, { scholarUuid }) => [
+        { type: "Scholar", id: scholarUuid },
+      ],
+    }),
+
+    // // Get specialist scholars
+    // getSpecialistScholars: builder.query<Scholar[], string>({
+    //   query: (uuid) => `/api/v1/scholars/specialists/${uuid}`,
+    //   providesTags: [{ type: "Scholar", id: "SPECIALISTS" }],
+    // }),
   }),
 });
 
@@ -160,4 +192,6 @@ export const {
   useUpdateSocialLinkStatusMutation,
   useDeleteSocialLinkMutation,
   useGetScholarsByOpeningProgramQuery,
+  useGetScholarAchievementsQuery,
+  useGetScholarCompletedCourseByOpeningProgramQuery,
 } = scholarApi;

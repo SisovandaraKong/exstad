@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import { CSSProperties, ReactElement, useEffect, useState } from "react";
-
 import { cn } from "@/lib/utils";
 
 interface Sparkle {
@@ -40,44 +39,15 @@ const Sparkle: React.FC<Sparkle> = ({ id, x, y, color, delay, scale }) => {
 };
 
 interface SparklesTextProps {
-  /**
-   * @default <div />
-   * @type ReactElement
-   * @description
-   * The component to be rendered as the text
-   * */
+  /** @default <div /> — wrapper element */
   as?: ReactElement;
-
-  /**
-   * @default ""
-   * @type string
-   * @description
-   * The className of the text
-   */
+  /** optional text classes */
   className?: string;
-
-  /**
-   * @required
-   * @type ReactNode
-   * @description
-   * The content to be displayed
-   * */
+  /** required text children */
   children: React.ReactNode;
-
-  /**
-   * @default 10
-   * @type number
-   * @description
-   * The count of sparkles
-   * */
+  /** @default 10 — number of sparkles */
   sparklesCount?: number;
-
-  /**
-   * @default "{first: '#9E7AFF', second: '#FE8BBB'}"
-   * @type string
-   * @description
-   * The colors of the sparkles
-   * */
+  /** @default {first:'#9E7AFF', second:'#FE8BBB'} — sparkle colors */
   colors?: {
     first: string;
     second: string;
@@ -112,30 +82,31 @@ export const SparklesText: React.FC<SparklesTextProps> = ({
 
     const updateStars = () => {
       setSparkles((currentSparkles) =>
-        currentSparkles.map((star) => {
-          if (star.lifespan <= 0) {
-            return generateStar();
-          } else {
-            return { ...star, lifespan: star.lifespan - 0.1 };
-          }
-        }),
+        currentSparkles.map((star) =>
+          star.lifespan <= 0
+            ? generateStar()
+            : { ...star, lifespan: star.lifespan - 0.1 },
+        ),
       );
     };
 
     initializeStars();
     const interval = setInterval(updateStars, 100);
-
     return () => clearInterval(interval);
   }, [colors.first, colors.second, sparklesCount]);
 
   return (
     <div
-      className={cn("text-6xl font-bold", className)}
+      className={cn(
+        // 👇 responsive text scaling
+        "font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl",
+        className,
+      )}
       {...props}
       style={
         {
-          "--sparkles-first-color": `${colors.first}`,
-          "--sparkles-second-color": `${colors.second}`,
+          "--sparkles-first-color": colors.first,
+          "--sparkles-second-color": colors.second,
         } as CSSProperties
       }
     >

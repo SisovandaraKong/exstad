@@ -3,6 +3,7 @@ import { BadgeForScholar } from "../badge";
 import { ScholarGender , ScholarStatus} from ".";
 
 export type Scholar = {
+  completedCourses: any;
   uuid: string;
   username: string;
   email: string;
