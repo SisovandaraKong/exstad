@@ -1,19 +1,21 @@
-# Welcome to exSTAD
+#  Welcome to exSTAD
 
-`exSTAD` is a full-stack web application built for Cambodian students to explore ISTAD’s scholarships, courses, projects, and achievements — all in one unified digital platform.
+`exSTAD` is a **full-stack web application** designed for **Cambodian students** to explore **ISTAD’s scholarships, courses, projects, and achievements** — all in one unified digital platform.
 
-It serves as a portal to share experiences from ISTAD scholars and to connect students directly with ISTAD.
-Developed by the 1st Generation Full Stack Web Development Students at the Institute of Science and Technology Advanced Development (ISTAD),
-exSTAD reimagines the learning management experience for administrators, instructors, and students alike.
+It serves as a **portal for sharing scholar experiences** and connecting students directly with ISTAD.  
+Developed by the **1st Generation Full Stack Web Development Students** at the **Institute of Science and Technology Advanced Development (ISTAD)**,  
+**exSTAD reimagines the learning management experience** for administrators, instructors, and students alike.
 
-## exSTAD Logo
+---
+
+##  exSTAD Logo
 <p align="center">
   <img src="./public/image/logo/exSTAD-01.png" alt="exSTAD Logo" width="200"/>
 </p>
 
 ---
 
-## Platform Preview
+##  Platform Preview
 <p align="center">
   <img src="./public/" alt="Desktop Preview" width="300"/>
   <img src="./public/tablet.png" alt="Tablet Preview" width="170"/>
@@ -21,27 +23,37 @@ exSTAD reimagines the learning management experience for administrators, instruc
 </p>
 
 ---
-## Introduction 
-In today’s digital age, exSTAD transforms how learning and academic management are delivered.
-It serves as a centralized platform for managing ISTAD’s study programs — including scholarships, courses, student enrollment, instructor management, and digital verification profiles.
 
-Built proudly by Khmer students, exSTAD strives to make education more accessible, efficient, and engaging for everyone involved.
+##  Introduction
+In today’s digital era, **exSTAD** transforms how **learning and academic management** are delivered.  
+It acts as a **centralized platform** for managing ISTAD’s study programs — including:
+
+- Scholarship opportunities  
+- Course listings  
+- Student enrollment  
+- Instructor management  
+- Digital verification profiles  
+
+Built proudly by **Khmer students**, exSTAD aims to make education **more accessible, efficient, and engaging** for learners, teachers, and administrators alike.
+
+---
+
+##  Background
+The **Institute of Science and Technology Advanced Development (ISTAD)** is committed to providing **advanced IT education and scholarship opportunities** for Cambodian students.
+
+To make these opportunities more accessible and interactive, our team envisioned **exSTAD** — a modern web-based platform that bridges students and ISTAD through technology.
+
+With exSTAD, users can:
+
+-  Explore academic programs and scholarships  
+-  Enroll seamlessly in study programs  
+-  Access academic records and verified achievements online  
+-  Strengthen the connection between students and the institute  
 
 ---
 
-## Background 
-The Institute of Science and Technology Advanced Development (ISTAD) provides advanced IT education and scholarships for Cambodian students.
-To extend these opportunities and make them more discoverable, our team envisioned exSTAD — a web-based platform that bridges students and ISTAD through technology, enabling them to:
+ *exSTAD — Empowering Cambodian students through technology and innovation.*
 
-Explore academic programs and scholarships
-
-Enroll seamlessly into study programs
-
-Access academic records and achievements online
-
-Strengthen the connection between students and the institute   
-
----
 
 ## Key Feature
 
