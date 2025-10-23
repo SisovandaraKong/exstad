@@ -17,6 +17,13 @@ export type GenerateQrResponse = {
   };
 };
 
+export type CheckTransactionByMd5Response = {
+  responseCode: number;
+  responseMessage: string;
+  errorCode: number | null;
+  data: unknown;
+};
+
 export type GetQrImageRequest = {
   qr: string;
   md5: string;
@@ -24,9 +31,9 @@ export type GetQrImageRequest = {
 
 export type GetQrImageResponse = Blob;
 
-export const bakongApi = createApi({ 
+export const bakongApi = createApi({
   reducerPath: "bakongApi",
-  baseQuery : useBaseQuery,
+  baseQuery: useBaseQuery,
   endpoints: (builder) => ({
     generateQr: builder.mutation<GenerateQrResponse, GenerateQrRequest>({
       query: (body) => ({
@@ -36,15 +43,25 @@ export const bakongApi = createApi({
       }),
     }),
 
-        getQrImage: builder.mutation<GetQrImageResponse, GetQrImageRequest>({
+    getQrImage: builder.mutation<GetQrImageResponse, GetQrImageRequest>({
       query: (body) => ({
         url: "/bakong/get-qr-image",
         method: "POST",
         body,
-        responseHandler: (response) => response.blob(), 
+        responseHandler: (response) => response.blob(),
+      }),
+    }),
+    checkTransactionByMd5: builder.mutation<
+      CheckTransactionByMd5Response,
+      string
+    >({
+      query: (md5) => ({
+        url: "/bakong/check-transaction",
+        method: "POST",
+        body: { md5 },
       }),
     }),
   }),
 });
 
-export const { useGenerateQrMutation, useGetQrImageMutation } = bakongApi;
+export const { useGenerateQrMutation, useGetQrImageMutation, useCheckTransactionByMd5Mutation } = bakongApi;

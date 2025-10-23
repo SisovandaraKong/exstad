@@ -283,13 +283,13 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family: var(--font-inter), var(--font-koh), ui-sans-serif, system-ui,
+      -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   }
-  html:lang(km) body,
+  /* html:lang(km) body,
   :lang(km) {
     font-family: var(--font-koh), "Koh Santepheap", "Noto Sans Khmer", system-ui;
-  }
+  } */
 }
 
 /* Typography Classes */
@@ -529,6 +529,7 @@ body {
 .font-bilingual {
   font-family: var(--font-inter), var(--font-koh), system-ui, sans-serif;
 }
+
 body {
   font-family: var(--font-inter), var(--font-koh), ui-sans-serif !important;
 }

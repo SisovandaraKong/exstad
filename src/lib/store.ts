@@ -15,7 +15,7 @@ import { documentApi } from "@/features/document/documentApi";
 import { telegramApi } from "@/features/telegram/telegramApi";
 import { bakongApi } from "@/features/bakong/BakongApi";
 import { classApi } from "@/features/class/classApi";
-import { bakongKHQRApi } from "@/features/bakong/BakongKHQRApi";
+// import { bakongKHQRApi } from "@/features/bakong/BakongKHQRApi";
 import { scholarApi } from "@/features/scholar/scholarApi";
 const rootReducer = combineReducers({
   [masterprogramApi.reducerPath]: masterprogramApi.reducer,
@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
   [telegramApi.reducerPath]: telegramApi.reducer,
   [bakongApi.reducerPath]: bakongApi.reducer,
   [classApi.reducerPath]: classApi.reducer,
-  [bakongKHQRApi.reducerPath]: bakongKHQRApi.reducer,
+  // [bakongKHQRApi.reducerPath]: bakongKHQRApi.reducer,
   [scholarApi.reducerPath]: scholarApi.reducer,
   [timeLineApi.reducerPath]: timeLineApi.reducer,
 });
@@ -62,7 +62,7 @@ export const makeStore = () => {
         telegramApi.middleware,
         bakongApi.middleware,
         classApi.middleware,
-        bakongKHQRApi.middleware,
+        // bakongKHQRApi.middleware,
         scholarApi.middleware,
         timeLineApi.middleware
       ),
