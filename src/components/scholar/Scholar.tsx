@@ -49,11 +49,15 @@ type ApiCareer = {
   companyType?: string;
 };
 
+type ApiAudit = { updatedAt?: string | number | Date };
+
 type ApiScholar = ApiScholarBase & {
   specialist?: ApiSpecialist[] | null;
   careers?: ApiCareer[] | null; // ✅ used for Section 3
   // Optional: If your API embeds completedCourses directly
   completedCourses?: Array<{ programName?: string; name?: string }> | null;
+  category?: string; // used in spotlight / section4 fallbacks
+  audit?: ApiAudit; // for cache-busting avatar
 };
 
 type ApiError = {
@@ -100,10 +104,16 @@ function normalizeAvatar(avatar?: string) {
     ? v
     : `${API_BASE}${v.startsWith("/") ? v : `/${v}`}`;
 }
-function versioned(src: string, ver?: string | number) {
+function versioned(src: string, ver?: string | number | Date) {
   if (!src) return "/placeholder.svg";
   const v =
-    typeof ver === "number" ? ver : ver ? new Date(ver).getTime() : Date.now();
+    typeof ver === "number"
+      ? ver
+      : ver instanceof Date
+      ? ver.getTime()
+      : ver
+      ? new Date(ver).getTime()
+      : Date.now();
   return `${src}${src.includes("?") ? "&" : "?"}v=${v}`;
 }
 const BLUR =
@@ -124,7 +134,9 @@ const CATEGORY_LABELS = {
 
 type CategoryLabel = (typeof CATEGORY_LABELS)[keyof typeof CATEGORY_LABELS];
 
-function normalizeProgramName(raw?: string): Exclude<CategoryLabel, "All"> | "" {
+function normalizeProgramName(
+  raw?: string
+): Exclude<CategoryLabel, "All"> | "" {
   if (!raw) return "";
   const s = raw.trim().toLowerCase();
 
@@ -158,8 +170,12 @@ function normalizeProgramName(raw?: string): Exclude<CategoryLabel, "All"> | "" 
   return ""; // unknown → will become Short Course
 }
 
-function deriveCategoryFromCompleted(programNames: string[]): Exclude<CategoryLabel, "All"> {
-  const normalized = programNames.map(normalizeProgramName).filter(Boolean) as Exclude<CategoryLabel, "All">[];
+function deriveCategoryFromCompleted(
+  programNames: string[]
+): Exclude<CategoryLabel, "All"> {
+  const normalized = programNames
+    .map(normalizeProgramName)
+    .filter(Boolean) as Exclude<CategoryLabel, "All">[];
 
   // Priority if multiple programs are completed
   const priority: Exclude<CategoryLabel, "All">[] = [
@@ -324,40 +340,39 @@ function Card2({ person }: { person: ScholarWithQuote }) {
   const displayTitle = person.title?.trim() || "—";
 
   return (
-    <div className="group rounded-xl p-[2px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
-      {/* Smaller height + tighter padding */}
-      <div className="rounded-xl bg-white dark:bg-slate-800 p-5 sm:p-6 md:p-8 text-center transition-all duration-300 ease-out transform-gpu group-hover:shadow-xl h-[350px] flex flex-col items-center">
-        
-        {/* Avatar */}
-        <div className="relative mx-auto h-28 w-28 sm:h-32 sm:w-32 md:h-36 md:w-36 rounded-full overflow-hidden border border-slate-200 shadow-md dark:border-slate-600 bg-slate-200 dark:bg-slate-700">
+    <div className="group rounded-xl p-[1.5px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-0.5 hover:scale-[1.01] hover:shadow-xl">
+      {/* ✨ Remove fixed height; make it fluid on mobile and step up responsively */}
+      <div className="rounded-xl bg-white dark:bg-slate-800 px-4 py-5 sm:px-6 sm:py-6 md:p-8 text-center transition-all duration-300 ease-out transform-gpu group-hover:shadow-xl h-auto min-h-[220px] sm:min-h-[260px] md:min-h-[320px] flex flex-col items-center">
+        {/* Smaller avatar on mobile */}
+        <div className="relative mx-auto h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full overflow-hidden border border-slate-200 shadow-md dark:border-slate-600 bg-slate-200 dark:bg-slate-700">
           <Image
             src={src}
             alt={displayName}
             fill
             className="object-cover object-center"
-            sizes="(max-width: 640px) 256px, (max-width: 768px) 320px, 352px"
-            onError={() => setSrc('/placeholder.svg')}
+            sizes="(max-width: 640px) 128px, (max-width: 768px) 192px, 224px"
+            onError={() => setSrc("/placeholder.svg")}
             priority
             unoptimized
           />
         </div>
 
-        {/* Info */}
+        {/* Tighter spacing + smaller type on mobile */}
         <div className="mt-2 flex flex-col items-center text-center">
           <h3
-            className="mt-2 text-base sm:text-lg md:text-xl font-bold text-slate-900 dark:text-white line-clamp-2"
+            className="mt-1 text-sm sm:text-base md:text-xl font-bold text-slate-900 dark:text-white line-clamp-2"
             title={displayName}
           >
             {displayName}
           </h3>
           <p
-            className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 line-clamp-1"
+            className="text-[11px] sm:text-sm md:text-base text-slate-600 dark:text-slate-300 line-clamp-1"
             title={displayTitle}
           >
             {displayTitle}
           </p>
           {!!person.quote?.trim() && (
-            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 italic leading-relaxed line-clamp-2">
+            <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 italic leading-relaxed line-clamp-1 sm:line-clamp-2">
               “{person.quote}”
             </p>
           )}
@@ -370,7 +385,9 @@ function Card2({ person }: { person: ScholarWithQuote }) {
 
 /* ---------- Page ---------- */
 export default function Scholar() {
-  const [activeCategory, setActiveCategory] = useState<CategoryLabel>(CATEGORY_LABELS.ALL);
+  const [activeCategory, setActiveCategory] = useState<CategoryLabel>(
+    CATEGORY_LABELS.ALL
+  );
 
   useEffect(() => {
     AOS.init({
@@ -395,23 +412,12 @@ export default function Scholar() {
   });
 
   /* =========================================================
-     Specialists ONLY 
+     Specialists ONLY (Marquee)
      ========================================================= */
-  const { specialistsMarquee, specialistsGrid } = useMemo(() => {
-    const dedupGrid = new Map<string, ApiScholar>(); // strict (Section 4 predecessor)
+  const { specialistsMarquee } = useMemo(() => {
     const dedupMarquee = new Map<string, ApiScholar>(); // relaxed (Section 1)
 
     (apiScholars as ApiScholar[]).forEach((s) => {
-      if (
-        s?.uuid &&
-        Array.isArray(s.specialist) &&
-        s.specialist.length > 0 &&
-        s.specialist[0]?.specialist &&
-        s.specialist[0]?.universityName
-      ) {
-        if (!dedupGrid.has(s.uuid)) dedupGrid.set(s.uuid, s);
-      }
-
       // RELAXED: allow missing universityName for marquee
       if (
         s?.uuid &&
@@ -423,13 +429,12 @@ export default function Scholar() {
       }
     });
 
-    const listGrid = Array.from(dedupGrid.values());
     const listMarquee = Array.from(dedupMarquee.values());
 
     const marq: ScholarCard[] = listMarquee.map((s, idx) => {
       const spec = s.specialist![0];
       const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
-      const img = versioned(base, s.audit?.updatedAt as any);
+      const img = versioned(base, s.audit?.updatedAt);
       return {
         id: idx + 1,
         uuid: s.uuid,
@@ -441,24 +446,7 @@ export default function Scholar() {
       };
     });
 
-    const grid: ScholarWithQuote[] = listGrid.map((s, idx) => {
-      const spec = s.specialist![0];
-      const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
-      const img = versioned(base, s.audit?.updatedAt as any);
-      return {
-        id: idx + 1,
-        uuid: s.uuid,
-        username: s.username?.trim(),
-        name: s.englishName || s.khmerName || s.username || "Unnamed Scholar",
-        title: [s.university, s.role].filter(Boolean).join(" • ") || "Scholar",
-        image: img,
-        quote: s.quote || "",
-        category: (s as any).category || "Uncategorized",
-        spec,
-      };
-    });
-
-    return { specialistsMarquee: marq, specialistsGrid: grid };
+    return { specialistsMarquee: marq };
   }, [apiScholars]);
 
   /* =========================================================
@@ -476,7 +464,8 @@ export default function Scholar() {
     const programCode = (category?: string) => {
       const c = (category || "").toLowerCase();
       if (c.includes("it expert")) return "ITE";
-      if (c.includes("it professional") || c.includes("it professionl")) return "ITP";
+      if (c.includes("it professional") || c.includes("it professionl"))
+        return "ITP";
       if (c.includes("full stack")) return "FSW";
       if (c.includes("foundation")) return "FDN";
       if (c.includes("pre university")) return "PU";
@@ -487,14 +476,16 @@ export default function Scholar() {
     return list.map((s, idx) => {
       const firstCareer = s.careers![0];
       const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
-      const image = versioned(base, s.audit?.updatedAt as any);
+      const image = versioned(base, s.audit?.updatedAt);
 
       const displayName =
         s.khmerName || s.englishName || s.username || "Unnamed Scholar";
-      const code = programCode((s as any).category);
+      const code = programCode(s.category);
       const title = code ? `${displayName} | ${code}` : displayName;
 
-      const href = s.username?.trim() ? `/${s.username.trim()}` : `/scholars/${s.uuid}`;
+      const href = s.username?.trim()
+        ? `/${s.username.trim()}`
+        : `/scholars/${s.uuid}`;
 
       return {
         id: idx + 1,
@@ -518,7 +509,7 @@ export default function Scholar() {
 
     const withDerivedCategory: ScholarWithQuote[] = scholars.map((s, idx) => {
       const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
-      const image = versioned(base, s.audit?.updatedAt as any);
+      const image = versioned(base, s.audit?.updatedAt);
 
       // Read embedded completedCourses if present
       const embedded = s?.completedCourses as
@@ -533,13 +524,14 @@ export default function Scholar() {
         programNames.length > 0
           ? deriveCategoryFromCompleted(programNames)
           : // Fallback heuristics
-            (normalizeProgramName((s as any)?.category) ||
+            (normalizeProgramName(s.category) ||
               normalizeProgramName(s.role || s.university) ||
               CATEGORY_LABELS.SC);
 
-      const spec = Array.isArray(s.specialist) && s.specialist.length > 0
-        ? s.specialist[0]
-        : ({} as ApiSpecialist);
+      const spec =
+        Array.isArray(s.specialist) && s.specialist.length > 0
+          ? s.specialist[0]
+          : ({} as ApiSpecialist);
 
       return {
         id: idx + 1,
@@ -557,7 +549,7 @@ export default function Scholar() {
     return withDerivedCategory;
   }, [apiScholars]);
 
-  const filtered =
+  const filtered: ScholarWithQuote[] =
     activeCategory === CATEGORY_LABELS.ALL
       ? section4
       : section4.filter((s) => s.category === activeCategory);
@@ -601,7 +593,10 @@ export default function Scholar() {
               <div>
                 <Marquee pauseOnHover className="[--duration:20s]">
                   {specialistsMarquee.map((p) => (
-                    <div key={`ping-${p.id}`} className="w-40 sm:w-56 md:w-64 shrink-0">
+                    <div
+                      key={`ping-${p.id}`}
+                      className="w-40 sm:w-56 md:w-64 shrink-0"
+                    >
                       <Card1 person={p} />
                     </div>
                   ))}
@@ -918,19 +913,20 @@ export default function Scholar() {
               ))}
             </div>
           ) : (
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {filtered.map((person) => (
-                <Card2
-                  key={`s2-${person.uuid}-${(person.spec as any)?.uuid ?? person.id}`}
-                  person={person}
-                />
-              ))}
-              {filtered.length === 0 && (
-                <div className="col-span-full text-center text-slate-500 dark:text-slate-400">
-                  No scholars in this category yet.
-                </div>
-              )}
-            </div>
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+  {filtered.map((person) => (
+    <Card2
+      key={`s2-${person.uuid ?? person.id}-${person.spec?.uuid ?? "spec"}`}
+      person={person}
+    />
+  ))}
+  {filtered.length === 0 && (
+    <div className="col-span-full text-center text-slate-500 dark:text-slate-400">
+      No scholars in this category yet.
+    </div>
+  )}
+</div>
+
           )}
         </div>
       </section>
