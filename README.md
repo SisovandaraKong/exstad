@@ -124,7 +124,104 @@ This system delivers a **powerful and dynamic dashboard** experience with **comp
 
 ---
 
-## Technology Stack
+# exSTAD Project — Technology Stack
+
+The **exSTAD** platform is powered by a robust combination of modern frontend, backend, and DevOps technologies — ensuring performance, scalability, security, and a delightful user experience.
+
+---
+
+## Frontend Technologies
+
+### Core Framework & Libraries
+- **Next.js (App Router)** – React-based full-stack framework supporting SSR, SSG, and client-side rendering for top performance.  
+- **React.js** – Component-based JavaScript library for building interactive, reusable user interfaces.  
+- **TypeScript** – Adds static typing for improved code reliability, scalability, and developer productivity.  
+
+### Styling & UI Components
+- **Tailwind CSS** – Utility-first CSS framework enabling rapid and responsive UI design.  
+- **Shadcn/UI Components** – Accessible, customizable component system built with Radix UI and Tailwind CSS.  
+- **Radix UI** – Low-level UI primitives for accessibility and component consistency.  
+- **CSS3** – Modern styling language supporting animations, transitions, and responsive layouts.  
+- **HTML5** – Semantic markup ensuring accessibility and SEO optimization.  
+- **Framer Motion / Animate.css / AOS** – Smooth animations and on-scroll effects for a better user experience.  
+
+### State Management & Logic
+- **Redux Toolkit (RTK)** – Predictable state management for complex UI data flow.  
+- **RTK Query / React Query** – Efficient data fetching and caching layer for API communication.  
+- **Formik + Zod** – Type-safe form handling and schema validation.  
+- **JavaScript (ES6+)** – Modern JavaScript syntax and features for logic and functionality.  
+
+---
+
+## Backend Technologies
+
+### Core Framework
+- **Spring Boot** – Enterprise-grade Java framework for building RESTful APIs and scalable backend services.  
+- **Node.js + Express.js** – Lightweight backend used for managing API endpoints and integrations.  
+
+### Authentication & Authorization
+- **Keycloak** – Open-source identity and access management tool for secure user authentication and role-based access control.  
+- **JWT (JSON Web Token)** – Token-based authentication for secure API access.
+
+### Database & Caching
+- **PostgreSQL** – Advanced, open-source relational database ensuring data consistency, scalability, and reliability.  
+- **Redis** – In-memory caching system used for:
+  - Session management  
+  - Real-time data caching  
+  - Leaderboard and activity tracking  
+
+---
+
+## Payment Integration
+- **Bakong Payment Gateway** – Cambodia’s National Bank–backed FinTech platform for secure, instant transactions and enrollment payments.  
+  Enables:
+  - Student registration payments  
+  - Real-time transaction validation  
+  - Secure digital wallet integration  
+
+---
+
+## DevOps & Deployment
+
+### Containerization & Infrastructure
+- **Docker** – Containerization platform used for packaging and deploying applications in isolated environments.  
+- **Docker Compose / Microservices Architecture** – Simplifies multi-container orchestration and scalable service management.
+
+### Web Server & Hosting
+- **NGINX** – High-performance reverse proxy for load balancing, caching, and SSL termination.  
+- **Cloud Deployment (VPS / Cloud Instance)** – Ensures scalability, reliability, and availability of the platform.  
+- **CI/CD Pipeline** – Continuous integration and deployment pipelines for automated testing, building, and deployment.
+
+---
+
+## Supporting Libraries & Tools
+- **NextAuth.js** – Authentication and session management for frontend users.  
+- **Next-Intl** – Multi-language localization and translation handling.  
+- **Sonner** – Elegant toast notifications for better user feedback.  
+- **Lucide React & React Icons** – Modern, consistent iconography.  
+- **Class Variance Authority & clsx** – Simplify dynamic class management in components.  
+- **PostCSS & Autoprefixer** – Ensures CSS compatibility across browsers.  
+- **Postman** – API testing and documentation.  
+- **Visual Studio Code** – Main development environment.  
+
+---
+
+## Design & Workflow
+- **Figma** – User interface design and prototyping.  
+- **FigJam** – Workflow and UX journey mapping.  
+- **Lucidchart / Visual Paradigm** – ERD, UML, and system architecture diagrams.  
+
+---
+
+##  Summary
+
+> The **exSTAD** ecosystem is a blend of cutting-edge technologies — combining **Next.js + React** for an exceptional frontend, **Spring Boot + PostgreSQL** for a reliable backend, **Bakong** for secure digital payments, and **Docker + NGINX** for seamless deployment.
+
+Together, they ensure that **exSTAD** is:
+- **Fast and responsive**  
+- **Secure and scalable**  
+- **Beautifully designed**  
+- **Maintainable and developer-friendly**
 
 ---
 
