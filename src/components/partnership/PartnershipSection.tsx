@@ -134,50 +134,53 @@ export function PartnersSection() {
   };
 
   return (
-    <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-background">
+    <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 bg-background overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-grid-gray-100/50 dark:bg-grid-gray-800/50 bg-[size:60px_60px] opacity-20" />
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/50 to-transparent" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-12 sm:mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-        >
-          <motion.h2
-            className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-4"
-            initial={{ opacity: 0, y: 20 }}
+      <div className="relative">
+        {/* Header Section - Contained */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <motion.div
+            className="text-center mb-12 sm:mb-16"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            Our Value Partners
-          </motion.h2>
+            <motion.h2
+              className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              Our Value Partners
+            </motion.h2>
 
-          <motion.p
-            className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            We collaborate with valued partners from various sectors across
-            Cambodia and abroad.
-          </motion.p>
-        </motion.div>
+            <motion.p
+              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              We collaborate with valued partners from various sectors across
+              Cambodia and abroad.
+            </motion.p>
+          </motion.div>
+        </div>
 
-        {/* Scroll View Only */}
+        {/* Scroll View Only - Full Width on iPad and Laptop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="relative"
+          className="relative w-full overflow-hidden"
         >
-          <div className="overflow-hidden items-center py-4 w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+          <div className="overflow-hidden items-center py-4">
             <div className="flex animate-scroll mb-8 sm:mb-12 w-fit [will-change:transform]">
               {/* Create seamless infinite loop by duplicating partners exactly 2 times */}
               {duplicatedPartners.map((partner, index) => (
@@ -241,40 +244,42 @@ export function PartnersSection() {
           </div>
         </motion.div>
 
-        {/* Statistics */}
-        <motion.div
-          className="mt-16 sm:mt-20 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            {[
-              { number: "16+", label: "Partner Organizations" },
-              { number: "4", label: "Industry Sectors" },
-              { number: "10+", label: "Banking Partners" },
-              { number: "100%", label: "Trusted Network" },
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-200/30 dark:border-gray-700/30"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -2, scale: 1.02 }}
-              >
-                <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        {/* Statistics - Contained */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            className="mt-16 sm:mt-20 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+              {[
+                { number: "16+", label: "Partner Organizations" },
+                { number: "4", label: "Industry Sectors" },
+                { number: "10+", label: "Banking Partners" },
+                { number: "100%", label: "Trusted Network" },
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-gray-200/30 dark:border-gray-700/30"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -2, scale: 1.02 }}
+                >
+                  <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">
+                    {stat.number}
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
