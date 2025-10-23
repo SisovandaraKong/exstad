@@ -27,7 +27,6 @@ function Navbar({ className }: { className?: string }) {
     );
   };
 
-  
   const getNavLinkClasses = (href: string) => {
     const baseClasses =
       "relative rounded-md transition-colors font-d4 font-normal duration-200";
@@ -174,8 +173,8 @@ function Navbar({ className }: { className?: string }) {
                     {t("roadmap")}
                   </Link>
                   <Link
-                    href="/about"
-                    className={getNavLinkClasses("/about")}
+                    href="/about-us"
+                    className={getNavLinkClasses("/about-us")}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("about-us")}

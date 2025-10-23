@@ -61,7 +61,7 @@ export function enrollmentPaymentMessageFormatter(
 ✉️ *Email:* ${enrollment.email}
 
 💰 *Payment:* "✅ Paid 🟢"
-💰 *Amount:* ${amount}
+💰 *Amount:* $${amount}
 
 ${divider}` + "\n\n";
 

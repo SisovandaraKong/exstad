@@ -3,8 +3,8 @@
 import { TeamData } from "@/types/team";
 
 // Define proper return types
-type MentorData = TeamData['mentors'];
-type MemberData = TeamData['members'];
+type MentorData = TeamData["mentors"];
+type MemberData = TeamData["members"];
 
 // Team member data - simulating data that would come from an API
 export const teamData: TeamData = {
@@ -19,10 +19,10 @@ export const teamData: TeamData = {
 				"Full Stack Development",
 				"Spring",
 				"Microservices",
-				"Java"
+				"Java",
 			],
 			social: {
-				facebook: "fb.com/chhayadevkh",
+				facebook: "https://www.facebook.com/chhayadevkh",
 				github: "https://github.com/it-chhaya",
 				telegram: "https://t.me/chhayadevkh",
 			},
@@ -41,9 +41,9 @@ export const teamData: TeamData = {
 				"TypeScript",
 			],
 			social: {
-				facebook: "https://facebook.com/ly.zia",
-				github: "https://github.com/ly-zia",
-				telegram: "https://t.me/ly_zia",
+				facebook: "https://www.facebook.com/lyzhia.eung",
+				github: "https://github.com/lyzhiaa",
+				telegram: "https://t.me/lyzhia",
 			},
 		},
 	},
@@ -67,7 +67,7 @@ export const teamData: TeamData = {
 		},
 		narak: {
 			name: "Leng Narak",
-			role: "Head of UX/UI",
+			role: "Frontend Developer",
 			image: "/team/narak.JPG",
 			bio: "Creative designer focused on user experience and modern interface design.",
 			skills: [
@@ -78,9 +78,9 @@ export const teamData: TeamData = {
 				"Frontend Development",
 			],
 			social: {
-				facebook: "https://facebook.com/lengnarak",
+				facebook: "https://www.facebook.com/share/1ARwNegGV7/?mibextid=wwXIfr",
 				github: "https://github.com/Narak-168",
-				telegram: "https://t.me/lengnarak",
+				telegram: "https://t.me/Narak_Leng",
 			},
 		},
 		vanda: {
@@ -88,14 +88,7 @@ export const teamData: TeamData = {
 			role: "Full Stack Developer",
 			image: "/team/vanda.JPG",
 			bio: "Versatile developer with experience in both frontend and backend technologies.",
-			skills: [
-				"Spring",
-				"Next.js",
-				"TypeScript",
-				"Java",
-				"REST APIs",
-				"SQL",
-			],
+			skills: ["Spring", "Next.js", "TypeScript", "Java", "REST APIs", "SQL"],
 			social: {
 				facebook: "https://www.facebook.com/share/16NvHFMLN3/",
 				github: "https://github.com/kungsovannda",
@@ -107,14 +100,7 @@ export const teamData: TeamData = {
 			role: "Full Stack Developer",
 			image: "/team/dara.JPG",
 			bio: "Full stack developer with expertise in server architecture and database design.",
-			skills: [
-				"Spring",
-				"Next.js",
-				"TypeScript",
-				"Java",
-				"REST APIs",
-				"SQL",
-			],
+			skills: ["Spring", "Next.js", "TypeScript", "Java", "REST APIs", "SQL"],
 			social: {
 				facebook: "https://facebook.com/kmean.nakyljit",
 				github: "https://github.com/SisovandaraKong",
@@ -126,16 +112,9 @@ export const teamData: TeamData = {
 			role: "Full Stack Developer",
 			image: "/team/bora.JPG",
 			bio: "Full stack developer passionate about creating responsive and interactive web applications.",
-			skills: [
-				"Spring",
-				"Next.js",
-				"TypeScript",
-				"Java",
-				"REST APIs",
-				"SQL",
-			],
+			skills: ["Spring", "Next.js", "TypeScript", "Java", "REST APIs", "SQL"],
 			social: {
-				facebook: "https://www.facebook.com/share/1CUrZLTKkV/",
+				facebook: "https://www.facebook.com/tongboraa",
 				github: "https://github.com/tongbora",
 				telegram: "https://t.me/tongboraa",
 			},
@@ -145,14 +124,7 @@ export const teamData: TeamData = {
 			role: "Frontend Developer",
 			image: "/team/menghouy.JPG",
 			bio: "Full-stack developer with a focus on modern web technologies and clean code practices.",
-			skills: [
-				"React",
-				"Next.js",
-				"TypeScript",
-				"JavaScript",
-				"CSS",
-				"HTML",
-			],
+			skills: ["React", "Next.js", "TypeScript", "JavaScript", "CSS", "HTML"],
 			social: {
 				facebook: "https://www.facebook.com/share/1HcowJBeb6/",
 				github: "https://github.com/TengMengHouy",
@@ -184,14 +156,7 @@ export const teamData: TeamData = {
 			role: "Frontend Developer",
 			image: "/team/sreynuch.JPG",
 			bio: "Creative full stack developer specializing in educational content and technical documentation.",
-			skills: [
-				"React",
-				"Next.js",
-				"TypeScript",
-				"JavaScript",
-				"CSS",
-				"HTML",
-			],
+			skills: ["React", "Next.js", "TypeScript", "JavaScript", "CSS", "HTML"],
 			social: {
 				facebook: "https://www.facebook.com/share/16UND1s9oF/",
 				github: "https://github.com/noch-08",

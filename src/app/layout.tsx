@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import AuthProvider from "@/lib/auth-provider";
 import I18nProvider from "@/lib/I18nProvider";
 import Providers from "@/lib/providers";
-import "../app/globals.css";
+import "./globals.css";
 import AppToaster from "@/components/ui/app-toaster";
 
 const inter = Inter({
@@ -17,6 +17,7 @@ const inter = Inter({
   display: "swap",
 });
 
+// koh-santepheap
 const koh = Koh_Santepheap({
   variable: "--font-koh",
   weight: "400",

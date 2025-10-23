@@ -52,7 +52,7 @@ export default function BakongKH() {
       <Bakong
         open={open}
         amount={0.01}
-        openingProgramUuid="851de91a-5094-4ffa-b6b3-0c229b44fed9"
+        openingProgramUuid="bf06361a-5776-408d-80e5-9c358737771e"
         enrollmentUuid="d0936dac-0d53-4b59-a55d-3df41f6259dc"
       />
     </div>

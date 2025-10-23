@@ -2,11 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   useGenerateQrMutation,
   useGetQrImageMutation,
+  useCheckTransactionByMd5Mutation,
 } from "../../features/bakong/BakongApi";
-import { useCheckTransactionByMd5Mutation } from "../../features/bakong/BakongKHQRApi";
+// import { useCheckTransactionByMd5Mutation } from "../../features/bakong/BakongKHQRApi";
 import {
   useUpdateEnrollmentByUuidMutation,
   useGetEnrollmentByUuidQuery,
@@ -28,6 +30,7 @@ interface BakongProps {
   enrollmentUuid: string;
   openingProgramUuid: string;
   onClose?: () => void;
+  onQrReady?: () => void;
 }
 
 export default function Bakong({
@@ -36,6 +39,7 @@ export default function Bakong({
   enrollmentUuid,
   openingProgramUuid,
   onClose,
+  onQrReady,
 }: BakongProps) {
   const [generateQr, { isLoading: genLoading, error: genError }] =
     useGenerateQrMutation();
@@ -140,7 +144,10 @@ export default function Bakong({
             qr: resp.data.qr,
             md5: resp.data.md5,
           }).unwrap();
-          setQrImageUrl(URL.createObjectURL(blob));
+          const url = URL.createObjectURL(blob);
+          setQrImageUrl(url);
+          // notify parent that QR image is ready (allow parent to hide global loader)
+          onQrReady?.();
         } else {
           setLocalError("Failed to generate QR code.");
         }
@@ -179,7 +186,7 @@ export default function Bakong({
     const tick = async () => {
       if (stopped) return;
       try {
-        const res = await checkTransactionByMd5({ md5 }).unwrap();
+        const res = await checkTransactionByMd5(md5).unwrap();
         const isDone =
           res?.responseCode === 0 &&
           res?.responseMessage === "Success" &&
@@ -191,7 +198,10 @@ export default function Bakong({
               body: { isPaid: true },
             }).unwrap();
 
-            const message = enrollmentPaymentMessageFormatter(enrollment, amount.toFixed(2) as unknown as number);
+            const message = enrollmentPaymentMessageFormatter(
+              enrollment,
+              amount.toFixed(2) as unknown as number
+            );
             const threadId = Number(
               process.env.NEXT_PUBLIC_TELEGRAM_ENROLLMENT_THREAD_ID || 0
             );
@@ -256,9 +266,7 @@ export default function Bakong({
             amount={amount}
             qrImageUrl={qrImageUrl}
             loading={genLoading || localLoading}
-            errorMessage={
-              genError || localError ? "Failed to generate QR code." : ""
-            }
+            errorMessage={genError || localError ? "Failed to generate QR code." : ""}
             countdownText={formatCountdown(countdownMs)}
             onDownloadQr={handleDownloadQr}
           />
@@ -440,6 +448,7 @@ function PaymentReceipt({
   const t = useTranslations();
   const locale = useLocale();
   const isKh = locale === "kh" || locale === "km";
+  const router = useRouter();
 
   const { data, isLoading } = useGetEnrollmentByUuidQuery(enrollmentUuid);
 
@@ -522,6 +531,19 @@ function PaymentReceipt({
     pickStr(openingProgram, ["telegram"]) ||
     "";
 
+  // extract slug from openingProgram
+  const openingProgramSlug = pickStr(openingProgram, ["slug"]);
+
+  const handleClose = () => {
+    // navigate to explore-course/{slug} if available, otherwise fallback to explore-course
+    if (openingProgramSlug) {
+      router.push(`/explore-course/${openingProgramSlug}`);
+    } else {
+      router.push("/explore-course");
+    }
+    onClose();
+  };
+
   return (
     <div
       className="relative bg-background rounded-2xl shadow-xl w-full max-w-3xl overflow-hidden animate-fadeIn"
@@ -599,7 +621,7 @@ function PaymentReceipt({
 
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="inline-flex items-center justify-center rounded-full cursor-pointer bg-green-600 px-6 py-2.5 text-white text-sm font-medium hover:bg-green-700"
             >
               {t("close")}

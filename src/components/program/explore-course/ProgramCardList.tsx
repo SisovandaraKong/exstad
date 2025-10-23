@@ -27,8 +27,10 @@ const ProgramCardList: React.FC<Props> = ({
   isLoading = false,
 }) => {
   // Helper to find opening program by master program title
-  const getOpeningProgram = (programTitle: string) =>
-    openingPrograms.find((o) => o.programName === programTitle);
+    const getOpeningProgram = (programTitle: string) =>
+    openingPrograms.find(
+      (o) => o.programName === programTitle && o.status === "OPEN"
+    );
 
   // Apply filters first
   let filteredPrograms = programs;
@@ -56,8 +58,9 @@ const ProgramCardList: React.FC<Props> = ({
       p.title.toLowerCase().includes(searchValue.toLowerCase())
     );
   }
+  
+  filteredPrograms = filteredPrograms.filter((p) => getOpeningProgram(p.title));
 
-  // Split by program type after filtering
   const scholarshipPrograms = filteredPrograms.filter((p) => p.programType === "SCHOLARSHIP");
   const shortCoursePrograms = filteredPrograms.filter((p) => p.programType === "SHORT_COURSE");
 

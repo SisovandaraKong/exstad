@@ -60,13 +60,15 @@ const ProgramSidebar: React.FC<Props> = ({ uuid }) => {
   const handleEnrollmentClick = () => {
     if (!program.openingProgram?.slug) return;
     router.push(`/explore-course/${program.openingProgram.slug}/enrollment`);
+    if (!program.openingProgram?.slug) return;
+    router.push(`/explore-course/${program.openingProgram.slug}/enrollment`);
   };
 
   return (
     <div className="bg-background h-fit gap-[24px] sticky top-27 p-[24px] rounded-[24px] text-center flex flex-col">
       {/* Title */}
       <div>
-        <h1 className="font-bold text-[22px] text-primary">{program.title}</h1>
+        <h1 className="font-bold text-xl sm:text-2xl md:text-3xl lg:text-[22px]  text-primary">{program.title}</h1>
         <p className="font-medium text-[16px] text-foreground">
           Be ready for your journey at the university
         </p>

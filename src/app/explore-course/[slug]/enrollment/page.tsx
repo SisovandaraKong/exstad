@@ -229,6 +229,9 @@ export default function EnrollmentPage() {
   const [files, setFiles] = React.useState<File[] | null>(null);
   const [openingProgramOpen, setOpeningProgramOpen] = React.useState(false);
 
+  // Wait for Bakong QR to be ready after enrollment
+  const [waitingForQr, setWaitingForQr] = React.useState(false);
+
   // Additional loading overlay for file upload
   const [uploading, setUploading] = React.useState(false);
 
@@ -276,6 +279,14 @@ export default function EnrollmentPage() {
 
   // All opening programs for the combobox list
   const { data: openingPrograms } = useGetAllOpeningProgramsQuery();
+
+  // --- ADD: determine page-level program type (master program for the page openingProgram)
+  const { data: pageMasterProgram } =
+    useGetMasterProgramByOpeningProgramUuidQuery(
+      openingProgram?.uuid
+        ? { openingProgramUuid: openingProgram.uuid }
+        : skipToken
+    );
 
   // Enrollment mutation
   const [createEnrollment, { isLoading: isSubmitting }] =
@@ -390,6 +401,51 @@ export default function EnrollmentPage() {
     }
   }, [isScholarship, form]);
 
+  // --- ADD: page-level program type detection and filtered opening program list
+  const pageProgramTypeUpper =
+    pageMasterProgram?.programType
+      ?.toString()
+      ?.toUpperCase()
+      ?.replace(/\s+/g, "") ?? "";
+  const isPageScholarship =
+    pageProgramTypeUpper === "SCHOLARSHIP" ||
+    pageProgramTypeUpper === "SCHOLASHIP";
+  const isPageShortCourse =
+    pageProgramTypeUpper.includes("SHORT") ||
+    pageProgramTypeUpper.includes("SHORTCOURSE") ||
+    pageProgramTypeUpper.includes("SHORT_COUSE");
+
+  const getProgramTypeUpperFrom = (p: unknown) => {
+    const rec = p as Record<string, unknown> | undefined;
+    const raw =
+      rec?.programType ??
+      (rec?.masterProgram as Record<string, unknown> | undefined)
+        ?.programType ??
+      "";
+    return (raw ?? "").toString().toUpperCase().replace(/\s+/g, "");
+  };
+
+  const filteredOpeningPrograms = React.useMemo(() => {
+    if (!openingPrograms) return [];
+    // If page is scholarship -> lock to the page openingProgram only
+    if (isPageScholarship) {
+      return openingProgram ? [openingProgram] : [];
+    }
+    // If page is short course -> only show opening programs that look like short course
+    if (isPageShortCourse) {
+      return openingPrograms.filter((p) => {
+        const pt = getProgramTypeUpperFrom(p);
+        return (
+          pt.includes("SHORT") ||
+          pt.includes("SHORTCOURSE") ||
+          pt.includes("SHORT_COUSE")
+        );
+      });
+    }
+    // Default: all
+    return openingPrograms;
+  }, [openingPrograms, openingProgram, isPageScholarship, isPageShortCourse]);
+
   const onInvalid = (errors: FieldErrors<z.infer<typeof formSchema>>) => {
     const [firstName, firstErr] = Object.entries(errors)[0] ?? [];
     const message =
@@ -405,9 +461,13 @@ export default function EnrollmentPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      // show overlay immediately when user clicks enroll
+      setWaitingForQr(true);
+
       if (isScholarship && !values.grade) {
         toast.error("Grade is required for scholarship.");
         form.setFocus("grade");
+        setWaitingForQr(false);
         return;
       }
 
@@ -471,7 +531,8 @@ export default function EnrollmentPage() {
       };
 
       const enroll = await createEnrollment(enrollmentData).unwrap();
-      toast.success("Registration Successful!");
+      // beautiful toast success message
+      toast.success("Enrollment submitted successfully!");
 
       const message = enrollmentMessageFormatter(enroll);
       const threadId = Number(
@@ -484,6 +545,9 @@ export default function EnrollmentPage() {
         threadId: threadId || undefined,
       });
 
+      // keep overlay visible until Bakong QR is generated
+      setWaitingForQr(true);
+
       setBakongAmount(enrollmentData.amount);
       setBakongEnrollmentUuid(enroll.uuid);
       setBakongOpeningProgramUuid(values.openingProgramUuid);
@@ -493,6 +557,7 @@ export default function EnrollmentPage() {
       setFiles(null);
     } catch (error: unknown) {
       setUploading(false);
+      setWaitingForQr(false);
       const { status, message } = extractError(error);
       if (status === 409) {
         toast.error("You already enrolled for this program/class.");
@@ -506,20 +571,21 @@ export default function EnrollmentPage() {
   if (!isLoading && (isError || !openingProgram))
     return <div>Program not found.</div>;
 
-  const showOverlay = isLoading || isSubmitting || uploading;
+  // don't show global LoadingOverlay while Bakong modal is open (Bakong has own loader)
+  const showOverlay = (isLoading || isSubmitting || uploading || waitingForQr) && !bakongOpen;
 
   return (
     <>
       {showOverlay && <LoadingOverlay />}
 
-      <div className="flex flex-col max-w-7xl mx-auto gap-6">
-        <div className="mx-auto bg-background rounded-md mt-10 p-4 w-full">
+      <div className="flex flex-col max-w-7xl mx-auto gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto bg-background rounded-md mt-10 p-4 w-full px-4 sm:px-6 lg:px-8">
           <h1 className="font-d2 font-bold text-3xl text-center text-primary dark:text-white">
-            {t("enrollment")}
+            {masterProgram?.title}
           </h1>
         </div>
 
-        <div className="mx-auto bg-background sm:p-8 rounded-md mb-16 w-full">
+        <div className="mx-auto bg-background sm:p-8 rounded-md mb-16 w-full px-4 sm:px-6 lg:px-8">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit, onInvalid)}
@@ -934,7 +1000,7 @@ export default function EnrollmentPage() {
                           <FormControl>
                             <Textarea
                               placeholder={t("message")}
-                              className="resize-none w-full sm:py-10 py-8 bg-whitesmoke"
+                              className="resize-none w-full sm:py-10 py-8"
                               {...field}
                             />
                           </FormControl>
@@ -955,26 +1021,39 @@ export default function EnrollmentPage() {
                           <span className="text-red-600">*</span>
                         </FormLabel>
                         <Popover
-                          open={openingProgramOpen}
-                          onOpenChange={setOpeningProgramOpen}
+                          // prevent opening when page-level program is scholarship (locked)
+                          open={openingProgramOpen && !isPageScholarship}
+                          onOpenChange={(open) => {
+                            if (!isPageScholarship) setOpeningProgramOpen(open);
+                          }}
                         >
                           <PopoverTrigger asChild>
                             <FormControl>
                               <Button
                                 variant="outline"
                                 role="combobox"
-                                aria-expanded={openingProgramOpen}
+                                aria-expanded={
+                                  openingProgramOpen && !isPageScholarship
+                                }
                                 className={cn(
                                   "w-full py-7 bg-whitesmoke justify-between font-normal hover:bg-whitesmoke font-bilingual",
                                   field.value
                                     ? "text-accent-foreground"
                                     : "text-muted-foreground"
                                 )}
+                                // disable when the page is scholarship (locked)
+                                disabled={isPageScholarship}
+                                title={
+                                  isPageScholarship
+                                    ? "opening-program-locked"
+                                    : undefined
+                                }
                               >
                                 {field.value
                                   ? openingPrograms?.find(
                                       (p) => p.uuid === field.value
-                                    )?.programName
+                                    )?.programName ||
+                                    openingProgram?.programName
                                   : t("select-opening-program")}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                               </Button>
@@ -994,30 +1073,39 @@ export default function EnrollmentPage() {
                               <CommandList>
                                 <CommandEmpty>{t("not-found")}</CommandEmpty>
                                 <CommandGroup>
-                                  {openingPrograms?.map((p) => (
-                                    <CommandItem
-                                      className="font-inter"
-                                      key={p.uuid}
-                                      value={p.programName}
-                                      onSelect={() => {
-                                        const next =
-                                          p.uuid === field.value ? "" : p.uuid;
-                                        field.onChange(next);
-                                        form.setValue("classUuid", "");
-                                        setOpeningProgramOpen(false);
-                                      }}
-                                    >
-                                      {p.programName}
-                                      <Check
-                                        className={cn(
-                                          "ml-auto h-4 w-4",
-                                          field.value === p.uuid
-                                            ? "opacity-100"
-                                            : "opacity-0"
-                                        )}
-                                      />
-                                    </CommandItem>
-                                  ))}
+                                  {filteredOpeningPrograms?.map((p) => {
+                                    const rec = p as Record<string, unknown>;
+                                    const uuid = String(rec.uuid ?? "");
+                                    const name = String(
+                                      rec.programName ?? rec.programName ?? ""
+                                    );
+                                    return (
+                                      <CommandItem
+                                        className="font-inter"
+                                        key={uuid || name}
+                                        value={name}
+                                        onSelect={() => {
+                                          // ignore selection when page is locked to scholarship
+                                          if (isPageScholarship) return;
+                                          const next =
+                                            uuid === field.value ? "" : uuid;
+                                          field.onChange(next);
+                                          form.setValue("classUuid", "");
+                                          setOpeningProgramOpen(false);
+                                        }}
+                                      >
+                                        {name}
+                                        <Check
+                                          className={cn(
+                                            "ml-auto h-4 w-4",
+                                            field.value === uuid
+                                              ? "opacity-100"
+                                              : "opacity-0"
+                                          )}
+                                        />
+                                      </CommandItem>
+                                    );
+                                  })}
                                 </CommandGroup>
                               </CommandList>
                             </Command>
@@ -1195,6 +1283,7 @@ export default function EnrollmentPage() {
                       </FormItem>
                     )}
                   />
+
 
                   {/* Phone Number */}
                   <FormField
@@ -1402,10 +1491,10 @@ export default function EnrollmentPage() {
               </div>
 
               {/* Submit Button */}
-              <div className="flex justify-end pt-6">
+              <div className="flex justify-end py-4">
                 <Button
                   type="submit"
-                  className="max-w-md cursor-pointer text-white border-primary dark:hover:bg-primary/90 px-8 bg-primary"
+                  className="w-full sm:w-auto sm:max-w-md cursor-pointer text-white border-primary dark:hover:bg-primary/90 px-8 bg-primary"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? t("enroll-now") + "..." : t("enroll-now")}
@@ -1422,6 +1511,11 @@ export default function EnrollmentPage() {
             open={bakongOpen}
             amount={bakongAmount}
             enrollmentUuid={bakongEnrollmentUuid}
+            onQrReady={() => setWaitingForQr(false)}
+            onClose={() => {
+              setBakongOpen(false);
+              setWaitingForQr(false);
+            }}
           />
         )}
       </div>
