@@ -13,7 +13,7 @@ export function Welcoming_Card() {
 				</h2>
 				<p className='text-sm sm:text-base md:text-lg lg:text-xl bg-gradient-to-r from-[#FF0000] to-[#7777FF] bg-clip-text text-transparent my-4 leading-relaxed'>
 					exSTAD is an experimental technology learning space for Cambodian
-					students, especially those who want to explore ISTAD's scholarship
+					students, especially those who want to explore ISTAD&apos;s scholarship
 					program, products, and achievements in a unified digital platform.
 				</p>
 				<Link
