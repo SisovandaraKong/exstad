@@ -47,7 +47,7 @@ export type EnrollmentDetail = {
   dob: string;
   phoneNumber: string;
   email: string;
-  avtar?: string | null;
+  avatar?: string | null;
   province?: string | null;
   currentAddress: string;
   university: string;
@@ -69,7 +69,7 @@ export type UpdateEnrollmentBody = {
   amount?: number | null;
   phoneNumber?: string;
   email?: string;
-  avtar?: string | null;
+  avatar?: string | null;
   province?: string | null;
   currentAddress?: string;
   university?: string;
