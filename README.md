@@ -122,6 +122,10 @@ This system delivers a **powerful and dynamic dashboard** experience with **comp
 
 ## Live Platform
 
+This project is currently deployed and can be accessed at:
+
+🚀 Live Demo: [https://www.exstad.tech](https://www.exstad.tech)
+
 ---
 # exSTAD Project — Technology Stack
 
