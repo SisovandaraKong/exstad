@@ -15,15 +15,6 @@ Developed by the **1st Generation Full Stack Web Development Students** at the *
 
 ---
 
-##  Platform Preview
-<p align="center">
-  <img src="./public/" alt="Desktop Preview" width="300"/>
-  <img src="./public/tablet.png" alt="Tablet Preview" width="170"/>
-  <img src="./public/mobile.png" alt="Mobile Preview" width="130"/>
-</p>
-
----
-
 ##  Introduction
 In today’s digital era, **exSTAD** transforms how **learning and academic management** are delivered.  
 It acts as a **centralized platform** for managing ISTAD’s study programs — including:
@@ -114,9 +105,6 @@ Core management functionalities include:
 - Digital Verification Asset Management (Certificates, Transcripts, Student Info)
 
 This system delivers a **powerful and dynamic dashboard** experience with **comprehensive functionality** for all platform users.
-
----
-
 
 ---
 
