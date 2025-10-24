@@ -15,6 +15,14 @@ Developed by the **1st Generation Full Stack Web Development Students** at the *
 
 ---
 
+## 📱 Platform Preview
+
+<p align="center">
+  <img src="./public/image/preview/preview.PNG" alt="Desktop Preview" width="800"/>
+</p>
+
+---
+
 ##  Introduction
 In today’s digital era, **exSTAD** transforms how **learning and academic management** are delivered.  
 It acts as a **centralized platform** for managing ISTAD’s study programs — including:
@@ -69,7 +77,7 @@ ISTAD provides a wide range of opportunities such as **scholarships, sharing eve
 Students can easily:
 1. Fill in their basic information  
 2. Choose their favorite course  
-3. Select a schedule  
+3. Select a schedule   
 
 And that’s it — enrollment is done **in just a few minutes**.
 

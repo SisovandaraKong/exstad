@@ -37,7 +37,9 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
               {title}
             </h2>
             {subtitle && (
-              <p className="text-sm md:text-2xl text-[#333333] font-medium w-fit mx-auto md:mx-0 rounded-[10px] bg-white px-2 py-1 mt-2">
+              <p
+                className="bg-white/20 backdrop-blur-md border border-white/30  shadow-md text-sm md:text-2xl text-white font-medium w-fit mx-auto md:mx-0 rounded-[10px] px-2 py-1 mt-2 "
+              >
                 {subtitle}
               </p>
             )}

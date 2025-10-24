@@ -88,7 +88,7 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
             onClick={() => setSelectedGenerationId(gen.uuid)}
             className={`px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-2xl font-medium whitespace-nowrap text-sm sm:text-base md:text-lg ${
               selectedGenerationId === gen.uuid
-                ? "text-primary"
+                ? "text-primary dark:text-white"
                 : "text-foreground  hover:bg-gray-200 dark:hover:bg-primary "
             }`}
           >
