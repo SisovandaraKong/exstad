@@ -46,28 +46,6 @@ const ProgramHeader: React.FC<Props> = ({
         />
       )}
 
-      <div className="flex items-center gap-4">
-        {logoUrl && (
-          <Image
-            unoptimized
-            width={80}
-            height={80}
-            src={logoUrl}
-            alt={`${title} logo`}
-            className="rounded-lg"
-          />
-        )}
-        <div>
-          <h1 className="text-2xl font-bold">{title}</h1>
-          <p className="text-gray-600">{subtitle}</p>
-          {programLevel && programType && (
-            <p className="text-sm text-gray-500 mt-1">
-              {programLevel} • {programType}
-            </p>
-          )}
-        </div>
-      </div>
-
       {/* Tab Navbar */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4 border-b border-gray-300 py-4 md:py-6">
         {tabs.map((tab) => (

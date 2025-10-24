@@ -1,33 +1,40 @@
 import { Metadata } from "next";
 import ProgramDetailClient from "../ProgramDetailClient";
 import { MasterProgramType } from "@/types/master-program";
+import { openingProgramType } from "@/types/opening-program";
 
-// Define the params type
+// Params type
 interface ProgramPageParams {
   slug: string;
 }
 
-// Fetch program data
+// Fetch master program
 async function getProgramData(slug: string): Promise<MasterProgramType | null> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/programs/slug/${slug}`,
     { cache: "no-store" }
   );
-
   if (!res.ok) return null;
-
   const data = await res.json();
   return data ?? null;
 }
 
-// Generate metadata - UPDATED: await params
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<ProgramPageParams> 
-}): Promise<Metadata> {
-  const { slug } = await params; // Await params here
+// Fetch opening program
+async function getOpeningProgramData(slug: string): Promise<openingProgramType | null> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/opening-programs/slug/${slug}`,
+    { cache: "no-store" }
+  );
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data ?? null;
+}
+
+// Generate metadata using opening program posterUrl
+export async function generateMetadata({ params }: { params: Promise<ProgramPageParams> }): Promise<Metadata> {
+  const { slug } = await params;
   const program = await getProgramData(slug);
+  const openingProgram = await getOpeningProgramData(slug);
 
   if (!program) {
     return {
@@ -50,7 +57,7 @@ export async function generateMetadata({
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/explore-course/${program.slug}`,
       images: [
         {
-          url: program.logoUrl || `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`,
+          url: openingProgram?.posterUrl || `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`,
           width: 1200,
           height: 630,
           alt: program.title,
@@ -61,18 +68,14 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${program.title} | EXSTAD`,
       description: program.subtitle || "Join our professional programs today!",
-      images: [program.logoUrl || `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`],
+      images: [openingProgram?.posterUrl || `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`],
     },
   };
 }
 
-// Server Component - UPDATED: await params
-export default async function ProgramDetailPage({ 
-  params 
-}: { 
-  params: Promise<ProgramPageParams> 
-}) {
-  const { slug } = await params; // Await params here
+// Server Component
+export default async function ProgramDetailPage({ params }: { params: Promise<ProgramPageParams> }) {
+  const { slug } = await params;
   const program = await getProgramData(slug);
 
   if (!program) {
