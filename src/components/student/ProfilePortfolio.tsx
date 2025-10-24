@@ -153,34 +153,16 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 w-full box-border">
             {/* Avatar */}
             <div className="flex flex-col items-center">
-              <div
-                className="relative mb-4 rounded-full overflow-hidden animate-fall-straight"
-                style={{ width: AVATAR_PX, height: AVATAR_PX }}
-              >
-                <div
-                  ref={avatarAnchorRef}
-                  className="absolute inset-0 rounded-full overflow-hidden"
-                />
-                <div className="portfolio-avatar-fallback absolute inset-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={scholar?.avatar || "/avatar-fallback.png"}
-                    alt={scholar?.englishName || username}
-                    className="w-full h-full object-cover object-center"
-                  />
-                </div>
-              </div>
-
-              <div className="text-center mb-3">
-                <h2 className="font-d1 font-bold text-gray-900 dark:text-white text-2xl">
-                  {scholar.englishName}
-                  {scholar.khmerName ? ` (${scholar.khmerName})` : ""}
-                </h2>
-                <p className="text-gray-400 text-sm sm:text-base">
-                  {scholar.university} • {scholar.role}
-                </p>
-              </div>
-            </div>
+  <div
+    className="relative mb-4 rounded-full overflow-hidden"
+    style={{ width: 192, height: 192 }}
+  >
+    <div
+      ref={avatarAnchorRef}
+      className="absolute inset-0 rounded-full overflow-hidden"
+    />
+  </div>
+</div>
 
             {/* About */}
             <div className="pt-4">
