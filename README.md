@@ -77,7 +77,7 @@ ISTAD provides a wide range of opportunities such as **scholarships, sharing eve
 Students can easily:
 1. Fill in their basic information  
 2. Choose their favorite course  
-3. Select a schedule  
+3. Select a schedule   
 
 And that’s it — enrollment is done **in just a few minutes**.
 
