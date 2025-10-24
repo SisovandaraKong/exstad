@@ -14,11 +14,11 @@ export default function HorizontalScrollText() {
   const msg = items.join("  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ");
   return (
     <TextScrollMarquee
-      baseVelocity={1}
+      baseVelocity={3}
       direction="right"
       className="text-3xl font-bold "
       scrollDependent={false}
-      delay={1000}
+      delay={0}
     >
       {msg}
     </TextScrollMarquee>
