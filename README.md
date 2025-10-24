@@ -18,7 +18,7 @@ Developed by the **1st Generation Full Stack Web Development Students** at the *
 ## 📱 Platform Preview
 
 <p align="center">
-  <img src="./public/image/preview/preview.PNG" alt="Desktop Preview" width="400"/>
+  <img src="./public/image/preview/preview.PNG" alt="Desktop Preview" width="800"/>
 </p>
 
 ---
