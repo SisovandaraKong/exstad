@@ -8,6 +8,7 @@ import { requiementApi } from "@/components/program/detail-program/requirement/r
 import { enrollmentApi } from "@/features/enrollment/enrollmentApi";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
+import { roadmapApi } from "@/features/roadmapApi";
 import storage from "redux-persist/lib/storage";
 import { openingProgramApi } from "@/components/program/openingProgramApi";
 import { timeLineApi } from "@/components/program/detail-program/timeline/timeLineApi";
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   [scholarApi.reducerPath]: scholarApi.reducer,
   [StudentApi.reducerPath]: StudentApi.reducer,
   [timeLineApi.reducerPath]: timeLineApi.reducer,
+  [roadmapApi.reducerPath]: roadmapApi.reducer,
 });
 
 const persistConfig = {
@@ -66,8 +68,13 @@ export const makeStore = () => {
         classApi.middleware,
         // bakongKHQRApi.middleware,
         scholarApi.middleware,
+<<<<<<< HEAD
         StudentApi.middleware,
         timeLineApi.middleware
+=======
+        timeLineApi.middleware,
+        roadmapApi.middleware
+>>>>>>> a26f3fa337fb0a9ffe18324bfa5559c70dfdcc94
       ),
   });
 
