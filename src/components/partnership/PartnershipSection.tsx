@@ -7,89 +7,89 @@ import { useState, useMemo } from "react";
 
 // Categorized partners for better organization
 const partnerCategories = {
-  government: [
-    {
-      name: "Ministry of Post and Telecommunications of Cambodia",
-      logo: "https://www.trc.gov.kh/_astro/MPTC.CJZrFdlr_Z1xXAUI.webp",
-      category: "Government",
-    },
-    {
-      name: "Digital Government Committee ",
-      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRshR37XmWDFaE_JZh2-FxVS5nh8lwXM2y5Iw&s",
-      category: "Government",
-    },
-  ],
-  education: [
-    {
-      name: "Chungbuk National University",
-      logo: "https://nturanking.csti.tw/static/NTURankingData/img/UnivImage/KRU000023.png",
-      category: "Education",
-    },
-  ],
-  banking: [
-    {
-      name: "ACLEDA Bank",
-      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7I2cke0hUAEafJhGKmrMCymfxU_vOT4GKG0UysGYWHVfoxzZ4QYARYh2jeQ_e5CyFjOw&usqp=CAU",
-      category: "Banking",
-    },
-    {
-      name: "Canada Bank",
-      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ76IvnpQAwB5bhNKihsugJRh0rh2CtFfkA_KdQqqY7xN6tNQhTeCbmbIUVYa4KkCiFP50&usqp=CAU",
-      category: "Banking",
-    },
-    {
-      name: "APD Bank",
-      logo: "https://cdn.prod.website-files.com/66a88ddcf31fb0b71b89d1fd/66d90c5a1ac7788d194ac247_64954108a868226f441e01f1_Frame%2048099033.png",
-      category: "Banking",
-    },
-    {
-      name: "Wing Bank",
-      logo: "https://play-lh.googleusercontent.com/-deHHbwBUh2I4dzTjq9n4ggBGPqJwKzj9pwvPqyaR-hPxzKN9QVJOBsZP_ShlCDmX60",
-      category: "Banking",
-    },
-    {
-      name: "Woori Bank",
-      logo: "https://play-lh.googleusercontent.com/9EjpLk2v3rb1QThCBb8Ep03I7U9aVByTzrc_G77JtKd4O98uA-H4t-c-Ep9sgB1_5g",
-      category: "Banking",
-    },
-    {
-      name: "Shinhan Bank",
-      logo: "https://shinhan.com.kh/themes/shinhan-cambodia/img/loading-icon-2.png",
-      category: "Banking",
-    },
-    {
-      name: "PPCBank",
-      logo: "https://www.ppcbank.com.kh/wp-content/uploads/2024/09/013.jpg",
-      category: "Banking",
-    },
-    {
-      name: "Amret Bank",
-      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROYTk5csp8xr0BmalclqQ1bfNrKWEktgnDcQ&s",
-      category: "Banking",
-    },
-    {
-      name: "Phillip Bank",
-      logo: "https://play-lh.googleusercontent.com/dvJ0JwsKi3n2NGvpJ7ZneV_FlhlpMb_g6eMRx9gUYZ0Uf2rNUGaFIySG5NqRnktZiQ",
-      category: "Banking",
-    },
-    {
-      name: "Mohanokor Microfinance Institution",
-      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXtC1rKHX3bw0EoM0GdiwZbHz5RiDOO6bNIg&s",
-      category: "Banking",
-    },
-  ],
-  technology: [
-    {
-      name: "Bankong Open API",
-      logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwG-Zx92YNnU6BuabALnRRwBqX_5USd3AJJw&s",
-      category: "Technology",
-    },
-    {
-      name: "Smart Axiata",
-      logo: "https://play-lh.googleusercontent.com/MBVY5PdixeXkomZJFWSYoV7Bk4V55OiaG9_GtxZnZKDUBn_cB8ZRL0ht8U9PK16re9M",
-      category: "Technology",
-    },
-  ],
+	government: [
+		{
+			name: "Ministry of Post and Telecommunications of Cambodia",
+			logo: "https://www.trc.gov.kh/_astro/MPTC.CJZrFdlr_Z1xXAUI.webp",
+			category: "Government",
+		},
+		{
+			name: "Digital Government Committee ",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRshR37XmWDFaE_JZh2-FxVS5nh8lwXM2y5Iw&s",
+			category: "Government",
+		},
+	],
+	education: [
+		{
+			name: "Chungbuk National University",
+			logo: "https://nturanking.csti.tw/static/NTURankingData/img/UnivImage/KRU000023.png",
+			category: "Education",
+		},
+	],
+	banking: [
+		{
+			name: "ACLEDA Bank",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7I2cke0hUAEafJhGKmrMCymfxU_vOT4GKG0UysGYWHVfoxzZ4QYARYh2jeQ_e5CyFjOw&usqp=CAU",
+			category: "Banking",
+		},
+		{
+			name: "Canada Bank",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ76IvnpQAwB5bhNKihsugJRh0rh2CtFfkA_KdQqqY7xN6tNQhTeCbmbIUVYa4KkCiFP50&usqp=CAU",
+			category: "Banking",
+		},
+		{
+			name: "APD Bank",
+			logo: "https://cdn.prod.website-files.com/66a88ddcf31fb0b71b89d1fd/66d90c5a1ac7788d194ac247_64954108a868226f441e01f1_Frame%2048099033.png",
+			category: "Banking",
+		},
+		{
+			name: "Wing Bank",
+			logo: "https://play-lh.googleusercontent.com/-deHHbwBUh2I4dzTjq9n4ggBGPqJwKzj9pwvPqyaR-hPxzKN9QVJOBsZP_ShlCDmX60",
+			category: "Banking",
+		},
+		{
+			name: "Woori Bank",
+			logo: "https://play-lh.googleusercontent.com/9EjpLk2v3rb1QThCBb8Ep03I7U9aVByTzrc_G77JtKd4O98uA-H4t-c-Ep9sgB1_5g",
+			category: "Banking",
+		},
+		{
+			name: "Shinhan Bank",
+			logo: "https://shinhan.com.kh/themes/shinhan-cambodia/img/loading-icon-2.png",
+			category: "Banking",
+		},
+		{
+			name: "PPCBank",
+			logo: "https://www.ppcbank.com.kh/wp-content/uploads/2024/09/013.jpg",
+			category: "Banking",
+		},
+		{
+			name: "Amret Bank",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROYTk5csp8xr0BmalclqQ1bfNrKWEktgnDcQ&s",
+			category: "Banking",
+		},
+		{
+			name: "Phillip Bank",
+			logo: "https://play-lh.googleusercontent.com/dvJ0JwsKi3n2NGvpJ7ZneV_FlhlpMb_g6eMRx9gUYZ0Uf2rNUGaFIySG5NqRnktZiQ",
+			category: "Banking",
+		},
+		{
+			name: "Mohanokor Microfinance Institution",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXtC1rKHX3bw0EoM0GdiwZbHz5RiDOO6bNIg&s",
+			category: "Banking",
+		},
+	],
+	technology: [
+		{
+			name: "Bankong Open API",
+			logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwG-Zx92YNnU6BuabALnRRwBqX_5USd3AJJw&s",
+			category: "Technology",
+		},
+		{
+			name: "Smart Axiata",
+			logo: "https://play-lh.googleusercontent.com/MBVY5PdixeXkomZJFWSYoV7Bk4V55OiaG9_GtxZnZKDUBn_cB8ZRL0ht8U9PK16re9M",
+			category: "Technology",
+		},
+	],
 };
 
 // Flatten all partners for the scrolling animation

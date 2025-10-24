@@ -4,7 +4,6 @@
 
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import type { CourseCardProps } from "@/types";
 import { Button } from "../ui/button";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";

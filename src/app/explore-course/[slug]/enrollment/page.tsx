@@ -472,6 +472,7 @@ export default function EnrollmentPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // show overlay immediately when user clicks enroll
+      setWaitingForQr(true);
 
       if (isScholarship && !values.grade) {
         toast.error("Grade is required for scholarship.");
