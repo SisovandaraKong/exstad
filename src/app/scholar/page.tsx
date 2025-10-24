@@ -1,10 +1,14 @@
-import React from 'react'
+"use client";
+import HeroScholars from "@/components/scholar/Scholar";
+export default function Scholar() {
 
-export default function page() {
   return (
-    <div>
-      <h1>Scholarship Opportunities</h1>
-      <p>Welcome to the scholarship page!</p>
-    </div>
-  )
+    <main className="" >
+
+     
+      <HeroScholars/>
+     
+      
+    </main>
+  );
 }

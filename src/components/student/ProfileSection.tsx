@@ -41,30 +41,26 @@
 // }
 "use client";
 
-import React from "react";
-import Image from "next/image";
 import { SparklesText } from "@/components/magicui/sparkles-text";
 import profileData from "@/data/profileSection.json";
+import Image from "next/image";
 
 export function ProfileSection() {
   return (
     <section className="  relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
       {/* Background gradient */}
-    <div
-  className="absolute inset-0"
-  style={{
-    background: `linear-gradient(
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(
       180deg,
       rgba(0,0,255,0.2) 0%,      /* Blue at top, 20% opacity */
       rgba(255,0,0,0.2) 50%,     /* Red in the middle, 20% opacity */
       rgba(101,154,210,0.2) 100% /* Light blue at bottom, 20% opacity */
     )`,
-  }}
-></div>
+        }}
+      ></div>
 
-
-
-  
       {/* Content */}
       <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
         {/* Image */}
@@ -80,15 +76,13 @@ export function ProfileSection() {
 
         {/* Text */}
         <div className="flex-1 text-center lg:text-left space-y-3">
-          <h1 className="font-h5 font-bold text-color">
+          <h1 className="font-h1 font-extrabold text-color">
             <SparklesText>{profileData.name}</SparklesText>
           </h1>
-         
-         <h2 className=" lg:font-h2 text-[#969696] ">
-            {profileData.title}
-          </h2>
-          
-          <p className="font-d3 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+
+          <h2 className=" lg:font-h2 text-[#969696] ">{profileData.title}</h2>
+
+          <p className="font-d2 leading-relaxed max-w-2xl mx-auto lg:mx-0">
             {profileData.bio}
           </p>
           <blockquote className="text-2xl lg:text-3xl font-medium text-accent italic ">
@@ -97,10 +91,5 @@ export function ProfileSection() {
         </div>
       </div>
     </section>
-
-
- 
-  
-
   );
 }

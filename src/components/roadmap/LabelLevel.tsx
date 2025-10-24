@@ -8,7 +8,7 @@ export default function LabelLevel({ level }: { level: Level }) {
   };
   return (
     <div
-      className="text-[14px] px-3 py-1 rounded-md"
+      className={`text-[14px] px-3 py-1 rounded-md bg-transparent/80`}
       style={{
         color: color[level].text,
         backgroundColor: color[level].bg,
