@@ -294,7 +294,7 @@ function BakongCard({
   loading,
   errorMessage,
   countdownText,
-}: // onDownloadQr,
+}: 
 {
   amount: number;
   qrImageUrl: string | null;

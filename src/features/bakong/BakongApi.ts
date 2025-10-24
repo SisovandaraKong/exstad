@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { useBaseQuery } from "../../services/use-base-query";
+import { useBaseQuery } from "../../services/use-baes-query-bakong";
 
 export type GenerateQrRequest = {
   amount: number;
@@ -64,4 +64,8 @@ export const bakongApi = createApi({
   }),
 });
 
-export const { useGenerateQrMutation, useGetQrImageMutation, useCheckTransactionByMd5Mutation } = bakongApi;
+export const {
+  useGenerateQrMutation,
+  useGetQrImageMutation,
+  useCheckTransactionByMd5Mutation,
+} = bakongApi;
