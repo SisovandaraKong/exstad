@@ -49,11 +49,15 @@ type ApiCareer = {
   companyType?: string;
 };
 
+type ApiAudit = { updatedAt?: string | number | Date };
+
 type ApiScholar = ApiScholarBase & {
   specialist?: ApiSpecialist[] | null;
   careers?: ApiCareer[] | null; // ✅ used for Section 3
   // Optional: If your API embeds completedCourses directly
   completedCourses?: Array<{ programName?: string; name?: string }> | null;
+  category?: string; // used in spotlight / section4 fallbacks
+  audit?: ApiAudit; // for cache-busting avatar
 };
 
 type ApiError = {
@@ -100,10 +104,16 @@ function normalizeAvatar(avatar?: string) {
     ? v
     : `${API_BASE}${v.startsWith("/") ? v : `/${v}`}`;
 }
-function versioned(src: string, ver?: string | number) {
+function versioned(src: string, ver?: string | number | Date) {
   if (!src) return "/placeholder.svg";
   const v =
-    typeof ver === "number" ? ver : ver ? new Date(ver).getTime() : Date.now();
+    typeof ver === "number"
+      ? ver
+      : ver instanceof Date
+      ? ver.getTime()
+      : ver
+      ? new Date(ver).getTime()
+      : Date.now();
   return `${src}${src.includes("?") ? "&" : "?"}v=${v}`;
 }
 const BLUR =
@@ -131,10 +141,7 @@ function normalizeProgramName(
   const s = raw.trim().toLowerCase();
 
   // Pre-University (variants)
-  if (
-    /(^|\b)pre[\s-]?uni(versity)?\b/.test(s) ||
-    /pre[-\s]?university/i.test(raw)
-  ) {
+  if (/(^|\b)pre[\s-]?uni(versity)?\b/.test(s) || /pre[-\s]?university/i.test(raw)) {
     return CATEGORY_LABELS.PREU;
   }
 
@@ -333,39 +340,39 @@ function Card2({ person }: { person: ScholarWithQuote }) {
   const displayTitle = person.title?.trim() || "—";
 
   return (
-    <div className="group rounded-xl p-[2px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl">
-      {/* Smaller height + tighter padding */}
-      <div className="rounded-xl bg-white dark:bg-slate-800 p-5 sm:p-6 md:p-8 text-center transition-all duration-300 ease-out transform-gpu group-hover:shadow-xl h-[350px] flex flex-col items-center">
-        {/* Avatar */}
-        <div className="relative mx-auto h-28 w-28 sm:h-32 sm:w-32 md:h-36 md:w-36 rounded-full overflow-hidden border border-slate-200 shadow-md dark:border-slate-600 bg-slate-200 dark:bg-slate-700">
+    <div className="group rounded-xl p-[1.5px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-0.5 hover:scale-[1.01] hover:shadow-xl">
+      {/* ✨ Remove fixed height; make it fluid on mobile and step up responsively */}
+      <div className="rounded-xl bg-white dark:bg-slate-800 px-4 py-5 sm:px-6 sm:py-6 md:p-8 text-center transition-all duration-300 ease-out transform-gpu group-hover:shadow-xl h-auto min-h-[220px] sm:min-h-[260px] md:min-h-[320px] flex flex-col items-center">
+        {/* Smaller avatar on mobile */}
+        <div className="relative mx-auto h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full overflow-hidden border border-slate-200 shadow-md dark:border-slate-600 bg-slate-200 dark:bg-slate-700">
           <Image
             src={src}
             alt={displayName}
             fill
             className="object-cover object-center"
-            sizes="(max-width: 640px) 256px, (max-width: 768px) 320px, 352px"
+            sizes="(max-width: 640px) 128px, (max-width: 768px) 192px, 224px"
             onError={() => setSrc("/placeholder.svg")}
             priority
             unoptimized
           />
         </div>
 
-        {/* Info */}
+        {/* Tighter spacing + smaller type on mobile */}
         <div className="mt-2 flex flex-col items-center text-center">
           <h3
-            className="mt-2 text-base sm:text-lg md:text-xl font-bold text-slate-900 dark:text-white line-clamp-2"
+            className="mt-1 text-sm sm:text-base md:text-xl font-bold text-slate-900 dark:text-white line-clamp-2"
             title={displayName}
           >
             {displayName}
           </h3>
           <p
-            className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 line-clamp-1"
+            className="text-[11px] sm:text-sm md:text-base text-slate-600 dark:text-slate-300 line-clamp-1"
             title={displayTitle}
           >
             {displayTitle}
           </p>
           {!!person.quote?.trim() && (
-            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 italic leading-relaxed line-clamp-2">
+            <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 italic leading-relaxed line-clamp-1 sm:line-clamp-2">
               “{person.quote}”
             </p>
           )}
@@ -374,6 +381,7 @@ function Card2({ person }: { person: ScholarWithQuote }) {
     </div>
   );
 }
+
 
 /* ---------- Page ---------- */
 export default function Scholar() {
@@ -404,9 +412,9 @@ export default function Scholar() {
   });
 
   /* =========================================================
-     Specialists ONLY 
+     Specialists ONLY (Marquee)
      ========================================================= */
-  const specialistsMarquee = useMemo(() => {
+  const { specialistsMarquee } = useMemo(() => {
     const dedupMarquee = new Map<string, ApiScholar>(); // relaxed (Section 1)
 
     (apiScholars as ApiScholar[]).forEach((s) => {
@@ -438,7 +446,7 @@ export default function Scholar() {
       };
     });
 
-    return marq;
+    return { specialistsMarquee: marq };
   }, [apiScholars]);
 
   /* =========================================================
@@ -472,8 +480,7 @@ export default function Scholar() {
 
       const displayName =
         s.khmerName || s.englishName || s.username || "Unnamed Scholar";
-      const scholarWithCategory = s as ApiScholar & { category?: string };
-      const code = programCode(scholarWithCategory.category);
+      const code = programCode(s.category);
       const title = code ? `${displayName} | ${code}` : displayName;
 
       const href = s.username?.trim()
@@ -513,14 +520,13 @@ export default function Scholar() {
         ? embedded.map((c) => c?.programName || c?.name || "").filter(Boolean)
         : [];
 
-      const scholarWithCategory = s as ApiScholar & { category?: string };
       const derivedCategory =
         programNames.length > 0
           ? deriveCategoryFromCompleted(programNames)
           : // Fallback heuristics
-            normalizeProgramName(scholarWithCategory?.category) ||
-            normalizeProgramName(s.role || s.university) ||
-            CATEGORY_LABELS.SC;
+            (normalizeProgramName(s.category) ||
+              normalizeProgramName(s.role || s.university) ||
+              CATEGORY_LABELS.SC);
 
       const spec =
         Array.isArray(s.specialist) && s.specialist.length > 0
@@ -543,7 +549,7 @@ export default function Scholar() {
     return withDerivedCategory;
   }, [apiScholars]);
 
-  const filtered =
+  const filtered: ScholarWithQuote[] =
     activeCategory === CATEGORY_LABELS.ALL
       ? section4
       : section4.filter((s) => s.category === activeCategory);
@@ -554,9 +560,7 @@ export default function Scholar() {
       {/* SECTION 1: Hero + Marquee (Specialists only) */}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden dark:bg-slate-900 h-[calc(100vh-4rem)] sm:h-screen">
-        <div
-          className={`absolute inset-0 -z-10 ${styles.gradientBackground}`}
-        />
+        <div className={`absolute inset-0 -z-10 ${styles.gradientBackground}`} />
 
         <div className="w-screen h-full flex flex-col justify-center px-0">
           <div className="text-center" data-aos="fade-down">
@@ -723,9 +727,7 @@ export default function Scholar() {
             <p className="text-center text-sm text-rose-600">
               {(() => {
                 const e = error as ApiError;
-                return (
-                  e?.data?.message ?? e?.error ?? "Failed to load scholars."
-                );
+                return e?.data?.message ?? e?.error ?? "Failed to load scholars.";
               })()}
             </p>
           ) : isLoading || isFetching ? (
@@ -737,10 +739,7 @@ export default function Scholar() {
               No employed scholars to spotlight yet.
             </div>
           ) : (
-            <Carousel
-              className="relative"
-              opts={{ align: "start", loop: true }}
-            >
+            <Carousel className="relative" opts={{ align: "start", loop: true }}>
               <CarouselContent>
                 {spotlight.map((person) => (
                   <CarouselItem key={`spotlight-card-${person.id}`}>
@@ -846,8 +845,7 @@ export default function Scholar() {
               Discover Our <br /> exSTAD Scholar
             </h2>
             <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Find the best student for your company and boost your business
-              too.
+              Find the best student for your company and boost your business too.
             </p>
           </div>
 
@@ -875,9 +873,7 @@ export default function Scholar() {
                 >
                   <Icon
                     className={`h-4 w-4 ${
-                      active
-                        ? "text-blue-600"
-                        : "text-slate-400 dark:text-slate-500"
+                      active ? "text-blue-600" : "text-slate-400 dark:text-slate-500"
                     }`}
                     aria-hidden="true"
                   />
@@ -898,9 +894,7 @@ export default function Scholar() {
             <p className="mt-10 text-center text-sm md:text-base text-rose-600">
               {(() => {
                 const e = error as ApiError;
-                return (
-                  e?.data?.message ?? e?.error ?? "Failed to load scholars."
-                );
+                return e?.data?.message ?? e?.error ?? "Failed to load scholars.";
               })()}
             </p>
           ) : isLoading || isFetching ? (
@@ -919,24 +913,20 @@ export default function Scholar() {
               ))}
             </div>
           ) : (
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {filtered.map((person) => {
-                const specWithUuid = person.spec as ApiSpecialist & {
-                  uuid?: string;
-                };
-                return (
-                  <Card2
-                    key={`s2-${person.uuid}-${specWithUuid?.uuid ?? person.id}`}
-                    person={person}
-                  />
-                );
-              })}
-              {filtered.length === 0 && (
-                <div className="col-span-full text-center text-slate-500 dark:text-slate-400">
-                  No scholars in this category yet.
-                </div>
-              )}
-            </div>
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+  {filtered.map((person) => (
+    <Card2
+      key={`s2-${person.uuid ?? person.id}-${person.spec?.uuid ?? "spec"}`}
+      person={person}
+    />
+  ))}
+  {filtered.length === 0 && (
+    <div className="col-span-full text-center text-slate-500 dark:text-slate-400">
+      No scholars in this category yet.
+    </div>
+  )}
+</div>
+
           )}
         </div>
       </section>

@@ -39,6 +39,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { currentAddressData } from "@/data/currentAddress";
 import { educationQualificationData } from "@/data/educationQualification";
+import { yearData } from "@/data/year";
+import { majorData } from "@/data/major";
 import { universitiesData } from "@/data/universities";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -75,6 +77,8 @@ type ProvinceItem = (typeof provinceData)[number];
 type UniversityItem = (typeof universitiesData)[number];
 type AddressItem = (typeof currentAddressData)[number];
 type EducationQualificationItem = (typeof educationQualificationData)[number];
+type yearItem = (typeof yearData)[number];
+type majorItem = (typeof majorData)[number];
 
 /* Helpers */
 function formatDate(date: Date | undefined) {
@@ -130,6 +134,8 @@ const provinces: ProvinceItem[] = provinceData;
 const universities: UniversityItem[] = universitiesData;
 const addresses: AddressItem[] = currentAddressData;
 const eduQual: EducationQualificationItem[] = educationQualificationData;
+const year: yearItem[] = yearData;
+const major: majorItem[] = majorData;
 
 const getKhmerName = (obj: Record<string, unknown>): string | undefined => {
   const v = obj["khmerName"];
@@ -177,6 +183,8 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
   howLongProgramming: z.string().optional(),
   howDoYouKnewISTAD: z.string().optional(),
+  major: z.string().optional(),
+  year: z.string().optional(),
   request: z.string().optional(),
   extra: z.record(z.string(), z.string()).optional(),
 });
@@ -315,6 +323,8 @@ export default function EnrollmentPage() {
       classUuid: "",
       email: "",
       request: "",
+      year: "",
+      major: "",
       dob: undefined,
     },
   });
@@ -462,7 +472,6 @@ export default function EnrollmentPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // show overlay immediately when user clicks enroll
-      setWaitingForQr(true);
 
       if (isScholarship && !values.grade) {
         toast.error("Grade is required for scholarship.");
@@ -503,6 +512,8 @@ export default function EnrollmentPage() {
           tmp.howDoYouKnowIstad = values.howDoYouKnewISTAD;
         if (values.request) tmp.request = values.request;
         if (values.grade) tmp.grade = values.grade;
+        if (values.year) tmp.year = values.year;
+        if (values.major) tmp.major = values.major;
         if (values.howLongProgramming)
           tmp.howLongProgramming = values.howLongProgramming;
         extra = Object.keys(tmp).length > 0 ? tmp : null;
@@ -572,7 +583,8 @@ export default function EnrollmentPage() {
     return <div>Program not found.</div>;
 
   // don't show global LoadingOverlay while Bakong modal is open (Bakong has own loader)
-  const showOverlay = (isLoading || isSubmitting || uploading || waitingForQr) && !bakongOpen;
+  const showOverlay =
+    (isLoading || isSubmitting || uploading || waitingForQr) && !bakongOpen;
 
   return (
     <>
@@ -1284,7 +1296,6 @@ export default function EnrollmentPage() {
                     )}
                   />
 
-
                   {/* Phone Number */}
                   <FormField
                     control={form.control}
@@ -1344,6 +1355,90 @@ export default function EnrollmentPage() {
                                 {t("select-education-qualification")}
                               </SelectLabel>
                               {eduQual.map((q) => {
+                                const label = isKh
+                                  ? q.khmerName
+                                  : q.englishName;
+                                return (
+                                  <SelectItem
+                                    key={q.uuid}
+                                    value={q.englishName}
+                                  >
+                                    {label}
+                                  </SelectItem>
+                                );
+                              })}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Year */}
+                  <FormField
+                    control={form.control}
+                    name="year"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {t("year")} <span className="text-red-600">*</span>
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full py-7 bg-whitesmoke">
+                              <SelectValue placeholder={t("select-year")} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>{t("select-year")}</SelectLabel>
+                              {yearData.map((q) => {
+                                const label = isKh
+                                  ? q.khmerName
+                                  : q.englishName;
+                                return (
+                                  <SelectItem
+                                    key={q.uuid}
+                                    value={q.englishName}
+                                  >
+                                    {label}
+                                  </SelectItem>
+                                );
+                              })}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Major */}
+                  <FormField
+                    control={form.control}
+                    name="major"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {t("major")} <span className="text-red-600">*</span>
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full py-7 bg-whitesmoke">
+                              <SelectValue placeholder={t("select-major")} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>{t("select-major")}</SelectLabel>
+                              {majorData.map((q) => {
                                 const label = isKh
                                   ? q.khmerName
                                   : q.englishName;
@@ -1491,10 +1586,10 @@ export default function EnrollmentPage() {
               </div>
 
               {/* Submit Button */}
-              <div className="flex justify-end py-4">
+              <div className="flex justify-end py-6">
                 <Button
                   type="submit"
-                  className="w-full sm:w-auto sm:max-w-md cursor-pointer text-white border-primary dark:hover:bg-primary/90 px-8 bg-primary"
+                  className="w-full py-6 sm:w-auto sm:max-w-md cursor-pointer text-white border-primary dark:hover:bg-primary/90 px-8 bg-primary"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? t("enroll-now") + "..." : t("enroll-now")}
