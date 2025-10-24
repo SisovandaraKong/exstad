@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "next/navigation";
+import Head from "next/head";
 
 import ProgramHeader from "@/components/program/ProgramHeader";
 import ProgramSidebar from "@/components/program/explore-course/ProgramSidebar";
@@ -25,11 +26,11 @@ const ProgramDetailPage: React.FC = () => {
 
   // Fetch all opening programs
   const { data: allPrograms = [], isLoading: isAllLoading, isError: isAllError } = useGetAllOpeningProgramsQuery();
-  
+
   // Find current program by slug
   const openingProgram = allPrograms.find(op => op.slug === openingProgramSlug);
 
-  // Always call master program hook
+  // Fetch master program data
   const { data: masterProgram, isLoading: isMasterLoading, isError: isMasterError } = useGetMasterProgramByTitleQuery(
     { title: openingProgram?.programName ?? "" },
     { skip: !openingProgram?.programName }
@@ -54,9 +55,18 @@ const ProgramDetailPage: React.FC = () => {
   if (!openingProgram) return <p className="text-center text-red-500">Program not found!</p>;
   if (isMasterError || !masterProgram) return <p className="text-center text-red-500">Master program not found!</p>;
 
+  // Dynamic metadata values
+  const metaTitle = masterProgram?.title || "Program Detail";
+  const metaDescription = masterProgram?.description || "Explore program details";
+  const metaImage = openingProgram?.posterUrl
+    ? openingProgram.posterUrl.startsWith("http")
+      ? openingProgram.posterUrl
+      : `${process.env.NEXT_PUBLIC_BASE_URL}${openingProgram.posterUrl}`
+    : `${process.env.NEXT_PUBLIC_BASE_URL}/default-poster.png`;
+
   // Build all generations for this program
   const generations: ProgramGeneration[] = allPrograms
-    .filter(op => op.programName === openingProgram.programName) 
+    .filter(op => op.programName === openingProgram.programName)
     .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))
     .map(op => ({
       uuid: op.uuid,
@@ -74,15 +84,37 @@ const ProgramDetailPage: React.FC = () => {
   const ActiveTabComponent = tabComponents[activeTab];
 
   return (
-    <div className="flex lg:flex-col min-h-screen md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
-      <div className="flex-1">
-        <ProgramHeader uuid={masterProgram.uuid} activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div>
-          <ActiveTabComponent />
+    <>
+      {/* Dynamic Metadata */}
+      <Head>
+        <title>{metaTitle}</title>
+        <meta name="description" content={metaDescription} />
+
+        {/* Open Graph / Social */}
+        <meta property="og:title" content={metaTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:image" content={metaImage} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_BASE_URL}/program/${openingProgramSlug}`} />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={metaTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={metaImage} />
+      </Head>
+
+      {/* Page Content */}
+      <div className="flex lg:flex-col min-h-screen md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
+        <div className="flex-1">
+          <ProgramHeader uuid={masterProgram.uuid} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <div>
+            <ActiveTabComponent />
+          </div>
         </div>
+        <ProgramSidebar uuid={masterProgram.uuid} />
       </div>
-      <ProgramSidebar uuid={masterProgram.uuid} />
-    </div>
+    </>
   );
 };
 
