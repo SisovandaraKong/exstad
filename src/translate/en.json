@@ -75,6 +75,10 @@
   "grade-b": "Grade B",
   "grade-c": "Grade C",
   "grade-d": "Grade D",
+  "year": "Year",
+  "select-year": "Select Year",
+  "major": "Major",
+  "select-major": "Select Major",
   "search-university": "Search University...",
   "search-address": "Search Address...",
   "search-opening-program": "Search Opening Program...",
@@ -96,7 +100,7 @@
   "program": "Program",
   "loading": "Loading",
   "details": "Details",
-  "payment":  "Payment",
+  "payment": "Payment",
   "success": "Success",
   "join-telegram-group": "Join Telegram Group"
 }
