@@ -4,7 +4,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { CometCard } from "@/components/ui/comet-card";
 import {
@@ -24,8 +23,6 @@ import ContactForm from "@/components/contact/ContactForm";
 import Link from "next/link";
 
 export default function AboutUsPage() {
-	const router = useRouter();
-
 	// Extract mentor and member data from imported teamData
 	const mentor = teamData.mentors;
 	const member = teamData.members;

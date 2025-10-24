@@ -16,8 +16,9 @@ import { documentApi } from "@/features/document/documentApi";
 import { telegramApi } from "@/features/telegram/telegramApi";
 import { bakongApi } from "@/features/bakong/BakongApi";
 import { classApi } from "@/features/class/classApi";
-import { bakongKHQRApi } from "@/features/bakong/BakongKHQRApi";
+// import { bakongKHQRApi } from "@/features/bakong/BakongKHQRApi";
 import { scholarApi } from "@/features/scholar/scholarApi";
+import { StudentApi } from "@/components/student/StudentApi";
 const rootReducer = combineReducers({
   [masterprogramApi.reducerPath]: masterprogramApi.reducer,
   [openingProgramApi.reducerPath]: openingProgramApi.reducer,
@@ -32,8 +33,9 @@ const rootReducer = combineReducers({
   [telegramApi.reducerPath]: telegramApi.reducer,
   [bakongApi.reducerPath]: bakongApi.reducer,
   [classApi.reducerPath]: classApi.reducer,
-  [bakongKHQRApi.reducerPath]: bakongKHQRApi.reducer,
+  // [bakongKHQRApi.reducerPath]: bakongKHQRApi.reducer,
   [scholarApi.reducerPath]: scholarApi.reducer,
+  [StudentApi.reducerPath]: StudentApi.reducer,
   [timeLineApi.reducerPath]: timeLineApi.reducer,
   [roadmapApi.reducerPath]: roadmapApi.reducer,
 });
@@ -64,10 +66,15 @@ export const makeStore = () => {
         telegramApi.middleware,
         bakongApi.middleware,
         classApi.middleware,
-        bakongKHQRApi.middleware,
+        // bakongKHQRApi.middleware,
         scholarApi.middleware,
+<<<<<<< HEAD
+        StudentApi.middleware,
+        timeLineApi.middleware
+=======
         timeLineApi.middleware,
         roadmapApi.middleware
+>>>>>>> a26f3fa337fb0a9ffe18324bfa5559c70dfdcc94
       ),
   });
 

@@ -2,22 +2,27 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   useGenerateQrMutation,
   useGetQrImageMutation,
+  useCheckTransactionByMd5Mutation,
 } from "../../features/bakong/BakongApi";
-import { useCheckTransactionByMd5Mutation } from "../../features/bakong/BakongKHQRApi";
+// import { useCheckTransactionByMd5Mutation } from "../../features/bakong/BakongKHQRApi";
 import {
   useUpdateEnrollmentByUuidMutation,
   useGetEnrollmentByUuidQuery,
 } from "../../features/enrollment/enrollmentApi";
 import khqrLogo from "../../../public/image/bakong/KHQR-Logo.png";
 import dollarSymbol from "../../../public/image/bakong/dollar_symbol.png";
-import { Check, Clock } from "lucide-react";
+import { Check, Clock, X } from "lucide-react";
 import { FaTelegramPlane } from "react-icons/fa";
 import { useLocale, useTranslations } from "next-intl";
 import { useGetOpeningProgramByUuidQuery } from "../program/openingProgramApi";
 import { LoadingOverlay } from "../loading/LoadingOverlay";
+import { useSendTelegramMessageMutation } from "@/features/telegram/telegramApi";
+import { Enrollment } from "@/types/enrollment";
+import { enrollmentPaymentMessageFormatter } from "@/services/enrollment-message-formatter";
 
 interface BakongProps {
   open: boolean;
@@ -25,6 +30,7 @@ interface BakongProps {
   enrollmentUuid: string;
   openingProgramUuid: string;
   onClose?: () => void;
+  onQrReady?: () => void;
 }
 
 export default function Bakong({
@@ -33,6 +39,7 @@ export default function Bakong({
   enrollmentUuid,
   openingProgramUuid,
   onClose,
+  onQrReady,
 }: BakongProps) {
   const [generateQr, { isLoading: genLoading, error: genError }] =
     useGenerateQrMutation();
@@ -137,7 +144,10 @@ export default function Bakong({
             qr: resp.data.qr,
             md5: resp.data.md5,
           }).unwrap();
-          setQrImageUrl(URL.createObjectURL(blob));
+          const url = URL.createObjectURL(blob);
+          setQrImageUrl(url);
+          // notify parent that QR image is ready (allow parent to hide global loader)
+          onQrReady?.();
         } else {
           setLocalError("Failed to generate QR code.");
         }
@@ -162,6 +172,8 @@ export default function Bakong({
     return () => window.clearInterval(id);
   }, [open, expiresAt]);
 
+  const [sendTelegramMessage] = useSendTelegramMessageMutation();
+
   // Poll transaction by md5 and mark isPaid + show receipt
   useEffect(() => {
     if (!open || !md5) return;
@@ -174,18 +186,29 @@ export default function Bakong({
     const tick = async () => {
       if (stopped) return;
       try {
-        const res = await checkTransactionByMd5({ md5 }).unwrap();
+        const res = await checkTransactionByMd5(md5).unwrap();
         const isDone =
           res?.responseCode === 0 &&
           res?.responseMessage === "Success" &&
           !!res?.data;
-
         if (isDone) {
           try {
-            await updateEnrollmentByUuid({
+            const enrollment = await updateEnrollmentByUuid({
               uuid: enrollmentUuid,
               body: { isPaid: true },
             }).unwrap();
+
+            const message = enrollmentPaymentMessageFormatter(
+              enrollment,
+              amount.toFixed(2) as unknown as number
+            );
+            const threadId = Number(
+              process.env.NEXT_PUBLIC_TELEGRAM_ENROLLMENT_THREAD_ID || 0
+            );
+            await sendTelegramMessage({
+              message,
+              threadId: threadId || undefined,
+            });
           } catch (e) {
             console.warn("Failed to update enrollment isPaid:", e);
           }
@@ -214,9 +237,11 @@ export default function Bakong({
   }, [
     open,
     md5,
+    amount,
     checkTransactionByMd5,
     updateEnrollmentByUuid,
     enrollmentUuid,
+    sendTelegramMessage,
   ]);
 
   const isLoading = genLoading || localLoading;
@@ -246,12 +271,16 @@ export default function Bakong({
             }
             countdownText={formatCountdown(countdownMs)}
             onDownloadQr={handleDownloadQr}
+            onClose={() => {
+              setDismissed(true);
+              onClose?.();
+            }}
           />
         )}
         {showSuccess && (
           <PaymentReceipt
             enrollmentUuid={enrollmentUuid}
-            openingProgramUuid={openingProgramUuid} 
+            openingProgramUuid={openingProgramUuid}
             amount={amount}
             onClose={() => {
               setShowSuccess(false);
@@ -271,18 +300,31 @@ function BakongCard({
   loading,
   errorMessage,
   countdownText,
-}: // onDownloadQr,
-{
+  onClose,
+}: {
   amount: number;
   qrImageUrl: string | null;
   loading: boolean;
   errorMessage: string;
   countdownText: string;
   onDownloadQr: () => void;
+  onClose?: () => void;
 }) {
   const t = useTranslations();
   return (
-    <div className="flex sm:flex-row flex-col items-center bg-background sm:p-8 py-4 rounded-lg justify-center animate-fadeIn">
+    <div className="flex sm:flex-row flex-col items-center bg-background sm:p-8 py-4 rounded-lg justify-center animate-fadeIn relative">
+      {/* Close button */}
+      {onClose && (
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center transition-colors cursor-pointer"
+          aria-label="Close"
+        >
+          <X className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+        </button>
+      )}
+
       <div
         className="
           relative sm:w-[300px] sm:h-[435px] w-[200px] h-[290px] aspect-[20/29] rounded-xl overflow-hidden
@@ -410,7 +452,7 @@ function toHHmm(t?: string): string {
   return t;
 }
 
-// Payment receipt 
+// Payment receipt
 function PaymentReceipt({
   enrollmentUuid,
   openingProgramUuid,
@@ -425,6 +467,7 @@ function PaymentReceipt({
   const t = useTranslations();
   const locale = useLocale();
   const isKh = locale === "kh" || locale === "km";
+  const router = useRouter();
 
   const { data, isLoading } = useGetEnrollmentByUuidQuery(enrollmentUuid);
 
@@ -433,7 +476,6 @@ function PaymentReceipt({
     uuid: openingProgramUuid,
   });
 
-  
   const isRecord = (v: unknown): v is Record<string, unknown> =>
     typeof v === "object" && v !== null;
 
@@ -462,7 +504,6 @@ function PaymentReceipt({
     }
     return typeof cur === "boolean" ? cur : undefined;
   };
-
 
   const enName = pickStr(data, ["englishName"]);
   const khName = pickStr(data, ["khmerName"]);
@@ -508,6 +549,19 @@ function PaymentReceipt({
     pickStr(openingProgram, ["telegramGroup"]) ||
     pickStr(openingProgram, ["telegram"]) ||
     "";
+
+  // extract slug from openingProgram
+  const openingProgramSlug = pickStr(openingProgram, ["slug"]);
+
+  const handleClose = () => {
+    // navigate to explore-course/{slug} if available, otherwise fallback to explore-course
+    if (openingProgramSlug) {
+      router.push(`/explore-course/${openingProgramSlug}`);
+    } else {
+      router.push("/explore-course");
+    }
+    onClose();
+  };
 
   return (
     <div
@@ -586,7 +640,7 @@ function PaymentReceipt({
 
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="inline-flex items-center justify-center rounded-full cursor-pointer bg-green-600 px-6 py-2.5 text-white text-sm font-medium hover:bg-green-700"
             >
               {t("close")}

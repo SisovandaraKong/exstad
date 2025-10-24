@@ -1,14 +1,25 @@
 "use client";
 
-import React from "react";
-import { ScrollArea } from "../../ui/scroll-area";
+import React, { useState } from "react";
+// Removed ScrollArea import, as it's no longer used effectively.
+// You can uncomment the line below if you use it elsewhere.
+// import { ScrollArea } from "../../ui/scroll-area"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
-import { MasterProgramType } from "@/types/master-program";
-import { X } from "lucide-react";
+// We're importing Lucide icons that are likely available.
+import { X, Filter } from "lucide-react"; 
+
+// NOTE: Since the full code context is not provided, 
+// I am including a mock type definition for MasterProgramType.
+// In your actual environment, ensure this type is imported correctly.
+type MasterProgramType = {
+  programType: "SCHOLARSHIP" | "SHORT_COURSE" | string;
+  title: string;
+};
+
 
 type Props = {
-  programData: MasterProgramType[]; 
+  programData: MasterProgramType[];
   programFilter: string;
   setProgramFilter: (filter: string) => void;
   levelFilter: string;
@@ -17,7 +28,7 @@ type Props = {
   setSubFilter: (filter: string[]) => void;
 };
 
-const   ProgramActiveSidebar: React.FC<Props> = ({
+const ProgramActiveSidebar: React.FC<Props> = ({
   programData,
   programFilter,
   setProgramFilter,
@@ -26,6 +37,11 @@ const   ProgramActiveSidebar: React.FC<Props> = ({
   subFilter,
   setSubFilter,
 }) => {
+  // --- New State for Load More Feature ---
+  const [showAllScholarships, setShowAllScholarships] = useState(false);
+  const [showAllShortCourses, setShowAllShortCourses] = useState(false);
+  // ---------------------------------------
+
   if (!programData.length) {
     return (
       <aside className="w-auto sticky top-28 p-[20px] border rounded-lg bg-background">
@@ -53,6 +69,17 @@ const   ProgramActiveSidebar: React.FC<Props> = ({
     )
   );
 
+  // --- Visibility Logic ---
+  // Slices the array to show only the first 3 items unless 'showAll' is true.
+  const visibleScholarshipOptions = showAllScholarships
+    ? scholarshipOptions
+    : scholarshipOptions.slice(0, 3);
+  
+  const visibleShortCourseOptions = showAllShortCourses
+    ? shortCourseOptions
+    : shortCourseOptions.slice(0, 3);
+  // -------------------------
+
   const toggleOption = (option: string) => {
     setSubFilter(
       subFilter.includes(option)
@@ -62,38 +89,61 @@ const   ProgramActiveSidebar: React.FC<Props> = ({
   };
 
   const renderOption = (option: string, selected: boolean) => (
-    <li key={option} className="flex items-center gap-2 cursor-pointer">
+    <li key={option} className="flex items-center gap-2 cursor-pointer transition-opacity duration-300">
       <div
-        className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 ${
+        className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
           selected ? "border-4 border-primary" : ""
         }`}
         onClick={() => toggleOption(option)}
       />
       <button
         onClick={() => toggleOption(option)}
-        className="text-[13px] font-medium"
+        className="text-[13px] font-medium text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-150 text-left"
       >
         {option}
       </button>
     </li>
   );
 
+  // --- Toggle Button Generator ---
+  const renderToggleButton = (options: string[], showAll: boolean, setShowAll: (show: boolean) => void) => {
+    // Only show the button if there are more than 3 options
+    if (options.length <= 3) return null;
+    
+    return (
+      <button
+        onClick={() => setShowAll(!showAll)}
+        className="mt-2 ml-1 text-primary text-xs font-semibold hover:underline transition-colors duration-150"
+      >
+        {showAll ? "Show Less" : `Load More (${options.length - 3})`}
+      </button>
+    );
+  };
+  // -------------------------------
+
   return (
-    <aside className="w-auto sticky top-28 p-[20px] border rounded-lg bg-background space-y-6">
-      {/* Program Type */}
-      <div className="flex gap-2 items-center">
-        <FontAwesomeIcon icon={faSlidersH} size="lg" />
-        <h2 className="text-[20px] font-bold">Filter</h2>
+    <aside className="w-auto sticky top-28 p-[20px] border rounded-lg bg-background shadow-lg space-y-6">
+      {/* Filter Header (BIG & BOLD) - Updated to use Lucide's Filter icon */}
+      <div className="flex items-center gap-3 pb-4 border-b border-gray-200 dark:border-gray-700">
+        <Filter 
+            size={26} // Equivalent to size={1.3} for a big icon
+            className="text-primary flex-shrink-0" 
+        />
+        <h2 className="text-2xl font-bold 
+                          text-gray-900 dark:text-white 
+                          tracking-tight m-0">
+            Filter
+        </h2>
       </div>
 
       {/* Program Type Filter */}
       <div>
-        <h3 className="font-medium text-[16px] mb-2">Program Type</h3>
+        <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">Program Type</h3>
         <ul className="space-y-2 p-2">
           {["All", "Scholarship Course", "Short Course"].map((type) => (
             <li key={type} className="flex items-center gap-2 cursor-pointer">
               <div
-                className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] ${
+                className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
                   programFilter === type ? "border-4 border-primary" : ""
                 }`}
                 onClick={() => {
@@ -106,7 +156,7 @@ const   ProgramActiveSidebar: React.FC<Props> = ({
                   setProgramFilter(type);
                   setSubFilter([]);
                 }}
-                className="text-[13px] font-medium"
+                className="text-[13px] font-medium text-gray-700 dark:text-gray-300"
               >
                 {type}
               </button>
@@ -115,44 +165,48 @@ const   ProgramActiveSidebar: React.FC<Props> = ({
         </ul>
       </div>
 
-      {/* Scholarship Filter */}
+      {/* --- Scholarship Filter with Load More --- */}
       <div>
-        <h3 className="font-medium text-[16px] mb-2">Scholarship</h3>
+        <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">Scholarship</h3>
         <ul className="space-y-2 p-2">
-          {scholarshipOptions.map((option) =>
+          {/* Renders the limited or full list based on state */}
+          {visibleScholarshipOptions.map((option) =>
             renderOption(option, subFilter.includes(option))
           )}
         </ul>
+        {/* Renders the Load More/Show Less button if needed */}
+        {renderToggleButton(scholarshipOptions, showAllScholarships, setShowAllScholarships)}
       </div>
 
-      {/* Short Course Filter */}
+      {/* --- Short Course Filter with Load More --- */}
       <div>
-        <h3 className="font-medium text-[16px] mb-2">Short Course</h3>
-        <ScrollArea className="h-[140px] rounded-md p-2">
-          <ul className="space-y-2 pr-4">
-            {shortCourseOptions.map((option) =>
-              renderOption(option, subFilter.includes(option))
-            )}
-          </ul>
-        </ScrollArea>
+        <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">Short Course</h3>
+        <ul className="space-y-2 p-2">
+          {/* Renders the limited or full list based on state */}
+          {visibleShortCourseOptions.map((option) =>
+            renderOption(option, subFilter.includes(option))
+          )}
+        </ul>
+        {/* Renders the Load More/Show Less button if needed */}
+        {renderToggleButton(shortCourseOptions, showAllShortCourses, setShowAllShortCourses)}
       </div>
 
       {/* Level Filter */}
       <div>
-        <h3 className="font-medium text-[16px] mb-2">Level</h3>
+        <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">Level</h3>
         <ul className="space-y-2 p-2">
           {/* "BASIC" | "INTERMEDIATE" | "ADVANCED"; */}
           {["All", "Basic", "Intermediate", "Advanced"].map((level) => (
             <li key={level} className="flex items-center gap-2 cursor-pointer">
               <div
-                className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] ${
+                className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
                   levelFilter === level ? "border-4 border-primary" : ""
                 }`}
                 onClick={() => setLevelFilter(level)}
               />
               <button
                 onClick={() => setLevelFilter(level)}
-                className="text-[13px] font-medium"
+                className="text-[13px] font-medium text-gray-700 dark:text-gray-300"
               >
                 {level}
               </button>
@@ -161,15 +215,26 @@ const   ProgramActiveSidebar: React.FC<Props> = ({
         </ul>
       </div>
       <button
-    onClick={() => {
-    setProgramFilter("All");
-    setLevelFilter("All");
-    setSubFilter([]);
-  }}
-  className="flex items-center  justify-center gap-1 mt-2 px-3 py-1 bg-secondary text-white text-sm rounded hover:bg-secondary-hover"
->
-  <X className="w-4 h-4 "/>Reset Filters
-</button>
+        onClick={() => {
+          setProgramFilter("All");
+          setLevelFilter("All");
+          setSubFilter([]);
+          // Reset load more state as well
+          setShowAllScholarships(false);
+          setShowAllShortCourses(false);
+        }}
+        className="flex items-center justify-center gap-1 mt-2 px-3 py-1 
+          border border-gray-300 text-gray-700 bg-white 
+        hover:bg-gray-50 hover:border-gray-400 hover:shadow-md
+        dark:border-gray-600 dark:text-gray-300 dark:bg-gray-800
+        dark:hover:bg-gray-700 
+          text-sm font-medium rounded-lg shadow-sm 
+          focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 focus:ring-offset-1 
+          transition-all duration-150 w-full"
+      >
+        <X className="w-4 h-4 " />
+        Reset Filters
+      </button>
     </aside>
   );
 };
