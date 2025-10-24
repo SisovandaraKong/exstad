@@ -32,7 +32,7 @@ export default function RoadmapDetailPage() {
 
 
       {/* Roadmap Viewer */}
-      <WorkNodeViewer programUuid={uuid} />
+      <WorkNodeViewer programUuid={uuid} programType="programs" />
     </div>
   );
 }

@@ -1,8 +1,3 @@
-// when call   
-//   <div className="p-4">
-// <WorkNodeViewer programUuid={programUuid} />
-//  </div>
-
 "use client";
 
 import { useEffect } from "react";
@@ -17,9 +12,7 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import CustomWorkNode from "./CustomWorkNode";
-import {
-  useGetAllRoadmapsQuery,
-} from "../../features/roadmapApi";
+import { useGetAllRoadmapsQuery } from "../../features/roadmapApi";
 import type {
   HandleConfig,
   HandleType,
@@ -36,18 +29,20 @@ const nodeTypes = {
 
 export default function WorkNodeViewer({
   programUuid,
+  programType = "programs", // ✅ default to "programs"
 }: {
   programUuid: string;
+  programType?: "programs" | "opening-programs";
 }) {
   const {
     data: apiData,
     isLoading,
     error,
-  } = useGetAllRoadmapsQuery(programUuid || "", {
-    skip: !programUuid,
-  });
+  } = useGetAllRoadmapsQuery(
+    { programType, programUuid },
+    { skip: !programUuid }
+  );
 
-  // ✅ Correct usage — only need [nodes, setNodes]
   const [nodes, setNodes] = useNodesState<Node<WorkNodeData>>([]);
   const [edges, setEdges] = useEdgesState<Edge>([]);
 
@@ -56,50 +51,43 @@ export default function WorkNodeViewer({
 
     const roadmapData: RoadmapResponse[number] = apiData[0];
 
-    // ✅ Type-safe node parsing
-const loadedNodes: Node<WorkNodeData>[] = roadmapData.nodes.map(
-  (node: RoadmapNode, index: number) => {
-    const parts = node.data.label.split(",").map((p: string) => p.trim());
-    const title = parts[0];
+    const loadedNodes: Node<WorkNodeData>[] = roadmapData.nodes.map(
+      (node: RoadmapNode, index: number) => {
+        const parts = node.data.label.split(",").map((p: string) => p.trim());
+        const title = parts[0];
 
-    const handles: HandleConfig = {
-      top: (parts[1] as HandleType) || "target",
-      right: (parts[2] as HandleType) || "target",
-      bottom: (parts[3] as HandleType) || "target",
-      left: (parts[4] as HandleType) || "target",
-    };
+        const handles: HandleConfig = {
+          top: (parts[1] as HandleType) || "target",
+          right: (parts[2] as HandleType) || "target",
+          bottom: (parts[3] as HandleType) || "target",
+          left: (parts[4] as HandleType) || "target",
+        };
 
-    // ✅ Add color extraction — supports optional 6th comma part
-    const color = parts[5] || "";
+        const color = parts[5] || "";
 
-    return {
-      id: `${index + 1}`,
-      type: "workNode",
-      position: node.position,
-      data: {
-        title,
-        color, // ✅ include color in node data
-        tasks: node.data.description
-          ? node.data.description.split(", ").filter((t: string) => t.trim() !== "")
-          : [],
-        handles,
-        onEdit: () => {},
-        onDelete: () => {},
-      },
-      draggable: false,
-      selectable: false,
-    };
-  }
-);
+        return {
+          id: `${index + 1}`,
+          type: "workNode",
+          position: node.position,
+          data: {
+            title,
+            color,
+            tasks: node.data.description
+              ? node.data.description.split(", ").filter((t: string) => t.trim() !== "")
+              : [],
+            handles,
+            onEdit: () => {},
+            onDelete: () => {},
+          },
+          draggable: false,
+          selectable: false,
+        };
+      }
+    );
 
-    // ✅ Type-safe edge parsing
     const loadedEdges: Edge[] = roadmapData.edges.map((edge: RoadmapEdge) => {
-      const [sourceId, sourceHandle] = edge.source
-        .split(",")
-        .map((s: string) => s.trim());
-      const [targetId, targetHandle] = edge.target
-        .split(",")
-        .map((s: string) => s.trim());
+      const [sourceId, sourceHandle] = edge.source.split(",").map((s: string) => s.trim());
+      const [targetId, targetHandle] = edge.target.split(",").map((s: string) => s.trim());
 
       return {
         id: edge.id,
@@ -118,8 +106,7 @@ const loadedNodes: Node<WorkNodeData>[] = roadmapData.nodes.map(
   }, [apiData, setNodes, setEdges]);
 
   return (
-    <div className="h-screen w-full flex flex-col ">
-      {/* Roadmap Visualization */}
+    <div className="h-screen w-full flex flex-col">
       <div className="flex-1">
         <Card className="h-full border-none p-0">
           <ReactFlow
