@@ -42,9 +42,13 @@ export default function Footer() {
 						<h3 className='font-bold text-white mb-4'>EXPLORE</h3>
 						<ul className='space-y-3'>
 							<li>
-								<Link href='/explore-programs' className='text-base text-white'>
+								<a
+									href='https://www.cstad.edu.kh/'
+									target='_blank'
+									rel='noopener noreferrer'
+									className='text-base text-white hover:text-gray-200 transition-colors duration-200'>
 									Bachelor Degree
-								</Link>
+								</a>
 							</li>
 							<li>
 								<Link
@@ -59,9 +63,13 @@ export default function Footer() {
 								</Link>
 							</li>
 							<li>
-								<Link href='/roadmap' className='text-base text-white'>
+								<a
+									href='https://www.cstad.edu.kh/news-event'
+									target='_blank'
+									rel='noopener noreferrer'
+									className='text-base text-white hover:text-gray-200 transition-colors duration-200'>
 									News & Events
-								</Link>
+								</a>
 							</li>
 						</ul>
 					</div>
@@ -81,13 +89,8 @@ export default function Footer() {
 								</Link>
 							</li>
 							<li>
-								<Link href='/policy-privacy' className='text-base text-white'>
-									Policy Privacy
-								</Link>
-							</li>
-							<li>
-								<Link href='/terms-of-service' className='text-base text-white'>
-									Term of Service
+								<Link href='/privacy-policy' className='text-base text-white'>
+									Privacy Policy
 								</Link>
 							</li>
 						</ul>
@@ -100,25 +103,39 @@ export default function Footer() {
 							<div className='flex items-start space-x-3'>
 								<FaMapMarkerAlt className='w-5 h-5 text-white mt-1 flex-shrink-0' />
 								<div>
-									<p className='text-sm text-white leading-relaxed'>
-										#40, St 273, Sangkat Boeung Kak II,{" "}
-									</p>
-									<p className='text-sm text-white leading-relaxed'>
-										Khan Toul Kork, Phnom Penh, Cambodia{" "}
-									</p>
+									<a
+										href='https://maps.app.goo.gl/wjhqKtZq1x1CzS3Z8'
+										target='_blank'
+										rel='noopener noreferrer'
+										className='text-sm text-white leading-relaxed hover:text-gray-200 transition-colors duration-200 cursor-pointer'>
+										#40, St 273, Sangkat Boeung Kak II, Khan Toul Kork, Phnom
+										Penh, Cambodia{" "}
+									</a>
 								</div>
 							</div>
 							<div className='flex items-center space-x-3'>
 								<MdPhoneIphone className='w-6 h-6 text-white flex-shrink-0' />
-								<p className='text-sm text-white'>(+855) 95-990-910</p>
+								<a
+									href='tel:+85595990910'
+									className='text-sm text-white hover:text-gray-200 transition-colors duration-200 cursor-pointer'>
+									(+855) 95-990-910
+								</a>
 							</div>
 							<div className='flex items-center space-x-3'>
 								<MdPhoneIphone className='w-6 h-6 text-white flex-shrink-0' />
-								<p className='text-sm text-white'>(+855) 93-990-910</p>
+								<a
+									href='tel:+85593990910'
+									className='text-sm text-white hover:text-gray-200 transition-colors duration-200 cursor-pointer'>
+									(+855) 93-990-910
+								</a>
 							</div>
 							<div className='flex items-center space-x-3'>
 								<IoMdMail className='w-5 h-5 text-white flex-shrink-0' />
-								<p className='text-sm text-white'>info.istad@gmail.com</p>
+								<a
+									href='mailto:info.istad@gmail.com'
+									className='text-sm text-white hover:text-gray-200 transition-colors duration-200 cursor-pointer'>
+									info.istad@gmail.com
+								</a>
 							</div>
 						</div>
 					</div>
@@ -128,7 +145,7 @@ export default function Footer() {
 						<h3 className='font-semibold text-white mb-4'>OUR SPONSORS</h3>
 						<div className='flex items-center space-x-2'>
 							{/* Logo */}
-							<Link href='/' className='block'>
+							<Link href='https://www.cstad.edu.kh/' className='block'>
 								<Image
 									src='/istad-image/istad-logo-white.png'
 									alt='Logo'

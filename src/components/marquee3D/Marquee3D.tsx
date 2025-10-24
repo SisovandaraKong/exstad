@@ -55,7 +55,8 @@ const ReviewCard = ({
 				"dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
 			)}>
 			<div className='flex flex-row items-center gap-2'>
-				<Image unoptimized 
+				<Image
+					unoptimized
 					className='rounded-full'
 					width='32'
 					height='32'
@@ -83,22 +84,22 @@ export function 	Marquee3D() {
 					transform:
 						"translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)",
 				}}>
-				<Marquee pauseOnHover vertical className='[--duration:20s]'>
+				<Marquee pauseOnHover vertical className='[--duration:12s]'>
 					{firstRow.map((review) => (
 						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
-				<Marquee reverse pauseOnHover className='[--duration:20s]' vertical>
+				<Marquee reverse pauseOnHover className='[--duration:12s]' vertical>
 					{secondRow.map((review) => (
 						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
-				<Marquee reverse pauseOnHover className='[--duration:20s]' vertical>
+				<Marquee reverse pauseOnHover className='[--duration:12s]' vertical>
 					{thirdRow.map((review) => (
 						<ReviewCard key={review.name} {...review} />
 					))}
 				</Marquee>
-				<Marquee pauseOnHover className='[--duration:20s]' vertical>
+				<Marquee pauseOnHover className='[--duration:12s]' vertical>
 					{fourthRow.map((review) => (
 						<ReviewCard key={review.name} {...review} />
 					))}

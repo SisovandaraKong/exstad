@@ -84,9 +84,9 @@ export const teamData: TeamData = {
 			},
 		},
 		vanda: {
-			name: "Kong Sovannda",
+			name: "Kung Sovannda",
 			role: "Full Stack Developer",
-			image: "/team/vanda.JPG",
+			image: "/team/vannda.JPG",
 			bio: "Versatile developer with experience in both frontend and backend technologies.",
 			skills: ["Spring", "Next.js", "TypeScript", "Java", "REST APIs", "SQL"],
 			social: {
@@ -154,7 +154,7 @@ export const teamData: TeamData = {
 		sreynuch: {
 			name: "Phum Sreynoch",
 			role: "Frontend Developer",
-			image: "/team/sreynuch.JPG",
+			image: "/team/sreynoch.JPG",
 			bio: "Creative full stack developer specializing in educational content and technical documentation.",
 			skills: ["React", "Next.js", "TypeScript", "JavaScript", "CSS", "HTML"],
 			social: {

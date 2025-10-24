@@ -73,9 +73,12 @@ export default async function RootLayout({
 	// const kohVariable = koh.variable ?? "";
 
 	return (
-		<html lang={htmlLang} suppressHydrationWarning>
+		<html
+			lang={htmlLang}
+			suppressHydrationWarning
+			className='overflow-x-hidden'>
 			<body
-				className={`${inter.variable} ${koh.variable} antialiased relative  bg-whitesmoke`}>
+				className={`${inter.variable} ${koh.variable} antialiased bg-whitesmoke `}>
 				<ThemeProvider
 					attribute='class'
 					defaultTheme='system'
@@ -85,7 +88,7 @@ export default async function RootLayout({
 						<Providers>
 							<I18nProvider initialLocale={internalLocale}>
 								<Navbar />
-								<main className='mt-20'>{children}</main>
+								<main className='pt-20'>{children}</main>
 								<Footer />
 							</I18nProvider>
 						</Providers>
