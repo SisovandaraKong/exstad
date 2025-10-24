@@ -2,65 +2,71 @@
 
 import React from "react";
 import Image from "next/image";
-import { useGetMasterProgramByUuidQuery } from "@/components/program/masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
-import type { MasterProgramType } from "@/types/master-program";
-import type { openingProgramType } from "@/types/opening-program";
-import ProgramHeaderSkeleton from "@/components/program/skeleton/ProgramHeaderSkeleton";
+import { MasterProgramType } from "@/types/master-program";
+import { openingProgramType } from "@/types/opening-program";
 
 type Props = {
-  uuid: string; // UUID of the program
+  // Accept either master program or opening program data
+  masterProgram?: MasterProgramType;
+  openingProgram?: openingProgramType;
   activeTab: string;
   setActiveTab: (tab: string) => void;
 };
 
-// Combined type
-interface ProgramWithOpening extends MasterProgramType {
-  openingProgram?: openingProgramType;
-}
+const ProgramHeader: React.FC<Props> = ({
+  masterProgram,
+  openingProgram,
+  activeTab,
+  setActiveTab,
+}) => {
+  // Derive values from whichever data is available
+  const title = masterProgram?.title ?? openingProgram?.title ?? "";
+  const subtitle = masterProgram?.subtitle ?? openingProgram?.programName ?? "";
+  const posterUrl = openingProgram?.posterUrl ?? "";
+  const logoUrl = masterProgram?.logoUrl ?? "";
+  const programType = masterProgram?.programType ?? "";
+  const programLevel = masterProgram?.programLevel ?? "";
 
-const ProgramHeader: React.FC<Props> = ({ uuid, activeTab, setActiveTab }) => {
-  // Fetch master program
-  const { data: masterProgram, isLoading: loadingMaster, isError: errorMaster } =
-    useGetMasterProgramByUuidQuery({ uuid });
-
-  // Fetch all opening programs
-  const { data: openingPrograms = [], isLoading: loadingOpening, isError: errorOpening } =
-    useGetAllOpeningProgramsQuery();
-
-  const isLoading = loadingMaster || loadingOpening;
-  const isError = errorMaster || errorOpening;
-
-  if (isLoading) return <ProgramHeaderSkeleton />;
-  if (isError || !masterProgram) return <p className="text-red-500">Failed to load program header.</p>;
-
-  // Attach matching opening program
-  const openingProgram = openingPrograms.find(
-    (op) => op.programName === masterProgram.title
-  );
-
-  // Use combined type pattern
-  const program: ProgramWithOpening = { ...masterProgram, openingProgram };
-
-  // Default tabs
   const defaultTabs = ["Overview", "Curriculum", "Timeline", "Activity", "Roadmap", "Enrollment"];
-
-  // Remove 'Activity' and 'Timeline' for short courses
   const tabs =
-    program.programType === "SHORT_COURSE"
+    programType === "SHORT_COURSE"
       ? defaultTabs.filter((tab) => tab !== "Activity" && tab !== "Timeline")
       : defaultTabs;
 
   return (
     <div className="w-full grid p-[24px] gap-[24px] rounded-t-[24px] bg-background">
-      <Image
-        unoptimized
-        width={500}
-        height={316}
-        src={program.openingProgram?.thumbnail || "/placeholder.png"}
-        alt={program.title}
-        className="rounded-[10px] mt-[20px] w-full h-auto object-cover max-h-[316px]"
-      />
+      {posterUrl && (
+        <Image
+          unoptimized
+          width={500}
+          height={316}
+          src={posterUrl}
+          alt={title}
+          className="rounded-[10px] mt-[20px] w-full h-auto object-cover max-h-[316px]"
+        />
+      )}
+
+      <div className="flex items-center gap-4">
+        {logoUrl && (
+          <Image
+            unoptimized
+            width={80}
+            height={80}
+            src={logoUrl}
+            alt={`${title} logo`}
+            className="rounded-lg"
+          />
+        )}
+        <div>
+          <h1 className="text-2xl font-bold">{title}</h1>
+          <p className="text-gray-600">{subtitle}</p>
+          {programLevel && programType && (
+            <p className="text-sm text-gray-500 mt-1">
+              {programLevel} • {programType}
+            </p>
+          )}
+        </div>
+      </div>
 
       {/* Tab Navbar */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4 border-b border-gray-300 py-4 md:py-6">
