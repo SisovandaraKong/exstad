@@ -6,6 +6,7 @@ import { faChevronDown, faCheckCircle } from "@fortawesome/free-solid-svg-icons"
 import { useGetMasterCurriculumsQuery, useGetOpeningCurriculumsQuery } from "./curriculumApi";
 import AOS from "aos";
 import NotFoundProgram from "../../components/NotFound";
+import ProgramCurriculumSkeleton from "../../skeleton/ProgramCurriculumSkeleton";
 
 type CurriculumProps = {
   openingUuid: string;
@@ -63,7 +64,7 @@ const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ openingUuid, masterUu
     AOS.init({ duration: 1000, once: false });
   }, []);
 
-  if (loadingOpening || loadingMaster) return <p>Loading curriculum...</p>;
+  if (loadingOpening || loadingMaster) return <ProgramCurriculumSkeleton/>;
   if (curriculumSections.length === 0) return <NotFoundProgram title="No Curriculum Availbale" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
 
   return (

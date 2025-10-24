@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import ProgramDetailClient from "../ProgramDetailClient";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
+import NotFoundProgram from "@/components/program/components/NotFound";
 
 // Params type
 interface ProgramPageParams {
@@ -79,7 +80,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<Pr
   const program = await getProgramData(slug);
 
   if (!program) {
-    return <div>Program not found</div>;
+    return <NotFoundProgram title="Program not found"/>;
   }
 
   return <ProgramDetailClient initialProgram={program} />;

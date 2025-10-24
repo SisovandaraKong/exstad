@@ -21,11 +21,8 @@ const ProgramHeader: React.FC<Props> = ({
 }) => {
   // Derive values from whichever data is available
   const title = masterProgram?.title ?? openingProgram?.title ?? "";
-  const subtitle = masterProgram?.subtitle ?? openingProgram?.programName ?? "";
-  const posterUrl = openingProgram?.posterUrl ?? "";
-  const logoUrl = masterProgram?.logoUrl ?? "";
+  const thumbnail = openingProgram?.thumbnail ?? "";
   const programType = masterProgram?.programType ?? "";
-  const programLevel = masterProgram?.programLevel ?? "";
 
   const defaultTabs = ["Overview", "Curriculum", "Timeline", "Activity", "Roadmap", "Enrollment"];
   const tabs =
@@ -35,12 +32,12 @@ const ProgramHeader: React.FC<Props> = ({
 
   return (
     <div className="w-full grid p-[24px] gap-[24px] rounded-t-[24px] bg-background">
-      {posterUrl && (
+      {thumbnail && (
         <Image
           unoptimized
           width={500}
           height={316}
-          src={posterUrl}
+          src={thumbnail}
           alt={title}
           className="rounded-[10px] mt-[20px] w-full h-auto object-cover max-h-[316px]"
         />

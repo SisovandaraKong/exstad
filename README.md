@@ -15,6 +15,14 @@ Developed by the **1st Generation Full Stack Web Development Students** at the *
 
 ---
 
+## 📱 Platform Preview
+
+<p align="center">
+  <img src="./public/image/preview/preview.PNG" alt="Desktop Preview" width="400"/>
+</p>
+
+---
+
 ##  Introduction
 In today’s digital era, **exSTAD** transforms how **learning and academic management** are delivered.  
 It acts as a **centralized platform** for managing ISTAD’s study programs — including:
