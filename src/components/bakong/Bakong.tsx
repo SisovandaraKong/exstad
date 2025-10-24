@@ -15,7 +15,7 @@ import {
 } from "../../features/enrollment/enrollmentApi";
 import khqrLogo from "../../../public/image/bakong/KHQR-Logo.png";
 import dollarSymbol from "../../../public/image/bakong/dollar_symbol.png";
-import { Check, Clock } from "lucide-react";
+import { Check, Clock, X } from "lucide-react";
 import { FaTelegramPlane } from "react-icons/fa";
 import { useLocale, useTranslations } from "next-intl";
 import { useGetOpeningProgramByUuidQuery } from "../program/openingProgramApi";
@@ -266,9 +266,15 @@ export default function Bakong({
             amount={amount}
             qrImageUrl={qrImageUrl}
             loading={genLoading || localLoading}
-            errorMessage={genError || localError ? "Failed to generate QR code." : ""}
+            errorMessage={
+              genError || localError ? "Failed to generate QR code." : ""
+            }
             countdownText={formatCountdown(countdownMs)}
             onDownloadQr={handleDownloadQr}
+            onClose={() => {
+              setDismissed(true);
+              onClose?.();
+            }}
           />
         )}
         {showSuccess && (
@@ -294,18 +300,31 @@ function BakongCard({
   loading,
   errorMessage,
   countdownText,
-}: // onDownloadQr,
-{
+  onClose,
+}: {
   amount: number;
   qrImageUrl: string | null;
   loading: boolean;
   errorMessage: string;
   countdownText: string;
   onDownloadQr: () => void;
+  onClose?: () => void;
 }) {
   const t = useTranslations();
   return (
-    <div className="flex sm:flex-row flex-col items-center bg-background sm:p-8 py-4 rounded-lg justify-center animate-fadeIn">
+    <div className="flex sm:flex-row flex-col items-center bg-background sm:p-8 py-4 rounded-lg justify-center animate-fadeIn relative">
+      {/* Close button */}
+      {onClose && (
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center transition-colors cursor-pointer"
+          aria-label="Close"
+        >
+          <X className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+        </button>
+      )}
+
       <div
         className="
           relative sm:w-[300px] sm:h-[435px] w-[200px] h-[290px] aspect-[20/29] rounded-xl overflow-hidden
