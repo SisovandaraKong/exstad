@@ -1,150 +1,145 @@
-// "use client"
+// when call   
+//   <div className="p-4">
+// <WorkNodeViewer programUuid={programUuid} />
+//  </div>
 
-// import { useEffect, useState } from "react"
-// import {
-//   ReactFlow,
-//   type Node,
-//   type Edge,
-//   Background,
-//   Controls,
-//   type NodeProps,
-//   Handle,
-//   Position,
-// } from "@xyflow/react"
-// import "@xyflow/react/dist/style.css"
+"use client";
 
-// type HandleType = "source" | "target"
+import { useEffect } from "react";
+import {
+  ReactFlow,
+  type Node,
+  type Edge,
+  Background,
+  Controls,
+  useNodesState,
+  useEdgesState,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+import CustomWorkNode from "./CustomWorkNode";
+import {
+  useGetAllRoadmapsQuery,
+} from "../../features/roadmapApi";
+import type {
+  HandleConfig,
+  HandleType,
+  WorkNodeData,
+  RoadmapResponse,
+  RoadmapNode,
+  RoadmapEdge,
+} from "../../types/roadmap";
+import { Card } from "../ui/card";
 
-// type HandleConfig = {
-//   top: HandleType
-//   right: HandleType
-//   bottom: HandleType
-//   left: HandleType
-// }
+const nodeTypes = {
+  workNode: CustomWorkNode,
+};
 
-// type WorkNodeData = {
-//   title: string
-//   tasks: string[]
-//   handles: HandleConfig
-// }
+export default function WorkNodeViewer({
+  programUuid,
+}: {
+  programUuid: string;
+}) {
+  const {
+    data: apiData,
+    isLoading,
+    error,
+  } = useGetAllRoadmapsQuery(programUuid || "", {
+    skip: !programUuid,
+  });
 
-// function CustomWorkNodeView({ data }: NodeProps<WorkNodeData>) {
-//   return (
-//     <div className="min-w-[280px] max-w-[320px] p-4 border rounded-lg shadow-md bg-white">
-//       <h3 className="font-semibold text-lg mb-2">{data.title}</h3>
-//       <div className="space-y-1">
-//         {data.tasks.length > 0 ? (
-//           data.tasks.map((task, index) => (
-//             <div key={index} className="text-sm p-1 rounded bg-muted/50 flex items-center gap-2">
-//               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-//               <span>{task}</span>
-//             </div>
-//           ))
-//         ) : (
-//           <p className="text-sm text-muted-foreground italic">No tasks</p>
-//         )}
-//       </div>
+  // ✅ Correct usage — only need [nodes, setNodes]
+  const [nodes, setNodes] = useNodesState<Node<WorkNodeData>>([]);
+  const [edges, setEdges] = useEdgesState<Edge>([]);
 
-//       {/* Optional: show handles visually (not interactive) */}
-//       {(["top", "right", "bottom", "left"] as const).map((position) => {
-//         const handleType = data.handles[position]
-//         const positions = {
-//           top: { top: "-10px", left: "50%", transform: "translateX(-50%)" },
-//           right: { right: "-10px", top: "50%", transform: "translateY(-50%)" },
-//           bottom: { bottom: "-10px", left: "50%", transform: "translateX(-50%)" },
-//           left: { left: "-10px", top: "50%", transform: "translateY(-50%)" },
-//         }
+  useEffect(() => {
+    if (!apiData || !apiData[0]) return;
 
-//         return (
-//           <div key={position} className="absolute" style={positions[position]}>
-//             <div
-//               className={`w-5 h-5 rounded-full border-2 ${
-//                 handleType === "source" ? "bg-green-500" : "bg-blue-500"
-//               }`}
-//             />
-//           </div>
-//         )
-//       })}
-//     </div>
-//   )
-// }
+    const roadmapData: RoadmapResponse[number] = apiData[0];
 
-// const nodeTypes = {
-//   workNode: CustomWorkNodeView,
-// }
+    // ✅ Type-safe node parsing
+const loadedNodes: Node<WorkNodeData>[] = roadmapData.nodes.map(
+  (node: RoadmapNode, index: number) => {
+    const parts = node.data.label.split(",").map((p: string) => p.trim());
+    const title = parts[0];
 
-// export default function WorkNodeViewer({ apiData }: { apiData: any }) {
-//   const [nodes, setNodes] = useState<Node<WorkNodeData>[]>([])
-//   const [edges, setEdges] = useState<Edge[]>([])
+    const handles: HandleConfig = {
+      top: (parts[1] as HandleType) || "target",
+      right: (parts[2] as HandleType) || "target",
+      bottom: (parts[3] as HandleType) || "target",
+      left: (parts[4] as HandleType) || "target",
+    };
 
-//   useEffect(() => {
-//     if (!apiData || !apiData[0]) return
+    // ✅ Add color extraction — supports optional 6th comma part
+    const color = parts[5] || "";
 
-//     const roadmapData = apiData[0]
+    return {
+      id: `${index + 1}`,
+      type: "workNode",
+      position: node.position,
+      data: {
+        title,
+        color, // ✅ include color in node data
+        tasks: node.data.description
+          ? node.data.description.split(", ").filter((t: string) => t.trim() !== "")
+          : [],
+        handles,
+        onEdit: () => {},
+        onDelete: () => {},
+      },
+      draggable: false,
+      selectable: false,
+    };
+  }
+);
 
-//     // Load nodes
-//     const loadedNodes: Node<WorkNodeData>[] = roadmapData.nodes.map((node, index) => {
-//       const parts = node.data.label.split(",").map((p) => p.trim())
-//       const title = parts[0]
+    // ✅ Type-safe edge parsing
+    const loadedEdges: Edge[] = roadmapData.edges.map((edge: RoadmapEdge) => {
+      const [sourceId, sourceHandle] = edge.source
+        .split(",")
+        .map((s: string) => s.trim());
+      const [targetId, targetHandle] = edge.target
+        .split(",")
+        .map((s: string) => s.trim());
 
-//       const handles: HandleConfig = {
-//         top: (parts[1] as HandleType) || "target",
-//         right: (parts[2] as HandleType) || "target",
-//         bottom: (parts[3] as HandleType) || "target",
-//         left: (parts[4] as HandleType) || "target",
-//       }
+      return {
+        id: edge.id,
+        source: sourceId,
+        sourceHandle,
+        target: targetId,
+        targetHandle,
+        type: "smoothstep",
+        animated: edge.animated ?? true,
+        style: { strokeWidth: 2, stroke: "#9333ea" },
+      };
+    });
 
-//       return {
-//         id: `${index + 1}`,
-//         type: "workNode",
-//         position: node.position,
-//         data: {
-//           title,
-//           tasks: node.data.description
-//             ? node.data.description.split(", ").filter((t) => t.trim() !== "")
-//             : [],
-//           handles,
-//         },
-//       }
-//     })
+    setNodes(loadedNodes);
+    setEdges(loadedEdges);
+  }, [apiData, setNodes, setEdges]);
 
-//     // Load edges
-//     const loadedEdges: Edge[] = roadmapData.edges.map((edge) => {
-//       const [sourceId, sourceHandle] = edge.source.split(",").map((s) => s.trim())
-//       const [targetId, targetHandle] = edge.target.split(",").map((s) => s.trim())
-
-//       return {
-//         id: edge.id,
-//         source: sourceId,
-//         sourceHandle: sourceHandle || undefined,
-//         target: targetId,
-//         targetHandle: targetHandle || undefined,
-//         type: "smoothstep",
-//         animated: edge.animated ?? true,
-//         style: { strokeWidth: 2, stroke: "#9333ea" },
-//       }
-//     })
-
-//     setNodes(loadedNodes)
-//     setEdges(loadedEdges)
-//   }, [apiData])
-
-//   return (
-//     <div className="h-screen w-full">
-//       <ReactFlow
-//         nodes={nodes}
-//         edges={edges}
-//         nodeTypes={nodeTypes}
-//         fitView
-//         panOnDrag={false} // disable moving
-//         zoomOnScroll={false} // disable zoom
-//         zoomOnPinch={false} // disable pinch
-//         nodesDraggable={false} // nodes not draggable
-//         nodesConnectable={false} // cannot create new edges
-//       >
-//         <Background />
-//         <Controls />
-//       </ReactFlow>
-//     </div>
-//   )
-// }
+  return (
+    <div className="h-screen w-full flex flex-col ">
+      {/* Roadmap Visualization */}
+      <div className="flex-1">
+        <Card className="h-full border-none p-0">
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            fitView
+            nodesDraggable={false}
+            nodesConnectable={false}
+            elementsSelectable={false}
+            zoomOnScroll
+            zoomOnPinch
+            panOnScroll
+            panOnDrag
+          >
+            <Background />
+            <Controls showInteractive={false} />
+          </ReactFlow>
+        </Card>
+      </div>
+    </div>
+  );
+}

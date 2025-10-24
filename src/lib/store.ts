@@ -35,6 +35,7 @@ const rootReducer = combineReducers({
   [bakongKHQRApi.reducerPath]: bakongKHQRApi.reducer,
   [scholarApi.reducerPath]: scholarApi.reducer,
   [timeLineApi.reducerPath]: timeLineApi.reducer,
+  [roadmapApi.reducerPath]: roadmapApi.reducer,
 });
 
 const persistConfig = {
@@ -65,7 +66,8 @@ export const makeStore = () => {
         classApi.middleware,
         bakongKHQRApi.middleware,
         scholarApi.middleware,
-        timeLineApi.middleware
+        timeLineApi.middleware,
+        roadmapApi.middleware
       ),
   });
 
