@@ -37,6 +37,9 @@ export default function CompletedCourseCard({
     >
       {/* Full-cover image */}
       <Image
+      width={600}
+        height={400}
+        unoptimized
         src={img}
         alt={programName}
         className="absolute inset-0 block w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
