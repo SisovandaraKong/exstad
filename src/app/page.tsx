@@ -45,7 +45,7 @@ export default function Home() {
   // 90;
   return (
     <motion.div
-      className="flex flex-col bg-background"
+      className="flex flex-col bg-background overflow-x-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
