@@ -83,7 +83,7 @@ export default function Home() {
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
 						<ScholarshipCard
 							id='2'
-							title='Scholarship Occupies'
+							title='Scholarship Chances'
 							description='Financial support awarded to help students pursue their education.'
 							cardBackground=''
 						/>

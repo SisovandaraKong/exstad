@@ -44,7 +44,7 @@ export default function ModernHeroSection() {
 				/>
 			</div>
 
-			<div className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 sm:py-4 md:py-6 lg:py-8 xl:py-10'>
+			<div className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4 sm:py-3 md:py-4 lg:py-5 xl:py-6'>
 				<div className='grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center'>
 					{/* Left Column - Content */}
 					<motion.div

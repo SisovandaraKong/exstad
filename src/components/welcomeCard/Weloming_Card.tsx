@@ -15,11 +15,11 @@ export function Welcoming_Card() {
 	];
 
 	return (
-		<div className='relative overflow-hidden'>
+		<div className='relative overflow-hidden rounded-3xl'>
 			{/* Background with grid pattern */}
 			<div className='absolute inset-0 opacity-[0.08] dark:opacity-[0.12]'>
 				<div
-					className='w-full h-full'
+					className='w-full h-full rounded-3xl'
 					style={{
 						backgroundImage: `
 							linear-gradient(hsl(var(--primary)/0.4) 1px, transparent 1px),
@@ -31,7 +31,7 @@ export function Welcoming_Card() {
 			</div>
 
 			{/* Main content */}
-			<div className='relative bg-card border border-border/50 backdrop-blur-sm mx-auto max-w-full p-6 sm:p-8 md:p-10 lg:p-12 rounded-2xl flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 items-center shadow-lg'>
+			<div className='relative bg-card border border-border/50 backdrop-blur-sm mx-auto max-w-full p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 items-center shadow-lg'>
 				{/* Left/Top: Text Section */}
 				<motion.div
 					className='flex-1 space-y-6'
@@ -70,11 +70,11 @@ export function Welcoming_Card() {
 					</p>
 
 					{/* Features */}
-					<div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+					<div className='grid grid-cols-1 sm:grid-cols-3 gap-4 rounded-full'>
 						{features.map((feature, index) => (
 							<motion.div
 								key={feature.text}
-								className='flex items-center gap-3 p-3 rounded- bg-background/50 border border-border/30'
+								className='flex items-center gap-3 p-3 rounded-full bg-background/50 border border-border/30'
 								initial={{ opacity: 0, y: 20 }}
 								whileInView={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
