@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { useBaseQuery } from "../../services/use-base-query";
+import { useBaseQuery } from "../../services/use-base-query-bakong";
 
 export type GenerateQrRequest = {
   amount: number;

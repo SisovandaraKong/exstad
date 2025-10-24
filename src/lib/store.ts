@@ -70,7 +70,7 @@ export const makeStore = () => {
         scholarApi.middleware,
         StudentApi.middleware,
         timeLineApi.middleware,
-        roadmapApi.middleware,
+        roadmapApi.middleware
       ),
   });
 
