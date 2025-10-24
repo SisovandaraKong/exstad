@@ -68,13 +68,9 @@ export const makeStore = () => {
         classApi.middleware,
         // bakongKHQRApi.middleware,
         scholarApi.middleware,
-<<<<<<< HEAD
         StudentApi.middleware,
-        timeLineApi.middleware
-=======
         timeLineApi.middleware,
         roadmapApi.middleware
->>>>>>> a26f3fa337fb0a9ffe18324bfa5559c70dfdcc94
       ),
   });
 
