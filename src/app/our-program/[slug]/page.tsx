@@ -31,7 +31,7 @@ const ProgramDetailPage: React.FC = () => {
   // Find the current program by slug
   const openingProgram = allPrograms?.find(op => op.slug === openingProgramSlug);
 
-  // Always call the hook
+  // Fetch master program
   const { data: masterProgram, isLoading: isMasterLoading, isError: isMasterError } =
     useGetMasterProgramByTitleQuery(
       { title: openingProgram?.programName ?? "" },
@@ -85,8 +85,10 @@ const ProgramDetailPage: React.FC = () => {
   return (
     <div className="flex lg:flex-col md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
       <div className="flex-1">
+        {/* Updated Header - passing both objects */}
         <ProgramHeader
-          uuid={masterProgram.uuid}
+          masterProgram={masterProgram}
+          openingProgram={openingProgram}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
@@ -94,7 +96,7 @@ const ProgramDetailPage: React.FC = () => {
           <ActiveTabComponent />
         </div>
       </div>
-      <ProgramSidebar uuid={masterProgram.uuid} />
+      <ProgramSidebar program={masterProgram} openingData={openingProgram} />
     </div>
   );
 };

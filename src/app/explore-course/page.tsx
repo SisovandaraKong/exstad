@@ -7,8 +7,6 @@ import ProgramActiveSidebarSkeleton from "@/components/program/skeleton/ProgramA
 import ProgramCardList from "@/components/program/explore-course/ProgramCardList";
 import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
-import { Package } from "lucide-react";
-import NotFound from "../not-found";
 import NotFoundProgram from "@/components/program/components/NotFound";
 
 export default function ExploreProgramPage() {
