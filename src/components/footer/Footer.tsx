@@ -159,27 +159,39 @@ export default function Footer() {
 
 				{/* Bottom Section */}
 				<div className='mt-12 pt-8 border-t-[0.5px] border-white flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
-					<div className='flex items-center space-x-4'>
-						<p className='text-sm text-white'>© 2025 exSTAD, Inc.</p>
-						<p className='text-sm text-white'>All rights reserved.</p>
-						<Link href='/privacy-policy' className='text-sm text-white'>
+					<div className='flex flex-row items-center space-x-2 sm:space-x-4'>
+						<p className='text-xs sm:text-sm md:text-base text-white'>
+							© 2025 exSTAD, Inc.
+						</p>
+						<p className='text-xs sm:text-sm md:text-base text-white'>
+							All rights reserved.
+						</p>
+						<Link
+							href='/privacy-policy'
+							className='text-xs sm:text-sm md:text-base text-white hover:text-gray-200 transition-colors'>
 							Privacy Policy
 						</Link>
 					</div>
 
 					{/* Social Media Icons */}
-					<div className='flex items-center space-x-4'>
-						<Link href='#' className='flex items-center space-x-2 text-white'>
-							<FaTelegram className='w-5 h-5 text-white' />
-							<span className='text-sm'>Telegram</span>
+					<div className='flex flex-row items-center space-x-2 sm:space-x-4'>
+						<Link
+							href='#'
+							className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
+							<FaTelegram className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
+							<span className='text-xs sm:text-sm md:text-base'>Telegram</span>
 						</Link>
-						<Link href='#' className='flex items-center space-x-2 text-white'>
-							<IoMdMail className='w-5 h-5 text-white' />
-							<span className='text-sm'>Email</span>
+						<Link
+							href='#'
+							className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
+							<IoMdMail className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
+							<span className='text-xs sm:text-sm md:text-base'>Email</span>
 						</Link>
-						<Link href='#' className='flex items-center space-x-1 text-white'>
-							<FaFacebook className='w-5 h-5 text-white' />
-							<span className='text-sm'>Facebook</span>
+						<Link
+							href='#'
+							className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
+							<FaFacebook className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
+							<span className='text-xs sm:text-sm md:text-base'>Facebook</span>
 						</Link>
 					</div>
 				</div>

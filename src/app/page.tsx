@@ -50,7 +50,7 @@ export default function Home() {
 			<div className='w-full max-w-full mx-auto overflow-x-hidden'>
 				{/* Welcoming Section */}
 				<motion.div
-					className='max-w-7xl py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto'
+					className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -60,7 +60,7 @@ export default function Home() {
 
 				{/* Short Courses and Scholarships Section */}
 				<motion.div
-					className='max-w-7xl pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8'
+					className='pb-12 sm:pb-16 md:pb-20 lg:pb-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8'
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ duration: 0.6 }}
@@ -72,7 +72,11 @@ export default function Home() {
 						transition={{ duration: 0.8, delay: 0.2 }}
 						viewport={{ once: false }}
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
-						<ShortCourseCard />
+						<ShortCourseCard
+							id='1'
+							title='Short Courses'
+							description='Intensive learning programs designed to enhance your skills quickly.'
+						/>
 					</motion.div>
 					<motion.div
 						className='h-full max-w-7xl'
@@ -83,16 +87,15 @@ export default function Home() {
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
 						<ScholarshipCard
 							id='2'
-							title='Scholarship Occupies'
+							title='Scholarship Chances'
 							description='Financial support awarded to help students pursue their education.'
-							cardBackground=''
 						/>
 					</motion.div>
 				</motion.div>
 
 				{/* Popular Course Section */}
 				<motion.div
-					className='max-w-7xl py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto'
+					className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32'
 					initial={{ opacity: 0, scale: 0.95 }}
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -105,12 +108,12 @@ export default function Home() {
 
 				{/* Statistics Section */}
 				<motion.div
-					className='bg-background py-24 sm:py-32'
+					className='bg-background py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32'
 					initial={{ opacity: 0, y: 30 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
 					viewport={{ once: false, margin: "-100px" }}>
-					<div className='mx-auto max-w-7xl px-6 lg:px-0'>
+					<div className='max-w-7xl mx-auto'>
 						<div className='mx-auto max-w-2xl lg:max-w-none'>
 							<motion.div
 								className='text-center space-y-4'
@@ -259,7 +262,7 @@ export default function Home() {
 
 				{/* Recommendation Course Section */}
 				<motion.div
-					className='max-w-7xl pt-8 sm:pt-12 md:pt-16 lg:pt-20 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto'
+					className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32'
 					initial={{ opacity: 0, scale: 0.95 }}
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -269,7 +272,7 @@ export default function Home() {
 
 				{/* Offerring Section */}
 				<motion.div
-					className='relative bg-background pb-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto overflow-hidden'
+					className='relative bg-background py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 overflow-hidden'
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ duration: 0.6 }}
@@ -484,7 +487,7 @@ export default function Home() {
 
 				{/* Why Choose ISTAD Section */}
 				<motion.div
-					className='max-w-7xl mx-auto py-4 sm:py-6 md:py-8 lg:py-10 bg-background'
+					className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 bg-background'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}

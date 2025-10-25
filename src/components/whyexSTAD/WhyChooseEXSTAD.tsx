@@ -1,18 +1,39 @@
 /** @format */
 import Image from "next/image";
-import { Ripple } from "../magicui/ripple";
-import { LuLaptopMinimalCheck } from "react-icons/lu";
-import { PiGlobeStand } from "react-icons/pi";
 import { FeatureCard } from "./FeatureCard";
 import istadImage from "../../../public/image/istad-icon.png";
+
 export function WhyChooseISTAD_Card() {
 	return (
 		<div className='h-full relative'>
-			{/* Ripple as section background - moved down */}
-			<div className='absolute inset-0 top-1/3'>
-				<Ripple />
+			{/* Grid Background - Same as Hero Section */}
+			<div className='absolute inset-0 opacity-[0.15] dark:opacity-[0.20]'>
+				<div
+					className='w-full h-full'
+					style={{
+						backgroundImage: `
+							linear-gradient(rgb(75, 85, 99, 0.6) 1px, transparent 1px),
+							linear-gradient(90deg, rgb(75, 85, 99, 0.6) 1px, transparent 1px)
+						`,
+						backgroundSize: "40px 40px",
+						maskImage: `
+							radial-gradient(ellipse 80% 60% at 50% 50%, 
+								rgba(0, 0, 0, 1) 20%, 
+								rgba(0, 0, 0, 0.8) 40%, 
+								rgba(0, 0, 0, 0.4) 70%, 
+								rgba(0, 0, 0, 0) 100%)
+						`,
+						WebkitMaskImage: `
+							radial-gradient(ellipse 80% 60% at 50% 50%, 
+								rgba(0, 0, 0, 1) 20%, 
+								rgba(0, 0, 0, 0.8) 40%, 
+								rgba(0, 0, 0, 0.4) 70%, 
+								rgba(0, 0, 0, 0) 100%)
+						`,
+					}}
+				/>
 			</div>
-			<div className='relative z-10 text-center space-y-4 py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32'>
+			<div className='relative z-10 text-center space-y-4 pt-8 sm:pt-12 md:pt-16 lg:pt-20 px-4 sm:px-8 md:px-0 lg:px-0 xl:px-32'>
 				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary'>
 					Why Choose ISTAD?{" "}
 				</h2>
@@ -23,46 +44,38 @@ export function WhyChooseISTAD_Card() {
 			</div>
 
 			{/* Main Layout Container */}
-			<div className='relative z-10 flex flex-col md:flex-row items-center justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 px-4 sm:px-8 md:px-16 lg:px-32 py-8 sm:py-12 md:py-16 lg:py-20'>
-				{/* Card L - Left Side */}
-				<div className='flex flex-col items-center md:items-end gap-y-3 sm:gap-y-4 w-full md:w-1/3'>
-					<FeatureCard
-						icon={<LuLaptopMinimalCheck className='text-2xl' />}
-						title='Quality Education'
-						description='We provide high-quality education that meets international standards.'
-					/>
-					<FeatureCard
-						icon={<PiGlobeStand className='text-2xl' />}
-						title='Global Opportunities'
-						description='Our programs open doors to global career opportunities.'
-					/>
-				</div>
-
-				{/* Image Section - Center */}
-				<div className='flex justify-center w-full md:w-1/3 order-first md:order-none'>
+			<div className='relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8 px-4 sm:px-8 md:px-0 lg:px-0 xl:px-32 py-8 sm:py-12 md:py-16 lg:py-20'>
+				{/* ISTAD Image Overlay - Centered in front of cards (Hidden on mobile) */}
+				<div className='absolute inset-0 z-30 hidden md:flex items-center justify-center pointer-events-none'>
 					<Image
 						src={istadImage}
-						alt='Learn More'
-						width={320}
-						height={400}
-						className='object-contain max-w-full h-auto rounded-xl'
+						alt='ISTAD Logo'
+						width={200}
+						height={200}
+						className='object-contain drop-shadow-2xl bg-white/80 dark:bg-gray-800/80 rounded-full p-1'
 						unoptimized
 					/>
 				</div>
-
-				{/* Card R - Right Side */}
-				<div className='flex flex-col items-center md:items-start gap-y-3 sm:gap-y-4 w-full md:w-1/3'>
-					<FeatureCard
-						icon={<LuLaptopMinimalCheck className='text-2xl' />}
-						title='Quality Education'
-						description=''
-					/>
-					<FeatureCard
-						icon={<PiGlobeStand className='text-2xl' />}
-						title='Global Opportunities'
-						description='Our programs open doors to global career opportunities.'
-					/>
-				</div>
+				<FeatureCard
+					icon='🔬'
+					title='Advanced Science and Technology'
+					description='ISTAD guides students toward modern science, technology, and digital skill development.'
+				/>
+				<FeatureCard
+					icon='💼'
+					title='Strong Career Opportunities'
+					description='Graduates are guaranteed excellent job placements with top IT companies.'
+				/>
+				<FeatureCard
+					icon='🎓'
+					title='High-Quality Training'
+					description='The institute provides up-to-date teaching methods and learning roadmaps.'
+				/>
+				<FeatureCard
+					icon='🚀'
+					title='Best Choice for IT Aspirants'
+					description="It's the ideal place for those who want to become IT experts in Cambodia."
+				/>
 			</div>
 		</div>
 	);

@@ -94,9 +94,7 @@ export default function ModernHeroSection() {
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 1 }}>
-							<Link
-								href='/explore-course'
-								className='w-full md:w-auto'>
+							<Link href='/explore-course' className='w-full md:w-auto'>
 								<Button
 									size='lg'
 									className='w-full cursor-pointer md:w-auto min-w-[180px] sm:min-w-[200px] bg-primary text-white font-semibold px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group'>
@@ -122,7 +120,7 @@ export default function ModernHeroSection() {
 
 					{/* Right Column - Vertical Marquee */}
 					<motion.div
-						className='flex flex-col space-y-8 lg:space-y-12'
+						className='items-center lg:items-end flex flex-col space-y-8 lg:space-y-12'
 						initial={{ opacity: 0, x: 50 }}
 						animate={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.8, delay: 0.4 }}>

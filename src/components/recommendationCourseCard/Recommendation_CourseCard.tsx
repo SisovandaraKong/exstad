@@ -24,13 +24,10 @@ export function RecommendationCourseCard({
 							<h1 className='text-lg sm:text-xl md:text-2xl md:line-clamp-1 font-bold text-black mb-2'>
 								{recommendation.title}
 							</h1>
-							<p className='text-gray-800 mb-6 sm:mb-8 font-medium text-balance text-[20px] line-clamp-1'>
+							<p className='mb-3 sm:mb-4 md:mb-6 text-sm sm:text-base md:text-[18px] font-normal text-gray-700 dark:text-gray-400 line-clamp-1'>
 								{recommendation.description}
 							</p>
 							<div className='flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8 items-center justify-center'>
-								{/* <Button className='flex-1 hover:bg-primary-hover text-white rounded-full py-2 sm:py-3 px-4 sm:px-6 font-medium text-xs sm:text-base'>
-									{recommendation.leftText}
-								</Button> */}
 								<Link href='/explore-course' passHref>
 									<Button
 										variant='outline'
