@@ -55,15 +55,14 @@ const CourseCard: React.FC<ScholarshipCardProps> = ({
 							{title}
 						</h3>
 					</div>
-					<p className='text-[20px] text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2 flex-grow'>
+					<p className='text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2 flex-grow'>
 						{description}
 					</p>
 					<div className='pt-2 sm:pt-3 md:pt-4 mt-auto'>
-						<Button asChild className='w-full sm:w-auto'>
-							<a className='inline-flex items-center justify-center rounded-2xl sm:rounded-3xl px-6 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-sm sm:text-base md:text-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-200 hover:scale-105 active:scale-95 w-full sm:w-auto'>
-								<button onClick={handleEnrollClick}>Enroll Now</button>
-								<ArrowRight className='ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1' />
-							</a>
+						<Button
+							className='bg-primary cursor-pointer hover:bg-primary-hover text-white px-4 sm:px-6 py-2 rounded-full text-sm font-medium w-fit mt-2'
+							onClick={handleEnrollClick}>
+							Enroll Now
 						</Button>
 					</div>
 				</div>

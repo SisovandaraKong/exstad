@@ -34,7 +34,7 @@ export function RecommendationCourseCard({
 								<Link href='/explore-course' passHref>
 									<Button
 										variant='outline'
-										className='flex-1 border-primary text-primary bg-transparent hover:bg-transparent hover:text-primary-hover rounded-full py-2 sm:py-3 px-4 sm:px-6 font-medium text-xs sm:text-base'>
+										className='flex-1 border-primary cursor-pointer text-primary bg-transparent hover:bg-transparent hover:text-primary-hover rounded-full py-2 sm:py-3 px-4 sm:px-6 font-medium text-xs sm:text-base'>
 										{recommendation.rightText}
 									</Button>
 								</Link>

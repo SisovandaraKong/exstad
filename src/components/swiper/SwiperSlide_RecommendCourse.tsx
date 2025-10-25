@@ -28,14 +28,14 @@ const SwiperSlideComponent_RecommendedCourse = () => {
 					<button
 						onClick={() => swiperRef.current?.slidePrev()}
 						aria-label='Previous Slide'
-						className='text-[#253C95] hover:opacity-80 transition-opacity rounded-3xl p-2'>
-						<FaCircleArrowLeft className='w-8 h-8 sm:w-10 sm:h-10' />
+						className='text-[#253C95] cursor-pointer hover:opacity-80 transition-opacity rounded-3xl p-2'>
+						<FaCircleArrowLeft className='w-4 h-4 sm:w-7 sm:h-7' />
 					</button>
 					<button
 						onClick={() => swiperRef.current?.slideNext()}
-						aria-label='Next Slide'
-						className='text-[#253C95] hover:opacity-80 transition-opacity rounded-3xl p-2'>
-						<FaCircleArrowRight className='w-8 h-8 sm:w-10 sm:h-10' />
+						aria-label='Next Slide'	
+						className='text-[#253C95] cursor-pointer hover:opacity-80 transition-opacity rounded-3xl p-2'>
+						<FaCircleArrowRight className='w-4 h-4 sm:w-7 sm:h-7' />
 					</button>
 				</div>
 			</div>

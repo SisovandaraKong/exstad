@@ -50,7 +50,7 @@ export default function Home() {
 			<div className='w-full max-w-full mx-auto overflow-x-hidden'>
 				{/* Welcoming Section */}
 				<motion.div
-					className='w-full py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='max-w-7xl py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -60,7 +60,7 @@ export default function Home() {
 
 				{/* Short Courses and Scholarships Section */}
 				<motion.div
-					className='w-full pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8'
+					className='max-w-7xl pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8'
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ duration: 0.6 }}
@@ -75,7 +75,7 @@ export default function Home() {
 						<ShortCourseCard />
 					</motion.div>
 					<motion.div
-						className='h-full w-full'
+						className='h-full max-w-7xl'
 						initial={{ opacity: 0, x: 50 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.8, delay: 0.4 }}
@@ -92,7 +92,7 @@ export default function Home() {
 
 				{/* Popular Course Section */}
 				<motion.div
-					className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='max-w-7xl py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto'
 					initial={{ opacity: 0, scale: 0.95 }}
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -110,7 +110,7 @@ export default function Home() {
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
 					viewport={{ once: false, margin: "-100px" }}>
-					<div className='mx-auto max-w-7xl px-6 lg:px-8'>
+					<div className='mx-auto max-w-7xl px-6 lg:px-0'>
 						<div className='mx-auto max-w-2xl lg:max-w-none'>
 							<motion.div
 								className='text-center space-y-4'
@@ -121,7 +121,7 @@ export default function Home() {
 								<h2 className='text-3xl font-bold tracking-tight text-primary sm:text-4xl'>
 									Outstanding Career Achievement
 								</h2>
-								<p className='text-base sm:text-lg md:text-[18px] leading-7 sm:leading-8 text-muted-foreground'>
+								<p className='text-lg leading-8 text-muted-foreground'>
 									Discover where our graduates excel in their professional
 									journey across diverse industries.
 								</p>
@@ -259,7 +259,7 @@ export default function Home() {
 
 				{/* Recommendation Course Section */}
 				<motion.div
-					className='w-full pt-8 sm:pt-12 md:pt-16 lg:pt-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='max-w-7xl pt-8 sm:pt-12 md:pt-16 lg:pt-20 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto'
 					initial={{ opacity: 0, scale: 0.95 }}
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -484,7 +484,7 @@ export default function Home() {
 
 				{/* Why Choose ISTAD Section */}
 				<motion.div
-					className='py-4 sm:py-6 md:py-8 lg:py-10 bg-background'
+					className='max-w-7xl mx-auto py-4 sm:py-6 md:py-8 lg:py-10 bg-background'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
