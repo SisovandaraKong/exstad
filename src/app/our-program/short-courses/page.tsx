@@ -1,7 +1,7 @@
 'use client'
 
 import React from "react";
-import ShortCourseCardList from "@/components/program/our-program/ShortCourseCardList";
+import ShortCourseCardList from "../../../components/program/our-program/ShortCourseCardList";
 
 export default function ShortCoursePage() {
   return (

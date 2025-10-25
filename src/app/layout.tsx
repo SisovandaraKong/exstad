@@ -93,7 +93,7 @@ export default async function RootLayout({
                 <Navbar />
                 <main className="mt-20">
                   {children}
-                   <AppToaster />
+                  <AppToaster />
                 </main>
                 <Footer />
               </AuthProvider>

@@ -20,6 +20,7 @@ import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivi
 
 import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
+import WorkNodeViewer from "@/components/roadmap/roadmap-detail";
 
 const ProgramDetailPage: React.FC = () => {
   const params = useParams();
@@ -27,8 +28,12 @@ const ProgramDetailPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Overview");
 
   // Fetch all opening programs
-  const { data: allPrograms = [], isLoading: isAllLoading, isError: isAllError } = useGetAllOpeningProgramsQuery();
-  
+  const {
+    data: allPrograms = [],
+    isLoading: isAllLoading,
+    isError: isAllError,
+  } = useGetAllOpeningProgramsQuery();
+
   // Find current program by slug
   const openingProgram = allPrograms.find(
     (op) => op.slug === openingProgramSlug
@@ -47,7 +52,7 @@ const ProgramDetailPage: React.FC = () => {
   // Loading skeletons
   if (isAllLoading || isMasterLoading) {
     return (
-      <div className="flex flex-col min-h-screen xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl">
+      <div className="flex flex-col min-h-screen xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl ">
         <div className="flex-1">
           <ProgramHeaderSkeleton />
           {activeTab === "Overview" && <ProgramOverviewCardSkeleton />}
@@ -93,6 +98,7 @@ const ProgramDetailPage: React.FC = () => {
         </p>
       ),
     Timeline: () => <TimeLine openingProgramUuid={openingProgram.uuid} />,
+    Roadmap: () => <WorkNodeViewer programUuid={masterProgram.uuid} />,
     Enrollment: () => <ProgramEnrollment />,
   };
 
@@ -100,7 +106,7 @@ const ProgramDetailPage: React.FC = () => {
 
   return (
     <div className="flex lg:flex-col min-h-screen md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
-      <div className="flex-1 w-full min-w-0 shrink-0">
+      <div className="flex-1 w-full min-w-0 shrink-0 ">
         <ProgramHeader
           uuid={masterProgram.uuid}
           activeTab={activeTab}

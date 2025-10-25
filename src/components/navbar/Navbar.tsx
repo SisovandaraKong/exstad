@@ -14,18 +14,18 @@ import { usePathname } from "next/navigation";
 import DropDown from "./DropDown";
 
 function Navbar({ className }: { className?: string }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const navRef = React.useRef<HTMLDivElement | null>(null);
-  const pathname = usePathname();
-  const t = useTranslations();
+	const [mobileOpen, setMobileOpen] = useState(false);
+	const navRef = React.useRef<HTMLDivElement | null>(null);
+	const pathname = usePathname();
+	const t = useTranslations();
 
-  // Function to check if a link is active
-  const isActive = (href: string) => {
-    const cleanPathname = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
-    return (
-      cleanPathname === href || (href !== "/" && cleanPathname.startsWith(href))
-    );
-  };
+	// Function to check if a link is active
+	const isActive = (href: string) => {
+		const cleanPathname = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
+		return (
+			cleanPathname === href || (href !== "/" && cleanPathname.startsWith(href))
+		);
+	};
 
   const getNavLinkClasses = (href: string) => {
     const baseClasses =
@@ -34,36 +34,37 @@ function Navbar({ className }: { className?: string }) {
     const afterClasses =
       "after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200";
 
-    if (isActive(href)) {
-      return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
-    }
+		if (isActive(href)) {
+			return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
+		}
 
-    return `${baseClasses} ${afterClasses} ${hoverClasses} after:opacity-0`;
-  };
+		return `${baseClasses} ${afterClasses} ${hoverClasses} after:opacity-0`;
+	};
 
-  React.useEffect(() => {
-    if (!mobileOpen) return;
 
-    function onPointerDown(e: PointerEvent) {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        setMobileOpen(false);
-      }
-    }
+	React.useEffect(() => {
+		if (!mobileOpen) return;
 
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        setMobileOpen(false);
-      }
-    }
+		function onPointerDown(e: PointerEvent) {
+			if (navRef.current && !navRef.current.contains(e.target as Node)) {
+				setMobileOpen(false);
+			}
+		}
 
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
+		function onKeyDown(e: KeyboardEvent) {
+			if (e.key === "Escape") {
+				setMobileOpen(false);
+			}
+		}
 
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [mobileOpen]);
+		document.addEventListener("pointerdown", onPointerDown);
+		document.addEventListener("keydown", onKeyDown);
+
+		return () => {
+			document.removeEventListener("pointerdown", onPointerDown);
+			document.removeEventListener("keydown", onKeyDown);
+		};
+	}, [mobileOpen]);
 
   return (
     <div

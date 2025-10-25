@@ -472,6 +472,7 @@ export default function EnrollmentPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // show overlay immediately when user clicks enroll
+      setWaitingForQr(true);
 
       if (isScholarship && !values.grade) {
         toast.error("Grade is required for scholarship.");
@@ -1565,7 +1566,7 @@ export default function EnrollmentPage() {
                                 <button
                                   type="button"
                                   onClick={() => removeFile(i)}
-                                  className="absolute top-1 right-1 rounded bg-black/60 text-white p-1 opacity-0 group-hover:opacity-100 transition"
+                                  className="absolute cursor-pointer top-1 right-1 rounded  text-white bg-secondary/90 hover:bg-secondary/70 p-1 transition"
                                   aria-label="Remove image"
                                 >
                                   <Trash2 className="h-4 w-4" />

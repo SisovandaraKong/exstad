@@ -32,7 +32,7 @@ export default function LanguageToggle() {
       onClick={toggleLanguage}
       aria-label={ariaLabel}
       title={titleText}
-      className="hover:scale-105 transition cursor-pointer border-1 border-accent-foreground"
+      className="hover:scale-105 transition cursor-pointer border-1 border-accent-foreground/50"
     >
       {isMounted ? (
         <Image

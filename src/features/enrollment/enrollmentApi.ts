@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { useBaseQuery } from "@/services/use-base-query";
 import { Enrollment } from "@/types/enrollment";
-import { Audit } from "@/types";
+import { Audit } from "@/types/audit";
 
 export type EnrollmentRequest = {
   englishName: string;

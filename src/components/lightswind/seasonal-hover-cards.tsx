@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { cn } from "../lib/utils";
+import Image from 'next/image';
 
 export interface SeasonCardProps {
   title: string;
@@ -31,7 +32,7 @@ const SeasonCard = ({
         className
       )}
     >
-      <img
+      <Image
         src={imageSrc}
         className="absolute inset-0 w-full h-full object-cover object-center"
         alt={imageAlt || title}

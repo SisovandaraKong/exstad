@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+ import { NextRequest, NextResponse } from "next/server";
 
 const BAKONG_BASE_URL =
   process.env.BAKONG_BASE_URL ?? process.env.NEXT_PUBLIC_BAKONG_BASE_URL;

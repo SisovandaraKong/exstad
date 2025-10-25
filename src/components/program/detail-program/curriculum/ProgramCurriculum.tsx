@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useGetMasterCurriculumsQuery, useGetOpeningCurriculumsQuery } from "./curriculumApi";
 import AOS from "aos";
+import NotFoundProgram from "../../components/NotFound";
 
 type CurriculumProps = {
   openingUuid: string;
@@ -26,7 +27,9 @@ const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ openingUuid, masterUu
   const curriculumSections = fallback ? masterData ?? [] : openingData ?? [];
 
   const refs = useRef<{ [key: number]: HTMLDivElement | null }>({});
-  const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>({});
+  const [openSections, setOpenSections] = useState<{ [key: number]: boolean }>(
+    {}
+  );
 
   // Automatically fallback if opening program is empty
   useEffect(() => {
@@ -63,7 +66,7 @@ const ProgramCurriculumTap: React.FC<CurriculumProps> = ({ openingUuid, masterUu
   }, []);
 
   if (loadingOpening || loadingMaster) return <p>Loading curriculum...</p>;
-  if (curriculumSections.length === 0) return <p>No curriculum available.</p>;
+  if (curriculumSections.length === 0) return <NotFoundProgram title="No Curriculum Availbale" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
 
   return (
     <div className="w-full bg-background p-4 sm:p-6 md:p-6 space-y-8 md:space-y-10 rounded-b-[24px]">
