@@ -22,10 +22,10 @@ import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgr
 import ModernHeroSection from "@/components/hero/ModernHeroSection";
 
 export default function Home() {
-	const { data: allPrograms = [] } = useGetAllMasterProgramsQuery(undefined, {
-		refetchOnMountOrArgChange: true,
-	});
-	const programs = allPrograms.filter((p) => p.visibility === "PUBLIC");
+  const { data: allPrograms = [] } = useGetAllMasterProgramsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const programs = allPrograms.filter((p) => p.visibility === "PUBLIC");
 
   const { data: allOpeningProgram = [] } = useGetAllOpeningProgramsQuery(
     undefined,
@@ -33,30 +33,32 @@ export default function Home() {
   );
   const openingPrograms = allOpeningProgram.filter((p) => p.status === "OPEN");
 
-	const visiblePrograms = programs.filter((p) =>
-		openingPrograms.some((o) => o.programName === p.title)
-	);
-	// const t = useTranslations();
-	// 90;
-	return (
-		<motion.div
-			className='flex flex-col bg-background'
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.6, ease: "easeOut" }}>
-			{/* Modern Hero Section */}
-			<ModernHeroSection />
+  const visiblePrograms = programs.filter((p) =>
+    openingPrograms.some((o) => o.programName === p.title)
+  );
+  // const t = useTranslations();
+  // 90;
+  return (
+    <motion.div
+      className="flex flex-col bg-background overflow-x-hidden w-full"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      {/* Modern Hero Section */}
+      <ModernHeroSection />
 
-			<div className='w-full mx-auto'>
-				{/* Welcoming Section */}
-				<motion.div
-					className='max-w-7xl py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto'
-					initial={{ opacity: 0, y: 50 }}
-					whileInView={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, ease: "easeOut" }}
-					viewport={{ once: false, margin: "-100px" }}>
-					<Welcoming_Card />
-				</motion.div>
+      <div className="w-full mx-auto overflow-x-hidden">
+        {/* Welcoming Section */}
+        <motion.div
+          className="max-w-7xl py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-0 mx-auto"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: false, margin: "-100px" }}
+        >
+          <Welcoming_Card />
+        </motion.div>
 
         {/* Short Courses and Scholarships Section */}
         <motion.div
@@ -285,7 +287,7 @@ export default function Home() {
 
         {/* Offerring Section */}
         <motion.div
-          className="relative bg-background pb-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto overflow-hidden"
+          className="relative bg-background pb-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto overflow-hidden w-full max-w-full"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
