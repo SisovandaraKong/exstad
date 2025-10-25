@@ -16,19 +16,22 @@ export default function ExploreProgramPage() {
   const [searchValue, setSearchValue] = useState("");
 
   // ✅ Fetch both master programs and opening programs
-  const { data: allPrograms = [], isLoading, isError } = useGetAllMasterProgramsQuery(
-    undefined,
-    { refetchOnMountOrArgChange: true }
-  );
+  const {
+    data: allPrograms = [],
+    isLoading,
+    isError,
+  } = useGetAllMasterProgramsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
-  const programs = allPrograms.filter(p => p.visibility === "PUBLIC");
+  const programs = allPrograms.filter((p) => p.visibility === "PUBLIC");
 
   const { data: allOpeningProgram = [] } = useGetAllOpeningProgramsQuery(
     undefined,
     { refetchOnMountOrArgChange: true }
   );
-  
-  const openingPrograms = allOpeningProgram.filter(p => p.status === "OPEN");
+
+  const openingPrograms = allOpeningProgram.filter((p) => p.status === "OPEN");
 
   const visiblePrograms = programs.filter((p) =>
     openingPrograms.some((o) => o.programName === p.title)
@@ -38,7 +41,10 @@ export default function ExploreProgramPage() {
   const filteredPrograms = visiblePrograms.filter((p) => {
     // Program Type filter
     if (programFilter !== "All") {
-      if (programFilter === "Scholarship Course" && p.programType !== "SCHOLARSHIP")
+      if (
+        programFilter === "Scholarship Course" &&
+        p.programType !== "SCHOLARSHIP"
+      )
         return false;
       if (programFilter === "Short Course" && p.programType !== "SHORT_COURSE")
         return false;
@@ -53,7 +59,10 @@ export default function ExploreProgramPage() {
     if (subFilter.length > 0 && !subFilter.includes(p.title)) return false;
 
     // Search filter
-    if (searchValue && !p.title.toLowerCase().includes(searchValue.toLowerCase()))
+    if (
+      searchValue &&
+      !p.title.toLowerCase().includes(searchValue.toLowerCase())
+    )
       return false;
 
     return true;
@@ -91,24 +100,20 @@ export default function ExploreProgramPage() {
         </div>
 
         <div>
-  {isLoading ? (
-    <ProgramActiveSidebarSkeleton
-    />
-  ) : filteredPrograms.length === 0 ? (
-    <NotFoundProgram title="No Program Found"/>
-  ) : (
-    <ProgramCardList
-      programs={filteredPrograms}
-      openingPrograms={openingPrograms}
-      programFilter={programFilter}
-      subFilter={subFilter}
-      levelFilter={levelFilter}
-      searchValue={searchValue}
-      isLoading={isLoading}
-    />
-  )}
-</div>
-
+          {filteredPrograms.length === 0 ? (
+            <NotFoundProgram title="No Program Found" />
+          ) : (
+            <ProgramCardList
+              programs={filteredPrograms}
+              openingPrograms={openingPrograms}
+              programFilter={programFilter}
+              subFilter={subFilter}
+              levelFilter={levelFilter}
+              searchValue={searchValue}
+              isLoading={isLoading}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

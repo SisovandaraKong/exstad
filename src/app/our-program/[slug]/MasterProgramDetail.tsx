@@ -8,7 +8,6 @@ import ProgramSidebar from "@/components/program/explore-course/ProgramSidebar";
 import ProgramOverviewTap from "@/components/program/detail-program/ProgramOverviewTap";
 import ProgramCurriculumTap from "@/components/program/detail-program/curriculum/ProgramCurriculum";
 import ProgramActivityTap, { ProgramGeneration } from "@/components/program/detail-program/activity/ProgramActivity";
-import ProgramEnrollment from "@/components/program/ProgramEnrollment";
 
 import ProgramHeaderSkeleton from "@/components/program/skeleton/ProgramHeaderSkeleton";
 import ProgramOverviewSidebarSkeleton from "@/components/program/skeleton/ProgramSidebarSkeleton";
@@ -19,71 +18,76 @@ import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivi
 import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import { MasterProgramType } from "@/types/master-program";
+import NotFoundProgram from "@/components/program/components/NotFound";
 
-interface OpeningProgramDetailClientProps {
+interface MasterProgramDetailClientProps {
   initialProgram?: MasterProgramType;
 }
-const OpeningProgramDetailPage: React.FC<OpeningProgramDetailClientProps> = ({
-    initialProgram,
+
+const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
+  initialProgram,
 }) => {
   const params = useParams();
-  const openingProgramSlug = params?.slug as string;
-  const [activeTab, setActiveTab] = useState("Overview");
+  const masterProgramSlug = params?.slug as string;
 
-  // Fetch all opening programs
-  const { data: allPrograms, isLoading: isAllProgramsLoading, isError: isAllProgramsError } =
-    useGetAllOpeningProgramsQuery();
+  const [activeTab, setActiveTab] = useState("overview");
 
-  // Find the current program by slug
-  const openingProgram = allPrograms?.find(op => op.slug === openingProgramSlug);
-
-  // Fetch master program
+  // Fetch master program by slug/title
   const { data: masterProgram, isLoading: isMasterLoading, isError: isMasterError } =
     useGetMasterProgramByTitleQuery(
-      { title: openingProgram?.programName ?? "" },
-      { skip: !openingProgram?.programName }
+      { title: masterProgramSlug ?? initialProgram?.title ?? "" },
+      { skip: !masterProgramSlug && !initialProgram?.title }
     );
 
+  // Fetch all opening programs to show activity tab
+  const { data: allPrograms = [], isLoading: isAllProgramsLoading } =
+    useGetAllOpeningProgramsQuery();
+
   // Loading skeletons
-  if (isAllProgramsLoading || isMasterLoading) {
+  if (isMasterLoading || isAllProgramsLoading) {
     return (
       <div className="flex flex-col xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl">
         <div className="flex-1">
           <ProgramHeaderSkeleton />
-          {activeTab === "Overview" && <ProgramOverviewCardSkeleton />}
-          {activeTab === "Curriculum" && <ProgramCurriculumSkeleton />}
-          {activeTab === "Activity" && <ProgramActivitySkeleton />}
+          {activeTab === "overview" && <ProgramOverviewCardSkeleton />}
+          {activeTab === "curriculum" && <ProgramCurriculumSkeleton />}
+          {activeTab === "activity" && <ProgramActivitySkeleton />}
         </div>
         <ProgramOverviewSidebarSkeleton />
       </div>
     );
   }
 
-  if (isAllProgramsError || !allPrograms) return <p className="text-center text-red-500">Failed to load programs!</p>;
-  if (!openingProgram) return <p className="text-center text-red-500">Program not found!</p>;
-  if (isMasterError || !masterProgram) return <p className="text-center text-red-500">Master program not found!</p>;
+  // Error handling
+  if (isMasterError || !masterProgram) {
+    return <NotFoundProgram title="Master program not found"/>
+  }
 
-  // Get all generations for this program
+  // Get all generations for this master program (for activity tab)
   const generations: ProgramGeneration[] = allPrograms
-    .filter(op => op.programName === openingProgram.programName)
+    .filter(op => op.programName === masterProgram.title)
     .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))
     .map(op => ({
       uuid: op.uuid,
       title: `Generation ${op.generation ?? 1}`,
     }));
 
-  const tabComponents: { [key: string]: React.FC } = {
-    Overview: () => <ProgramOverviewTap program={masterProgram} />,
-    Curriculum: () => (
-      <ProgramCurriculumTap openingUuid={openingProgram.uuid} masterUuid={masterProgram.uuid} />
+  // Map translation keys to components (NO timeline, NO enrollment for master program)
+  const tabComponents: Record<string, React.FC> = {
+    overview: () => <ProgramOverviewTap program={masterProgram} />,
+    curriculum: () => (
+      <ProgramCurriculumTap
+        openingUuid={undefined} // No opening program - will show master curriculum
+        masterUuid={masterProgram.uuid}
+      />
     ),
-    Activity: () =>
+    activity: () =>
       generations.length ? (
         <ProgramActivityTap generations={generations} />
       ) : (
         <p className="text-gray-500 text-center">No opening programs available.</p>
       ),
-    Enrollment: () => <ProgramEnrollment />,
+    roadmap: () => <p className="text-gray-500 text-center">Roadmap content here</p>,
   };
 
   const ActiveTabComponent = tabComponents[activeTab];
@@ -91,10 +95,9 @@ const OpeningProgramDetailPage: React.FC<OpeningProgramDetailClientProps> = ({
   return (
     <div className="flex lg:flex-col md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
       <div className="flex-1">
-        {/* Updated Header - passing both objects */}
         <ProgramHeader
           masterProgram={masterProgram}
-          openingProgram={openingProgram}
+          openingProgram={undefined} // No opening program - header will hide timeline & enrollment tabs
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
@@ -102,9 +105,12 @@ const OpeningProgramDetailPage: React.FC<OpeningProgramDetailClientProps> = ({
           <ActiveTabComponent />
         </div>
       </div>
-      <ProgramSidebar program={masterProgram} openingData={openingProgram} />
+      <ProgramSidebar 
+        program={masterProgram} 
+        openingData={undefined} // No opening data - sidebar will hide enrollment info
+      />
     </div>
   );
 };
 
-export default OpeningProgramDetailPage;
+export default MasterProgramDetailPage;

@@ -2,48 +2,32 @@
 
 import React from "react";
 import { useGetAllMasterProgramsQuery } from "../masterProgramApi";
-import { useGetAllOpeningProgramsQuery } from "../openingProgramApi";
 import ShortCourseCard from "./ShortCourseCard";
 import ShortCourseCardSkeleton from "../skeleton/ShortCourseCardSkeleton";
-import { Package } from "lucide-react";
 import NotFoundProgram from "../components/NotFound";
+
 const ShortCourseCardList = () => {
   const {
     data: allPrograms = [],
     isLoading: loadingPrograms,
     isError: errorPrograms,
-  } = useGetAllMasterProgramsQuery(undefined,{refetchOnMountOrArgChange:true});
-  const programs = allPrograms.filter(p => p.visibility === "PUBLIC");
+  } = useGetAllMasterProgramsQuery(undefined, { refetchOnMountOrArgChange: true });
 
-  const {
-    data: allOpeningProgram = [],
-    isLoading: loadingOpenings,
-    isError: errorOpenings,
-  } = useGetAllOpeningProgramsQuery(undefined,{refetchOnMountOrArgChange:true});
+  if (errorPrograms) return <p>Failed to load programs.</p>;
 
-  const openingPrograms = allOpeningProgram.filter(p => p.status === "OPEN");
-  if (errorPrograms || errorOpenings) return <p>Failed to load programs.</p>;
-
-  const isLoading = loadingPrograms || loadingOpenings;
-
-  // Helper to find the opening program corresponding to a master program
-  const getOpeningProgram = (programTitle: string) =>
-    openingPrograms.find((o) => o.programName === programTitle);
-
-  // Filter only SHORT_COURSE programs
-  const shortCoursePrograms = programs.filter(
-    (p) => p.programType === "SHORT_COURSE",
-    
+  // Filter only PUBLIC and SHORT_COURSE master programs
+  const shortCoursePrograms = allPrograms.filter(
+    (p) => p.programType === "SHORT_COURSE" && p.visibility === "PUBLIC"
   );
-// If there are no short courses or no opening programs, show the "No Program Found" message
-  if (!shortCoursePrograms.length || !openingPrograms.length) {
-    return (
-     <NotFoundProgram title="No Short Courses Found"/>
-    );
+
+  // If there are no short courses, show the "No Program Found" message
+  if (!loadingPrograms && !shortCoursePrograms.length) {
+    return <NotFoundProgram title="No Short Courses Found" />;
   }
+
   return (
     <div className="flex flex-col gap-6">
-      {isLoading
+      {loadingPrograms
         ? Array.from({ length: 5 }).map((_, i) => (
             <ShortCourseCardSkeleton key={i} />
           ))
@@ -51,7 +35,6 @@ const ShortCourseCardList = () => {
             <ShortCourseCard
               key={program.uuid}
               {...program}
-              openingProgram={getOpeningProgram(program.title)}
             />
           ))}
     </div>

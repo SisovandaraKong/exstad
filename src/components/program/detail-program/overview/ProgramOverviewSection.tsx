@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { useGetAllProgramOverviewQuery } from "./programOverviewApi";
 import NotFoundProgram from "../../components/NotFound";
+import { useTranslations } from "next-intl";
 
 interface Props {
   programUuid: string;
@@ -15,10 +16,22 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
   );
 
   const overviews = data ?? []; // fallback if data is null or undefined
-
+  const t = useTranslations();
   if (isLoading) return <div>Loading program overviews...</div>;
-  if (isError) return <NotFoundProgram title="Failed to load Program Overview " className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
-  if (!ProgramOverviewSection || ProgramOverviewSection.length === 0) return <NotFoundProgram title="No Program Overview Availbale" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
+  if (isError)
+    return (
+      <NotFoundProgram
+        title="Failed to load Program Overview "
+        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
+      />
+    );
+  if (!ProgramOverviewSection || ProgramOverviewSection.length === 0)
+    return (
+      <NotFoundProgram
+        title="No Program Overview Availbale"
+        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
+      />
+    );
 
   return (
     <div className="grid gap-[24px]" data-aos="fade-up">
@@ -33,9 +46,11 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
               alt={item.title}
               className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
             />
-            {item.title}
+            {item.title === "Program Overview"
+              ? t("programOverview")
+              : item.title}
           </h2>
-          <p className="text-foreground text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-amber-400 p-4 sm:p-6 md:p-8 rounded-lg">
+          <p className="text-description text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-amber-400 p-4 sm:p-6 md:p-8 rounded-lg">
             {item.description}
           </p>
         </div>
@@ -43,6 +58,5 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
     </div>
   );
 };
-
 
 export default ProgramOverviewSection;

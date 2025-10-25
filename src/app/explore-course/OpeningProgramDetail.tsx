@@ -20,18 +20,22 @@ import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivi
 import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import { MasterProgramType } from "@/types/master-program";
+import ProgramOverviewSidebarSkeleton from "@/components/program/skeleton/ProgramSidebarSkeleton";
+import NotFoundProgram from "@/components/program/components/NotFound";
 
-// ✅ Add props interface
 interface ProgramDetailClientProps {
   initialProgram?: MasterProgramType;
 }
 
-const ProgramDetailClient: React.FC<ProgramDetailClientProps> = ({
+const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
   initialProgram,
 }) => {
   const params = useParams();
   const openingProgramSlug = params?.slug as string;
-  const [activeTab, setActiveTab] = useState("Overview");
+
+  // ✅ Use translation keys as activeTab
+  const tabKeys = ["overview", "curriculum", "activity", "enrollment"];
+  const [activeTab, setActiveTab] = useState("overview");
 
   // Fetch all opening programs
   const {
@@ -40,7 +44,6 @@ const ProgramDetailClient: React.FC<ProgramDetailClientProps> = ({
     isError: isAllError,
   } = useGetAllOpeningProgramsQuery();
 
-  // Find the current opening program
   const openingProgram = allPrograms.find(
     (op) => op.slug === openingProgramSlug
   );
@@ -55,19 +58,19 @@ const ProgramDetailClient: React.FC<ProgramDetailClientProps> = ({
     { skip: !openingProgram?.programName && !initialProgram?.title }
   );
 
-  // Prefer server-side data if available
   const masterProgram = masterProgramData || initialProgram;
 
   // Loading skeletons
   if (isAllLoading || isMasterLoading) {
     return (
-      <div className="flex flex-col min-h-screen xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl">
+      <div className="flex flex-col lg:flex-row md:flex-col bg-whitesmoke min-h-screen mx-auto max-w-7xl gap-6 w-full p-5 md:p-8 lg:py-8 lg:px-0">
         <div className="flex-1">
           <ProgramHeaderSkeleton />
-          {activeTab === "Overview" && <ProgramOverviewCardSkeleton />}
-          {activeTab === "Curriculum" && <ProgramCurriculumSkeleton />}
-          {activeTab === "Activity" && <ProgramActivitySkeleton />}
+          {activeTab === "overview" && <ProgramOverviewCardSkeleton />}
+          {activeTab === "curriculum" && <ProgramCurriculumSkeleton />}
+          {activeTab === "activity" && <ProgramActivitySkeleton />}
         </div>
+         <ProgramOverviewSidebarSkeleton/>
       </div>
     );
   }
@@ -79,7 +82,7 @@ const ProgramDetailClient: React.FC<ProgramDetailClientProps> = ({
     return <p className="text-center text-red-500">Program not found!</p>;
   if (isMasterError || !masterProgram)
     return (
-      <p className="text-center text-red-500">Master program not found!</p>
+      <NotFoundProgram/>
     );
 
   // Build generations
@@ -91,16 +94,16 @@ const ProgramDetailClient: React.FC<ProgramDetailClientProps> = ({
       title: `Generation ${op.generation ?? 1}`,
     }));
 
-  // Map tabs to components
+  // Map translation keys to components
   const tabComponents: Record<string, React.FC> = {
-    Overview: () => <ProgramOverviewTap program={masterProgram} />,
-    Curriculum: () => (
+    overview: () => <ProgramOverviewTap program={masterProgram} />,
+    curriculum: () => (
       <ProgramCurriculumTap
         openingUuid={openingProgram?.uuid ?? ""}
         masterUuid={masterProgram.uuid}
       />
     ),
-    Activity: () =>
+    activity: () =>
       generations.length ? (
         <ProgramActivityTap generations={generations} />
       ) : (
@@ -108,7 +111,7 @@ const ProgramDetailClient: React.FC<ProgramDetailClientProps> = ({
           No opening programs available.
         </p>
       ),
-    Enrollment: () => <ProgramEnrollment />,
+    enrollment: () => <ProgramEnrollment />,
   };
 
   const ActiveTabComponent = tabComponents[activeTab];
@@ -131,4 +134,4 @@ const ProgramDetailClient: React.FC<ProgramDetailClientProps> = ({
   );
 };
 
-export default ProgramDetailClient;
+export default OpeningProgramDetail;

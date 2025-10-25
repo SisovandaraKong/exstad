@@ -4,9 +4,9 @@ import React from "react";
 import Image from "next/image";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
+import { useTranslations } from "next-intl";
 
 type Props = {
-  // Accept either master program or opening program data
   masterProgram?: MasterProgramType;
   openingProgram?: openingProgramType;
   activeTab: string;
@@ -19,16 +19,39 @@ const ProgramHeader: React.FC<Props> = ({
   activeTab,
   setActiveTab,
 }) => {
-  // Derive values from whichever data is available
   const title = masterProgram?.title ?? openingProgram?.title ?? "";
-  const thumbnail = openingProgram?.thumbnail ?? "";
+  const thumbnail = openingProgram?.thumbnail  ?? masterProgram?.logoUrl ?? "";
   const programType = masterProgram?.programType ?? "";
+  const t = useTranslations();
 
-  const defaultTabs = ["Overview", "Curriculum", "Timeline", "Activity", "Roadmap", "Enrollment"];
-  const tabs =
-    programType === "SHORT_COURSE"
-      ? defaultTabs.filter((tab) => tab !== "Activity" && tab !== "Timeline")
-      : defaultTabs;
+  // Determine tabs based on opening program existence
+  const getTabs = () => {
+    const baseTabs = ["overview", "curriculum"];
+    
+    // If there's an opening program, show all relevant tabs
+    if (openingProgram) {
+      const openingTabs = [...baseTabs, "timeline", "activity", "roadmap", "enrollment"];
+      
+      // For SHORT_COURSE, remove activity and timeline
+      if (programType === "SHORT_COURSE") {
+        return openingTabs.filter((tab) => tab !== "activity" && tab !== "timeline");
+      }
+      
+      return openingTabs;
+    }
+    
+    // If NO opening program (master program only), exclude timeline & enrollment
+    const masterTabs = [...baseTabs, "activity", "roadmap"];
+    
+    // For SHORT_COURSE, remove activity
+    if (programType === "SHORT_COURSE") {
+      return masterTabs.filter((tab) => tab !== "activity");
+    }
+    
+    return masterTabs;
+  };
+
+  const tabs = getTabs();
 
   return (
     <div className="w-full grid p-[24px] gap-[24px] rounded-t-[24px] bg-background">
@@ -55,7 +78,7 @@ const ProgramHeader: React.FC<Props> = ({
                 : "text-primary bg-white border border-primary rounded-full hover:bg-primary hover:text-white"
             }`}
           >
-            {tab}
+            {t(tab)}
           </button>
         ))}
       </div>
