@@ -96,9 +96,9 @@ export function Welcoming_Card() {
 						<Link href='/explore-course'>
 							<Button
 								size='lg'
-								className='bg-primary text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group'>
+								className='bg-primary cursor-pointer text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group'>
 								Up Your Skill
-								<ArrowRight className='ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform' />
+								<ArrowRight className='ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform' />
 							</Button>
 						</Link>
 					</motion.div>
