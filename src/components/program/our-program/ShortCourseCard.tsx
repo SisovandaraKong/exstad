@@ -83,10 +83,10 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
                   {isPrice ? (
                     <>
                       <span className="absolute top-2 right-2 text-red-500 text-xs md:text-lg line-through">
-                        {h.value}
+                        ${h.value}
                       </span>
                       <h2 className="text-black font-bold text-lg md:text-3xl text-center">
-                        {h.desc}
+                        ${h.desc}
                       </h2>
                     </>
                   ) : (

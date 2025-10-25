@@ -44,7 +44,7 @@ export default function ModernHeroSection() {
 				/>
 			</div>
 
-			<div className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4 sm:py-3 md:py-4 lg:py-5 xl:py-6'>
+			<div className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24'>
 				<div className='grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center'>
 					{/* Left Column - Content */}
 					<motion.div
@@ -79,7 +79,7 @@ export default function ModernHeroSection() {
 
 						{/* Description */}
 						<motion.p
-							className='text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0 leading-relaxed'
+							className='text-base sm:text-lg md:text-[18px] text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0 leading-7 sm:leading-8'
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 0.8 }}>

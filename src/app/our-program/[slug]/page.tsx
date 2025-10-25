@@ -7,7 +7,9 @@ import ProgramHeader from "@/components/program/ProgramHeader";
 import ProgramSidebar from "@/components/program/explore-course/ProgramSidebar";
 import ProgramOverviewTap from "@/components/program/detail-program/ProgramOverviewTap";
 import ProgramCurriculumTap from "@/components/program/detail-program/curriculum/ProgramCurriculum";
-import ProgramActivityTap, { ProgramGeneration } from "@/components/program/detail-program/activity/ProgramActivity";
+import ProgramActivityTap, {
+  ProgramGeneration,
+} from "@/components/program/detail-program/activity/ProgramActivity";
 import ProgramEnrollment from "@/components/program/ProgramEnrollment";
 
 import ProgramHeaderSkeleton from "@/components/program/skeleton/ProgramHeaderSkeleton";
@@ -25,18 +27,26 @@ const ProgramDetailPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Overview");
 
   // Fetch all opening programs
-  const { data: allPrograms, isLoading: isAllProgramsLoading, isError: isAllProgramsError } =
-    useGetAllOpeningProgramsQuery();
+  const {
+    data: allPrograms,
+    isLoading: isAllProgramsLoading,
+    isError: isAllProgramsError,
+  } = useGetAllOpeningProgramsQuery();
 
   // Find the current program by slug
-  const openingProgram = allPrograms?.find(op => op.slug === openingProgramSlug);
+  const openingProgram = allPrograms?.find(
+    (op) => op.slug === openingProgramSlug
+  );
 
   // Always call the hook
-  const { data: masterProgram, isLoading: isMasterLoading, isError: isMasterError } =
-    useGetMasterProgramByTitleQuery(
-      { title: openingProgram?.programName ?? "" },
-      { skip: !openingProgram?.programName }
-    );
+  const {
+    data: masterProgram,
+    isLoading: isMasterLoading,
+    isError: isMasterError,
+  } = useGetMasterProgramByTitleQuery(
+    { title: openingProgram?.programName ?? "" },
+    { skip: !openingProgram?.programName }
+  );
 
   // Loading skeletons
   if (isAllProgramsLoading || isMasterLoading) {
@@ -53,15 +63,20 @@ const ProgramDetailPage: React.FC = () => {
     );
   }
 
-  if (isAllProgramsError || !allPrograms) return <p className="text-center text-red-500">Failed to load programs!</p>;
-  if (!openingProgram) return <p className="text-center text-red-500">Program not found!</p>;
-  if (isMasterError || !masterProgram) return <p className="text-center text-red-500">Master program not found!</p>;
+  if (isAllProgramsError || !allPrograms)
+    return <p className="text-center text-red-500">Failed to load programs!</p>;
+  if (!openingProgram)
+    return <p className="text-center text-red-500">Program not found!</p>;
+  if (isMasterError || !masterProgram)
+    return (
+      <p className="text-center text-red-500">Master program not found!</p>
+    );
 
   // Get all generations for this program
   const generations: ProgramGeneration[] = allPrograms
-    .filter(op => op.programName === openingProgram.programName)
+    .filter((op) => op.programName === openingProgram.programName)
     .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))
-    .map(op => ({
+    .map((op) => ({
       uuid: op.uuid,
       title: `Generation ${op.generation ?? 1}`,
     }));
@@ -69,13 +84,18 @@ const ProgramDetailPage: React.FC = () => {
   const tabComponents: { [key: string]: React.FC } = {
     Overview: () => <ProgramOverviewTap program={masterProgram} />,
     Curriculum: () => (
-      <ProgramCurriculumTap openingUuid={openingProgram.uuid} masterUuid={masterProgram.uuid} />
+      <ProgramCurriculumTap
+        openingUuid={openingProgram.uuid}
+        masterUuid={masterProgram.uuid}
+      />
     ),
     Activity: () =>
       generations.length ? (
         <ProgramActivityTap generations={generations} />
       ) : (
-        <p className="text-gray-500 text-center">No opening programs available.</p>
+        <p className="text-gray-500 text-center">
+          No opening programs available.
+        </p>
       ),
     Enrollment: () => <ProgramEnrollment />,
   };

@@ -33,7 +33,7 @@ export function FeatureCard({ icon, title, description }: FeatureCardProps) {
 				{title}
 			</motion.h3>
 			<motion.p
-				className='text-xs sm:text-xs md:text-sm leading-relaxed text-gray-600 dark:text-gray-300'
+				className='text-base sm:text-lg md:text-[18px] text-gray-600 dark:text-gray-300 mx-auto leading-7 sm:leading-8'
 				initial={{ opacity: 0.7 }}
 				whileHover={{ opacity: 1 }}>
 				{description}

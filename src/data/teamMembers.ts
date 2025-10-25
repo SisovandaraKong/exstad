@@ -22,7 +22,7 @@ export const teamData: TeamData = {
 				"Java",
 			],
 			social: {
-				facebook: "fb.com/chhayadevkh",
+				facebook: "https://www.facebook.com/chhayadevkh",
 				github: "https://github.com/it-chhaya",
 				telegram: "https://t.me/chhayadevkh",
 			},
@@ -114,7 +114,7 @@ export const teamData: TeamData = {
 			bio: "Full stack developer passionate about creating responsive and interactive web applications.",
 			skills: ["Spring", "Next.js", "TypeScript", "Java", "REST APIs", "SQL"],
 			social: {
-				facebook: "https://www.facebook.com/share/1CUrZLTKkV/",
+				facebook: "https://www.facebook.com/tongboraa",
 				github: "https://github.com/tongbora",
 				telegram: "https://t.me/tongboraa",
 			},

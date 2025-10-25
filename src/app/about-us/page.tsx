@@ -101,13 +101,14 @@ export default function AboutUsPage() {
 								<FaHandPointRight className='text-primary flex-shrink-0' />
 								Consult and connect ISTAD trainees to top IT careers
 							</p>
+							
 						</motion.div>
 						<motion.div
 							initial={{ opacity: 0, x: 20 }}
 							whileInView={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.6 }}
 							viewport={{ once: true }}
-							className='relative flex justify-end'>
+							className='relative flex justify-center'>
 							<div className='relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300'>
 								<Image
 									src='/istad-image/istad-icon.PNG'

@@ -4,6 +4,7 @@ import React from "react";
 import { BsJournalCheck } from "react-icons/bs";
 import { useGetAllRequirementsQuery } from "./requirementsApi";
 import { RequirementsType } from "@/types/master-program";
+import NotFoundProgram from "../../components/NotFound";
 
 interface RequirementsProps {
   programUuid: string;
@@ -16,7 +17,7 @@ const RequirementSection: React.FC<RequirementsProps> = ({ programUuid }) => {
 
   if (isLoading) return <p>Loading requirements...</p>;
   if (isError) return <p>Failed to load requirements.</p>;
-  if (!requirements || requirements.length === 0) return <p>No requirements found.</p>;
+  if (!requirements || requirements.length === 0) return <NotFoundProgram title="No Requirement Availbale" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
 
   return (
     <div data-aos="fade-up" className="grid gap-6">

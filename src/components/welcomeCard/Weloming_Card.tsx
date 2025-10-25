@@ -11,7 +11,7 @@ export function Welcoming_Card() {
 	const features = [
 		{ icon: Users, text: "5000+ Students" },
 		{ icon: Award, text: "95% Success Rate" },
-		{ icon: BookOpen, text: "Industry-Ready Curriculum" },
+		{ icon: BookOpen, text: "Modern Curriculum" },
 	];
 
 	return (
@@ -31,7 +31,7 @@ export function Welcoming_Card() {
 			</div>
 
 			{/* Main content */}
-			<div className='relative bg-card border border-border/50 backdrop-blur-sm mx-auto max-w-full p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 items-center shadow-lg'>
+			<div className='relative bg-card border border-border/50 backdrop-blur-sm mx-auto max-w-full p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl flex flex-col lg:flex-row gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-16 items-center shadow-lg'>
 				{/* Left/Top: Text Section */}
 				<motion.div
 					className='flex-1 space-y-6'
@@ -53,7 +53,7 @@ export function Welcoming_Card() {
 							</span>
 						</motion.div>
 
-						<h2 className='font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground leading-tight'>
+						<h2 className='font-bold text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl text-foreground leading-tight'>
 							Welcome to{" "}
 							<span className='bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'>
 								exSTAD
@@ -62,7 +62,7 @@ export function Welcoming_Card() {
 					</div>
 
 					{/* Description */}
-					<p className='text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed'>
+					<p className='text-base sm:text-lg md:text-[18px] text-muted-foreground leading-7 sm:leading-8'>
 						exSTAD is an experimental technology learning space for Cambodian
 						students, especially those who want to explore ISTAD&apos;s
 						scholarship program, products, and achievements in a unified digital
@@ -70,17 +70,17 @@ export function Welcoming_Card() {
 					</p>
 
 					{/* Features */}
-					<div className='grid grid-cols-1 sm:grid-cols-3 gap-4 rounded-full'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 rounded-full'>
 						{features.map((feature, index) => (
 							<motion.div
 								key={feature.text}
-								className='flex items-center gap-3 p-3 rounded-full bg-background/50 border border-border/30'
+								className='flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-full bg-background/50 border border-border/30'
 								initial={{ opacity: 0, y: 20 }}
 								whileInView={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
 								viewport={{ once: true }}>
-								<feature.icon className='h-5 w-5 text-primary flex-shrink-0' />
-								<span className='text-sm font-medium text-foreground'>
+								<feature.icon className='h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0' />
+								<span className='text-xs sm:text-sm font-medium text-foreground whitespace-nowrap'>
 									{feature.text}
 								</span>
 							</motion.div>
@@ -106,7 +106,7 @@ export function Welcoming_Card() {
 
 				{/* Right/Bottom: Image Section */}
 				<motion.div
-					className='flex items-center justify-center md:justify-end flex-shrink-0 w-full md:w-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg'
+					className='flex items-center justify-center lg:justify-end flex-shrink-0 w-full lg:w-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg'
 					initial={{ opacity: 0, x: 30 }}
 					whileInView={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.8, delay: 0.4 }}
@@ -122,7 +122,7 @@ export function Welcoming_Card() {
 								alt='Learn More'
 								width={700}
 								height={700}
-								className='object-contain w-full h-auto rounded-xl max-h-[300px] sm:max-h-[400px] md:max-h-[450px] lg:max-h-[500px]'
+								className='object-contain w-full h-auto rounded-xl max-h-[280px] sm:max-h-[320px] md:max-h-[380px] lg:max-h-[450px] xl:max-h-[500px]'
 								unoptimized
 							/>
 						</div>

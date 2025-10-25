@@ -4,6 +4,7 @@ import React from "react";
 import { BsLightbulb } from "react-icons/bs";
 import { useGetAllLearningOutcomesQuery } from "./learningOutcomesApi";
 import { LearningOutcomeType } from "@/types/master-program";
+import NotFoundProgram from "../../components/NotFound";
 
 interface LearningOutcomeProps {
   programUuid: string;
@@ -15,8 +16,8 @@ const LearningOutcomeSection: React.FC<LearningOutcomeProps> = ({ programUuid })
   );
 
   if (isLoading) return <p>Loading learning outcomes...</p>;
-  if (isError) return <p>Failed to load learning outcomes.</p>;
-  if (!learningOutcomes || learningOutcomes.length === 0) return <p>No learning outcomes found.</p>;
+  if (isError) return  <NotFoundProgram title="Failed to load Learning Outcomes " className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>
+  if (!learningOutcomes || learningOutcomes.length === 0) return <NotFoundProgram title="No Learning Outcomes Availbale" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
 
   return (
     <div data-aos="fade-up" className="grid gap-6">

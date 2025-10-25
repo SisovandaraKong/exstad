@@ -38,10 +38,11 @@ export type openingProgramType = {
 export type openingProgramCreate = {
   programUuid: string;
   title: string;
-  generation: number;  
+  generation: number;
   thumbnail: string;
   slug: string;
   originalFee: number;
+  registerFee: number;
   price: number;
   scholarship: number;
   duration: string;
@@ -55,29 +56,28 @@ export type openingProgramCreate = {
   activities?: ActivityType[];
   timeline?: TimelineType[];
   classes?: ClassType[];
-}
-
+};
 
 export type ActivityType = {
-    uuid: string;
-    title:string;
-    description:string;
-    image:string;
-}
+  uuid: string;
+  title: string;
+  description: string;
+  image: string;
+};
 
 export type TimelineType = {
-  title:string;
-  startDate:string;
-  endDate:string;
-_clientId: string; // 🔑 local unique id
+  uuid: string;
+  title: string;
+  startDate: string;
+  endDate: string;
 };
 
 export type ClassPayload = {
   openingProgramUuid: string;
   shift: "MORNING" | "AFTERNOON" | "EVENING";
   instructor: string;
-  startTime: string;  // HH:mm:ss
-  endTime: string;    // HH:mm:ss
+  startTime: string; // HH:mm:ss
+  endTime: string; // HH:mm:ss
   isWeekend: boolean;
   totalSlot: number;
   room: string;
@@ -86,32 +86,30 @@ export type ClassPayload = {
 };
 
 export type ClassType = {
-    uuid:string;
-    openingProgramUuid: string; 
-    shift:string;
-    instructor:string;
-    startTime:string;
-    endTime:string;
-    isWeekend:boolean;
-    totalSlot:number;
-    room:string;
-    classCode:string;
-    telegram:string
-}
+  uuid: string;
+  openingProgramUuid: string;
+  shift: string;
+  instructor: string;
+  startTime: string;
+  endTime: string;
+  isWeekend: boolean;
+  totalSlot: number;
+  room: string;
+  classCode: string;
+  telegram: string;
+};
 export type ClassCreate = {
-    // openingProgramUuid:string;
-    shift:string;
-    instructor:string;
-    startTime:string;
-    endTime:string;
-    isWeekend:boolean;
-    totalSlot:number;
-    room:string;
-    classCode:string;
-    telegram:string;
-}
-
-
+  // openingProgramUuid:string;
+  shift: string;
+  instructor: string;
+  startTime: string;
+  endTime: string;
+  isWeekend: boolean;
+  totalSlot: number;
+  room: string;
+  classCode: string;
+  telegram: string;
+};
 
 // export type RoadmapType = {
 

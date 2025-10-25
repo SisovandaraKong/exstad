@@ -24,7 +24,7 @@ const ShortCourseCard = () => {
 					<h5 className='mb-2 sm:mb-3 md:mb-4 text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>
 						Short Courses
 					</h5>
-					<p className='mb-3 sm:mb-4 md:mb-6 text-sm sm:text-base md:text-lg font-normal text-gray-700 dark:text-gray-400'>
+					<p className='mb-3 sm:mb-4 md:mb-6 text-[20px] font-normal text-gray-700 dark:text-gray-400'>
 						Compact learning programs focused on specific skills or topics.
 					</p>
 					<Button className='bg-primary hover:bg-primary-hover text-white px-4 sm:px-6 py-2 rounded-full text-sm font-medium w-fit mt-2'>

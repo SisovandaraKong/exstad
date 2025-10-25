@@ -4,7 +4,7 @@ import { Ripple } from "../magicui/ripple";
 import { LuLaptopMinimalCheck } from "react-icons/lu";
 import { PiGlobeStand } from "react-icons/pi";
 import { FeatureCard } from "./FeatureCard";
-
+import istadImage from "../../../public/image/istad-icon.png";
 export function WhyChooseISTAD_Card() {
 	return (
 		<div className='h-full relative'>
@@ -16,7 +16,7 @@ export function WhyChooseISTAD_Card() {
 				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary'>
 					Why Choose ISTAD?{" "}
 				</h2>
-				<p className='text-base sm:text-lg leading-8 text-gray-600 dark:text-gray-300'>
+				<p className='text-base sm:text-lg md:text-[18px] leading-7 sm:leading-8 text-gray-600 dark:text-gray-300'>
 					Unlock your true potential and discover a world of opportunities that
 					align with your skills, interests, and aspirations
 				</p>
@@ -41,7 +41,7 @@ export function WhyChooseISTAD_Card() {
 				{/* Image Section - Center */}
 				<div className='flex justify-center w-full md:w-1/3 order-first md:order-none'>
 					<Image
-						src='./istad-image/istad-icon.png'
+						src={istadImage}
 						alt='Learn More'
 						width={320}
 						height={400}

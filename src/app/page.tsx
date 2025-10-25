@@ -40,14 +40,14 @@ export default function Home() {
 	// 90;
 	return (
 		<motion.div
-			className='flex flex-col bg-background'
+			className='flex flex-col bg-background overflow-x-hidden'
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6, ease: "easeOut" }}>
 			{/* Modern Hero Section */}
 			<ModernHeroSection />
 
-			<div className='w-full mx-auto'>
+			<div className='w-full max-w-full mx-auto overflow-x-hidden'>
 				{/* Welcoming Section */}
 				<motion.div
 					className='w-full py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
@@ -83,7 +83,7 @@ export default function Home() {
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
 						<ScholarshipCard
 							id='2'
-							title='Scholarship Chances'
+							title='Scholarship Occupies'
 							description='Financial support awarded to help students pursue their education.'
 							cardBackground=''
 						/>
@@ -121,7 +121,7 @@ export default function Home() {
 								<h2 className='text-3xl font-bold tracking-tight text-primary sm:text-4xl'>
 									Outstanding Career Achievement
 								</h2>
-								<p className='text-lg leading-8 text-muted-foreground'>
+								<p className='text-base sm:text-lg md:text-[18px] leading-7 sm:leading-8 text-muted-foreground'>
 									Discover where our graduates excel in their professional
 									journey across diverse industries.
 								</p>
@@ -296,7 +296,7 @@ export default function Home() {
 							What can we do for you?
 						</motion.h2>
 						<motion.p
-							className='text-base sm:text-lg leading-8 text-gray-700 dark:text-gray-200 max-w-3xl mx-auto'
+							className='text-base sm:text-lg md:text-[18px] leading-7 sm:leading-8 text-gray-700 dark:text-gray-200 max-w-3xl mx-auto'
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.4 }}
@@ -494,7 +494,7 @@ export default function Home() {
 
 				{/* Partnership Section */}
 				<motion.div
-					className='py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='w-full'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}

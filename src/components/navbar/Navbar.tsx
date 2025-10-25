@@ -27,13 +27,12 @@ function Navbar({ className }: { className?: string }) {
 		);
 	};
 
-	// Function to get navigation link classes
-	const getNavLinkClasses = (href: string) => {
-		const baseClasses =
-			"relative rounded-md transition-colors font-d4 font-medium duration-200";
-		const hoverClasses = "hover:text-foreground hover:after:opacity-100";
-		const afterClasses =
-			"after:absolute after:-bottom-1.5 after:-left-3 after:-right-3 after:h-[3px] after:bg-primary after:transition-opacity after:duration-200";
+  const getNavLinkClasses = (href: string) => {
+    const baseClasses =
+      "relative rounded-md transition-colors font-d4 font-normal duration-200";
+    const hoverClasses = "hover:text-foreground hover:after:opacity-100";
+    const afterClasses =
+      "after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200";
 
 		if (isActive(href)) {
 			return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
@@ -66,120 +65,133 @@ function Navbar({ className }: { className?: string }) {
 		};
 	}, [mobileOpen]);
 
-	return (
-		<div
-			ref={navRef}
-			className={cn(
-				"w-full border-b-1 border-text-color z-50 fixed top-0",
-				className
-			)}>
-			{/* Main navbar */}
-			<nav className='bg-background relative'>
-				<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-0 md:py-3 py-2'>
-					<div className='flex items-center justify-between h-16'>
-						{/* Logo */}
-						<Link href='/' className='block'>
-							<Image src='/favicon.ico' alt='Logo' width={50} height={70} />
-						</Link>
+  return (
+    <div
+      ref={navRef}
+      className={cn(
+        "w-full border-b-1 border-text-color z-50 fixed top-0",
+        className
+      )}
+    >
+      {/* Main navbar */}
+      <nav className="bg-background relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 xl:px-2 md:py-3 py-2">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link href="/" className="block">
+              <Image
+                src="/image/logo/exSTAD-01.png"
+                alt="Logo"
+                width={50}
+                height={70}
+              />
+            </Link>
 
-						{/* Desktop Navigation Links */}
-						<div className='hidden md:block'>
-							<div className='ml-10 flex items-baseline space-x-8'>
-								<DropDown />
-								<Link
-									href='/explore-course'
-									className={getNavLinkClasses("/explore-course")}>
-									{t("explore-course")}
-								</Link>
-								<Link href='/scholar' className={getNavLinkClasses("/scholar")}>
-									{t("scholar")}
-								</Link>
-								<Link href='/roadmap' className={getNavLinkClasses("/roadmap")}>
-									{t("roadmap")}
-								</Link>
-								<Link
-									href='/about-us'
-									className={getNavLinkClasses("/about-us")}>
-									{t("about-us")}
-								</Link>
-							</div>
-						</div>
+            {/* Desktop Navigation Links */}
+            <div className="hidden lg:block">
+              <div className="ml-10 flex items-baseline space-x-8">
+                <DropDown />
+                <Link
+                  href="/explore-course"
+                  className={getNavLinkClasses("/explore-course")}
+                >
+                  {t("explore-course")}
+                </Link>
+                <Link href="/scholar" className={getNavLinkClasses("/scholar")}>
+                  {t("scholar")}
+                </Link>
+                <Link href="/roadmap" className={getNavLinkClasses("/roadmap")}>
+                  {t("roadmap")}
+                </Link>
+                <Link
+                  href="/about-us"
+                  className={getNavLinkClasses("/about-us")}
+                >
+                  {t("about-us")}
+                </Link>
+              </div>
+            </div>
 
-						{/* Desktop Right Side */}
-						<div className='hidden md:block'>
-							<div className='flex items-center space-x-6'>
-								<LanguageToggle />
-								<AnimatedModeToggle />
-								<LogInButton />
-							</div>
-						</div>
+            {/* Desktop Right Side */}
+            <div className="hidden lg:block">
+              <div className="flex items-center space-x-6">
+                <LanguageToggle />
+                <AnimatedModeToggle />
+                <LogInButton />
+              </div>
+            </div>
 
-						{/* Mobile menu toggle - SINGLE BUTTON */}
-						<button
-							className='md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-800/50 transition-colors'
-							aria-label={mobileOpen ? "Close menu" : "Open menu"}
-							onClick={() => setMobileOpen((v) => !v)}
-							type='button'>
-							{mobileOpen ? (
-								<X className='h-5 w-5' />
-							) : (
-								<Menu className='h-5 w-5' />
-							)}
-						</button>
-					</div>
-				</div>
+            {/* Mobile menu toggle - SINGLE BUTTON */}
+            <button
+              className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-800/50 transition-colors"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMobileOpen((v) => !v)}
+              type="button"
+            >
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+          </div>
+        </div>
 
-				{/* Mobile menu (conditionally rendered) */}
-				{mobileOpen && (
-					<>
-						{/* Backdrop */}
-						<div
-							className='md:hidden fixed inset-0 z-40'
-							onClick={() => setMobileOpen(false)}
-						/>
-						{/* Mobile menu */}
-						<div className='md:hidden absolute top-full left-0 right-0 bg-background border-b shadow-lg z-50 max-h-[calc(100vh-5rem)] overflow-y-auto'>
-							<div className='w-full p-4'>
-								<div className='flex flex-col gap-8 items-center'>
-									{/* Mobile Navigation Links */}
-									<DropDown />
-									<Link
-										href='/explore-course'
-										className={getNavLinkClasses("/explore-course")}
-										onClick={() => setMobileOpen(false)}>
-										{t("explore-course")}
-									</Link>
-									<Link
-										href='/scholar'
-										className={getNavLinkClasses("/scholar")}
-										onClick={() => setMobileOpen(false)}>
-										{t("scholar")}
-									</Link>
-									<Link
-										href='/roadmap'
-										className={getNavLinkClasses("/roadmap")}
-										onClick={() => setMobileOpen(false)}>
-										{t("roadmap")}
-									</Link>
-									<Link
-										href='/about'
-										className={getNavLinkClasses("/about")}
-										onClick={() => setMobileOpen(false)}>
-										{t("about-us")}
-									</Link>
-								</div>
-								<div className='flex items-center justify-around w-full mt-10'>
-									<LanguageToggle />
-									<AnimatedModeToggle />
-									<LogInButton />
-								</div>
-							</div>
-						</div>
-					</>
-				)}
-			</nav>
-		</div>
-	);
+        {/* Mobile menu (conditionally rendered) */}
+        {mobileOpen && (
+          <>
+            {/* Backdrop */}
+            <div
+              className="lg:hidden fixed inset-0 z-40"
+              onClick={() => setMobileOpen(false)}
+            />
+            {/* Mobile menu */}
+            <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b shadow-lg z-50">
+              <div className="h-[100vh] w-full p-4">
+                <div className="flex flex-col gap-8 items-center">
+                  {/* Mobile Navigation Links */}
+                  <DropDown />
+                  <Link
+                    href="/explore-course"
+                    className={getNavLinkClasses("/explore-course")}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {t("explore-course")}
+                  </Link>
+                  <Link
+                    href="/scholar"
+                    className={getNavLinkClasses("/scholar")}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {t("scholar")}
+                  </Link>
+                  <Link
+                    href="/roadmap"
+                    className={getNavLinkClasses("/roadmap")}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {t("roadmap")}
+                  </Link>
+                  <Link
+                    href="/about-us"
+                    className={getNavLinkClasses("/about-us")}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {t("about-us")}
+                  </Link>
+                </div>
+                <div className="flex items-center justify-around w-full mt-10">
+                  <LanguageToggle />
+                  <AnimatedModeToggle />
+                  <LogInButton />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </nav>
+    </div>
+  );
 }
 
 export default Navbar;

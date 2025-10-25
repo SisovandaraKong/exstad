@@ -39,22 +39,22 @@ export default function DropDown() {
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const t = useTranslations();
 
-	// Fetch only when menu is open; still refetch on focus/reconnect/mount.
-	const { data: openingProgram = [], refetch: refetchOpenings } =
-		useGetAllOpeningProgramsQuery(undefined, {
-			skip: !open,
-			refetchOnFocus: true,
-			refetchOnReconnect: true,
-			refetchOnMountOrArgChange: true,
-		});
+  // Fetch only when menu is open; still refetch on focus/reconnect/mount.
+  const { data: openingProgram = [], refetch: refetchOpenings } =
+    useGetAllOpeningProgramsQuery(undefined, {
+      skip: !open,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMountOrArgChange: true,
+    });
 
-	const { data: masterProgram = [], refetch: refetchMasters } =
-		useGetAllMasterProgramsQuery(undefined, {
-			skip: !open,
-			refetchOnFocus: true,
-			refetchOnReconnect: true,
-			refetchOnMountOrArgChange: true,
-		});
+  const { data: masterProgram = [], refetch: refetchMasters } =
+    useGetAllMasterProgramsQuery(undefined, {
+      skip: !open,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMountOrArgChange: true,
+    });
 
 	// Normalize master programs
 	const programs: ProgramLite[] = React.useMemo(() => {
@@ -138,19 +138,20 @@ export default function DropDown() {
 				(mp) => mp.title === p.programName || mp.slug === p.slug
 			)?.subtitle;
 
-			return {
-				id: p.uuid,
-				title: p.title,
-				href: `/our-program/${p.slug}`,
-				subtitle: sub,
-			};
-		}),
-		{
-			id: "short-courses",
-			title: "Short Courses",
-			href: "/our-program",
-		},
-	];
+      return {
+        id: p.uuid,
+        title: p.title,
+        href: `/our-program/${p.slug}`,
+        subtitle: sub,
+      };
+    }),
+    {
+      id: "short-courses",
+      title: "Short Courses",
+      href: "/our-program/short-courses",
+      subtitle: "Upgrade your tech skills through hands-on short programs.",
+    },
+  ];
 
 	return (
 		<div
@@ -175,25 +176,25 @@ export default function DropDown() {
 				)}
 			</button>
 
-			{open && (
-				<div className='fixed left-0 right-0 top-[80px] z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg'>
-					<div className='mx-auto max-w-7xl px-8 py-4'>
-						<ul className='grid w-full gap-6 font-d4 grid-cols-1 md:grid-cols-2'>
-							{components.slice(0, 4).map((component) => (
-								<ListItem
-									key={component.id}
-									title={component.title}
-									href={component.href}
-									subtitle={component.subtitle}
-									onClick={() => setOpen(false)}
-								/>
-							))}
-						</ul>
-					</div>
-				</div>
-			)}
-		</div>
-	);
+      {open && (
+        <div className="fixed left-0 right-0 top-[80px] z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg">
+          <div className="mx-auto max-w-7xl px-8 py-4">
+            <ul className="grid w-full gap-6 font-d4 grid-cols-1 md:grid-cols-2">
+              {components.map((component) => (
+                <ListItem
+                  key={component.id}
+                  title={component.title}
+                  href={component.href}
+                  subtitle={component.subtitle}
+                  onClick={() => setOpen(false)}
+                />
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 function ListItem({
@@ -213,32 +214,33 @@ function ListItem({
 	const lower = title.toLowerCase();
 	const Icon = lower.includes("short") ? BookOpen : GraduationCap;
 
-	return (
-		<li {...props}>
-			<Link
-				href={href}
-				onClick={onClick}
-				className={cn(
-					"group block w-full rounded-md p-4 no-underline outline-none transition-colors",
-					"hover:bg-primary/10 focus:bg-primary/10 hover:text-accent-foreground focus:text-accent-foreground font-bilingual",
-					className
-				)}>
-				<div className='flex items-start gap-3'>
-					<span className='inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bilingual'>
-						<Icon className='h-4 w-4' />
-					</span>
-					<div className='min-w-0'>
-						<div className='mt-1 font-d5 font-semibold leading-none truncate font-bilingual'>
-							{title}
-						</div>
-						{subtitle ? (
-							<p className='mt-1 text-sm text-muted-foreground leading-relaxed line-clamp-3 font-bilingual'>
-								{subtitle}
-							</p>
-						) : null}
-					</div>
-				</div>
-			</Link>
-		</li>
-	);
+  return (
+    <li {...props}>
+      <Link
+        href={href}
+        onClick={onClick}
+        className={cn(
+          "group block w-full rounded-md p-4 no-underline outline-none transition-colors",
+          "hover:bg-primary/10 focus:bg-primary/10 hover:text-accent-foreground focus:text-accent-foreground font-bilingual",
+          className
+        )}
+      >
+        <div className="flex items-start gap-3">
+          <span className="inline-flex h-7 w-7 min-w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bilingual">
+            <Icon className="h-4 w-4" />
+          </span>
+          <div className="min-w-0">
+            <div className=" font-d5 font-semibold leading-none truncate font-bilingual">
+              {title}
+            </div>
+            {subtitle ? (
+              <p className="mt-1 text-sm text-muted-foreground leading-relaxed lg:line-clamp-3 line-clamp-1  font-bilingual">
+                {subtitle}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      </Link>
+    </li>
+  );
 }
