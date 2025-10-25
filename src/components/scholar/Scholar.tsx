@@ -22,12 +22,17 @@ import {
   BookOpen,
   Award,
   Briefcase,
+  ChevronDown,
 } from "lucide-react";
 
 import styles from "./styles.module.css";
-import { useGetAllScholarsQuery } from "@/components/student/StudentApi";
+import {
+  useGetAllScholarsQuery,
+  useGetAllProgramsQuery,
+  useGetScholarsByProgramUuidQuery,
+} from "@/components/student/StudentApi";
 
-// ✅ canonical type (adjust the import path to yours)
+// canonical base type
 import type { Scholar as ApiScholarBase } from "@/types/scholar/scholar";
 
 /* ---------- Types ---------- */
@@ -45,7 +50,7 @@ type ApiCareer = {
   salary?: number;
   company?: string;
   position?: string;
-  interest?: string; // text shown as paragraph
+  interest?: string;
   companyType?: string;
 };
 
@@ -53,17 +58,13 @@ type ApiAudit = { updatedAt?: string | number | Date };
 
 type ApiScholar = ApiScholarBase & {
   specialist?: ApiSpecialist[] | null;
-  careers?: ApiCareer[] | null; // ✅ used for Section 3
-  // Optional: If your API embeds completedCourses directly
+  careers?: ApiCareer[] | null; // for Spotlight
   completedCourses?: Array<{ programName?: string; name?: string }> | null;
-  category?: string; // used in spotlight / section4 fallbacks
-  audit?: ApiAudit; // for cache-busting avatar
+  category?: string;
+  audit?: ApiAudit;
 };
 
-type ApiError = {
-  data?: { message?: string };
-  error?: string;
-};
+type ApiError = { data?: { message?: string }; error?: string };
 
 type ScholarCard = {
   id: number;
@@ -104,9 +105,9 @@ function normalizeAvatar(avatar?: string) {
     ? v
     : `${API_BASE}${v.startsWith("/") ? v : `/${v}`}`;
 }
-function versioned(src: string, ver?: string | number | Date) {
-  if (!src) return "/placeholder.svg";
-  const v =
+function versioned(src?: string, ver?: string | number | Date) {
+  const base = src || "/placeholder.svg";
+  const stamp =
     typeof ver === "number"
       ? ver
       : ver instanceof Date
@@ -114,7 +115,7 @@ function versioned(src: string, ver?: string | number | Date) {
       : ver
       ? new Date(ver).getTime()
       : Date.now();
-  return `${src}${src.includes("?") ? "&" : "?"}v=${v}`;
+  return `${base}${base.includes("?") ? "&" : "?"}v=${stamp}`;
 }
 const BLUR =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjZWVlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+";
@@ -140,15 +141,13 @@ function normalizeProgramName(
   if (!raw) return "";
   const s = raw.trim().toLowerCase();
 
-  // Pre-University (variants)
-  if (/(^|\b)pre[\s-]?uni(versity)?\b/.test(s) || /pre[-\s]?university/i.test(raw)) {
+  if (
+    /(^|\b)pre[\s-]?uni(versity)?\b/.test(s) ||
+    /pre[-\s]?university/i.test(raw)
+  ) {
     return CATEGORY_LABELS.PREU;
   }
-
-  // Foundation
   if (/foundation/i.test(raw)) return CATEGORY_LABELS.FDN;
-
-  // Full Stack Web Development (typo tolerant)
   if (
     s.includes("full") &&
     (s.includes("stack") || s.includes("stak") || s.includes("stcak")) &&
@@ -156,18 +155,13 @@ function normalizeProgramName(
   ) {
     return CATEGORY_LABELS.FSW;
   }
-
-  // IT Professional / ITP
   if (/it\s*profession(al)?/i.test(raw) || /\bitp\b/i.test(raw)) {
     return CATEGORY_LABELS.ITP;
   }
-
-  // IT Expert / ITE
   if (/it\s*expert/i.test(raw) || /\bite\b/i.test(raw)) {
     return CATEGORY_LABELS.ITE;
   }
-
-  return ""; // unknown → will become Short Course
+  return ""; // everything else → SC
 }
 
 function deriveCategoryFromCompleted(
@@ -177,7 +171,6 @@ function deriveCategoryFromCompleted(
     .map(normalizeProgramName)
     .filter(Boolean) as Exclude<CategoryLabel, "All">[];
 
-  // Priority if multiple programs are completed
   const priority: Exclude<CategoryLabel, "All">[] = [
     CATEGORY_LABELS.FSW,
     CATEGORY_LABELS.ITE,
@@ -200,7 +193,6 @@ function Card1({ person }: { person: ScholarCard }) {
   const [hovered, setHovered] = useState(false);
   useEffect(() => setSrc(person.image || "/placeholder.svg"), [person.image]);
 
-  // Lock page scroll when hovering a card
   const lockScroll = () => {
     const sbw = window.innerWidth - document.documentElement.clientWidth;
     document.documentElement.style.setProperty("--scrollbar-width", `${sbw}px`);
@@ -341,9 +333,7 @@ function Card2({ person }: { person: ScholarWithQuote }) {
 
   return (
     <div className="group rounded-xl p-[1.5px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-0.5 hover:scale-[1.01] hover:shadow-xl">
-      {/* ✨ Remove fixed height; make it fluid on mobile and step up responsively */}
       <div className="rounded-xl bg-white dark:bg-slate-800 px-4 py-5 sm:px-6 sm:py-6 md:p-8 text-center transition-all duration-300 ease-out transform-gpu group-hover:shadow-xl h-auto min-h-[220px] sm:min-h-[260px] md:min-h-[320px] flex flex-col items-center">
-        {/* Smaller avatar on mobile */}
         <div className="relative mx-auto h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full overflow-hidden border border-slate-200 shadow-md dark:border-slate-600 bg-slate-200 dark:bg-slate-700">
           <Image
             src={src}
@@ -357,7 +347,6 @@ function Card2({ person }: { person: ScholarWithQuote }) {
           />
         </div>
 
-        {/* Tighter spacing + smaller type on mobile */}
         <div className="mt-2 flex flex-col items-center text-center">
           <h3
             className="mt-1 text-sm sm:text-base md:text-xl font-bold text-slate-900 dark:text-white line-clamp-2"
@@ -382,12 +371,15 @@ function Card2({ person }: { person: ScholarWithQuote }) {
   );
 }
 
-
 /* ---------- Page ---------- */
 export default function Scholar() {
   const [activeCategory, setActiveCategory] = useState<CategoryLabel>(
     CATEGORY_LABELS.ALL
   );
+  const [selectedProgramUuid, setSelectedProgramUuid] = useState<string | null>(
+    null
+  );
+  const [selectedIsSC, setSelectedIsSC] = useState<boolean>(false);
 
   useEffect(() => {
     AOS.init({
@@ -398,11 +390,11 @@ export default function Scholar() {
     });
   }, []);
 
-  // ✅ Fetch once and reuse
+  // All scholars (used when "All" or SC aggregate is selected)
   const {
-    data: apiScholars = [],
-    isLoading,
-    isFetching,
+    data: allScholars = [],
+    isLoading: isLoadingAll,
+    isFetching: isFetchingAll,
     isError,
     error,
   } = useGetAllScholarsQuery(undefined, {
@@ -411,14 +403,57 @@ export default function Scholar() {
     refetchOnReconnect: true,
   });
 
+  // Programs for Section 4 header
+  const { data: programs = [] } = useGetAllProgramsQuery();
+
+  // Scholars filtered by the selected program UUID
+  const {
+    data: programScholars = [],
+    isFetching: isFetchingByProgram,
+    isLoading: isLoadingByProgram,
+    error: programError,
+  } = useGetScholarsByProgramUuidQuery(selectedProgramUuid as string, {
+    skip: !selectedProgramUuid, // only fetch when a UUID is chosen
+    refetchOnMountOrArgChange: true, // force refetch on change
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
+
+  // Choose current dataset
+  const apiScholars: ApiScholar[] = selectedProgramUuid
+    ? (programScholars as ApiScholar[]) ?? []
+    : (allScholars as ApiScholar[]) ?? [];
+
+  // Defensive: if backend returned a single object & somehow slipped past transform
+  const _apiScholars: ApiScholar[] = Array.isArray(apiScholars)
+    ? apiScholars
+    : apiScholars
+    ? [apiScholars as any]
+    : [];
+
+  // quick debug
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(
+      "selectedProgramUuid:",
+      selectedProgramUuid,
+      "programScholars len:",
+      Array.isArray(programScholars) ? programScholars.length : "n/a",
+      "programError:",
+      programError
+    );
+  }, [selectedProgramUuid, programScholars, programError]);
+
+  const isLoading = selectedProgramUuid ? isLoadingByProgram : isLoadingAll;
+  const isFetching = selectedProgramUuid ? isFetchingByProgram : isFetchingAll;
+
   /* =========================================================
      Specialists ONLY (Marquee)
      ========================================================= */
   const { specialistsMarquee } = useMemo(() => {
-    const dedupMarquee = new Map<string, ApiScholar>(); // relaxed (Section 1)
+    const dedupMarquee = new Map<string, ApiScholar>();
 
-    (apiScholars as ApiScholar[]).forEach((s) => {
-      // RELAXED: allow missing universityName for marquee
+    (_apiScholars as ApiScholar[]).forEach((s) => {
       if (
         s?.uuid &&
         Array.isArray(s.specialist) &&
@@ -447,20 +482,16 @@ export default function Scholar() {
     });
 
     return { specialistsMarquee: marq };
-  }, [apiScholars]);
+  }, [_apiScholars]);
 
   /* =========================================================
      Spotlight (Section 3): ONLY scholars who have careers
-     - Title: Name | <ProgramCode>
-     - Subline (orange): career.position
-     - Paragraph: career.interest (fallback to s.quote)
      ========================================================= */
   const spotlight: SpotlightItem[] = useMemo(() => {
-    const list = (apiScholars as ApiScholar[]).filter(
+    const list = (_apiScholars as ApiScholar[]).filter(
       (s) => Array.isArray(s.careers) && s.careers.length > 0
     );
 
-    // Map categories to short codes shown in title
     const programCode = (category?: string) => {
       const c = (category || "").toLowerCase();
       if (c.includes("it expert")) return "ITE";
@@ -493,25 +524,24 @@ export default function Scholar() {
         href,
         name: displayName,
         image,
-        title, // e.g. "ឡុង ណុប សុបុណ្ណ | ITE"
+        title,
         role: firstCareer?.position ?? "",
         description: firstCareer?.interest || s.quote || "",
         company: firstCareer?.company || "",
       } as SpotlightItem;
     });
-  }, [apiScholars]);
+  }, [_apiScholars]);
 
   /* =========================================================
      SECTION 4 data: compute category from completed courses
      ========================================================= */
   const section4: ScholarWithQuote[] = useMemo(() => {
-    const scholars = (apiScholars as ApiScholar[]) ?? [];
+    const scholars = (_apiScholars as ApiScholar[]) ?? [];
 
     const withDerivedCategory: ScholarWithQuote[] = scholars.map((s, idx) => {
       const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
       const image = versioned(base, s.audit?.updatedAt);
 
-      // Read embedded completedCourses if present
       const embedded = s?.completedCourses as
         | Array<{ programName?: string; name?: string }>
         | undefined;
@@ -523,10 +553,9 @@ export default function Scholar() {
       const derivedCategory =
         programNames.length > 0
           ? deriveCategoryFromCompleted(programNames)
-          : // Fallback heuristics
-            (normalizeProgramName(s.category) ||
-              normalizeProgramName(s.role || s.university) ||
-              CATEGORY_LABELS.SC);
+          : normalizeProgramName(s.category) ||
+            normalizeProgramName(s.role || s.university) ||
+            CATEGORY_LABELS.SC;
 
       const spec =
         Array.isArray(s.specialist) && s.specialist.length > 0
@@ -547,20 +576,165 @@ export default function Scholar() {
     });
 
     return withDerivedCategory;
-  }, [apiScholars]);
+  }, [_apiScholars]);
 
-  const filtered: ScholarWithQuote[] =
-    activeCategory === CATEGORY_LABELS.ALL
-      ? section4
-      : section4.filter((s) => s.category === activeCategory);
+  // Final list shown in grid.
+  const filtered: ScholarWithQuote[] = useMemo(() => {
+    if (activeCategory === CATEGORY_LABELS.ALL) return section4;
+    if (selectedProgramUuid) return section4; // already filtered via API
+    if (selectedIsSC)
+      return section4.filter((s) => s.category === CATEGORY_LABELS.SC);
+    return section4;
+  }, [activeCategory, selectedProgramUuid, selectedIsSC, section4]);
+
+  /* =========================================================
+     SECTION 4 — ORIGINAL HEADER + Short Course dropdown (UUID-based fetch)
+     ========================================================= */
+  type ApiProgram = { uuid: string; title: string; slug?: string };
+
+  type HeaderItem =
+    | {
+        kind: "all" | "recognized";
+        display: string;
+        label: CategoryLabel;
+        Icon: React.ComponentType<any>;
+        programUuid?: string | null;
+      }
+    | {
+        kind: "sc-parent";
+        display: string;
+        label: CategoryLabel;
+        Icon: React.ComponentType<any>;
+        children: { title: string; uuid: string }[];
+      };
+
+  const headerItems: HeaderItem[] = useMemo(() => {
+    type RecognizedLabel = Exclude<CategoryLabel, "All" | "Short Course">;
+    type RecognizedHeaderItem = {
+      kind: "recognized";
+      display: string;
+      label: RecognizedLabel;
+      Icon: React.ComponentType<any>;
+      programUuid: string;
+    };
+
+    const RECOGNIZED = new Set<RecognizedLabel>([
+      CATEGORY_LABELS.PREU,
+      CATEGORY_LABELS.FDN,
+      CATEGORY_LABELS.FSW,
+      CATEGORY_LABELS.ITP,
+      CATEGORY_LABELS.ITE,
+    ]);
+
+    const seenTitles = new Set<string>();
+    const recognizedBucket: Partial<
+      Record<RecognizedLabel, RecognizedHeaderItem>
+    > = {};
+    const scChildrenMap = new Map<string, { title: string; uuid: string }>();
+
+    (programs as ApiProgram[]).forEach((p) => {
+      const rawTitle = (p.title || "").trim();
+      if (!rawTitle) return;
+
+      const key = rawTitle.toLowerCase();
+      if (seenTitles.has(key)) return;
+      seenTitles.add(key);
+
+      const normalized = normalizeProgramName(rawTitle);
+      if (
+        normalized &&
+        normalized !== CATEGORY_LABELS.SC &&
+        RECOGNIZED.has(normalized as RecognizedLabel)
+      ) {
+        const label = normalized as RecognizedLabel;
+        recognizedBucket[label] = {
+          kind: "recognized",
+          display: rawTitle,
+          label,
+          Icon:
+            label === CATEGORY_LABELS.PREU
+              ? GraduationCap
+              : label === CATEGORY_LABELS.FDN
+              ? Layers
+              : label === CATEGORY_LABELS.FSW
+              ? Code
+              : label === CATEGORY_LABELS.ITP
+              ? BookOpen
+              : Award, // ITE
+          programUuid: p.uuid,
+        };
+      } else {
+        scChildrenMap.set(key, { title: rawTitle, uuid: p.uuid });
+      }
+    });
+
+    const orderedRecognized: RecognizedHeaderItem[] = (
+      [
+        CATEGORY_LABELS.PREU,
+        CATEGORY_LABELS.FDN,
+        CATEGORY_LABELS.FSW,
+        CATEGORY_LABELS.ITP,
+        CATEGORY_LABELS.ITE,
+      ] as RecognizedLabel[]
+    )
+      .map((lab) => recognizedBucket[lab])
+      .filter((x): x is RecognizedHeaderItem => x != null);
+
+    const scParent: HeaderItem = {
+      kind: "sc-parent",
+      display: CATEGORY_LABELS.SC,
+      label: CATEGORY_LABELS.SC,
+      Icon: Briefcase,
+      children: Array.from(scChildrenMap.values()),
+    };
+
+    return [
+      {
+        kind: "all",
+        display: CATEGORY_LABELS.ALL,
+        label: CATEGORY_LABELS.ALL,
+        Icon: Globe,
+        programUuid: null,
+      },
+      ...orderedRecognized,
+      scParent,
+    ];
+  }, [programs]);
+
+  // Selection handlers
+  const onSelectAll = () => {
+    setActiveCategory(CATEGORY_LABELS.ALL);
+    setSelectedIsSC(false);
+    setSelectedProgramUuid(null);
+  };
+  const onSelectRecognized = (
+    uuid: string,
+    label: Exclude<CategoryLabel, "All" | "Short Course">
+  ) => {
+    setActiveCategory(label);
+    setSelectedIsSC(false);
+    setSelectedProgramUuid(uuid);
+  };
+  const onSelectShortCourseParent = () => {
+    setActiveCategory(CATEGORY_LABELS.SC);
+    setSelectedIsSC(true);
+    setSelectedProgramUuid(null);
+  };
+  const onSelectShortCourseChild = (uuid: string) => {
+    setActiveCategory(CATEGORY_LABELS.SC);
+    setSelectedIsSC(false);
+    setSelectedProgramUuid(uuid);
+  };
 
   return (
     <>
       {/* =================================== */}
-      {/* SECTION 1: Hero + Marquee (Specialists only) */}
+      {/* SECTION 1: Hero + Marquee */}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden dark:bg-slate-900 h-[calc(100vh-4rem)] sm:h-screen">
-        <div className={`absolute inset-0 -z-10 ${styles.gradientBackground}`} />
+        <div
+          className={`absolute inset-0 -z-10 ${styles.gradientBackground}`}
+        />
 
         <div className="w-screen h-full flex flex-col justify-center px-0">
           <div className="text-center" data-aos="fade-down">
@@ -727,7 +901,9 @@ export default function Scholar() {
             <p className="text-center text-sm text-rose-600">
               {(() => {
                 const e = error as ApiError;
-                return e?.data?.message ?? e?.error ?? "Failed to load scholars.";
+                return (
+                  e?.data?.message ?? e?.error ?? "Failed to load scholars."
+                );
               })()}
             </p>
           ) : isLoading || isFetching ? (
@@ -739,7 +915,10 @@ export default function Scholar() {
               No employed scholars to spotlight yet.
             </div>
           ) : (
-            <Carousel className="relative" opts={{ align: "start", loop: true }}>
+            <Carousel
+              className="relative"
+              opts={{ align: "start", loop: true }}
+            >
               <CarouselContent>
                 {spotlight.map((person) => (
                   <CarouselItem key={`spotlight-card-${person.id}`}>
@@ -772,24 +951,20 @@ export default function Scholar() {
 
                         {/* RIGHT: text */}
                         <div className="md:col-span-3 mt-4 md:mt-0">
-                          {/* Badge */}
                           <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
                             Scholar Spotlight
                           </span>
 
-                          {/* Title: Name | ProgramCode */}
-                          <h3 className="mt-2 sm:mt-4 text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                          <h3 className="mt-2 sm:mt-4 text-2xl sm:3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                             {person.title}
                           </h3>
 
-                          {/* Orange subline: Position */}
                           {person.role ? (
                             <p className="mt-1 sm:mt-2 text-base sm:text-lg font-semibold text-orange-500">
                               {person.role}
                             </p>
                           ) : null}
 
-                          {/* Paragraph: Interest/quote */}
                           {!!person.description && (
                             <p className="mt-2 sm:mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">
                               {person.description}
@@ -836,7 +1011,7 @@ export default function Scholar() {
       </section>
 
       {/* =================================== */}
-      {/* SECTION 4: Category Filter based on Completed Courses */}
+      {/* SECTION 4: Category Filter (original header + SC dropdown) */}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden border-t border-slate-100 bg-white dark:bg-slate-900 dark:border-slate-700">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20">
@@ -845,47 +1020,151 @@ export default function Scholar() {
               Discover Our <br /> exSTAD Scholar
             </h2>
             <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Find the best student for your company and boost your business too.
+              Find the best student for your company and boost your business
+              too.
             </p>
           </div>
 
-          {/* Category filter */}
+          {/* Header with SC hover dropdown */}
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            {[
-              { name: CATEGORY_LABELS.ALL, icon: Globe },
-              { name: CATEGORY_LABELS.PREU, icon: GraduationCap },
-              { name: CATEGORY_LABELS.FDN, icon: Layers },
-              { name: CATEGORY_LABELS.FSW, icon: Code }, // fixed spelling
-              { name: CATEGORY_LABELS.ITP, icon: BookOpen },
-              { name: CATEGORY_LABELS.ITE, icon: Award },
-              { name: CATEGORY_LABELS.SC, icon: Briefcase },
-            ].map(({ name, icon: Icon }) => {
-              const active = activeCategory === name;
-              return (
-                <button
-                  key={name}
-                  onClick={() => setActiveCategory(name)}
-                  className={`relative flex items-center gap-2 px-2 py-1 text-sm sm:text-base font-medium transition-colors ${
-                    active
-                      ? "text-blue-600"
-                      : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
-                  }`}
-                >
-                  <Icon
-                    className={`h-4 w-4 ${
-                      active ? "text-blue-600" : "text-slate-400 dark:text-slate-500"
+            {headerItems.map((item) => {
+              // ALL
+              if (item.kind === "all") {
+                const active = activeCategory === CATEGORY_LABELS.ALL;
+                const Icon = item.Icon;
+                return (
+                  <button
+                    key="ALL"
+                    onClick={onSelectAll}
+                    className={`relative flex items-center gap-2 px-2 py-1 text-sm sm:text-base font-medium transition-colors ${
+                      active
+                        ? "text-blue-600"
+                        : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
                     }`}
-                    aria-hidden="true"
-                  />
-                  <span>{name}</span>
-                  {active && (
-                    <span
-                      className="absolute -bottom-1 left-0 right-0 mx-auto h-[2px] w-full rounded-full bg-blue-500"
-                      aria-hidden="true"
+                  >
+                    <Icon
+                      className={`h-4 w-4 ${
+                        active
+                          ? "text-blue-600"
+                          : "text-slate-400 dark:text-slate-500"
+                      }`}
                     />
-                  )}
-                </button>
-              );
+                    <span>{CATEGORY_LABELS.ALL}</span>
+                    {active && (
+                      <span className="absolute -bottom-1 left-0 right-0 mx-auto h-[2px] w-full rounded-full bg-blue-500" />
+                    )}
+                  </button>
+                );
+              }
+
+              // RECOGNIZED TABS
+              if (item.kind === "recognized") {
+                const active =
+                  activeCategory === item.label && !!selectedProgramUuid;
+                const Icon = item.Icon;
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() =>
+                      onSelectRecognized(
+                        item.programUuid!,
+                        item.label as Exclude<
+                          CategoryLabel,
+                          "All" | "Short Course"
+                        >
+                      )
+                    }
+                    className={`relative flex items-center gap-2 px-2 py-1 text-sm sm:text-base font-medium transition-colors ${
+                      active
+                        ? "text-blue-600"
+                        : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
+                    }`}
+                  >
+                    <Icon
+                      className={`h-4 w-4 ${
+                        active
+                          ? "text-blue-600"
+                          : "text-slate-400 dark:text-slate-500"
+                      }`}
+                    />
+                    <span>{item.display}</span>
+                    {active && (
+                      <span className="absolute -bottom-1 left-0 right-0 mx-auto h-[2px] w-full rounded-full bg-blue-500" />
+                    )}
+                  </button>
+                );
+              }
+
+              // SHORT COURSE with hover dropdown
+              if (item.kind === "sc-parent") {
+                const active =
+                  activeCategory === CATEGORY_LABELS.SC &&
+                  (selectedIsSC || !!selectedProgramUuid);
+                const Icon = item.Icon;
+
+                return (
+                  <div key="SC" className="relative group">
+                    <button
+                      onClick={onSelectShortCourseParent}
+                      className={`relative flex items-center gap-2 px-2 py-1 text-sm sm:text-base font-medium transition-colors ${
+                        active
+                          ? "text-blue-600"
+                          : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
+                      }`}
+                    >
+                      <Icon
+                        className={`h-4 w-4 ${
+                          active
+                            ? "text-blue-600"
+                            : "text-slate-400 dark:text-slate-500"
+                        }`}
+                      />
+                      <span>{item.display}</span>
+                      <ChevronDown className="h-4 w-4 opacity-70" />
+                      {active && (
+                        <span className="absolute -bottom-1 left-0 right-0 mx-auto h-[2px] w-full rounded-full bg-blue-500" />
+                      )}
+                    </button>
+
+                    {/* Dropdown on hover */}
+                    <div
+                      className="absolute left-0 mt-2 w-64 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl opacity-0 pointer-events-none translate-y-1 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 transition duration-150 z-20"
+                      role="menu"
+                    >
+                      <div className="max-h-[60vh] overflow-y-auto py-1">
+                        {item.children.length === 0 ? (
+                          <div className="px-3 py-2 text-sm text-slate-500 dark:text-slate-400">
+                            No short courses
+                          </div>
+                        ) : (
+                          item.children.map((child) => (
+                            <button
+                              key={child.uuid}
+                              onClick={() =>
+                                onSelectShortCourseChild(child.uuid)
+                              }
+                              className="w-full text-left px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-200"
+                              role="menuitem"
+                            >
+                              {child.title}
+                            </button>
+                          ))
+                        )}
+                        <div className="my-1 border-t border-slate-200 dark:border-slate-700" />
+                        <button
+                          onClick={onSelectShortCourseParent}
+                          className="w-full text-left px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-700/60"
+                          role="menuitem"
+                        >
+                          Show all Short Course
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return null;
             })}
           </div>
 
@@ -894,7 +1173,9 @@ export default function Scholar() {
             <p className="mt-10 text-center text-sm md:text-base text-rose-600">
               {(() => {
                 const e = error as ApiError;
-                return e?.data?.message ?? e?.error ?? "Failed to load scholars.";
+                return (
+                  e?.data?.message ?? e?.error ?? "Failed to load scholars."
+                );
               })()}
             </p>
           ) : isLoading || isFetching ? (
@@ -914,19 +1195,20 @@ export default function Scholar() {
             </div>
           ) : (
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-  {filtered.map((person) => (
-    <Card2
-      key={`s2-${person.uuid ?? person.id}-${person.spec?.uuid ?? "spec"}`}
-      person={person}
-    />
-  ))}
-  {filtered.length === 0 && (
-    <div className="col-span-full text-center text-slate-500 dark:text-slate-400">
-      No scholars in this category yet.
-    </div>
-  )}
-</div>
-
+              {filtered.map((person) => (
+                <Card2
+                  key={`s2-${person.uuid ?? person.id}-${
+                    person.spec?.uuid ?? "spec"
+                  }`}
+                  person={person}
+                />
+              ))}
+              {filtered.length === 0 && (
+                <div className="col-span-full text-center text-slate-500 dark:text-slate-400">
+                  No scholars in this category yet.
+                </div>
+              )}
+            </div>
           )}
         </div>
       </section>

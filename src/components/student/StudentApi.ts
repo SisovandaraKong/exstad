@@ -177,17 +177,26 @@ export type OpeningProgram = {
 export const StudentApi = createApi({
   reducerPath: "studentApi",
   baseQuery: useBaseQuery,
-  tagTypes: ["Scholar", "ScholarSocialLink", "ScholarAchievement", "OpeningProgram"],
+  tagTypes: [
+    "Scholar",
+    "ScholarSocialLink",
+    "ScholarAchievement",
+    "OpeningProgram",
+  ],
 
   endpoints: (builder) => ({
     // 🔹 GET all scholars
     getAllScholars: builder.query<Scholar[], void>({
       query: () => `/scholars`,
-      transformResponse: (response: { scholars: Scholar[] }) => response.scholars,
+      transformResponse: (response: { scholars: Scholar[] }) =>
+        response.scholars,
       providesTags: (result) =>
         result && result.length
           ? [
-              ...result.map(({ uuid }) => ({ type: "Scholar" as const, id: uuid })),
+              ...result.map(({ uuid }) => ({
+                type: "Scholar" as const,
+                id: uuid,
+              })),
               { type: "Scholar", id: "LIST" },
             ]
           : [{ type: "Scholar", id: "LIST" }],
@@ -196,7 +205,8 @@ export const StudentApi = createApi({
     // 🔹 GET scholars by status
     getScholarsByStatus: builder.query<Scholar[], string>({
       query: (status) => `/scholars/status/${status}`,
-      transformResponse: (response: { scholars: Scholar[] }) => response.scholars,
+      transformResponse: (response: { scholars: Scholar[] }) =>
+        response.scholars,
       providesTags: [{ type: "Scholar", id: "LIST" }],
     }),
 
@@ -215,7 +225,10 @@ export const StudentApi = createApi({
     }),
 
     // 🔹 Search scholars
-    searchScholars: builder.query<Scholar[], { username?: string; name?: string }>({
+    searchScholars: builder.query<
+      Scholar[],
+      { username?: string; name?: string }
+    >({
       query: ({ username = "", name = "" }) =>
         `/scholars/search?username=${username}&name=${name}`,
       providesTags: [{ type: "Scholar", id: "LIST" }],
@@ -235,7 +248,10 @@ export const StudentApi = createApi({
     }),
 
     // 🔹 UPDATE scholar (by UUID)
-    updateScholar: builder.mutation<Scholar, { uuid: string; body: UpdateScholar }>({
+    updateScholar: builder.mutation<
+      Scholar,
+      { uuid: string; body: UpdateScholar }
+    >({
       query: ({ uuid, body }) => ({
         url: `/scholars/${uuid}`,
         method: "PATCH",
@@ -286,37 +302,44 @@ export const StudentApi = createApi({
     }),
 
     // 🔹 Delete social link
-    deleteSocialLink: builder.mutation<void, { scholarUuid: string; socialLinkUuid: string }>(
-      {
-        query: ({ scholarUuid, socialLinkUuid }) => ({
-          url: `/scholars/${scholarUuid}/social-link/${socialLinkUuid}`,
-          method: "DELETE",
-        }),
-        invalidatesTags: (result, error, { scholarUuid }) => [
-          { type: "ScholarSocialLink", id: `scholar-${scholarUuid}` },
-        ],
-      }
-    ),
+    deleteSocialLink: builder.mutation<
+      void,
+      { scholarUuid: string; socialLinkUuid: string }
+    >({
+      query: ({ scholarUuid, socialLinkUuid }) => ({
+        url: `/scholars/${scholarUuid}/social-link/${socialLinkUuid}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { scholarUuid }) => [
+        { type: "ScholarSocialLink", id: `scholar-${scholarUuid}` },
+      ],
+    }),
 
     // 🔹 Scholars by program
     getScholarsByOpeningProgram: builder.query<Scholar[], string>({
       query: (uuid) => `/scholars/${uuid}/opening-program`,
-      transformResponse: (response: { "opening-program-scholars": Scholar[] }) =>
-        response["opening-program-scholars"],
+      transformResponse: (response: {
+        "opening-program-scholars": Scholar[];
+      }) => response["opening-program-scholars"],
       providesTags: [{ type: "Scholar", id: "LIST" }],
     }),
 
     // 🔹 Get scholar achievements
     getScholarAchievements: builder.query<ScholarAchievementsResponse, string>({
       query: (uuid) => `/scholars/${uuid}/achievements`,
-      providesTags: (result, error, uuid) => [{ type: "ScholarAchievement", id: uuid }],
+      providesTags: (result, error, uuid) => [
+        { type: "ScholarAchievement", id: uuid },
+      ],
     }),
 
     // 🔹 Get scholar completed courses
     getScholarCompletedCourses: builder.query<any[], string>({
       query: (uuid) => `/scholars/${uuid}/completed-courses`,
-      transformResponse: (response: { completedCourses: any[] }) => response.completedCourses,
-      providesTags: (result, error, uuid) => [{ type: "Scholar", id: `completed-courses-${uuid}` }],
+      transformResponse: (response: { completedCourses: any[] }) =>
+        response.completedCourses,
+      providesTags: (result, error, uuid) => [
+        { type: "Scholar", id: `completed-courses-${uuid}` },
+      ],
     }),
 
     // 🔹 Get scholar certificates (accept bare array or wrapped)
@@ -324,14 +347,43 @@ export const StudentApi = createApi({
       query: (uuid) => `/certificates/scholars/${uuid}`,
       transformResponse: (response: any) =>
         Array.isArray(response) ? response : response?.certificates ?? [],
-      providesTags: (result, error, uuid) => [{ type: "Scholar", id: `certificates-${uuid}` }],
+      providesTags: (result, error, uuid) => [
+        { type: "Scholar", id: `certificates-${uuid}` },
+      ],
     }),
 
     // 🔹 Get opening program by UUID
     getOpeningProgramByUuid: builder.query<OpeningProgram, string>({
       query: (uuid) => `/opening-programs/${uuid}`,
-      providesTags: (result, error, uuid) => [{ type: "OpeningProgram", id: uuid }],
+      providesTags: (result, error, uuid) => [
+        { type: "OpeningProgram", id: uuid },
+      ],
     }),
+    // 🔹 GET all programs
+    getAllPrograms: builder.query<any[], void>({
+      query: () => `/programs`, // base URL handled by useBaseQuery ({{baseUrl}}/api/v1)
+      transformResponse: (response: { programs: any[] }) => response.programs,
+      providesTags: [{ type: "OpeningProgram", id: "LIST" }],
+    }),
+    
+// 🔹 GET all scholars by program UUID
+// 🔹 GET all scholars by program UUID
+getScholarsByProgramUuid: builder.query<Scholar[], string>({
+  query: (programUuid) => `/scholars/program/${programUuid}`,
+  transformResponse: (response: any) => {
+    // handle all shapes: array | {scholars: []} | single object
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.scholars)) return response.scholars;
+    if (response && typeof response === "object") return [response];
+    return [];
+  },
+  providesTags: (result, error, programUuid) => [
+    { type: "Scholar", id: `program-${programUuid}` },
+    { type: "Scholar", id: "LIST" },
+  ],
+}),
+
+
   }),
 });
 
@@ -352,5 +404,7 @@ export const {
   useGetScholarAchievementsQuery,
   useGetScholarCompletedCoursesQuery,
   useGetScholarCertificatesQuery,
-  useGetOpeningProgramByUuidQuery, // 👈 exported hook
+  useGetOpeningProgramByUuidQuery,
+  useGetAllProgramsQuery,
+  useGetScholarsByProgramUuidQuery
 } = StudentApi;
