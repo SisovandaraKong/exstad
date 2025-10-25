@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { useTranslations } from "next-intl";
 
 type MainCardProps = {
 	id: string;
@@ -16,6 +17,8 @@ export default function ScholarshipCard({
 	description,
 	imageSrc = "./image/sampleImage/graduate-cap.png",
 }: MainCardProps) {
+	const t = useTranslations();
+
 	return (
 		<div className='w-full h-full min-h-[400px] sm:min-h-[450px] md:min-h-[500px]'>
 			<div className='flex flex-col w-full h-full p-4 sm:p-6 md:p-8 lg:p-10 bg-white border border-gray-200 rounded-3xl shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden'>
@@ -30,7 +33,7 @@ export default function ScholarshipCard({
 					<Button
 						onClick={() => console.log("Button clicked")}
 						className='bg-primary hover:bg-primary-hover text-white px-4 sm:px-6 py-2 rounded-full text-sm font-medium w-fit mt-2'>
-						Up Your Skill
+						{t("main-cards.scholarship.button")}
 					</Button>
 				</div>
 

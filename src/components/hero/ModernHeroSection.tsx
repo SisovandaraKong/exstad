@@ -3,16 +3,13 @@
 "use client";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, Users, Award, Globe } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import Link from "next/link";
 import { MarqueeVertical } from "@/components/marquee/MarqueeVertical";
+import { useTranslations } from "next-intl";
 
 export default function ModernHeroSection() {
-	const stats = [
-		{ icon: Users, value: "5000+", label: "Students" },
-		{ icon: Award, value: "95%", label: "Success Rate" },
-		{ icon: Globe, value: "50+", label: "Countries" },
-	];
+	const t = useTranslations();
 
 	return (
 		<section className='relative min-h-screen flex items-center justify-center overflow-hidden'>
@@ -60,7 +57,7 @@ export default function ModernHeroSection() {
 							transition={{ duration: 0.6, delay: 0.4 }}>
 							<div className='w-2 h-2 bg-gradient-to-r from-primary to-secondary rounded-full animate-pulse' />
 							<span className='text-xs sm:text-sm font-medium text-foreground/80'>
-								Leading IT Education in Cambodia
+								{t("hero.badge")}
 							</span>
 						</motion.div>
 
@@ -70,11 +67,15 @@ export default function ModernHeroSection() {
 							initial={{ opacity: 0, y: 30 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 0.6 }}>
-							<span className='block text-foreground'>Shape Your</span>
-							<span className='block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'>
-								Digital Future
+							<span className='block text-foreground'>
+								{t("hero.title-part1")}
 							</span>
-							<span className='block text-foreground'>With EXSTAD</span>
+							<span className='block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'>
+								{t("hero.title-part2")}
+							</span>
+							<span className='block text-foreground'>
+								{t("hero.title-part3")}
+							</span>
 						</motion.h1>
 
 						{/* Description */}
@@ -83,9 +84,7 @@ export default function ModernHeroSection() {
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 0.8 }}>
-							Transform your career with cutting-edge IT education. Join
-							thousands of successful graduates who chose EXSTAD for their
-							digital transformation journey.
+							{t("hero.description")}
 						</motion.p>
 
 						{/* CTA Buttons */}
@@ -99,7 +98,9 @@ export default function ModernHeroSection() {
 									size='lg'
 									className='w-full cursor-pointer md:w-auto min-w-[180px] sm:min-w-[200px] bg-primary text-white font-semibold px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group'>
 									<span className='flex items-center justify-center'>
-										<span className='truncate'>Explore Programs</span>
+										<span className='truncate'>
+											{t("hero.explore-programs")}
+										</span>
 										<ArrowRight className='ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform flex-shrink-0' />
 									</span>
 								</Button>
@@ -111,7 +112,7 @@ export default function ModernHeroSection() {
 									className='w-full cursor-pointer md:w-auto min-w-[180px] sm:min-w-[200px] border-2 border-primary/30 hover:border-primary/50 hover:bg-primary/5 font-semibold px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg sm:rounded-xl transition-all duration-300 group'>
 									<span className='flex items-center justify-center'>
 										<Play className='mr-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform flex-shrink-0' />
-										<span className='truncate'>Watch Story</span>
+										<span className='truncate'>{t("hero.watch-story")}</span>
 									</span>
 								</Button>
 							</Link>

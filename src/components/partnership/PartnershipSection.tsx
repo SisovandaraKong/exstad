@@ -4,6 +4,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 // Categorized partners for better organization
 const partnerCategories = {
@@ -120,6 +121,7 @@ const allPartners = [
 // Remove the PartnerCard component since we're only using scroll view
 
 export function PartnersSection() {
+	const t = useTranslations();
 	const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>(
 		{}
 	);
@@ -155,7 +157,7 @@ export function PartnersSection() {
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.3 }}
 							viewport={{ once: true }}>
-							Our Value Partners
+							{t("partnerships.title")}
 						</motion.h2>
 
 						<motion.p
@@ -164,8 +166,7 @@ export function PartnersSection() {
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.4 }}
 							viewport={{ once: true }}>
-							We collaborate with valued partners from various sectors across
-							Cambodia and abroad.
+							{t("partnerships.subtitle")}
 						</motion.p>
 					</motion.div>
 				</div>

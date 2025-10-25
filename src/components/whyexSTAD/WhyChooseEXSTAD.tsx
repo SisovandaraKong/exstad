@@ -1,9 +1,13 @@
 /** @format */
+"use client";
 import Image from "next/image";
 import { FeatureCard } from "./FeatureCard";
 import istadImage from "../../../public/image/istad-icon.png";
+import { useTranslations } from "next-intl";
 
 export function WhyChooseISTAD_Card() {
+	const t = useTranslations();
+
 	return (
 		<div className='h-full relative'>
 			{/* Grid Background - Same as Hero Section */}
@@ -35,11 +39,10 @@ export function WhyChooseISTAD_Card() {
 			</div>
 			<div className='relative z-10 text-center space-y-4 pt-8 sm:pt-12 md:pt-16 lg:pt-20 px-4 sm:px-8 md:px-0 lg:px-0 xl:px-32'>
 				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary'>
-					Why Choose ISTAD?{" "}
+					{t("why-choose.title")}
 				</h2>
 				<p className='text-base sm:text-lg md:text-[18px] leading-7 sm:leading-8 text-gray-600 dark:text-gray-300'>
-					Unlock your true potential and discover a world of opportunities that
-					align with your skills, interests, and aspirations
+					{t("why-choose.subtitle")}
 				</p>
 			</div>
 
@@ -58,23 +61,23 @@ export function WhyChooseISTAD_Card() {
 				</div>
 				<FeatureCard
 					icon='🔬'
-					title='Advanced Science and Technology'
-					description='ISTAD guides students toward modern science, technology, and digital skill development.'
+					title={t("why-choose.advanced-tech-focus.title")}
+					description={t("why-choose.advanced-tech-focus.description")}
 				/>
 				<FeatureCard
 					icon='💼'
-					title='Strong Career Opportunities'
-					description='Graduates are guaranteed excellent job placements with top IT companies.'
+					title={t("why-choose.career-opportunities.title")}
+					description={t("why-choose.career-opportunities.description")}
 				/>
 				<FeatureCard
 					icon='🎓'
-					title='High-Quality Training'
-					description='The institute provides up-to-date teaching methods and learning roadmaps.'
+					title={t("why-choose.high-quality-training.title")}
+					description={t("why-choose.high-quality-training.description")}
 				/>
 				<FeatureCard
-					icon='🚀'
-					title='Best Choice for IT Aspirants'
-					description="It's the ideal place for those who want to become IT experts in Cambodia."
+					icon='🏆'
+					title={t("why-choose.best-choice-it.title")}
+					description={t("why-choose.best-choice-it.description")}
 				/>
 			</div>
 		</div>

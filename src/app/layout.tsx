@@ -12,6 +12,8 @@ import I18nProvider from "@/lib/I18nProvider";
 import Providers from "@/lib/providers";
 import "./globals.css";
 import AppToaster from "@/components/ui/app-toaster";
+import { LanguageLoadingProvider } from "@/contexts/LanguageLoadingContext";
+import { GlobalLanguageLoader } from "@/components/loading/GlobalLanguageLoader";
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -89,14 +91,17 @@ export default async function RootLayout({
 					<OnlineStatusIndicator />
 					<Providers>
 						<I18nProvider initialLocale={internalLocale}>
-							<AuthProvider>
-								<Navbar />
-								<main className='mt-[72px] sm:mt-[76px] md:mt-[80px] lg:mt-[84px]'>
-									{children}
-									<AppToaster />
-								</main>
-								<Footer />
-							</AuthProvider>
+							<LanguageLoadingProvider>
+								<AuthProvider>
+									<Navbar />
+									<main className='mt-[72px] sm:mt-[76px] md:mt-[80px] lg:mt-[84px]'>
+										{children}
+										<AppToaster />
+									</main>
+									<Footer />
+									<GlobalLanguageLoader />
+								</AuthProvider>
+							</LanguageLoadingProvider>
 						</I18nProvider>
 					</Providers>
 				</ThemeProvider>

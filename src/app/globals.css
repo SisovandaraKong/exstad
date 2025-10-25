@@ -535,3 +535,33 @@ body {
 body {
 	font-family: var(--font-inter), var(--font-koh), ui-sans-serif !important;
 }
+
+/* Language switching animations */
+@keyframes language-pulse {
+	0%,
+	100% {
+		opacity: 0.5;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+.language-loading-button {
+	animation: language-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes fade-in-scale {
+	0% {
+		opacity: 0;
+		transform: scale(0.9) translateY(20px);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+.language-loading-overlay {
+	animation: fade-in-scale 0.3s ease-out;
+}

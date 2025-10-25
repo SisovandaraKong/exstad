@@ -1,9 +1,12 @@
 /** @format */
 
+"use client";
+
 import React, { useState } from "react";
 import { IoMdMail } from "react-icons/io";
 import { FaFacebook, FaTelegram } from "react-icons/fa";
 import { FaLinkedin, FaInstagram } from "react-icons/fa6";
+import { useTranslations } from "next-intl";
 
 /**
  * Single-file contact form component built with React and Tailwind CSS.
@@ -22,6 +25,8 @@ import { FaLinkedin, FaInstagram } from "react-icons/fa6";
 						className='text-white bg-primary hover:bg-primary-hover font-semibold rounded-lg text-base px-6 py-3 w-full transition duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'>ual feedback to the user.
  */
 const ContactForm = () => {
+	const t = useTranslations("contact-form");
+
 	// State to hold the values of the form inputs
 	const [formData, setFormData] = useState({
 		name: "",
@@ -64,7 +69,7 @@ const ContactForm = () => {
 			return;
 		}
 
-		setStatus({ message: "Sending...", type: "" });
+		setStatus({ message: t("form.sending"), type: "" });
 
 		// Simulate a network delay for the submission process
 		await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -78,7 +83,7 @@ const ContactForm = () => {
 
 			// Simulate a successful response
 			setStatus({
-				message: "Message sent successfully! We'll be in touch soon.",
+				message: t("form.success-message"),
 				type: "success",
 			});
 			setFormData({ name: "", email: "", subject: "", message: "" }); // Clear the form fields
@@ -86,7 +91,7 @@ const ContactForm = () => {
 			// Handle mock or real submission error
 			console.error("Submission Error:", error);
 			setStatus({
-				message: "Failed to send message. Please try again.",
+				message: t("form.error-message"),
 				type: "error",
 			});
 		}
@@ -102,17 +107,43 @@ const ContactForm = () => {
 
 	// The entire component uses functional structure and JSX
 	return (
-		<section className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-32 bg-whitesmoke'>
-			<div className='max-w-7xl mx-auto'>
+		<section className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-32 bg-whitesmoke relative'>
+			{/* Grid Background */}
+			<div className='absolute inset-0 opacity-[0.15] dark:opacity-[0.20]'>
+				<div
+					className='w-full h-full'
+					style={{
+						backgroundImage: `
+							linear-gradient(rgb(75, 85, 99, 0.6) 1px, transparent 1px),
+							linear-gradient(90deg, rgb(75, 85, 99, 0.6) 1px, transparent 1px)
+						`,
+						backgroundSize: "40px 40px",
+						maskImage: `
+							radial-gradient(ellipse 80% 60% at 50% 50%, 
+								rgba(0, 0, 0, 1) 20%, 
+								rgba(0, 0, 0, 0.8) 40%, 
+								rgba(0, 0, 0, 0.4) 70%, 
+								rgba(0, 0, 0, 0) 100%)
+						`,
+						WebkitMaskImage: `
+							radial-gradient(ellipse 80% 60% at 50% 50%, 
+								rgba(0, 0, 0, 1) 20%, 
+								rgba(0, 0, 0, 0.8) 40%, 
+								rgba(0, 0, 0, 0.4) 70%, 
+								rgba(0, 0, 0, 0) 100%)
+						`,
+					}}
+				/>
+			</div>
+			<div className='max-w-7xl mx-auto relative z-10'>
 				<div className='grid sm:grid-cols-2 items-center gap-16 p-8 mx-auto max-w-4xl bg-background shadow-lg hover:shadow-xl rounded-xl text-gray-800 dark:text-gray-200 transition duration-300'>
 					{/* Left Column - Contact Info and Intro */}
 					<div>
 						<h1 className='text-4xl font-extrabold text-primary mb-3'>
-							Let&apos;s Talk
+							{t("title")}
 						</h1>
 						<p className='text-base text-gray-500 dark:text-gray-200 mt-3 mb-10'>
-							Have a big idea or brand to develop and need help? Reach out;
-							we&apos;d love to hear about your project and provide assistance.
+							{t("description")}
 						</p>
 
 						{/* Status Message Display */}
@@ -129,7 +160,7 @@ const ContactForm = () => {
 						{/* Email Section */}
 						<div className='mt-12'>
 							<h2 className='text-xl font-bold text-gray-800 dark:text-gray-200'>
-								Email Us
+								{t("email-section.title")}
 							</h2>
 							<ul className='mt-4'>
 								<li className='flex items-center space-x-3'>
@@ -152,10 +183,10 @@ const ContactForm = () => {
 										href='mailto:info@exstad.edu.kh'
 										className='text-[#007bff] hover:text-blue-600 transition text-sm'>
 										<small className='block text-gray-400 dark:text-gray-500'>
-											Mail
+											{t("email-section.label")}
 										</small>
 										<strong className='font-semibold'>
-											info@exstad.edu.kh
+											{t("email-section.email")}
 										</strong>
 									</a>
 								</li>
@@ -165,12 +196,14 @@ const ContactForm = () => {
 						{/* Socials Section */}
 						<div className='mt-12'>
 							<h2 className='text-xl font-bold text-gray-800 dark:text-gray-200'>
-								Follow Us
+								{t("social-section.title")}
 							</h2>
 							<ul className='flex mt-4 space-x-4'>
 								{/* Facebook Icon */}
 								<li className='bg-gray-200 cursor-pointer dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
-									<a href='https://www.facebook.com/istad.co' aria-label='Facebook'>
+									<a
+										href='https://www.facebook.com/istad.co'
+										aria-label='Facebook'>
 										<FaFacebook className='w-5 h-5 text-primary' />
 									</a>
 								</li>
@@ -195,7 +228,7 @@ const ContactForm = () => {
 						<input
 							type='text'
 							name='name'
-							placeholder='Name'
+							placeholder={t("form.name-placeholder")}
 							value={formData.name}
 							onChange={handleChange}
 							className='w-full rounded-lg py-3 px-4 border text-sm outline-none focus:ring-2 focus:ring-[#007bff] transition duration-200'
@@ -204,7 +237,7 @@ const ContactForm = () => {
 						<input
 							type='email'
 							name='email'
-							placeholder='Email'
+							placeholder={t("form.email-placeholder")}
 							value={formData.email}
 							onChange={handleChange}
 							className='w-full rounded-lg py-3 px-4 border text-sm outline-none focus:ring-2 focus:ring-[#007bff] transition duration-200'
@@ -213,7 +246,7 @@ const ContactForm = () => {
 						<input
 							type='text'
 							name='subject'
-							placeholder='Subject'
+							placeholder={t("form.subject-placeholder")}
 							value={formData.subject}
 							onChange={handleChange}
 							className='w-full rounded-lg py-3 px-4 border text-sm outline-none focus:ring-2 focus:ring-[#007bff] transition duration-200'
@@ -221,7 +254,7 @@ const ContactForm = () => {
 						/>
 						<textarea
 							name='message'
-							placeholder='Message'
+							placeholder={t("form.message-placeholder")}
 							rows={6}
 							value={formData.message}
 							onChange={handleChange}
@@ -230,9 +263,11 @@ const ContactForm = () => {
 						<button
 							type='submit'
 							// Disable button while sending to prevent multiple submissions
-							disabled={status.message === "Sending..."}
+							disabled={status.message === t("form.sending")}
 							className='text-white cursor-pointer bg-primary hover:bg-primary-hover font-semibold rounded-lg text-base px-6 py-3 w-full transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed'>
-							{status.message === "Sending..." ? "Sending..." : "Send Message"}
+							{status.message === t("form.sending")
+								? t("form.sending")
+								: t("form.send-button")}
 						</button>
 					</form>
 				</div>

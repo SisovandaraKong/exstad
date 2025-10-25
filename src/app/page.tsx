@@ -20,6 +20,7 @@ import SwiperSlideComponent_PopularCourse from "@/components/swiper/swiperSlide"
 import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import ModernHeroSection from "@/components/hero/ModernHeroSection";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
 	const { data: allPrograms = [] } = useGetAllMasterProgramsQuery(undefined, {
@@ -36,7 +37,7 @@ export default function Home() {
 	const visiblePrograms = programs.filter((p) =>
 		openingPrograms.some((o) => o.programName === p.title)
 	);
-	// const t = useTranslations();
+	const t = useTranslations();
 	// 90;
 	return (
 		<motion.div
@@ -74,8 +75,8 @@ export default function Home() {
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
 						<ShortCourseCard
 							id='1'
-							title='Short Courses'
-							description='Intensive learning programs designed to enhance your skills quickly.'
+							title={t("main-cards.short-courses.title")}
+							description={t("main-cards.short-courses.description")}
 						/>
 					</motion.div>
 					<motion.div
@@ -87,8 +88,8 @@ export default function Home() {
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
 						<ScholarshipCard
 							id='2'
-							title='Scholarship Chances'
-							description='Financial support awarded to help students pursue their education.'
+							title={t("main-cards.scholarship.title")}
+							description={t("main-cards.scholarship.description")}
 						/>
 					</motion.div>
 				</motion.div>
@@ -122,11 +123,10 @@ export default function Home() {
 								transition={{ duration: 0.6, delay: 0.2 }}
 								viewport={{ once: true }}>
 								<h2 className='text-3xl font-bold tracking-tight text-primary sm:text-4xl'>
-									Outstanding Career Achievement
+									{t("statistics-section.title")}
 								</h2>
 								<p className='text-lg leading-8 text-muted-foreground'>
-									Discover where our graduates excel in their professional
-									journey across diverse industries.
+									{t("statistics-section.subtitle")}
 								</p>
 							</motion.div>
 							<motion.dl
@@ -144,7 +144,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										International Tech Company
+										{t("statistics-section.categories.international-tech")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										1%
@@ -159,7 +159,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Study Abroad
+										{t("statistics-section.categories.study-abroad")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										2%
@@ -174,7 +174,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Outsourcing
+										{t("statistics-section.categories.outsourcing")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										2%
@@ -189,7 +189,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Startup Company
+										{t("statistics-section.categories.startup-company")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										5%
@@ -204,7 +204,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										ISTAD
+										{t("statistics-section.categories.istad")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										7%
@@ -219,7 +219,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Officer
+										{t("statistics-section.categories.officer")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										16%
@@ -234,7 +234,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Bank & Finance
+										{t("statistics-section.categories.bank-finance")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										34%
@@ -249,7 +249,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Technology Company
+										{t("statistics-section.categories.technology-company")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										38%
@@ -296,7 +296,7 @@ export default function Home() {
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.2 }}
 							viewport={{ once: false }}>
-							What can we do for you?
+							{t("offerings-section.title")}
 						</motion.h2>
 						<motion.p
 							className='text-base sm:text-lg md:text-[18px] leading-7 sm:leading-8 text-gray-700 dark:text-gray-200 max-w-3xl mx-auto'
@@ -304,8 +304,7 @@ export default function Home() {
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.4 }}
 							viewport={{ once: false }}>
-							Providing tailored solutions, expert support, and innovative
-							services to meet your needs.
+							{t("offerings-section.subtitle")}
 						</motion.p>
 					</motion.div>
 					<motion.div
@@ -333,11 +332,12 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Scholarship Updates
+											{t("offerings-section.cards.scholarship-updates.title")}
 										</h3>
 										<p>
-											Stay informed with the latest scholarship opportunities
-											tailored for tech and innovation students.
+											{t(
+												"offerings-section.cards.scholarship-updates.description"
+											)}
 										</p>
 									</div>
 								}
@@ -362,11 +362,10 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Career Roadmaps
+											{t("offerings-section.cards.career-roadmaps.title")}
 										</h3>
 										<p>
-											Explore structured IT career paths that guide you
-											step-by-step toward your professional goals.
+											{t("offerings-section.cards.career-roadmaps.description")}
 										</p>
 									</div>
 								}
@@ -391,11 +390,12 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Skill Development
+											{t("offerings-section.cards.skill-development.title")}
 										</h3>
 										<p>
-											Gain practical skills through short courses designed to
-											prepare you for real-world challenges.
+											{t(
+												"offerings-section.cards.skill-development.description"
+											)}
 										</p>
 									</div>
 								}
@@ -418,11 +418,12 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Learning Resources
+											{t("offerings-section.cards.learning-resources.title")}
 										</h3>
 										<p>
-											Access curated study materials, hands-on projects, and
-											learning tools all in one place.
+											{t(
+												"offerings-section.cards.learning-resources.description"
+											)}
 										</p>
 									</div>
 								}
@@ -445,11 +446,10 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Success Stories
+											{t("offerings-section.cards.success-stories.title")}
 										</h3>
 										<p>
-											Get inspired by students who secured scholarships and
-											built thriving IT careers.
+											{t("offerings-section.cards.success-stories.description")}
 										</p>
 									</div>
 								}
@@ -472,11 +472,12 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Global Opportunities
+											{t("offerings-section.cards.global-opportunities.title")}
 										</h3>
 										<p>
-											Connect with worldwide opportunities in technology and
-											education to expand your horizons.
+											{t(
+												"offerings-section.cards.global-opportunities.description"
+											)}
 										</p>
 									</div>
 								}
