@@ -315,7 +315,7 @@ export const StudentApi = createApi({
       ],
     }),
 
-    // 🔹 Scholars by program
+    // 🔹 Scholars by opening program
     getScholarsByOpeningProgram: builder.query<Scholar[], string>({
       query: (uuid) => `/scholars/${uuid}/opening-program`,
       transformResponse: (response: {
@@ -359,31 +359,68 @@ export const StudentApi = createApi({
         { type: "OpeningProgram", id: uuid },
       ],
     }),
+
     // 🔹 GET all programs
     getAllPrograms: builder.query<any[], void>({
-      query: () => `/programs`, // base URL handled by useBaseQuery ({{baseUrl}}/api/v1)
-      transformResponse: (response: { programs: any[] }) => response.programs,
-      providesTags: [{ type: "OpeningProgram", id: "LIST" }],
+      query: () => `/programs`,
+      transformResponse: (res: { programs: any[] }) =>
+        (res.programs ?? []).filter((p: any) => !p?.isDeleted && p?.status !== "DELETED"),
+      providesTags: (result) =>
+        result && result.length
+          ? [
+              ...result.map((p: any) => ({
+                type: "OpeningProgram" as const,
+                id: p.uuid,
+              })),
+              { type: "OpeningProgram" as const, id: "LIST" },
+            ]
+          : [{ type: "OpeningProgram" as const, id: "LIST" }],
     }),
-    
-// 🔹 GET all scholars by program UUID
-// 🔹 GET all scholars by program UUID
-getScholarsByProgramUuid: builder.query<Scholar[], string>({
-  query: (programUuid) => `/scholars/program/${programUuid}`,
-  transformResponse: (response: any) => {
-    // handle all shapes: array | {scholars: []} | single object
-    if (Array.isArray(response)) return response;
-    if (Array.isArray(response?.scholars)) return response.scholars;
-    if (response && typeof response === "object") return [response];
-    return [];
-  },
-  providesTags: (result, error, programUuid) => [
-    { type: "Scholar", id: `program-${programUuid}` },
-    { type: "Scholar", id: "LIST" },
-  ],
-}),
 
+    // 🔹 GET all scholars by program UUID
+    getScholarsByProgramUuid: builder.query<Scholar[], string>({
+      query: (programUuid) => `/scholars/program/${programUuid}`,
+      transformResponse: (response: any) => {
+        // handle all shapes: array | {scholars: []} | single object
+        if (Array.isArray(response)) return response;
+        if (Array.isArray(response?.scholars)) return response.scholars;
+        if (response && typeof response === "object") return [response];
+        return [];
+      },
+      providesTags: (result, error, programUuid) => [
+        { type: "Scholar", id: `program-${programUuid}` },
+        { type: "Scholar", id: "LIST" },
+      ],
+    }),
 
+    // 🔹 DELETE program by UUID
+    deleteProgram: builder.mutation<{ success?: boolean }, string>({
+      query: (uuid) => ({
+        url: `/programs/${uuid}/delete`,
+        method: "PUT",
+      }),
+      invalidatesTags: (_res, _err, uuid) => [
+        { type: "OpeningProgram", id: uuid },
+        { type: "OpeningProgram", id: "LIST" },
+      ],
+      async onQueryStarted(uuid, { dispatch, queryFulfilled }) {
+        const patch = dispatch(
+          StudentApi.util.updateQueryData(
+            "getAllPrograms",
+            undefined,
+            (draft: any[]) => {
+              const i = draft.findIndex((p: any) => p?.uuid === uuid);
+              if (i !== -1) draft.splice(i, 1);
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patch.undo();
+        }
+      },
+    }),
   }),
 });
 
@@ -406,5 +443,7 @@ export const {
   useGetScholarCertificatesQuery,
   useGetOpeningProgramByUuidQuery,
   useGetAllProgramsQuery,
-  useGetScholarsByProgramUuidQuery
+  useGetScholarsByProgramUuidQuery,
+  useLazyGetScholarsByProgramUuidQuery, // ⬅️ added lazy hook export
+  useDeleteProgramMutation,
 } = StudentApi;

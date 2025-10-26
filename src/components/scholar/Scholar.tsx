@@ -21,7 +21,6 @@ import {
   Code,
   BookOpen,
   Award,
-  Briefcase,
   ChevronDown,
 } from "lucide-react";
 
@@ -30,11 +29,11 @@ import {
   useGetAllScholarsQuery,
   useGetAllProgramsQuery,
   useGetScholarsByProgramUuidQuery,
+  useLazyGetScholarsByProgramUuidQuery,
+  useDeleteProgramMutation,
 } from "@/components/student/StudentApi";
 
-// canonical base type
 import type { Scholar as ApiScholarBase } from "@/types/scholar/scholar";
-
 /* ---------- Types ---------- */
 type ApiSpecialist = {
   uuid?: string;
@@ -58,7 +57,7 @@ type ApiAudit = { updatedAt?: string | number | Date };
 
 type ApiScholar = ApiScholarBase & {
   specialist?: ApiSpecialist[] | null;
-  careers?: ApiCareer[] | null; // for Spotlight
+  careers?: ApiCareer[] | null;
   completedCourses?: Array<{ programName?: string; name?: string }> | null;
   category?: string;
   audit?: ApiAudit;
@@ -80,19 +79,22 @@ type ScholarWithQuote = Omit<ScholarCard, "spec"> & {
   quote: string;
   category: string;
   spec: ApiSpecialist;
+  company?: string; 
 };
 
 type SpotlightItem = {
   id: number;
   uuid?: string;
   href: string;
-  name: string;
   image: string;
-  title: string;
-  role: string;
-  description: string;
-  company: string;
+  displayName: string;  
+  programName?: string;        
+  generation?: number | null;   
+  position?: string;            
+  company?: string;            
+  interest?: string;            
 };
+
 
 /* ---------- Helpers ---------- */
 const API_BASE =
@@ -322,7 +324,7 @@ function Card1({ person }: { person: ScholarCard }) {
 }
 
 /* =========================================================
-   Card2 (Section 4 grid)
+   Card2 (Section 4 grid) — show ONLY company (or quote fallback)
    ========================================================= */
 function Card2({ person }: { person: ScholarWithQuote }) {
   const [src, setSrc] = useState(person.image || "/placeholder.svg");
@@ -330,6 +332,8 @@ function Card2({ person }: { person: ScholarWithQuote }) {
 
   const displayName = person.name?.trim() || "Unnamed Scholar";
   const displayTitle = person.title?.trim() || "—";
+  const hasCompany = !!person.company?.trim();
+  const hasQuote = !!person.quote?.trim();
 
   return (
     <div className="group rounded-xl p-[1.5px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-0.5 hover:scale-[1.01] hover:shadow-xl">
@@ -354,17 +358,24 @@ function Card2({ person }: { person: ScholarWithQuote }) {
           >
             {displayName}
           </h3>
+
           <p
             className="text-[11px] sm:text-sm md:text-base text-slate-600 dark:text-slate-300 line-clamp-1"
             title={displayTitle}
           >
             {displayTitle}
           </p>
-          {!!person.quote?.trim() && (
-            <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 italic leading-relaxed line-clamp-1 sm:line-clamp-2">
+
+          {/* ONLY company if present; otherwise quote */}
+          {hasCompany ? (
+            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-200 leading-relaxed line-clamp-2">
+              {person.company}
+            </p>
+          ) : hasQuote ? (
+            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 italic leading-relaxed line-clamp-2">
               “{person.quote}”
             </p>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
@@ -390,7 +401,7 @@ export default function Scholar() {
     });
   }, []);
 
-  // All scholars (used when "All" or SC aggregate is selected)
+  // All scholars
   const {
     data: allScholars = [],
     isLoading: isLoadingAll,
@@ -404,34 +415,42 @@ export default function Scholar() {
   });
 
   // Programs for Section 4 header
-  const { data: programs = [] } = useGetAllProgramsQuery();
+  const {
+    data: programs = [],
+    refetch: refetchPrograms,
+  } = useGetAllProgramsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
 
-  // Scholars filtered by the selected program UUID
+  // Lazy prefetch for program scholars
+  const [triggerPrefetchScholars] = useLazyGetScholarsByProgramUuidQuery();
+
+  // Program-filtered scholars
   const {
     data: programScholars = [],
     isFetching: isFetchingByProgram,
     isLoading: isLoadingByProgram,
     error: programError,
   } = useGetScholarsByProgramUuidQuery(selectedProgramUuid as string, {
-    skip: !selectedProgramUuid, // only fetch when a UUID is chosen
-    refetchOnMountOrArgChange: true, // force refetch on change
+    skip: !selectedProgramUuid,
+    refetchOnMountOrArgChange: true,
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
 
-  // Choose current dataset
+  // Current dataset
   const apiScholars: ApiScholar[] = selectedProgramUuid
     ? (programScholars as ApiScholar[]) ?? []
     : (allScholars as ApiScholar[]) ?? [];
 
-  // Defensive: if backend returned a single object & somehow slipped past transform
   const _apiScholars: ApiScholar[] = Array.isArray(apiScholars)
     ? apiScholars
     : apiScholars
     ? [apiScholars as any]
     : [];
 
-  // quick debug
   useEffect(() => {
     // eslint-disable-next-line no-console
     console.log(
@@ -488,52 +507,51 @@ export default function Scholar() {
      Spotlight (Section 3): ONLY scholars who have careers
      ========================================================= */
   const spotlight: SpotlightItem[] = useMemo(() => {
-    const list = (_apiScholars as ApiScholar[]).filter(
-      (s) => Array.isArray(s.careers) && s.careers.length > 0
-    );
+  const list = (_apiScholars as ApiScholar[]).filter(
+    (s) => Array.isArray(s.careers) && s.careers.length > 0
+  );
 
-    const programCode = (category?: string) => {
-      const c = (category || "").toLowerCase();
-      if (c.includes("it expert")) return "ITE";
-      if (c.includes("it professional") || c.includes("it professionl"))
-        return "ITP";
-      if (c.includes("full stack")) return "FSW";
-      if (c.includes("foundation")) return "FDN";
-      if (c.includes("pre university")) return "PU";
-      if (c.includes("short course")) return "SC";
-      return "";
-    };
+  return list.map((s, idx) => {
+    const firstCareer = s.careers![0];
 
-    return list.map((s, idx) => {
-      const firstCareer = s.careers![0];
-      const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
-      const image = versioned(base, s.audit?.updatedAt);
+    const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
+    const image = versioned(base, s.audit?.updatedAt);
 
-      const displayName =
-        s.khmerName || s.englishName || s.username || "Unnamed Scholar";
-      const code = programCode(s.category);
-      const title = code ? `${displayName} | ${code}` : displayName;
+    const english = s.englishName || s.username || "Unnamed Scholar";
+    const khmer = s.khmerName?.trim();
+    const displayName = khmer ? `${english} (${khmer})` : english;
 
-      const href = s.username?.trim()
-        ? `/${s.username.trim()}`
-        : `/scholars/${s.uuid}`;
+    // Extract program name + generation from completedCourses
+    const firstCourse =
+      Array.isArray(s.completedCourses) && s.completedCourses.length > 0
+        ? s.completedCourses[0]
+        : null;
+    const programName = firstCourse?.programName || firstCourse?.title || "";
+    const generation = firstCourse?.generation ?? null;
 
-      return {
-        id: idx + 1,
-        uuid: s.uuid,
-        href,
-        name: displayName,
-        image,
-        title,
-        role: firstCareer?.position ?? "",
-        description: firstCareer?.interest || s.quote || "",
-        company: firstCareer?.company || "",
-      } as SpotlightItem;
-    });
-  }, [_apiScholars]);
+    const href = s.username?.trim()
+      ? `/${s.username.trim()}`
+      : `/scholars/${s.uuid}`;
+
+    return {
+      id: idx + 1,
+      uuid: s.uuid,
+      href,
+      image,
+      displayName,
+      programName,
+      generation,
+      position: firstCareer?.position || "",
+      company: firstCareer?.company || "",
+      interest: firstCareer?.interest || "",
+    } as SpotlightItem;
+  });
+}, [_apiScholars]);
+
+
 
   /* =========================================================
-     SECTION 4 data: compute category from completed courses
+     SECTION 4 data: compute category & company
      ========================================================= */
   const section4: ScholarWithQuote[] = useMemo(() => {
     const scholars = (_apiScholars as ApiScholar[]) ?? [];
@@ -562,6 +580,12 @@ export default function Scholar() {
           ? s.specialist[0]
           : ({} as ApiSpecialist);
 
+      
+      const firstCompany =
+        Array.isArray(s.careers) && s.careers.length > 0
+          ? s.careers[0]?.company?.trim() || ""
+          : "";
+
       return {
         id: idx + 1,
         uuid: s.uuid,
@@ -572,23 +596,24 @@ export default function Scholar() {
         quote: s.quote || "",
         category: derivedCategory,
         spec,
+        company: firstCompany || undefined, 
       };
     });
 
     return withDerivedCategory;
   }, [_apiScholars]);
 
-  // Final list shown in grid.
+  
   const filtered: ScholarWithQuote[] = useMemo(() => {
     if (activeCategory === CATEGORY_LABELS.ALL) return section4;
-    if (selectedProgramUuid) return section4; // already filtered via API
+    if (selectedProgramUuid) return section4; 
     if (selectedIsSC)
       return section4.filter((s) => s.category === CATEGORY_LABELS.SC);
     return section4;
   }, [activeCategory, selectedProgramUuid, selectedIsSC, section4]);
 
   /* =========================================================
-     SECTION 4 — ORIGINAL HEADER + Short Course dropdown (UUID-based fetch)
+     SECTION 4 — header construction
      ========================================================= */
   type ApiProgram = { uuid: string; title: string; slug?: string };
 
@@ -684,7 +709,7 @@ export default function Scholar() {
       kind: "sc-parent",
       display: CATEGORY_LABELS.SC,
       label: CATEGORY_LABELS.SC,
-      Icon: Briefcase,
+      Icon: Code, // any icon; badge removed from cards anyway
       children: Array.from(scChildrenMap.values()),
     };
 
@@ -732,9 +757,7 @@ export default function Scholar() {
       {/* SECTION 1: Hero + Marquee */}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden dark:bg-slate-900 h-[calc(100vh-4rem)] sm:h-screen">
-        <div
-          className={`absolute inset-0 -z-10 ${styles.gradientBackground}`}
-        />
+        <div className={`absolute inset-0 -z-10 ${styles.gradientBackground}`} />
 
         <div className="w-screen h-full flex flex-col justify-center px-0">
           <div className="text-center" data-aos="fade-down">
@@ -806,65 +829,35 @@ export default function Scholar() {
                 The Success Blueprint for ISTAD Alumni
               </h2>
               <div className="mt-12 flex flex-col gap-10">
-                {/* Step 1 */}
-                <div
-                  className="flex items-center gap-6 relative"
-                  data-aos="fade-right"
-                  data-aos-delay={100}
-                >
-                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
-                    01
-                  </span>
-                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-3">
-                    <div className="shrink-0 rounded-xl bg-blue-50 text-blue-600 p-2 ring-1 ring-blue-100">
+                {/* Steps omitted for brevity; same as before */}
+                <div className="flex items-center gap-6 relative" data-aos="fade-right" data-aos-delay={100}>
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">01</span>
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5">
+                    <div className="shrink-0 rounded-xl bg-blue-50 text-blue-600 p-2 ring-1 ring-blue-100 w-fit">
                       <Layers className="h-5 w-5" />
                     </div>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                        Build a Strong Foundation
-                      </h3>
-                      <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                        Learn core IT skills
-                      </p>
-                    </div>
+                    <h3 className="mt-3 text-lg md:text-xl font-bold text-slate-900 dark:text-white">Build a Strong Foundation</h3>
+                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Learn core IT skills</p>
                   </div>
                 </div>
-                {/* Step 2 */}
                 <div className="flex items-center gap-6 relative">
-                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-3">
-                    <div className="shrink-0 rounded-xl bg-amber-50 text-amber-600 p-2 ring-1 ring-amber-100">
-                      <Briefcase className="h-5 w-5" />
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5">
+                    <div className="shrink-0 rounded-xl bg-amber-50 text-amber-600 p-2 ring-1 ring-amber-100 w-fit">
+                      <Code className="h-5 w-5" />
                     </div>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                        Putting Skills into Practice
-                      </h3>
-                      <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                        Practice what you’ve learned
-                      </p>
-                    </div>
+                    <h3 className="mt-3 text-lg md:text-xl font-bold text-slate-900 dark:text-white">Putting Skills into Practice</h3>
+                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Practice what you’ve learned</p>
                   </div>
-                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
-                    02
-                  </span>
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">02</span>
                 </div>
-                {/* Step 3 */}
                 <div className="flex items-center gap-6 relative">
-                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
-                    03
-                  </span>
-                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-3">
-                    <div className="shrink-0 rounded-xl bg-rose-50 text-rose-600 p-2 ring-1 ring-rose-100">
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">03</span>
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5">
+                    <div className="shrink-0 rounded-xl bg-rose-50 text-rose-600 p-2 ring-1 ring-rose-100 w-fit">
                       <Award className="h-5 w-5" />
                     </div>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                        Mastery and Leadership
-                      </h3>
-                      <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                        Become an expert, lead projects
-                      </p>
-                    </div>
+                    <h3 className="mt-3 text-lg md:text-xl font-bold text-slate-900 dark:text-white">Mastery and Leadership</h3>
+                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Become an expert, lead projects</p>
                   </div>
                 </div>
               </div>
@@ -892,143 +885,154 @@ export default function Scholar() {
         </div>
       </section>
 
-      {/* =================================== */}
-      {/* SECTION 3: Spotlight Carousel (careers only) */}
-      {/* =================================== */}
-      <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20 relative">
-          {isError ? (
-            <p className="text-center text-sm text-rose-600">
-              {(() => {
-                const e = error as ApiError;
-                return (
-                  e?.data?.message ?? e?.error ?? "Failed to load scholars."
-                );
-              })()}
-            </p>
-          ) : isLoading || isFetching ? (
-            <div className="grid grid-cols-1 gap-6">
-              <div className="h-80 rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
-            </div>
-          ) : spotlight.length === 0 ? (
-            <div className="text-center text-slate-500 dark:text-slate-400">
-              No employed scholars to spotlight yet.
-            </div>
-          ) : (
-            <Carousel
-              className="relative"
-              opts={{ align: "start", loop: true }}
-            >
-              <CarouselContent>
-                {spotlight.map((person) => (
-                  <CarouselItem key={`spotlight-card-${person.id}`}>
-                    <div className="relative rounded-2xl border border-slate-200 dark:border-slate-700 p-6 md:p-10 overflow-hidden">
-                      <BorderBeam
-                        size={200}
-                        duration={5}
-                        colorFrom="#ff4d4d"
-                        colorTo="#4d9cff"
-                        borderWidth={1}
-                      />
-                      <div className="flex flex-col gap-6 md:grid md:grid-cols-5 md:items-center relative z-10">
-                        {/* LEFT: image */}
-                        <div className="md:col-span-2">
-                          <div className="rounded-2xl p-[2px] bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-indigo-500 shadow-lg">
-                            <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700">
-                              <div className="relative aspect-[16/11] w-full">
-                                <Image
-                                  src={person.image}
-                                  alt={person.name}
-                                  fill
-                                  className="object-cover w-full h-full"
-                                  priority={person.id === 1}
-                                  unoptimized
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* RIGHT: text */}
-                        <div className="md:col-span-3 mt-4 md:mt-0">
-                          <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
-                            Scholar Spotlight
-                          </span>
-
-                          <h3 className="mt-2 sm:mt-4 text-2xl sm:3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                            {person.title}
-                          </h3>
-
-                          {person.role ? (
-                            <p className="mt-1 sm:mt-2 text-base sm:text-lg font-semibold text-orange-500">
-                              {person.role}
-                            </p>
-                          ) : null}
-
-                          {!!person.description && (
-                            <p className="mt-2 sm:mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">
-                              {person.description}
-                            </p>
-                          )}
-
-                          <div className="mt-4 sm:mt-6 flex flex-wrap gap-3">
-                            <Link
-                              href={person.href}
-                              className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-rose-600 to-indigo-600 shadow hover:opacity-90"
-                            >
-                              View Full Story
-                            </Link>
-                          </div>
+{/* SECTION 3: Spotlight Carousel (careers only) */}
+<section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20 relative">
+    {isError ? (
+      <p className="text-center text-sm text-rose-600">
+        {(() => {
+          const e = error as ApiError;
+          return e?.data?.message ?? e?.error ?? "Failed to load scholars.";
+        })()}
+      </p>
+    ) : isLoading || isFetching ? (
+      <div className="grid grid-cols-1 gap-6">
+        <div className="h-80 rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
+      </div>
+    ) : spotlight.length === 0 ? (
+      <div className="text-center text-slate-500 dark:text-slate-400">
+        No employed scholars to spotlight yet.
+      </div>
+    ) : (
+      <Carousel className="relative" opts={{ align: "start", loop: true }}>
+        <CarouselContent>
+          {spotlight.map((person) => (
+            <CarouselItem key={`spotlight-card-${person.id}`}>
+              <div className="relative rounded-2xl border border-slate-200 dark:border-slate-700 p-6 md:p-10 overflow-hidden">
+                <BorderBeam
+                  size={200}
+                  duration={5}
+                  colorFrom="#ff4d4d"
+                  colorTo="#4d9cff"
+                  borderWidth={1}
+                />
+                <div className="flex flex-col gap-6 md:grid md:grid-cols-5 md:items-center relative z-10">
+                  {/* LEFT: image */}
+                  <div className="md:col-span-2">
+                    <div className="rounded-2xl p-[2px] bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-indigo-500 shadow-lg">
+                      <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700">
+                        <div className="relative aspect-[16/11] w-full">
+                          <Image
+                            src={person.image}
+                            alt={person.displayName}
+                            fill
+                            className="object-cover w-full h-full"
+                            priority={person.id === 1}
+                            unoptimized
+                          />
                         </div>
                       </div>
                     </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
+                  </div>
 
-              <CarouselPrevious
-                aria-label="Previous scholar"
-                className="hidden md:flex absolute left-[-4rem] top-1/2 -translate-y-1/2 z-10 dark:bg-slate-800 p-2 rounded-full shadow bg-accent"
-              />
-              <CarouselNext
-                aria-label="Next scholar"
-                className="hidden md:flex absolute right-[-4rem] top-1/2 -translate-y-1/2 z-10 dark:bg-slate-800 p-2 rounded-full shadow bg-accent"
-              />
+                  
+                 {/* RIGHT: text */}
+{/* RIGHT: text */}
+<div className="md:col-span-3 mt-4 md:mt-0">
+  <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
+    Scholar Spotlight
+  </span>
 
-              <div className="absolute -top-10 right-15 flex gap-0.5 z-20 md:hidden">
-                <CarouselPrevious
-                  aria-label="Previous scholar"
-                  className="dark:bg-slate-800 p-2 rounded-full shadow bg-accent dark:hover:bg-slate-700"
-                />
-                <CarouselNext
-                  aria-label="Next scholar"
-                  className="dark:bg-slate-800 p-2 rounded-full shadow bg-accent dark:hover:bg-slate-700"
-                />
+  {/* English (Khmer) */}
+  <h3 className="mt-2 sm:mt-4 text-2xl sm:3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+    {person.displayName}
+  </h3>
+
+  {/* Program name + Generation */}
+  {(person.programName || person.generation) && (
+    <p className="mt-1 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+      {person.programName && <span>{person.programName}</span>}
+      {person.programName && person.generation ? " – " : ""}
+      {person.generation && <span>Generation {person.generation}</span>}
+    </p>
+  )}
+
+  {/* Position (Company) */}
+  {(person.position || person.company) && (
+    <p className="mt-1 sm:mt-2 text-base sm:text-lg font-semibold text-accent dark:text-accent-dark">
+      {person.position ? person.position : ""}
+      {person.position && person.company ? " (" : ""}
+      {person.company ? person.company : ""}
+      {person.position && person.company ? ")" : ""}
+    </p>
+  )}
+
+  {/* Interest */}
+  {!!person.interest && (
+    <p className="mt-2 sm:mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">
+      {person.interest}
+    </p>
+  )}
+
+  <div className="mt-4 sm:mt-6 flex flex-wrap gap-3">
+    <Link
+      href={person.href}
+      className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-rose-600 to-indigo-600 shadow hover:opacity-90"
+    >
+      View Full Story
+    </Link>
+  </div>
+</div>
+
+
+                </div>
               </div>
-            </Carousel>
-          )}
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        <CarouselPrevious
+          aria-label="Previous scholar"
+          className="hidden md:flex absolute left-[-4rem] top-1/2 -translate-y-1/2 z-10 dark:bg-slate-800 p-2 rounded-full shadow bg-accent"
+        />
+        <CarouselNext
+          aria-label="Next scholar"
+          className="hidden md:flex absolute right-[-4rem] top-1/2 -translate-y-1/2 z-10 dark:bg-slate-800 p-2 rounded-full shadow bg-accent"
+        />
+
+        <div className="absolute -top-10 right-15 flex gap-0.5 z-20 md:hidden">
+          <CarouselPrevious
+            aria-label="Previous scholar"
+            className="dark:bg-slate-800 p-2 rounded-full shadow bg-accent dark:hover:bg-slate-700"
+          />
+          <CarouselNext
+            aria-label="Next scholar"
+            className="dark:bg-slate-800 p-2 rounded-full shadow bg-accent dark:hover:bg-slate-700"
+          />
         </div>
-      </section>
+      </Carousel>
+    )}
+  </div>
+</section>
+
 
       {/* =================================== */}
-      {/* SECTION 4: Category Filter (original header + SC dropdown) */}
+      {/* SECTION 4: Category Filter (Short Course dropdown) */}
       {/* =================================== */}
-      <section className="relative isolate overflow-hidden border-t border-slate-100 bg-white dark:bg-slate-900 dark:border-slate-700">
+      <section className="relative isolate overflow-hidden  bg-white dark:bg-slate-900 dark:border-slate-700">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
               Discover Our <br /> exSTAD Scholar
             </h2>
             <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              Find the best student for your company and boost your business
-              too.
+              Find the best student for your company and boost your business too.
             </p>
           </div>
 
-          {/* Header with SC hover dropdown */}
+          {/* Header with Short Course dropdown */}
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             {headerItems.map((item) => {
-              // ALL
               if (item.kind === "all") {
                 const active = activeCategory === CATEGORY_LABELS.ALL;
                 const Icon = item.Icon;
@@ -1057,7 +1061,6 @@ export default function Scholar() {
                 );
               }
 
-              // RECOGNIZED TABS
               if (item.kind === "recognized") {
                 const active =
                   activeCategory === item.label && !!selectedProgramUuid;
@@ -1068,10 +1071,7 @@ export default function Scholar() {
                     onClick={() =>
                       onSelectRecognized(
                         item.programUuid!,
-                        item.label as Exclude<
-                          CategoryLabel,
-                          "All" | "Short Course"
-                        >
+                        item.label as Exclude<CategoryLabel, "All" | "Short Course">
                       )
                     }
                     className={`relative flex items-center gap-2 px-2 py-1 text-sm sm:text-base font-medium transition-colors ${
@@ -1095,7 +1095,6 @@ export default function Scholar() {
                 );
               }
 
-              // SHORT COURSE with hover dropdown
               if (item.kind === "sc-parent") {
                 const active =
                   activeCategory === CATEGORY_LABELS.SC &&
@@ -1105,7 +1104,13 @@ export default function Scholar() {
                 return (
                   <div key="SC" className="relative group">
                     <button
-                      onClick={onSelectShortCourseParent}
+                      onClick={() => {
+                        refetchPrograms();
+                        onSelectShortCourseParent();
+                      }}
+                      onMouseEnter={() => {
+                        refetchPrograms();
+                      }}
                       className={`relative flex items-center gap-2 px-2 py-1 text-sm sm:text-base font-medium transition-colors ${
                         active
                           ? "text-blue-600"
@@ -1126,7 +1131,6 @@ export default function Scholar() {
                       )}
                     </button>
 
-                    {/* Dropdown on hover */}
                     <div
                       className="absolute left-0 mt-2 w-64 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl opacity-0 pointer-events-none translate-y-1 group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0 transition duration-150 z-20"
                       role="menu"
@@ -1140,9 +1144,13 @@ export default function Scholar() {
                           item.children.map((child) => (
                             <button
                               key={child.uuid}
-                              onClick={() =>
-                                onSelectShortCourseChild(child.uuid)
-                              }
+                              onClick={() => onSelectShortCourseChild(child.uuid)}
+                              onMouseEnter={() => {
+                                triggerPrefetchScholars(child.uuid, true);
+                              }}
+                              onFocus={() => {
+                                triggerPrefetchScholars(child.uuid, true);
+                              }}
                               className="w-full text-left px-3 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-200"
                               role="menuitem"
                             >
@@ -1150,14 +1158,6 @@ export default function Scholar() {
                             </button>
                           ))
                         )}
-                        <div className="my-1 border-t border-slate-200 dark:border-slate-700" />
-                        <button
-                          onClick={onSelectShortCourseParent}
-                          className="w-full text-left px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-700/60"
-                          role="menuitem"
-                        >
-                          Show all Short Course
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -1173,9 +1173,7 @@ export default function Scholar() {
             <p className="mt-10 text-center text-sm md:text-base text-rose-600">
               {(() => {
                 const e = error as ApiError;
-                return (
-                  e?.data?.message ?? e?.error ?? "Failed to load scholars."
-                );
+                return e?.data?.message ?? e?.error ?? "Failed to load scholars.";
               })()}
             </p>
           ) : isLoading || isFetching ? (
@@ -1197,9 +1195,7 @@ export default function Scholar() {
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
               {filtered.map((person) => (
                 <Card2
-                  key={`s2-${person.uuid ?? person.id}-${
-                    person.spec?.uuid ?? "spec"
-                  }`}
+                  key={`s2-${person.uuid ?? person.id}-${person.spec?.uuid ?? "spec"}`}
                   person={person}
                 />
               ))}

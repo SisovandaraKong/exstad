@@ -152,21 +152,50 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
         <div className="sticky top-6 md:top-25 self-start">
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 w-full box-border">
             {/* Avatar */}
-            <div className="flex flex-col items-center">
+            {/* Avatar + Names */}
+<div className="flex flex-col items-center">
   <div
-    className="relative mb-4 rounded-full overflow-hidden"
+    className="relative mb-3 rounded-full overflow-hidden"
     style={{ width: 192, height: 192 }}
   >
+    {/* Shared avatar target */}
     <div
       ref={avatarAnchorRef}
       className="absolute inset-0 rounded-full overflow-hidden"
     />
+
+    
+    <img
+      src={scholar.avatar || "/avatar-fallback.jpg"}
+      alt={`${scholar.englishName || scholar.username}'s avatar`}
+      className="portfolio-avatar-fallback absolute inset-0 w-full h-full object-cover"
+      width={192}
+      height={192}
+    />
   </div>
+
+ {/* Names */}
+
+{Boolean(scholar.englishName || scholar.khmerName) && (
+  <div className="text-center mt-[-30px] sm:mt-0">
+    <div className="font-semibold text-base sm:text-lg lg:text-2xl dark:text-white whitespace-nowrap">
+      {scholar.englishName}
+      {scholar.khmerName && (
+        <span className="text-black dark:text-gray-300 text-sm sm:text-base lg:text-xl ml-1">
+          ({scholar.khmerName})
+        </span>
+      )}
+    </div>
+  </div>
+)}
+
+
 </div>
+
 
             {/* About */}
             <div className="pt-4">
-              <h3 className="font-d2 font-semibold mb-2 dark:text-white text-lg">
+              <h3 className="font-d2 font-semibold mb-2 dark:text-white text-md">
                 About
               </h3>
               <p className="font-d3 text-gray-600 dark:text-gray-300 text-sm sm:text-base">
@@ -176,7 +205,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
 
             {/* Social */}
             <div className="pt-4">
-              <h3 className="font-d2 font-semibold mb-2 dark:text-white text-lg">
+              <h3 className="font-d2 font-semibold mb-2 dark:text-white text-md">
                 Social Media
               </h3>
               <div className="space-y-2 text-sm sm:text-base dark:text-white">
