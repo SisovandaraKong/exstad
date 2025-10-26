@@ -20,6 +20,7 @@ import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivi
 
 import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
+import WorkNodeViewer from "@/components/roadmap/roadmap-detail";
 
 const ProgramDetailPage: React.FC = () => {
   const params = useParams();
@@ -97,6 +98,7 @@ const ProgramDetailPage: React.FC = () => {
           No opening programs available.
         </p>
       ),
+    Roadmap: () => <WorkNodeViewer programUuid={openingProgram.uuid} programType="opening-programs" />,
     Enrollment: () => <ProgramEnrollment />,
   };
 

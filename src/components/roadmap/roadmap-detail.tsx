@@ -22,6 +22,7 @@ import type {
   RoadmapEdge,
 } from "../../types/roadmap";
 import { Card } from "../ui/card";
+import { Zoom } from "swiper/modules";
 
 const nodeTypes = {
   workNode: CustomWorkNode,
@@ -123,7 +124,7 @@ export default function WorkNodeViewer({
             panOnDrag
           >
             <Background />
-            <Controls showInteractive={false} />
+            <Controls className="dark:text-black" showInteractive={false} />
           </ReactFlow>
         </Card>
       </div>

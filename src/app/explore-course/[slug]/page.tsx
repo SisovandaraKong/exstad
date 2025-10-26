@@ -94,7 +94,7 @@ const ProgramDetailPage: React.FC = () => {
         </p>
       ),
     Timeline: () => <TimeLine openingProgramUuid={openingProgram.uuid} />,
-    Roadmap: () => <WorkNodeViewer programUuid={masterProgram.uuid} />,
+    Roadmap: () => <WorkNodeViewer programUuid={masterProgram.uuid} programType="programs" />,
     Enrollment: () => <ProgramEnrollment />,
   };
 

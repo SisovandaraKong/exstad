@@ -12,27 +12,32 @@ export default function RoadmapDetailPage() {
 
   if (isLoading) return <p>Loading...</p>;
   if (error || !program) return <p>Failed to load roadmap.</p>;
-
+  console.log("Program Data:", program);
   return (
     <div className="relative">
       {/* Header overlay */}
-<div className="absolute top-4 left-4 z-10 w-[90%] max-w-4xl sm:w-auto">
-  <Card className="flex flex-r sm:flex-row items-center sm:items-center gap-3 px-4 py-2 shadow-lg flex-wrap sm:flex-nowrap">
+<div className="absolute top-10 left-10 z-10 w-[90%] max-w-4xl sm:w-auto">
+  <Card className="flex flex-row items-center gap-3 px-4 py-2 shadow-lg flex-wrap sm:flex-nowrap">
     <button
       onClick={() => router.back()}
-      className="px-2 py-1 text-sm font-medium bg-muted hover:bg-muted/80 border rounded-md shadow-sm transition hidden sm:inline-block"
+      className="px-2 py-1 text-sm font-medium bg-muted hover:bg-muted/80 border rounded-md shadow-sm transition hidden sm:inline-block cursor-pointer"
     >
       ←
     </button>
-    <h1 className="text-lg sm:text-2xl font-bold text-foreground text-center sm:text-left break-words">
+    <h1
+      onClick={() => router.back()}
+      className="text-lg sm:text-2xl font-bold text-foreground text-center sm:text-left break-words cursor-pointer"
+    >
       {program.title}
     </h1>
   </Card>
 </div>
 
 
+
       {/* Roadmap Viewer */}
       <WorkNodeViewer programUuid={uuid} programType="programs" />
+
     </div>
   );
 }
