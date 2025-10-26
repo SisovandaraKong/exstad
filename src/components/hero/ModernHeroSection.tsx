@@ -95,22 +95,22 @@ export default function ModernHeroSection() {
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.8, delay: 1 }}>
 							<Link
-								href='/exploreProgram/shortcourse'
+								href='/explore-course'
 								className='w-full md:w-auto'>
 								<Button
 									size='lg'
-									className='w-full md:w-auto min-w-[180px] sm:min-w-[200px] bg-primary text-white font-semibold px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group'>
+									className='w-full cursor-pointer md:w-auto min-w-[180px] sm:min-w-[200px] bg-primary text-white font-semibold px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group'>
 									<span className='flex items-center justify-center'>
 										<span className='truncate'>Explore Programs</span>
 										<ArrowRight className='ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform flex-shrink-0' />
 									</span>
 								</Button>
 							</Link>
-							<Link href='/about' className='w-full md:w-auto'>
+							<Link href='/about-us' className='w-full md:w-auto'>
 								<Button
 									variant='outline'
 									size='lg'
-									className='w-full md:w-auto min-w-[180px] sm:min-w-[200px] border-2 border-primary/30 hover:border-primary/50 hover:bg-primary/5 font-semibold px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg sm:rounded-xl transition-all duration-300 group'>
+									className='w-full cursor-pointer md:w-auto min-w-[180px] sm:min-w-[200px] border-2 border-primary/30 hover:border-primary/50 hover:bg-primary/5 font-semibold px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-lg sm:rounded-xl transition-all duration-300 group'>
 									<span className='flex items-center justify-center'>
 										<Play className='mr-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform flex-shrink-0' />
 										<span className='truncate'>Watch Story</span>

@@ -169,19 +169,19 @@ const ContactForm = () => {
 							</h2>
 							<ul className='flex mt-4 space-x-4'>
 								{/* Facebook Icon */}
-								<li className='bg-gray-200 dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
-									<a href='#' aria-label='Facebook'>
+								<li className='bg-gray-200 cursor-pointer dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
+									<a href='https://www.facebook.com/istad.co' aria-label='Facebook'>
 										<FaFacebook className='w-5 h-5 text-primary' />
 									</a>
 								</li>
 								{/* LinkedIn Icon */}
-								<li className='bg-gray-200 dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
+								<li className='bg-gray-200 cursor-pointer dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
 									<a href='#' aria-label='LinkedIn'>
 										<FaLinkedin className='w-5 h-5 text-primary' />
 									</a>
 								</li>
 								{/* Instagram Icon */}
-								<li className='bg-gray-200 dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
+								<li className='bg-gray-200 cursor-pointer dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
 									<a href='#' aria-label='Instagram'>
 										<FaInstagram className='w-5 h-5 text-primary' />
 									</a>
@@ -231,7 +231,7 @@ const ContactForm = () => {
 							type='submit'
 							// Disable button while sending to prevent multiple submissions
 							disabled={status.message === "Sending..."}
-							className='text-white bg-primary hover:bg-primary-hover font-semibold rounded-lg text-base px-6 py-3 w-full transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed'>
+							className='text-white cursor-pointer bg-primary hover:bg-primary-hover font-semibold rounded-lg text-base px-6 py-3 w-full transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed'>
 							{status.message === "Sending..." ? "Sending..." : "Send Message"}
 						</button>
 					</form>
