@@ -46,7 +46,7 @@
 		"address-contact": "ADDRESS & CONTACT",
 		"address-line1": "#40, St 273, Sangkat Boeung Kak II, Khan Toul Kork, Phnom Penh, Cambodia",
 		"our-sponsors": "OUR SPONSORS",
-		"copyright": "© 2025 exSTAD-By 1st FSWD Students ❤️ Group 2 | All rights reserved",
+		"copyright": "© 2025 exSTAD - Institute of Science and Technology Advanced Development (ISTAD)",
 		"all-rights-reserved": "All rights reserved.",
 		"telegram": "Telegram",
 		"email": "Email",
@@ -106,10 +106,9 @@
 	"join-telegram-group": "Join Telegram Group",
 
 	"hero": {
-		"badge": "Leading IT Education in Cambodia",
-		"title-part1": "Shape Your",
-		"title-part2": "Digital Future",
-		"title-part3": "With EXSTAD",
+		"badge": "Start your IT Career with ISTAD",
+		"title-part1": "Advanced IT Institute",
+		"title-part2": "in Cambodia",
 		"description": "Transform your career with cutting-edge IT education. Join thousands of successful graduates who chose EXSTAD for their digital transformation journey.",
 		"explore-programs": "Explore Programs",
 		"watch-story": "Watch Story"
@@ -312,7 +311,7 @@
 				"description": "Great accomplishments are born from great guidance — and we owe ours to a remarkable mentors."
 			},
 			"members": {
-				"title": "Our Team Members",
+				"title": "Origin Software Engineer",
 				"description": "No achievement is possible without teamwork — and ours thrives because of remarkable teammates."
 			}
 		},
@@ -333,11 +332,11 @@
 	},
 
 	"contact-form": {
-		"title": "Let's Talk",
+		"title": "Consult with Us",
 		"description": "Want to enhance your knowledge or start your learning journey? Reach out — we're here to guide and support you.",
 		"email-section": {
 			"title": "Email Us",
-			"email": "info@exstad.edu.kh",
+			"email": "info.istad@gmail.com",
 			"label": "Mail"
 		},
 		"social-section": {
@@ -350,6 +349,7 @@
 			"message-placeholder": "Message",
 			"send-button": "Send Message",
 			"sending": "Sending...",
+			"validation-error": "Please fill out all required fields.",
 			"success-message": "Message sent successfully! We'll get back to you soon.",
 			"error-message": "Failed to send message. Please try again."
 		}

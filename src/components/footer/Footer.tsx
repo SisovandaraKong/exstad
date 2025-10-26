@@ -152,7 +152,11 @@ export default function Footer() {
 						</h3>
 						<div className='flex items-center space-x-2'>
 							{/* Logo */}
-							<Link href='https://www.cstad.edu.kh/' className='block'>
+							<Link
+								href='https://www.cstad.edu.kh/'
+								className='block'
+								target='_blank'
+								rel='noopener noreferrer'>
 								<Image
 									src='/istad-image/istad-logo-white.png'
 									alt='Logo'
@@ -177,7 +181,9 @@ export default function Footer() {
 						{/* Social Media Icons - Desktop */}
 						<div className='flex flex-row items-center space-x-2 sm:space-x-4'>
 							<Link
-								href='#'
+								href='https://t.me/istadkh'
+								target='_blank'
+								rel='noopener noreferrer'
 								className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
 								<FaTelegram className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
 								<span className='text-xs sm:text-sm md:text-base xl:inline hidden'>
@@ -185,7 +191,7 @@ export default function Footer() {
 								</span>
 							</Link>
 							<Link
-								href='#'
+								href='mailto:info.istad@gmail.com'
 								className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
 								<IoMdMail className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
 								<span className='text-xs sm:text-sm md:text-base xl:inline hidden'>
@@ -193,7 +199,9 @@ export default function Footer() {
 								</span>
 							</Link>
 							<Link
-								href='#'
+								href='https://web.facebook.com/istad.co'
+								target='_blank'
+								rel='noopener noreferrer'
 								className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
 								<FaFacebook className='w-4 h-4 sm:w-5 sm:h-5 text-white' />
 								<span className='text-xs sm:text-sm md:text-base xl:inline hidden'>
@@ -207,16 +215,24 @@ export default function Footer() {
 					<div className='xl:hidden space-y-4'>
 						{/* Copyright Row */}
 						<div className='flex justify-center'>
-							<p className='text-xs text-center sm:text-sm md:text-base text-white'>
-								{t("footer.copyright")}
-							</p>
+							<Link
+								href='https://cstad.edu.kh/'
+								className='block'
+								target='_blank'
+								rel='noopener noreferrer'>
+								<span className='text-xs sm:text-sm text-white text-center'>
+									{t("footer.copyright")}
+								</span>
+							</Link>
 						</div>
 
 						{/* Social Media Icons Row - Mobile & Tablet */}
 						<div className='flex justify-center'>
 							<div className='flex flex-row items-center space-x-4 sm:space-x-6'>
 								<Link
-									href='#'
+									href='https://t.me/istadkh'
+									target='_blank'
+									rel='noopener noreferrer'
 									className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
 									<FaTelegram className='w-5 h-5 sm:w-6 sm:h-6 text-white' />
 									<span className='text-xs sm:text-sm xl:inline hidden'>
@@ -224,7 +240,7 @@ export default function Footer() {
 									</span>
 								</Link>
 								<Link
-									href='#'
+									href='mailto:info.istad@gmail.com'
 									className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
 									<IoMdMail className='w-5 h-5 sm:w-6 sm:h-6 text-white' />
 									<span className='text-xs sm:text-sm xl:inline hidden'>
@@ -232,7 +248,9 @@ export default function Footer() {
 									</span>
 								</Link>
 								<Link
-									href='#'
+									href='https://web.facebook.com/istad.co'
+									target='_blank'
+									rel='noopener noreferrer'
 									className='flex items-center space-x-1 sm:space-x-2 text-white hover:text-gray-200 transition-colors'>
 									<FaFacebook className='w-5 h-5 sm:w-6 sm:h-6 text-white' />
 									<span className='text-xs sm:text-sm xl:inline hidden'>

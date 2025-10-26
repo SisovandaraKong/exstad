@@ -73,9 +73,6 @@ export default function ModernHeroSection() {
 							<span className='block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'>
 								{t("hero.title-part2")}
 							</span>
-							<span className='block text-foreground'>
-								{t("hero.title-part3")}
-							</span>
 						</motion.h1>
 
 						{/* Description */}

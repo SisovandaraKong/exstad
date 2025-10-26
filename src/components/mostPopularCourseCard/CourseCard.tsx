@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
 import { useRouter } from "next/navigation";
+import { addImageSizeParams } from "@/utils/imageUtils";
 
 interface ScholarshipCardProps extends MasterProgramType {
 	openingProgram?: openingProgramType;
@@ -38,7 +39,7 @@ const CourseCard: React.FC<ScholarshipCardProps> = ({
 			}`}>
 			<div className='relative aspect-video mb-2 sm:mb-3 md:mb-4 lg:mb-5'>
 				<Image
-					src={openingProgram?.posterUrl ?? "/fallback.png"}
+					src={addImageSizeParams(openingProgram?.posterUrl, 1280, 1280)}
 					alt={title}
 					fill
 					className='object-cover rounded-lg sm:rounded-xl md:rounded-2xl'

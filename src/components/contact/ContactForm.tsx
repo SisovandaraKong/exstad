@@ -3,6 +3,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { IoMdMail } from "react-icons/io";
 import { FaFacebook, FaTelegram } from "react-icons/fa";
 import { FaLinkedin, FaInstagram } from "react-icons/fa6";
@@ -51,7 +52,7 @@ const ContactForm = () => {
 		if (status.message) setStatus({ message: "", type: "" });
 	};
 
-	// Handles form submission (Mocks an API call)
+	// Handles form submission (Sends email to info@exstad.edu.kh)
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
@@ -63,7 +64,8 @@ const ContactForm = () => {
 			!formData.message
 		) {
 			setStatus({
-				message: "Please fill out all required fields.",
+				message:
+					t("form.validation-error") || "Please fill out all required fields.",
 				type: "error",
 			});
 			return;
@@ -71,25 +73,33 @@ const ContactForm = () => {
 
 		setStatus({ message: t("form.sending"), type: "" });
 
-		// Simulate a network delay for the submission process
-		await new Promise((resolve) => setTimeout(resolve, 1500));
-
 		try {
-			// In a real Next.js application, you would make an API call here:
-			// const response = await fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) });
-			// if (!response.ok) throw new Error('Submission failed');
+			// Send email via API endpoint
+			const response = await fetch("/api/contact", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(formData),
+			});
 
-			console.log("Form Data Submitted:", formData);
+			const result = await response.json();
 
-			// Simulate a successful response
+			if (!response.ok) {
+				throw new Error(result.error || "Failed to send email");
+			}
+
+			console.log("Email sent successfully:", result);
+
+			// Show success message
 			setStatus({
 				message: t("form.success-message"),
 				type: "success",
 			});
 			setFormData({ name: "", email: "", subject: "", message: "" }); // Clear the form fields
 		} catch (error) {
-			// Handle mock or real submission error
-			console.error("Submission Error:", error);
+			// Handle submission error
+			console.error("Email sending error:", error);
 			setStatus({
 				message: t("form.error-message"),
 				type: "error",
@@ -201,30 +211,30 @@ const ContactForm = () => {
 							<ul className='flex mt-4 space-x-4'>
 								{/* Facebook Icon */}
 								<li className='bg-gray-200 cursor-pointer dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
-									<a
+									<Link
 										href='https://www.facebook.com/istad.co'
+										target='_blank'
+										rel='noopener noreferrer'
 										aria-label='Facebook'>
 										<FaFacebook className='w-5 h-5 text-primary' />
-									</a>
+									</Link>
 								</li>
 								{/* LinkedIn Icon */}
 								<li className='bg-gray-200 cursor-pointer dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
-									<a href='#' aria-label='LinkedIn'>
+									<Link
+										href='https://www.linkedin.com/in/istad-institute-27848b2a6/'
+										target='_blank'
+										rel='noopener noreferrer'
+										aria-label='LinkedIn'>
 										<FaLinkedin className='w-5 h-5 text-primary' />
-									</a>
-								</li>
-								{/* Instagram Icon */}
-								<li className='bg-gray-200 cursor-pointer dark:bg-white h-10 w-10 rounded-full flex items-center justify-center shrink-0 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200'>
-									<a href='#' aria-label='Instagram'>
-										<FaInstagram className='w-5 h-5 text-primary' />
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</div>
 					</div>
 
 					{/* Right Column - Form */}
-					<form className='ml-auo space-y-5' onSubmit={handleSubmit}>
+					<form className='ml-auto space-y-5' onSubmit={handleSubmit}>
 						<input
 							type='text'
 							name='name'
