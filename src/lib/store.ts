@@ -10,6 +10,7 @@ import { requiementApi } from "@/components/program/detail-program/requirement/r
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { technologyApi } from "@/components/program/detail-program/technology/technologiesApi";
 
 const rootReducer = combineReducers({
     [masterprogramApi.reducerPath]: masterprogramApi.reducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     [faqApi.reducerPath]: faqApi.reducer,
     [curriculumApi.reducerPath]: curriculumApi.reducer,
     [activityApi.reducerPath]: activityApi.reducer,
+    [technologyApi.reducerPath]:technologyApi.reducer,
 });
 
 const persistConfig = {
@@ -43,7 +45,7 @@ export const makeStore = () => {
           faqApi.middleware,
           curriculumApi.middleware,
           activityApi.middleware,
-
+          technologyApi.middleware,
       ),
   });
 

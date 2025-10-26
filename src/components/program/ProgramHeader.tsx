@@ -20,7 +20,7 @@ const ProgramHeader: React.FC<Props> = ({
   setActiveTab,
 }) => {
   const title = masterProgram?.title ?? openingProgram?.title ?? "";
-  const thumbnail = openingProgram?.thumbnail  ?? masterProgram?.logoUrl ?? "";
+  const thumbnail = openingProgram?.thumbnail  ?? masterProgram?.thumbnailUrl ?? "";
   const programType = masterProgram?.programType ?? "";
   const t = useTranslations();
 

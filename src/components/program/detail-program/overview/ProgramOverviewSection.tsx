@@ -50,7 +50,7 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
               ? t("programOverview")
               : item.title}
           </h2>
-          <p className="text-description text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-amber-400 p-4 sm:p-6 md:p-8 rounded-lg">
+          <p className="text-description text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-amber-400 rounded-lg p-4 sm:p-6 md:p-8 ">
             {item.description}
           </p>
         </div>

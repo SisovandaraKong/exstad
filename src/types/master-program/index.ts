@@ -12,6 +12,7 @@ export type MasterProgramType = {
   description: string;
   programLevel:Level;
   logoUrl:string;
+  thumbnailUrl:string;
   price: string;
   duration: string;
   scholarship?: number;
@@ -84,6 +85,11 @@ export type LearningOutcomeType = {
     title:string;
     subtitle:string;
     description:string[];
+}
+export type technologyType = {
+  image: string;
+  title:string;
+  description:string;
 }
 
 

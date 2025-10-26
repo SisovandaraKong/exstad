@@ -15,7 +15,7 @@ import ProgramOverviewCardSkeleton from "@/components/program/skeleton/ProgramOv
 import ProgramCurriculumSkeleton from "@/components/program/skeleton/ProgramCurriculumSkeleton";
 import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivitySkeleton";
 
-import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
+import { useGetMasterProgramBySlugQuery, useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import { MasterProgramType } from "@/types/master-program";
 import NotFoundProgram from "@/components/program/components/NotFound";
@@ -34,8 +34,8 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
 
   // Fetch master program by slug/title
   const { data: masterProgram, isLoading: isMasterLoading, isError: isMasterError } =
-    useGetMasterProgramByTitleQuery(
-      { title: masterProgramSlug ?? initialProgram?.title ?? "" },
+    useGetMasterProgramBySlugQuery(
+      { slug: masterProgramSlug ?? initialProgram?.title ?? "" },
       { skip: !masterProgramSlug && !initialProgram?.title }
     );
 
