@@ -1,7 +1,7 @@
-
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { FaTelegram } from "react-icons/fa6";
@@ -9,9 +9,8 @@ import { CgMail } from "react-icons/cg";
 import { FiArrowUpRight } from "react-icons/fi";
 
 import CompletedCourseCard from "@/components/ui/completed-course-card";
-// (Removed InfiniteMovingCards import – not used)
 
-import type { SocialLink, Scholar } from "@/types/portfolio";
+import type { SocialLink } from "@/types/portfolio";
 import type { ScholarAchievement } from "@/types/achievement";
 
 import {
@@ -56,7 +55,7 @@ const iconFor = (title: string) => {
   return <FiArrowUpRight />;
 };
 
-const AVATAR_PX = 192; // same size as SharedScrollAvatar bottomSize
+const AVATAR_PX = 192;
 
 // Small helper that fetches Opening Program name by UUID
 function ProgramTitle({
@@ -83,6 +82,8 @@ function ProgramTitle({
 }
 
 export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
+  const t = useTranslations("Profile");
+
   const {
     data: scholar,
     isLoading,
@@ -108,13 +109,11 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
     refetchOnFocus: true,
   });
 
-  // Completed courses (API) – used elsewhere on the page and to build optional local mapping if needed
   const { data: completedCourses = [] } = useGetScholarCompletedCoursesQuery(
     scholar?.uuid ?? skipToken,
     { refetchOnMountOrArgChange: true, refetchOnFocus: true }
   );
 
-  // Certificates (API)
   const {
     data: certificates = [],
     isLoading: certsLoading,
@@ -132,7 +131,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen text-gray-500 animate-pulse">
-        Loading profile...
+        {t("loading.profile")}
       </div>
     );
   }
@@ -140,7 +139,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
   if (isError || !scholar) {
     return (
       <div className="flex items-center justify-center min-h-screen text-red-500">
-        Failed to load profile for {username}
+        {t("error.loadProfile", { username })}
       </div>
     );
   }
@@ -151,62 +150,58 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
       <div className="md:col-span-6 lg:col-span-4">
         <div className="sticky top-6 md:top-25 self-start">
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 w-full box-border">
-            {/* Avatar */}
             {/* Avatar + Names */}
-<div className="flex flex-col items-center">
-  <div
-    className="relative mb-3 rounded-full overflow-hidden"
-    style={{ width: 192, height: 192 }}
-  >
-    {/* Shared avatar target */}
-    <div
-      ref={avatarAnchorRef}
-      className="absolute inset-0 rounded-full overflow-hidden"
-    />
+            <div className="flex flex-col items-center">
+              <div
+                className="relative mb-3 rounded-full overflow-hidden"
+                style={{ width: AVATAR_PX, height: AVATAR_PX }}
+              >
+                {/* Shared avatar target */}
+                <div
+                  ref={avatarAnchorRef}
+                  className="absolute inset-0 rounded-full overflow-hidden"
+                />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={scholar.avatar || "/avatar-fallback.jpg"}
+                  alt={t("a11y.avatarAlt", {
+                    name: scholar.englishName || scholar.username,
+                  })}
+                  className="portfolio-avatar-fallback absolute inset-0 w-full h-full object-cover"
+                  width={AVATAR_PX}
+                  height={AVATAR_PX}
+                />
+              </div>
 
-    
-    <img
-      src={scholar.avatar || "/avatar-fallback.jpg"}
-      alt={`${scholar.englishName || scholar.username}'s avatar`}
-      className="portfolio-avatar-fallback absolute inset-0 w-full h-full object-cover"
-      width={192}
-      height={192}
-    />
-  </div>
-
- {/* Names */}
-
-{Boolean(scholar.englishName || scholar.khmerName) && (
-  <div className="text-center mt-[-30px] sm:mt-0">
-    <div className="font-semibold text-base sm:text-lg lg:text-2xl dark:text-white whitespace-nowrap">
-      {scholar.englishName}
-      {scholar.khmerName && (
-        <span className="text-black dark:text-gray-300 text-sm sm:text-base lg:text-xl ml-1">
-          ({scholar.khmerName})
-        </span>
-      )}
-    </div>
-  </div>
-)}
-
-
-</div>
-
+              {/* Names */}
+              {Boolean(scholar.englishName || scholar.khmerName) && (
+                <div className="text-center mt-[-30px] sm:mt-0">
+                  <div className="font-semibold text-base sm:text-lg lg:text-2xl dark:text-white whitespace-nowrap">
+                    {scholar.englishName}
+                    {scholar.khmerName && (
+                      <span className="text-black dark:text-gray-300 text-sm sm:text-base lg:text-xl ml-1">
+                        ({scholar.khmerName})
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* About */}
             <div className="pt-4">
               <h3 className="font-d2 font-semibold mb-2 dark:text-white text-md">
-                About
+                {t("about.title")}
               </h3>
               <p className="font-d3 text-gray-600 dark:text-gray-300 text-sm sm:text-base">
-                {scholar.bio || "No bio yet."}
+                {scholar.bio || t("about.empty")}
               </p>
             </div>
 
             {/* Social */}
             <div className="pt-4">
               <h3 className="font-d2 font-semibold mb-2 dark:text-white text-md">
-                Social Media
+                {t("social.title")}
               </h3>
               <div className="space-y-2 text-sm sm:text-base dark:text-white">
                 {scholar.email && (
@@ -220,20 +215,24 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                     const href = /^https?:\/\//i.test(s.link)
                       ? s.link
                       : `https://${s.link}`;
+                    // Use <a> for external links
                     return (
                       <div
                         key={s.uuid}
                         className="flex items-center gap-2 break-words"
                       >
                         {iconFor(s.title)}
-                        <Link
+                        <a
                           href={href}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hover:underline"
+                          aria-label={t("social.externalLink", {
+                            title: s.title,
+                          })}
                         >
                           {s.title}
-                        </Link>
+                        </a>
                       </div>
                     );
                   })}
@@ -247,7 +246,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
       <div className="md:col-span-6 lg:col-span-8 flex flex-col gap-10 md:ml-5">
         {/* Certificates */}
         <section>
-          <h3 className="font-h4 font-semibold mb-4">Certificate</h3>
+          <h3 className="font-h4 font-semibold mb-4">{t("certificates.title")}</h3>
 
           {/* Loading */}
           {certsLoading && (
@@ -264,22 +263,26 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
           {/* Error */}
           {certsError && (
             <div className="text-sm text-red-500 p-4 bg-red-50 dark:bg-red-900/10 rounded-lg">
-              <p className="font-semibold mb-1">Failed to load certificates</p>
+              <p className="font-semibold mb-1">{t("certificates.error.title")}</p>
               <p className="text-xs opacity-80 mb-2">
                 {certsErrorDetails
-                  ? `Error: ${JSON.stringify(certsErrorDetails, null, 2)}`
-                  : "An error occurred while fetching certificates."}
+                  ? `${t("certificates.error.detail")} ${JSON.stringify(
+                      certsErrorDetails,
+                      null,
+                      2
+                    )}`
+                  : t("certificates.error.generic")}
               </p>
               <button
                 onClick={() => window.location.reload()}
                 className="text-xs underline hover:no-underline"
               >
-                Try refreshing the page
+                {t("actions.tryRefresh")}
               </button>
             </div>
           )}
 
-          {/* List (latest per opening program, cards w/ program title from API) */}
+          {/* List */}
           {!certsLoading &&
             !certsError &&
             (() => {
@@ -301,7 +304,6 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                 if (tNew > tOld) {
                   latestByProgram.set(key, c);
                 } else if (tNew === tOld) {
-                  // prefer verified on tie
                   const scoreNew = c.isVerified ? 1 : 0;
                   const scoreOld = prev.isVerified ? 1 : 0;
                   if (scoreNew > scoreOld) latestByProgram.set(key, c);
@@ -315,7 +317,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
               if (visible.length === 0) {
                 return (
                   <p className="text-sm text-muted-foreground">
-                    No certificates to display yet.
+                    {t("certificates.empty")}
                   </p>
                 );
               }
@@ -334,13 +336,11 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        title={cert.fileName || "Certificate"}
+                        title={cert.fileName || t("certificates.card.title")}
                         className="group relative flex-none w-72 sm:w-80 md:w-96 snap-start rounded-2xl overflow-hidden bg-white dark:bg-gray-900 ring-1 ring-black/5 dark:ring-white/10 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 p-4"
                       >
-                        {/* Icon + title row */}
                         <div className="flex items-start gap-3">
                           <div className="shrink-0 w-10 h-10 rounded-xl grid place-items-center bg-primary/10 text-primary dark:bg-primary/15">
-                            {/* document/award icon */}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
@@ -356,18 +356,18 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                             <h4 className="font-semibold text-gray-900 dark:text-white truncate">
                               <ProgramTitle
                                 openingProgramUuid={cert.openingProgramUuid}
-                                fallback={cert.fileName || "Certificate"}
+                                fallback={cert.fileName || t("certificates.card.title")}
                               />
                             </h4>
 
                             <div className="mt-1 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                               {cert.isVerified ? (
                                 <span className="inline-flex items-center gap-1">
-                                  ✅ Verified
+                                  ✅ {t("certificates.verified")}
                                 </span>
                               ) : (
                                 <span className="inline-flex items-center gap-1">
-                                  🗂️ Unverified
+                                  🗂️ {t("certificates.unverified")}
                                 </span>
                               )}
                               {created && (
@@ -380,9 +380,10 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                           </div>
                         </div>
 
-                        {/* footer action hint */}
                         <div className="mt-4 flex items-center justify-between text-xs text-primary">
-                          <span className="opacity-80">Open certificate</span>
+                          <span className="opacity-80">
+                            {t("certificates.open")}
+                          </span>
                           <span className="transition-transform group-hover:translate-x-0.1">
                             ↗
                           </span>
@@ -396,8 +397,8 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
         </section>
 
         {/* === SECTION: Achievements === */}
-        <section >
-          <h3 className="font-h4 font-semibold mb-4">Achievement</h3>
+        <section>
+          <h3 className="font-h4 font-semibold mb-4">{t("achievements.title")}</h3>
 
           {/* Loading */}
           {achievementsLoading && (
@@ -423,21 +424,21 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
           {/* Error */}
           {achievementsError && (
             <div className="text-sm text-red-500 p-4 bg-red-50 dark:bg-red-900/10 rounded-lg">
-              <p className="font-semibold mb-1">Failed to load achievements</p>
+              <p className="font-semibold mb-1">{t("achievements.error.title")}</p>
               <p className="text-xs opacity-80 mb-2">
                 {achievementsErrorDetails
-                  ? `Error: ${JSON.stringify(
+                  ? `${t("achievements.error.detail")} ${JSON.stringify(
                       achievementsErrorDetails,
                       null,
                       2
                     )}`
-                  : "An error occurred while fetching achievements."}
+                  : t("achievements.error.generic")}
               </p>
               <button
                 onClick={() => window.location.reload()}
                 className="text-xs underline hover:no-underline"
               >
-                Try refreshing the page
+                {t("actions.tryRefresh")}
               </button>
             </div>
           )}
@@ -446,9 +447,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
           {!achievementsLoading && !achievementsError && (
             <div className="flex gap-4 sm:gap-6 overflow-x-auto hide-scroll-bar pb-4">
               {achievements.length === 0 ? (
-                <div className="text-sm text-gray-500">
-                  No achievements yet.
-                </div>
+                <div className="text-sm text-gray-500">{t("achievements.empty")}</div>
               ) : (
                 achievements.map((ach: ScholarAchievement) => {
                   const isExpanded = !!expandedDescriptions[ach.uuid];
@@ -458,9 +457,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                           ach.achievement.video || ach.achievement.link
                         )
                         ? ach.achievement.video || ach.achievement.link
-                        : `https://${
-                            ach.achievement.video || ach.achievement.link
-                          }`
+                        : `https://${ach.achievement.video || ach.achievement.link}`
                       : "";
 
                   return (
@@ -507,7 +504,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                               }
                               className="text-sm text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 mt-1"
                             >
-                              {isExpanded ? "See less" : "See more"}
+                              {isExpanded ? t("actions.seeLess") : t("actions.seeMore")}
                             </button>
                           )}
                       </div>
@@ -521,7 +518,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                             rel="noopener noreferrer"
                             className="text-primary-500 hover:text-primary-hover dark:text-primary dark:hover:text-primary-hover flex items-center gap-1"
                           >
-                            🎥 Video Demo
+                            🎥 {t("achievements.video")}
                           </a>
                         )}
                         <span>
@@ -541,7 +538,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                             rel="noopener noreferrer"
                             className="text-primary-500 hover:text-primary-hover dark:text-primary dark:hover:text-primary-hover flex items-center gap-1"
                           >
-                            🔗 Project Link
+                            🔗 {t("achievements.projectLink")}
                           </a>
                         )}
 
@@ -557,7 +554,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
 
         {/* === SECTION: Completed Courses (from scholar.completedCourses) === */}
         <section>
-          <h3 className="font-h4 font-semibold mb-4">Completed Courses</h3>
+          <h3 className="font-h4 font-semibold mb-4">{t("courses.title")}</h3>
 
           {!isLoading &&
             !isError &&
@@ -569,7 +566,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
               if (raw.length === 0) {
                 return (
                   <p className="text-sm text-muted-foreground">
-                    No completed courses yet.
+                    {t("courses.empty")}
                   </p>
                 );
               }
@@ -589,9 +586,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                           programName: c.programName,
                           generation: c.generation,
                           posterUrl:
-                            c.posterUrl ||
-                            c.thumbnail ||
-                            "/course-fallback.jpg",
+                            c.posterUrl || c.thumbnail || "/course-fallback.jpg",
                         }}
                       />
                     </div>
@@ -623,7 +618,6 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
           opacity: 0;
         }
 
-        /* --- Straight fall, always rotate(0deg) --- */
         @keyframes fall-straight {
           0% {
             transform: translateY(-120px) rotate(90deg);

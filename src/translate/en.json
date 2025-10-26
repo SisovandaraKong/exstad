@@ -1,12 +1,130 @@
 {
-	"hello": "Hello",
-	"welcome": "Welcome to my website",
+  "hello": "Hello",
+  "welcome": "Welcome to my website",
+  "explore-program": "Explore Program",
+  "available-programs": "Available Programs",
+  "scholar": "Scholar",
+  "roadmap": "Roadmap",
+  "about-us": "About Us",
+  "log-in": "Log In",
 
-	"explore-program": "Explore Program",
-	"available-programs": "Available Programs",
-	"scholar": "Scholar",
-	"roadmap": "Roadmap",
-	"about-us": "About Us",
+  "Scholar": {
+    "hero": {
+      "title1": "From Classrooms to Careers",
+      "title2": "The Journey of Our Abroad Scholars",
+      "subtitle": "Where learning turns into leadership and dreams into reality"
+    },
 
-	"log-in": "Log In"
+    "marquee": {
+      "empty": "No specialists found."
+    },
+    "load": {
+      "error": "Failed to load scholars."
+    },
+
+    "spotlight": {
+      "badge": "Scholar Spotlight",
+      "viewStory": "View Full Story",
+      "empty": "No employed scholars to spotlight yet."
+    },
+
+    "section2": {
+      "title": "The Success Blueprint for ISTAD Alumni",
+      "step1": {
+        "title": "Build a Strong Foundation",
+        "desc": "Learn core IT skills"
+      },
+      "step2": {
+        "title": "Putting Skills into Practice",
+        "desc": "Practice what you’ve learned"
+      },
+      "step3": {
+        "title": "Mastery and Leadership",
+        "desc": "Become an expert, lead projects"
+      }
+    },
+
+    "section3": {
+      "badge": "Scholar Spotlight"
+    },
+
+    "section4": {
+      "title": "Discover Our exSTAD Scholar",
+	  "subtitle":"Find the best student for your company and boost your business too."
+    },
+
+    "labels": {
+      "generation": "Generation",
+      "unnamed": "Unnamed Scholar",
+      "scholar": "Scholar"
+    },
+
+    "a11y": {
+      "viewProfile": "View {name}'s profile",
+      "prev": "Previous scholar",
+      "next": "Next scholar"
+    }
+  },
+
+  "Profile": {
+    "loading": {
+      "profile": "Loading profile..."
+    },
+    "error": {
+      "loadProfile": "Failed to load profile for {username}"
+    },
+
+    "a11y": {
+      "avatarAlt": "{name}'s avatar"
+    },
+
+    "about": {
+      "title": "About",
+      "empty": "No bio yet."
+    },
+
+    "social": {
+      "title": "Social Media",
+      "externalLink": "Open {title}"
+    },
+
+    "certificates": {
+      "title": "Certificate",
+      "empty": "No certificates to display yet.",
+      "verified": "Verified",
+      "unverified": "Unverified",
+      "open": "Open certificate",
+      "card": {
+        "title": "Certificate"
+      },
+      "error": {
+        "title": "Failed to load certificates",
+        "detail": "Error:",
+        "generic": "An error occurred while fetching certificates."
+      }
+    },
+
+    "achievements": {
+      "title": "Achievement",
+      "empty": "No achievements yet.",
+      "video": "Video Demo",
+      "projectLink": "Project Link",
+      "error": {
+        "title": "Failed to load achievements",
+        "detail": "Error:",
+        "generic": "An error occurred while fetching achievements."
+      }
+    },
+
+    "courses": {
+      "title": "Completed Courses",
+      "empty": "No completed courses yet."
+    },
+
+    "actions": {
+      "tryRefresh": "Try refreshing the page",
+      "seeMore": "See more",
+      "seeLess": "See less"
+    }
+  }
 }
