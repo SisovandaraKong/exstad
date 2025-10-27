@@ -28,8 +28,12 @@ const ProgramDetailPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("Overview");
 
   // Fetch all opening programs
-  const { data: allPrograms = [], isLoading: isAllLoading, isError: isAllError } = useGetAllOpeningProgramsQuery();
-  
+  const {
+    data: allPrograms = [],
+    isLoading: isAllLoading,
+    isError: isAllError,
+  } = useGetAllOpeningProgramsQuery();
+
   // Find current program by slug
   const openingProgram = allPrograms.find(
     (op) => op.slug === openingProgramSlug
@@ -95,7 +99,7 @@ const ProgramDetailPage: React.FC = () => {
       ),
     Timeline: () => <TimeLine openingProgramUuid={openingProgram.uuid} />,
     Roadmap: () => <WorkNodeViewer programUuid={masterProgram.uuid} />,
-    Enrollment: () => <ProgramEnrollment />,
+    Enrollment: () => <ProgramEnrollment openingProgram={openingProgram} />,
   };
 
   const ActiveTabComponent = tabComponents[activeTab];
