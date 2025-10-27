@@ -372,8 +372,6 @@ function Card2({
       ? activeCategory
       : person.programName || ""
     : "";
-
-  // ✅ build scholar profile link
   const slug = person.uuid || person.name.toLowerCase().replace(/\s+/g, "-");
   const href = person.username ? `/${person.username}` : `/scholars/${slug}`;
 
@@ -389,7 +387,6 @@ function Card2({
           "px-3 py-4 sm:px-4 sm:py-5 md:p-6",
           "text-center transition-all duration-200 ease-out",
           "flex flex-col items-center",
-          // ↓↓↓ smaller heights
           "min-h-[170px] sm:min-h-[200px] md:min-h-[240px]",
         ].join(" ")}
       >
@@ -437,7 +434,6 @@ function Card2({
     </Link>
   );
 }
-
 
 /* ---------- Page ---------- */
 export default function Scholar() {
@@ -509,7 +505,6 @@ export default function Scholar() {
     : [];
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
     console.log(
       "selectedProgramUuid:",
       selectedProgramUuid,
@@ -889,7 +884,7 @@ export default function Scholar() {
       {/* =================================== */}
       <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16 items-center">
             {/* LEFT: Title + Steps */}
             <div>
               <h2
@@ -991,7 +986,7 @@ export default function Scholar() {
       {/* =================================== */}
       {/* SECTION 3: Spotlight Carousel (localized strings) */}
       {/* =================================== */}
-      <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900 -mb-[100px]">
+      <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900 -mb-[100px] md:-mb-[150px] ">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-[-10px] md:pb-[150px] relative">
           {isError ? (
             <p className="text-center text-sm text-rose-600">
@@ -1129,10 +1124,9 @@ export default function Scholar() {
 
       {/* =================================== */}
       {/* SECTION 4: Category Filter (Short Course dropdown) */}
-      {/* NOTE: ONLY THE TITLE IS TRANSLATED PER REQUIREMENT */}
       {/* =================================== */}
-      <section className="relative isolate overflow-hidden  bg-white dark:bg-slate-900 dark:border-slate-700 -mt-10">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 md:py-10">
+      <section className="relative isolate overflow-hidden  bg-white dark:bg-slate-900 dark:border-slate-700 ">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 md:py-20 py-5">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
               {t("section4.title")}
