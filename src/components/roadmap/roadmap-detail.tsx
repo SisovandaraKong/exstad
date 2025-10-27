@@ -7,8 +7,10 @@ import {
   type Edge,
   Background,
   Controls,
+  ControlButton,
   useNodesState,
   useEdgesState,
+  useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import CustomWorkNode from "./CustomWorkNode";
@@ -22,15 +24,54 @@ import type {
   RoadmapEdge,
 } from "../../types/roadmap";
 import { Card } from "../ui/card";
-import { Zoom } from "swiper/modules";
 
 const nodeTypes = {
   workNode: CustomWorkNode,
 };
 
+// ✅ Custom Controls with hover tooltips
+function CustomControls() {
+  const { zoomIn, zoomOut, fitView } = useReactFlow();
+
+  return (
+    <div className="absolute top-40 right-2 flex flex-col gap-2 z-10">
+      {/* Zoom In */}
+      <div className="group relative">
+        <ControlButton onClick={() => zoomIn()}>
+          +
+        </ControlButton>
+        <span className="absolute right-full mr-2 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+          Zoom In
+        </span>
+      </div>
+
+      {/* Zoom Out */}
+      <div className="group relative">
+        <ControlButton onClick={() => zoomOut()}>
+          −
+        </ControlButton>
+        <span className="absolute right-full mr-2 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+          Zoom Out
+        </span>
+      </div>
+
+      {/* Fit View */}
+      <div className="group relative">
+        <ControlButton onClick={() => fitView()}>
+          ⤢
+        </ControlButton>
+        <span className="absolute right-full mr-2 hidden group-hover:block bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+          Fit to View
+        </span>
+      </div>
+    </div>
+  );
+}
+
+
 export default function WorkNodeViewer({
   programUuid,
-  programType = "programs", // ✅ default to "programs"
+  programType = "programs",
 }: {
   programUuid: string;
   programType?: "programs" | "opening-programs";
@@ -74,7 +115,9 @@ export default function WorkNodeViewer({
             title,
             color,
             tasks: node.data.description
-              ? node.data.description.split(", ").filter((t: string) => t.trim() !== "")
+              ? node.data.description
+                  .split(", ")
+                  .filter((t: string) => t.trim() !== "")
               : [],
             handles,
             onEdit: () => {},
@@ -118,13 +161,16 @@ export default function WorkNodeViewer({
             nodesDraggable={false}
             nodesConnectable={false}
             elementsSelectable={false}
-            zoomOnScroll
-            zoomOnPinch
-            panOnScroll
-            panOnDrag
+            zoomOnScroll={false}
+            zoomOnPinch={false}
+            zoomOnDoubleClick={false}
+            minZoom={0.5}
+            maxZoom={1}
+            className="bg-white dark:bg-gray-800"
           >
             <Background />
-            <Controls className="dark:text-black" showInteractive={false} />
+            {/* ✅ Custom tooltip controls */}
+            <CustomControls />
           </ReactFlow>
         </Card>
       </div>
