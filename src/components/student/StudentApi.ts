@@ -444,6 +444,6 @@ export const {
   useGetOpeningProgramByUuidQuery,
   useGetAllProgramsQuery,
   useGetScholarsByProgramUuidQuery,
-  useLazyGetScholarsByProgramUuidQuery, // ⬅️ added lazy hook export
+  useLazyGetScholarsByProgramUuidQuery, 
   useDeleteProgramMutation,
 } = StudentApi;

@@ -26,6 +26,7 @@ import {
   BookOpen,
   Award,
   ChevronDown,
+  Building2,
 } from "lucide-react";
 
 import styles from "./styles.module.css";
@@ -90,6 +91,8 @@ type ScholarWithQuote = Omit<ScholarCard, "spec"> & {
   category: string;
   spec: ApiSpecialist;
   company?: string;
+  /** NEW: first program title to show when a program filter is active */
+  programName?: string;
 };
 
 type SpotlightItem = {
@@ -333,22 +336,46 @@ function Card1({ person }: { person: ScholarCard }) {
     </Link>
   );
 }
-
 /* =========================================================
-   Card2 (Section 4 grid)
+   Card2 (Section 4 grid) — version without subtitle
    ========================================================= */
-function Card2({ person }: { person: ScholarWithQuote }) {
+function Card2({
+  person,
+  activeCategory,
+  selectedProgramUuid,
+}: {
+  person: ScholarWithQuote;
+  activeCategory: CategoryLabel;
+  selectedProgramUuid?: string | null;
+}) {
   const [src, setSrc] = useState(person.image || "/placeholder.svg");
   useEffect(() => setSrc(person.image || "/placeholder.svg"), [person.image]);
 
   const displayName = person.name?.trim() || "Unnamed Scholar";
-  const displayTitle = person.title?.trim() || "—";
   const hasCompany = !!person.company?.trim();
   const hasQuote = !!person.quote?.trim();
 
+  // Decide what program name to show under the name
+  const programLine =
+    selectedProgramUuid
+      ? activeCategory === CATEGORY_LABELS.PREU ||
+        activeCategory === CATEGORY_LABELS.FSW
+        ? activeCategory
+        : person.programName || ""
+      : "";
+
+  // ✅ build scholar profile link
+  const slug = person.uuid || person.name.toLowerCase().replace(/\s+/g, "-");
+  const href = person.username ? `/${person.username}` : `/scholars/${slug}`;
+
   return (
-    <div className="group rounded-xl p-[1.5px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-0.5 hover:scale-[1.01] hover:shadow-xl">
+    <Link
+      href={href}
+      className="group rounded-xl p-[1.5px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-0.5 hover:scale-[1.01] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      aria-label={`View ${displayName}'s profile`}
+    >
       <div className="rounded-xl bg-white dark:bg-slate-800 px-4 py-5 sm:px-6 sm:py-6 md:p-8 text-center transition-all duration-300 ease-out transform-gpu group-hover:shadow-xl h-auto min-h-[220px] sm:min-h-[260px] md:min-h-[320px] flex flex-col items-center">
+        {/* avatar */}
         <div className="relative mx-auto h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full overflow-hidden border border-slate-200 shadow-md dark:border-slate-600 bg-slate-200 dark:bg-slate-700">
           <Image
             src={src}
@@ -362,6 +389,7 @@ function Card2({ person }: { person: ScholarWithQuote }) {
           />
         </div>
 
+        {/* name + program + company/quote */}
         <div className="mt-2 flex flex-col items-center text-center">
           <h3
             className="mt-1 text-sm sm:text-base md:text-xl font-bold text-slate-900 dark:text-white line-clamp-2"
@@ -370,17 +398,16 @@ function Card2({ person }: { person: ScholarWithQuote }) {
             {displayName}
           </h3>
 
-          <p
-            className="text-[11px] sm:text-sm md:text-base text-slate-600 dark:text-slate-300 line-clamp-1"
-            title={displayTitle}
-          >
-            {displayTitle}
-          </p>
+          {!!programLine && (
+            <p className="mt-1 text-[11px] sm:text-xs md:text-sm text-slate-500 dark:text-slate-300">
+              {programLine}
+            </p>
+          )}
 
-          {/* ONLY company if present; otherwise quote */}
           {hasCompany ? (
-            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-200 leading-relaxed line-clamp-2">
-              {person.company}
+            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-200 leading-relaxed line-clamp-2 flex items-center justify-center gap-2">
+              <Building2 className="h-4 w-4 opacity-70" aria-hidden="true" />
+              <span>{person.company}</span>
             </p>
           ) : hasQuote ? (
             <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 italic leading-relaxed line-clamp-2">
@@ -389,7 +416,7 @@ function Card2({ person }: { person: ScholarWithQuote }) {
           ) : null}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -570,11 +597,13 @@ export default function Scholar() {
       const image = versioned(base, s.audit?.updatedAt);
 
       const embedded = s?.completedCourses as
-        | Array<{ programName?: string; name?: string }>
+        | Array<{ programName?: string; name?: string; title?: string }>
         | undefined;
 
       const programNames = Array.isArray(embedded)
-        ? embedded.map((c) => c?.programName || c?.name || "").filter(Boolean)
+        ? embedded
+            .map((c) => c?.programName || c?.name || c?.title || "")
+            .filter(Boolean)
         : [];
 
       const derivedCategory =
@@ -583,6 +612,15 @@ export default function Scholar() {
           : normalizeProgramName(s.category) ||
             normalizeProgramName(s.role || s.university) ||
             CATEGORY_LABELS.SC;
+
+      // pick first course title to show when filtering by a program
+      const firstCourseTitle =
+        Array.isArray(embedded) && embedded.length > 0
+          ? embedded[0]?.programName ||
+            embedded[0]?.title ||
+            embedded[0]?.name ||
+            ""
+          : "";
 
       const spec =
         Array.isArray(s.specialist) && s.specialist.length > 0
@@ -607,6 +645,7 @@ export default function Scholar() {
         category: derivedCategory,
         spec,
         company: firstCompany || undefined,
+        programName: firstCourseTitle || undefined, // <-- NEW
       };
     });
 
@@ -830,97 +869,105 @@ export default function Scholar() {
       {/* SECTION 2: Success Blueprint (localized)*/}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-      
-      {/* LEFT: Title + Steps */}
-      <div>
-        <h2
-          className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white"
-          data-aos="fade-right"
-        >
-          {t("section2.title")}
-        </h2>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* LEFT: Title + Steps */}
+            <div>
+              <h2
+                className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white"
+                data-aos="fade-right"
+              >
+                {t("section2.title")}
+              </h2>
 
-        <div className="mt-12 flex flex-col gap-10">
-          {/* STEP 1 */}
-          <div className="flex items-center gap-6 relative" data-aos="fade-right" data-aos-delay={100}>
-            <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">01</span>
-            <div className="bg-background dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
-              <div className="shrink-0 rounded-xl bg-blue-50 text-blue-600 p-2 ring-1 ring-blue-100 w-fit">
-                <Layers className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                  {t("section2.step1.title")}
-                </h3>
-                <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                  {t("section2.step1.desc")}
-                </p>
+              <div className="mt-12 flex flex-col gap-10">
+                {/* STEP 1 */}
+                <div
+                  className="flex items-center gap-6 relative"
+                  data-aos="fade-right"
+                  data-aos-delay={100}
+                >
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
+                    01
+                  </span>
+                  <div className="bg-background dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
+                    <div className="shrink-0 rounded-xl bg-blue-50 text-blue-600 p-2 ring-1 ring-blue-100 w-fit">
+                      <Layers className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
+                        {t("section2.step1.title")}
+                      </h3>
+                      <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
+                        {t("section2.step1.desc")}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* STEP 2 */}
+                <div className="flex items-center gap-6 relative">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
+                    <div className="shrink-0 rounded-xl bg-amber-50 text-amber-600 p-2 ring-1 ring-amber-100 w-fit">
+                      <Code className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
+                        {t("section2.step2.title")}
+                      </h3>
+                      <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
+                        {t("section2.step2.desc")}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
+                    02
+                  </span>
+                </div>
+
+                {/* STEP 3 */}
+                <div className="flex items-center gap-6 relative">
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">
+                    03
+                  </span>
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
+                    <div className="shrink-0 rounded-xl bg-rose-50 text-rose-600 p-2 ring-1 ring-rose-100 w-fit">
+                      <Award className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
+                        {t("section2.step3.title")}
+                      </h3>
+                      <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
+                        {t("section2.step3.desc")}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* STEP 2 */}
-          <div className="flex items-center gap-6 relative">
-            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
-              <div className="shrink-0 rounded-xl bg-amber-50 text-amber-600 p-2 ring-1 ring-amber-100 w-fit">
-                <Code className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                  {t("section2.step2.title")}
-                </h3>
-                <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                  {t("section2.step2.desc")}
-                </p>
-              </div>
-            </div>
-            <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">02</span>
-          </div>
-
-          {/* STEP 3 */}
-          <div className="flex items-center gap-6 relative">
-            <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">03</span>
-            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
-              <div className="shrink-0 rounded-xl bg-rose-50 text-rose-600 p-2 ring-1 ring-rose-100 w-fit">
-                <Award className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                  {t("section2.step3.title")}
-                </h3>
-                <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                  {t("section2.step3.desc")}
-                </p>
-              </div>
+            {/* RIGHT: Two images */}
+            <div className="grid grid-cols-2 gap-6" data-aos="zoom-in-left">
+              <Image
+                src="/image/reach.jpg"
+                alt="Award Ceremony"
+                width={500}
+                height={500}
+                className="rounded-2xl object-cover shadow-md"
+                priority
+              />
+              <Image
+                src="/image/yith_sopheaktra.jpg"
+                alt="Student Writing"
+                width={500}
+                height={400}
+                className="rounded-2xl object-cover shadow-md"
+              />
             </div>
           </div>
         </div>
-      </div>
-
-      {/* RIGHT: Two images */}
-      <div className="grid grid-cols-2 gap-6" data-aos="zoom-in-left">
-        <Image
-          src="/image/reach.jpg"
-          alt="Award Ceremony"
-          width={500}
-          height={500}
-          className="rounded-2xl object-cover shadow-md"
-          priority
-        />
-        <Image
-          src="/image/yith_sopheaktra.jpg"
-          alt="Student Writing"
-          width={500}
-          height={400}
-          className="rounded-2xl object-cover shadow-md"
-        />
-      </div>
-    </div>
-  </div>
-</section>
-
+      </section>
 
       {/* =================================== */}
       {/* SECTION 3: Spotlight Carousel (localized strings) */}
@@ -1251,6 +1298,8 @@ export default function Scholar() {
                     person.spec?.uuid ?? "spec"
                   }`}
                   person={person}
+                  activeCategory={activeCategory}
+                  selectedProgramUuid={selectedProgramUuid}
                 />
               ))}
               {filtered.length === 0 && (

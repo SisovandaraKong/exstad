@@ -129,13 +129,15 @@
 // }
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
 import { SparklesText } from "@/components/magicui/sparkles-text";
-import { useGetScholarByUsernameQuery } from "@/components/student/StudentApi";
+import {
+  useGetScholarByUsernameQuery,
+  useGetScholarCompletedCoursesQuery,
+} from "@/components/student/StudentApi";
 
 type Props = { username: string; avatarAnchorRef?: React.RefObject<HTMLDivElement> };
 
-// tiny blur placeholder
+// tiny blur placeholder (unchanged)
 const BLUR =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjZWVlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+";
 
@@ -156,6 +158,28 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
     refetchOnReconnect: true,
   });
 
+  // ✅ Fetch completed courses once scholar.uuid is known
+  const { data: completedCourses } = useGetScholarCompletedCoursesQuery(
+    scholar?.uuid as string,
+    { skip: !scholar?.uuid }
+  );
+
+  // ✅ Pick the completed program name (replace ISTAD Scholar)
+  const programNames = useMemo(() => {
+  const list = Array.isArray((scholar as any)?.completedCourses)
+    ? (scholar as any).completedCourses
+    : [];
+
+  const names = list
+    .map((c: any) => c?.programName ?? c?.title ?? c?.name ?? c?.courseName)
+    .filter(Boolean);
+
+  // show unique names, joined by " • " if there are multiple
+  return Array.from(new Set(names)).join(" • ") || null;
+}, [scholar]);
+
+
+  // compute avatar src (unchanged)
   const computedSrc = useMemo(() => {
     const raw = isHttpUrl(scholar?.avatar) ? (scholar!.avatar as string) : "/avatar-fallback.png";
     const v = scholar?.audit?.updatedAt ? new Date(scholar.audit.updatedAt).getTime() : Date.now();
@@ -193,7 +217,7 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
-      {/* Background gradient */}
+      {/* background gradient */}
       <div
         className="absolute inset-0"
         style={{
@@ -202,7 +226,7 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
         }}
       />
 
-      {/* Content */}
+      {/* content */}
       <div
         className="relative z-10 w-full max-w-6xl mx-auto
         flex flex-col lg:flex-row
@@ -210,7 +234,7 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
         justify-center
         gap-8 sm:gap-10 lg:gap-24 xl:gap-32"
       >
-        {/* Avatar area */}
+        {/* avatar / video area (keep same style) */}
         <div
           className="
             relative
@@ -221,19 +245,27 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
             flex-shrink-0
           "
         >
-          {/* Anchor for the shared scrolling avatar */}
-          <div ref={avatarAnchorRef} className="w-full h-full rounded-full bg-transparent mt-4 sm:mt-6 lg:mt-12" />
+          <div
+            ref={avatarAnchorRef}
+            className="w-full h-full rounded-full bg-transparent mt-4 sm:mt-6 lg:mt-12"
+          />
         </div>
 
-        {/* Text */}
+        {/* text section */}
         <div className="flex-1 text-center lg:text-left space-y-3 lg:space-y-4 lg:self-start items-center mt-6 sm:mt-8 lg:mt-12">
-          <h1 className="font-h1 font-extrabold text-color leading-tight  text-xl sm:text-xl md:text-5xl lg:text-6xl xl:text-7xl">
+          <h1 className="font-h1 font-extrabold text-color leading-tight text-xl sm:text-xl md:text-5xl lg:text-6xl xl:text-7xl">
             <SparklesText>{scholar.englishName}</SparklesText>
           </h1>
-          <h2 className="lg:font-h2 text-[#969696]">
-            {scholar.university}  {scholar.role}
-          </h2>
+
+          {/* ✅ render program name instead of ISTAD Scholar */}
+          <h2 className="lg:font-h2 text-primary font-semibold">
+  
+  {programNames ? <> {programNames}</> : null}
+</h2>
+
+
           <p className="font-d2 leading-relaxed max-w-2xl mx-auto lg:mx-0">{scholar.bio}</p>
+
           {scholar.quote && (
             <blockquote className="text-2xl lg:text-3xl font-medium text-primary italic">
               “{scholar.quote}”
