@@ -5,13 +5,9 @@ import Image from "next/image";
 import { useGetAllActivityQuery } from "@/components/program/detail-program/activity/activityApi";
 import AOS from "aos";
 import NotFoundProgram from "../../components/NotFound";
-
-type Activity = {
-  uuid: string;
-  title: string;
-  description: string;
-  image?: string;
-};
+import { useTranslations } from "next-intl";
+import { ActivityType } from "@/types/opening-program";
+import { useKhmerNumber } from "@/services/to-khmer-number";
 
 export type ProgramGeneration = {
   uuid: string;
@@ -32,17 +28,19 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
     }
   }, [generations]);
 
-  const { data: activities = [], isLoading, isError } = useGetAllActivityQuery(
-    selectedGenerationId,
-    {
-      skip: !selectedGenerationId,
-      refetchOnMountOrArgChange: true,
-    }
-  );
-
+  const {
+    data: activities = [],
+    isLoading,
+    isError,
+  } = useGetAllActivityQuery(selectedGenerationId, {
+    skip: !selectedGenerationId,
+    refetchOnMountOrArgChange: true,
+  });
+  const t = useTranslations();
+  const toKhmerNumber = useKhmerNumber();
   const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const underlineRef = useRef<HTMLDivElement>(null);
-
+  
   // Animate underline
   useEffect(() => {
     const currentTab = tabsRef.current.find(
@@ -60,41 +58,62 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
   }, []);
 
   if (!generations.length) {
-    return <p className="text-gray-500 text-center">No opening program available.</p>;
+    return (
+      <p className="text-gray-500 text-center">No opening program available.</p>
+    );
   }
   if (isLoading) {
     return <p className="text-gray-500 text-center">Loading activities...</p>;
   }
   if (isError) {
-    return <NotFoundProgram title="Failed to Load Activity" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;;;
+    return (
+      <NotFoundProgram
+        title="Failed to Load Activity"
+        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
+      />
+    );
   }
   if (!activities || activities.length === 0) {
-    return  <NotFoundProgram title="No Activity Availbale" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
+    return (
+      <NotFoundProgram
+        title="No Activity Availbale"
+        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
+      />
+    );
   }
 
   return (
     <div className="w-full bg-background grid p-4 sm:p-6 md:p-6 gap-10 rounded-b-[24px]">
-      <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">Activities</h1>
+      <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">
+        {t("activity")}
+      </h1>
 
       {/* Scrollable generations */}
       <div className="relative flex gap-2 sm:gap-3 md:gap-4 overflow-x-auto pb-2 mt-2 scrollbar-hide">
-        {generations.map((gen, index) => (
-          <button
-            key={gen.uuid}
-            data-id={gen.uuid}
-            ref={(el) => {
-              tabsRef.current[index] = el;
-            }}
-            onClick={() => setSelectedGenerationId(gen.uuid)}
-            className={`px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-2xl font-medium whitespace-nowrap text-sm sm:text-base md:text-lg ${
-              selectedGenerationId === gen.uuid
-                ? "text-primary"
-                : "text-foreground  hover:bg-gray-200 dark:hover:bg-primary "
-            }`}
-          >
-            {gen.title}
-          </button>
-        ))}
+        {generations.map((gen, index) => {
+          const parts = gen.title.split(" ");
+          const numberPart = parts.find((part) => !isNaN(Number(part))) ?? "";
+          const khmerNumber = toKhmerNumber(numberPart);
+          const khmerGeneration = t("generation");
+          const khmerTitle = `${khmerGeneration} ${khmerNumber}`;
+          return (
+            <button
+              key={gen.uuid}
+              data-id={gen.uuid}
+              ref={(el) => {
+                tabsRef.current[index] = el;
+              }}
+              onClick={() => setSelectedGenerationId(gen.uuid)}
+              className={`px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-2xl font-medium whitespace-nowrap text-sm sm:text-base md:text-lg ${
+                selectedGenerationId === gen.uuid
+                  ? "text-primary dark:text-white"
+                  : "text-foreground  hover:bg-gray-200 dark:hover:bg-primary "
+              }`}
+            >
+              {khmerTitle}
+            </button>
+          );
+        })}
 
         <div
           ref={underlineRef}
@@ -104,17 +123,17 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
 
       {/* Activities */}
       <div className="grid gap-4 sm:gap-6 border-t border-gray-300">
-        {activities.map((activity: Activity) => (
+        {activities.map((activity: ActivityType) => (
           <div
             key={activity.uuid}
             className="relative flex flex-col gap-4 sm:gap-6 my-4 sm:my-6 p-4 sm:p-6 md:p-8 rounded-2xl border-l-0.5 border-transparent"
             data-aos="fade-up"
           >
             <div className="absolute top-0 left-0 h-full w-0.5 rounded-l-2xl bg-gradient-to-b from-[#328BE6] to-transparent"></div>
-            <h3 className="font-bold text-base sm:text-lg md:text-xl text-foreground">
-              {activity.title}
+            <h3 className="font-bold text-lg sm:text-xl md:text-2xl text-foreground">
+  {t(activity.title.toLowerCase().replaceAll(" ", "-"), { default: activity.title })}
             </h3>
-            <p className="font-normal text-sm sm:text-base md:text-base text-foreground">
+            <p className="font-normal text-description text-sm sm:text-base md:text-lg">
               {activity.description}
             </p>
             {activity.image && (

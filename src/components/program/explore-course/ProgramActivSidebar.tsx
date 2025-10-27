@@ -1,22 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-// Removed ScrollArea import, as it's no longer used effectively.
-// You can uncomment the line below if you use it elsewhere.
-// import { ScrollArea } from "../../ui/scroll-area"; 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSlidersH } from "@fortawesome/free-solid-svg-icons";
-// We're importing Lucide icons that are likely available.
-import { X, Filter } from "lucide-react"; 
+import { X, Filter } from "lucide-react";
+import { useKhmerNumber } from "@/services/to-khmer-number";
+import { useTranslations } from "next-intl";
 
-// NOTE: Since the full code context is not provided, 
-// I am including a mock type definition for MasterProgramType.
-// In your actual environment, ensure this type is imported correctly.
 type MasterProgramType = {
   programType: "SCHOLARSHIP" | "SHORT_COURSE" | string;
   title: string;
 };
-
 
 type Props = {
   programData: MasterProgramType[];
@@ -37,20 +29,12 @@ const ProgramActiveSidebar: React.FC<Props> = ({
   subFilter,
   setSubFilter,
 }) => {
-  // --- New State for Load More Feature ---
   const [showAllScholarships, setShowAllScholarships] = useState(false);
   const [showAllShortCourses, setShowAllShortCourses] = useState(false);
-  // ---------------------------------------
+  const t = useTranslations();
+  const toKhmerNumber = useKhmerNumber();
+  
 
-  if (!programData.length) {
-    return (
-      <aside className="w-auto sticky top-28 p-[20px] border rounded-lg bg-background">
-        <p className="text-sm text-gray-500">No programs available</p>
-      </aside>
-    );
-  }
-
-  // ✅ Correct mapping for filters
   const scholarshipOptions = Array.from(
     new Set(
       programData
@@ -69,16 +53,13 @@ const ProgramActiveSidebar: React.FC<Props> = ({
     )
   );
 
-  // --- Visibility Logic ---
-  // Slices the array to show only the first 3 items unless 'showAll' is true.
   const visibleScholarshipOptions = showAllScholarships
     ? scholarshipOptions
     : scholarshipOptions.slice(0, 3);
-  
+
   const visibleShortCourseOptions = showAllShortCourses
     ? shortCourseOptions
     : shortCourseOptions.slice(0, 3);
-  // -------------------------
 
   const toggleOption = (option: string) => {
     setSubFilter(
@@ -89,7 +70,10 @@ const ProgramActiveSidebar: React.FC<Props> = ({
   };
 
   const renderOption = (option: string, selected: boolean) => (
-    <li key={option} className="flex items-center gap-2 cursor-pointer transition-opacity duration-300">
+    <li
+      key={option}
+      className="flex items-center gap-2 cursor-pointer transition-opacity duration-300"
+    >
       <div
         className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
           selected ? "border-4 border-primary" : ""
@@ -105,137 +89,162 @@ const ProgramActiveSidebar: React.FC<Props> = ({
     </li>
   );
 
-  // --- Toggle Button Generator ---
-  const renderToggleButton = (options: string[], showAll: boolean, setShowAll: (show: boolean) => void) => {
-    // Only show the button if there are more than 3 options
+  const renderToggleButton = (
+    options: string[],
+    showAll: boolean,
+    setShowAll: (show: boolean) => void
+  ) => {
     if (options.length <= 3) return null;
-    
+
+    const remainingCount = options.length - 3;
+    const displayCount = toKhmerNumber(remainingCount);
+
     return (
       <button
         onClick={() => setShowAll(!showAll)}
-        className="mt-2 ml-1 text-primary text-xs font-semibold hover:underline transition-colors duration-150"
+        className="mt-2 ml-1 text-primary dark:text-white text-xs font-semibold hover:underline transition-colors duration-150"
       >
-        {showAll ? "Show Less" : `Load More (${options.length - 3})`}
+        {showAll
+          ? t("show-less")
+          : `${t("load-more")} (${displayCount})`}
       </button>
     );
   };
-  // -------------------------------
 
   return (
-    <aside className="w-auto sticky top-28 p-[20px] border rounded-lg bg-background shadow-lg space-y-6">
-      {/* Filter Header (BIG & BOLD) - Updated to use Lucide's Filter icon */}
-      <div className="flex items-center gap-3 pb-4 border-b border-gray-200 dark:border-gray-700">
-        <Filter 
-            size={26} // Equivalent to size={1.3} for a big icon
-            className="text-primary flex-shrink-0" 
-        />
-        <h2 className="text-2xl font-bold 
-                          text-gray-900 dark:text-white 
-                          tracking-tight m-0">
-            Filter
-        </h2>
-      </div>
+<aside className="w-auto sticky top-28 p-[20px] border rounded-lg bg-background shadow-lg space-y-1">
+  <div className="flex items-center gap-3 pb-4 border-b border-gray-200 dark:border-gray-700">
+    <Filter size={26} className="text-primary  flex-shrink-0" />
+    <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight m-0">
+      {t("filter")}
+    </h2>
+  </div>
 
-      {/* Program Type Filter */}
-      <div>
-        <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">Program Type</h3>
-        <ul className="space-y-2 p-2">
-          {["All", "Scholarship Course", "Short Course"].map((type) => (
-            <li key={type} className="flex items-center gap-2 cursor-pointer">
-              <div
-                className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
-                  programFilter === type ? "border-4 border-primary" : ""
-                }`}
-                onClick={() => {
-                  setProgramFilter(type);
-                  setSubFilter([]); // reset when type changes
-                }}
-              />
-              <button
-                onClick={() => {
-                  setProgramFilter(type);
-                  setSubFilter([]);
-                }}
-                className="text-[13px] font-medium text-gray-700 dark:text-gray-300"
-              >
-                {type}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+  {/* Scrollable Filters */}
+  <div className="overflow-y-auto max-h-[70vh] space-y-4">
+    {/* Program Type Filter */}
+    <div>
+      <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">
+        {t("program-type")}
+      </h3>
+      <ul className="space-y-2 p-2">
+        {["All", "Scholarship Course", "Short Course"].map((type) => (
+          <li key={type} className="flex items-center gap-2 cursor-pointer">
+            <div
+              className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
+                programFilter === type ? "border-4 border-primary" : ""
+              }`}
+              onClick={() => {
+                setProgramFilter(type);
+                setSubFilter([]);
+              }}
+            />
+            <button
+              onClick={() => {
+                setProgramFilter(type);
+                setSubFilter([]);
+              }}
+              className="text-[13px] font-medium text-gray-700 dark:text-gray-300"
+            >
+              {type === "All"
+                ? t("all")
+                : type === "Scholarship Course"
+                ? t("scholarship-courses")
+                : t("short-courses")}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
 
-      {/* --- Scholarship Filter with Load More --- */}
-      <div>
-        <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">Scholarship</h3>
-        <ul className="space-y-2 p-2">
-          {/* Renders the limited or full list based on state */}
-          {visibleScholarshipOptions.map((option) =>
-            renderOption(option, subFilter.includes(option))
-          )}
-        </ul>
-        {/* Renders the Load More/Show Less button if needed */}
-        {renderToggleButton(scholarshipOptions, showAllScholarships, setShowAllScholarships)}
-      </div>
+    {/* Scholarship Filter */}
+    <div>
+      <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">
+        {t("scholarship")}
+      </h3>
+      <ul className="space-y-2 p-2">
+        {visibleScholarshipOptions.map((option) =>
+          renderOption(option, subFilter.includes(option))
+        )}
+      </ul>
+      {renderToggleButton(
+        scholarshipOptions,
+        showAllScholarships,
+        setShowAllScholarships
+      )}
+    </div>
 
-      {/* --- Short Course Filter with Load More --- */}
-      <div>
-        <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">Short Course</h3>
-        <ul className="space-y-2 p-2">
-          {/* Renders the limited or full list based on state */}
-          {visibleShortCourseOptions.map((option) =>
-            renderOption(option, subFilter.includes(option))
-          )}
-        </ul>
-        {/* Renders the Load More/Show Less button if needed */}
-        {renderToggleButton(shortCourseOptions, showAllShortCourses, setShowAllShortCourses)}
-      </div>
+    {/* Short Course Filter */}
+    <div>
+      <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">
+        {t("short-courses")}
+      </h3>
+      <ul className="space-y-2 p-2">
+        {visibleShortCourseOptions.map((option) =>
+          renderOption(option, subFilter.includes(option))
+        )}
+      </ul>
+      {renderToggleButton(
+        shortCourseOptions,
+        showAllShortCourses,
+        setShowAllShortCourses
+      )}
+    </div>
 
-      {/* Level Filter */}
-      <div>
-        <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">Level</h3>
-        <ul className="space-y-2 p-2">
-          {/* "BASIC" | "INTERMEDIATE" | "ADVANCED"; */}
-          {["All", "Basic", "Intermediate", "Advanced"].map((level) => (
-            <li key={level} className="flex items-center gap-2 cursor-pointer">
-              <div
-                className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
-                  levelFilter === level ? "border-4 border-primary" : ""
-                }`}
-                onClick={() => setLevelFilter(level)}
-              />
-              <button
-                onClick={() => setLevelFilter(level)}
-                className="text-[13px] font-medium text-gray-700 dark:text-gray-300"
-              >
-                {level}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <button
-        onClick={() => {
-          setProgramFilter("All");
-          setLevelFilter("All");
-          setSubFilter([]);
-          // Reset load more state as well
-          setShowAllScholarships(false);
-          setShowAllShortCourses(false);
-        }}
-        className="flex items-center justify-center gap-1 mt-2 px-3 py-1 
-          border border-gray-300 text-gray-700 bg-white 
-        hover:bg-gray-50 hover:border-gray-400 hover:shadow-md
-        dark:border-gray-600 dark:text-gray-300 dark:bg-gray-800
-        dark:hover:bg-gray-700 
-          text-sm font-medium rounded-lg shadow-sm 
-          focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 focus:ring-offset-1 
-          transition-all duration-150 w-full"
-      >
-        <X className="w-4 h-4 " />
-        Reset Filters
-      </button>
-    </aside>
+    {/* Level Filter */}
+    <div>
+      <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">
+        {t("level")}
+      </h3>
+      <ul className="space-y-2 p-2">
+        {["All", "Basic", "Intermediate", "Advanced"].map((level) => (
+          <li key={level} className="flex items-center gap-2 cursor-pointer">
+            <div
+              className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
+                levelFilter === level ? "border-4 border-primary" : ""
+              }`}
+              onClick={() => setLevelFilter(level)}
+            />
+            <button
+              onClick={() => setLevelFilter(level)}
+              className="text-[13px] font-medium text-gray-700 dark:text-gray-300"
+            >
+              {level === "All"
+                ? t("all")
+                : level === "Basic"
+                ? t("basic")
+                : level === "Intermediate"
+                ? t("intermediate")
+                : t("advanced")}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <button
+    onClick={() => {
+      setProgramFilter("All");
+      setLevelFilter("All");
+      setSubFilter([]);
+      setShowAllScholarships(false);
+      setShowAllShortCourses(false);
+    }}
+    className="flex items-center justify-center gap-1 mt-2 px-3 py-1 
+      border border-gray-300 text-gray-700 bg-white 
+      hover:bg-gray-50 hover:border-gray-400 hover:shadow-md
+      dark:border-gray-600 dark:text-gray-300 dark:bg-gray-800
+      dark:hover:bg-gray-700 
+      text-sm font-medium rounded-lg shadow-sm 
+      focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 focus:ring-offset-1 
+      transition-all duration-150 w-full"
+  >
+    <X className="w-4 h-4" />
+    {t("reset-filters")}
+  </button>
+</aside>
+
   );
 };
 

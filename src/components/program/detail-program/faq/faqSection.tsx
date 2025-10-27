@@ -6,6 +6,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useGetAllFaqQuery } from "./faqApi";
 import { TfiHelpAlt } from "react-icons/tfi";
 import NotFoundProgram from "../../components/NotFound";
+import { useTranslations } from "next-intl";
 
 interface FaqProps {
   programUuid: string;
@@ -35,6 +36,7 @@ const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
   const toggle = (id: string) => {
     setOpenFaqs((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+  const t = useTranslations();
 
   if (isLoading) return <p>Loading FAQs...</p>;
   if (isError) return <p>Failed to load FAQs.</p>;
@@ -45,7 +47,9 @@ const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
       {faqSections.map((section, sectionIndex) => (
         <div key={sectionIndex} className="grid gap-6">
           <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-[#800080] font-bold"><TfiHelpAlt className="text-lg sm:text-xl md:text-2xl" /> 
-            {section.title}
+              {section.title === "Frequently Asked Question ?"
+              ? t("frequentlyAskedQuestion")
+              : section.title}
           </h2>
 
           <div className="text-foreground text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-[#800080] p-4 sm:p-6 md:p-8 rounded-lg">
@@ -56,7 +60,7 @@ const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
                   {/* Toggle Button */}
                   <button
                     onClick={() => toggle(item.id)}
-                    className="flex justify-between items-center text-start w-full font-bold text-sm sm:text-base md:text-lg text-foreground"
+                    className="flex justify-between items-center text-start w-full font-semibold text-sm sm:text-base md:text-lg text-foreground"
                   >
                     <span>{index + 1}. {item.question}</span>
                     <FontAwesomeIcon
@@ -73,7 +77,7 @@ const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
                     }}
                     className="transition-all duration-500 ease-in-out overflow-hidden mt-2"
                   >
-                    <p className="text-foreground text-sm sm:text-base md:text-lg font-normal">
+                    <p className="text-description text-sm sm:text-base md:text-lg font-normal">
                       {item.answer}
                     </p>
                   </div>
