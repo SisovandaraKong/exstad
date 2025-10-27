@@ -81,13 +81,36 @@ type yearItem = (typeof yearData)[number];
 type majorItem = (typeof majorData)[number];
 
 /* Helpers */
-function formatDate(date: Date | undefined) {
+/**
+ * Format a Date for display using local date parts (prevents timezone shift).
+ * Accepts optional locale (e.g. "en-US" or "kh"). Uses local midnight so the
+ * selected calendar day never shifts to previous/next day.
+ */
+function formatDate(date: Date | undefined, locale = "en-US") {
   if (!date) return "";
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  try {
+    return d.toLocaleDateString(locale, {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    // fallback simple format
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const yyyy = d.getFullYear();
+    return `${dd}-${mm}-${yyyy}`;
+  }
+}
+
+/** Serialize a Date to local YYYY-MM-DD (no UTC conversion) */
+function toLocalYMD(date: Date) {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate()); // local midnight
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
 }
 
 function capitalizeWord(s: string): string {
@@ -123,19 +146,23 @@ const localizeShift = (s: string, isKh: boolean) => {
 // Format "08:00:00" | "08:00" -> "8:00"
 function toHHmm(t?: string | null): string {
   if (!t) return "";
-  const m = String(t).match(/^(\d{1,2})(?::(\d{2}))(?::\d{2})?$/);
-  if (m) return `${Number(m[1])}:${m[2] ?? "00"}`;
-  const [h, mm] = String(t).split(":");
-  if (h && mm) return `${Number(h)}:${mm.slice(0, 2).padStart(2, "0")}`;
-  return String(t);
+  const s = String(t).trim();
+  // match "H", "HH", "H:MM", "HH:MM", "HH:MM:SS"
+  const m = s.match(/^(\d{1,2})(?::(\d{2}))?(?::(\d{2}))?$/);
+  if (!m) return s;
+  const hh = Number(m[1]);
+  const mm = (m[2] ?? "00").slice(0, 2).padStart(2, "0");
+  const suffix = hh >= 12 ? "PM" : "AM";
+  const hour12 = hh % 12 === 0 ? 12 : hh % 12;
+  return `${hour12}:${mm} ${suffix}`;
 }
 
 const provinces: ProvinceItem[] = provinceData;
 const universities: UniversityItem[] = universitiesData;
 const addresses: AddressItem[] = currentAddressData;
 const eduQual: EducationQualificationItem[] = educationQualificationData;
-const year: yearItem[] = yearData;
-const major: majorItem[] = majorData;
+// const year: yearItem[] = yearData;
+// const major: majorItem[] = majorData;
 
 const getKhmerName = (obj: Record<string, unknown>): string | undefined => {
   const v = obj["khmerName"];
@@ -526,10 +553,8 @@ export default function EnrollmentPage() {
         openingProgramUuid: values.openingProgramUuid,
         classUuid: values.classUuid,
         amount: computedAmount,
-        dob:
-          values.dob instanceof Date
-            ? values.dob.toISOString().slice(0, 10)
-            : values.dob,
+        // serialize DOB using local date parts to avoid timezone shift
+        dob: values.dob instanceof Date ? toLocalYMD(values.dob) : values.dob,
         university: values.university,
         currentAddress: values.currentAddress,
         province: values.province,
@@ -652,6 +677,7 @@ export default function EnrollmentPage() {
                             <SelectItem value="Female">
                               {t("female")}
                             </SelectItem>
+                            <SelectItem value="Other">{t("other")}</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -676,7 +702,7 @@ export default function EnrollmentPage() {
                                 className="w-full py-7 bg-whitesmoke justify-between font-normal hover:bg-whitesmoke font-inter"
                               >
                                 {field.value ? (
-                                  formatDate(field.value)
+                                  formatDate(field.value, locale || "en-US")
                                 ) : (
                                   <span className="text-muted-foreground font-bilingual">
                                     2005-06-01
@@ -696,7 +722,16 @@ export default function EnrollmentPage() {
                               className="font-bilingual"
                               captionLayout="dropdown"
                               onSelect={(date) => {
-                                field.onChange(date);
+                                // normalize to local midnight to avoid timezone shift
+                                const normalized =
+                                  date instanceof Date
+                                    ? new Date(
+                                        date.getFullYear(),
+                                        date.getMonth(),
+                                        date.getDate()
+                                      )
+                                    : date;
+                                field.onChange(normalized);
                                 setDobOpen(false);
                               }}
                               initialFocus
@@ -1189,7 +1224,7 @@ export default function EnrollmentPage() {
                         <FormControl>
                           <Input
                             placeholder="តុង បូរា"
-                            className="py-7 bg-whitesmoke font-koh"
+                            className="py-7 bg-whitesmoke"
                             {...field}
                           />
                         </FormControl>
@@ -1566,7 +1601,7 @@ export default function EnrollmentPage() {
                                 <button
                                   type="button"
                                   onClick={() => removeFile(i)}
-                                  className="absolute top-1 right-1 rounded bg-black/60 text-white p-1 opacity-0 group-hover:opacity-100 transition"
+                                  className="absolute cursor-pointer top-1 right-1 rounded  text-white bg-secondary/90 hover:bg-secondary/70 p-1 transition"
                                   aria-label="Remove image"
                                 >
                                   <Trash2 className="h-4 w-4" />

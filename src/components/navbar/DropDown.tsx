@@ -105,7 +105,8 @@ export default function DropDown() {
       id: "short-courses",
       title: "Short Courses",
       href: "/our-program/short-courses",
-      subtitle: "Upgrade your tech skills through hands-on short programs.",
+      subtitle:
+        "Build specialized IT skills with short, intensive courses to stay current and advance your career.",
     },
   ];
 
@@ -137,8 +138,8 @@ export default function DropDown() {
       {open && (
         <div className="fixed left-0 right-0 top-[80px] z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg">
           <div className="mx-auto max-w-7xl px-8 py-4">
-            <ul className="grid w-full gap-6 font-d4 grid-cols-1 md:grid-cols-2">
-              {components.slice(0, 4).map((component) => (
+            <ul className="grid w-full gap-0 font-d4 grid-cols-1 md:grid-cols-2">
+              {components.map((component) => (
                 <ListItem
                   key={component.id}
                   title={component.title}
@@ -188,7 +189,7 @@ function ListItem({
             <Icon className="h-4 w-4" />
           </span>
           <div className="min-w-0">
-            <div className="mt-1 font-d5 font-semibold leading-none truncate font-bilingual">
+            <div className="font-d5 font-semibold leading-none truncate font-bilingual">
               {title}
             </div>
             {subtitle ? (

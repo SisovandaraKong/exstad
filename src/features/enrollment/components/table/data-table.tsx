@@ -167,6 +167,15 @@ export function EnrollmentDataTable<TData, TValue>({
           animation: slideUpFade 0.6s ease-in-out;
         }
 
+        *::-webkit-scrollbar {
+          display: none;
+        }
+
+        * {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+
         /* ✅ Responsive table text size adjustments */
         @media (max-width: 1024px) {
           table,
