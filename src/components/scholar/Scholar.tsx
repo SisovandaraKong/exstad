@@ -311,19 +311,20 @@ function Card1({ person }: { person: ScholarCard }) {
               ].join(" ")}
             >
               <div className="space-y-0.5">
-                <p className="text-sm font-bold">{person.name}</p>
+                <p className="text-md font-bold">{person.name}</p>
+
                 {spec?.specialist && (
-                  <p className="text-xs/5 opacity-90">{spec.specialist}</p>
+                  <p className="text-sm opacity-90">{spec.specialist}</p>
                 )}
                 {spec?.universityName && (
-                  <p className="text-xs/5 opacity-90">{spec.universityName}</p>
+                  <p className="text-sm opacity-90">{spec.universityName}</p>
                 )}
-                {(spec?.degreeType || spec?.country) && (
-                  <p className="text-[11px] opacity-80">
-                    {spec?.degreeType}
-                    {spec?.degreeType && spec?.country ? " • " : ""}
-                    {spec?.country}
-                  </p>
+                {spec?.degreeType && (
+                  <p className="text-sm opacity-80">{spec.degreeType}</p>
+                )}
+                {/* ...country on the next line (only if present) */}
+                {spec?.country && (
+                  <p className="text-sm opacity-70">{spec.country}</p>
                 )}
               </div>
 
@@ -1023,7 +1024,7 @@ export default function Scholar() {
                                   src={person.image}
                                   alt={person.displayName}
                                   fill
-                                  className="object-cover w-full h-full"
+                                  className="object-cover object-[50%_35%] w-full h-full"
                                   priority={person.id === 1}
                                   unoptimized
                                 />
