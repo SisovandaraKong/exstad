@@ -36,7 +36,7 @@ export function OfferCard({ icon, content }: OfferCardProps) {
 					initial={{ opacity: 0.9 }}
 					whileHover={{ opacity: 1 }}
 					transition={{ duration: 0.2 }}>
-					<div className='text-gray-700 dark:text-gray-200 text-[14px] sm:text-[16px] md:text-[17px] text-center leading-relaxed font-medium'>
+					<div className='text-gray-700 dark:text-gray-200 text-base sm:text-lg md:text-[18px] text-center leading-7 sm:leading-8 font-medium'>
 						{content}
 					</div>
 				</motion.div>

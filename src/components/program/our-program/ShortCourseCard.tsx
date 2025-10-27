@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 
 import React from "react";
@@ -6,8 +8,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
+import { addImageSizeParams } from "@/utils/imageUtils";
 interface ScholarshipCardProps extends MasterProgramType {
-  openingProgram?: openingProgramType;
+	openingProgram?: openingProgramType;
 }
 
 const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
