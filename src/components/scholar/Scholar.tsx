@@ -380,18 +380,27 @@ function Card2({
   return (
     <Link
       href={href}
-      className="group rounded-xl p-[1.5px] bg-gradient-to-r from-blue-500 to-pink-500 shadow-md transition-all duration-300 ease-out transform-gpu hover:-translate-y-0.5 hover:scale-[1.01] hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      className="group rounded-lg p-[1px] bg-gradient-to-r from-blue-500 to-pink-500 shadow transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       aria-label={`View ${displayName}'s profile`}
     >
-      <div className="rounded-xl bg-white dark:bg-slate-800 px-4 py-5 sm:px-6 sm:py-6 md:p-8 text-center transition-all duration-300 ease-out transform-gpu group-hover:shadow-xl h-auto min-h-[220px] sm:min-h-[260px] md:min-h-[320px] flex flex-col items-center">
-        {/* avatar */}
-        <div className="relative mx-auto h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 rounded-full overflow-hidden border border-slate-200 shadow-md dark:border-slate-600 bg-slate-200 dark:bg-slate-700">
+      <div
+        className={[
+          "rounded-lg bg-white dark:bg-slate-800",
+          "px-3 py-4 sm:px-4 sm:py-5 md:p-6",
+          "text-center transition-all duration-200 ease-out",
+          "flex flex-col items-center",
+          // ↓↓↓ smaller heights
+          "min-h-[170px] sm:min-h-[200px] md:min-h-[240px]",
+        ].join(" ")}
+      >
+        {/* avatar (smaller) */}
+        <div className="relative mx-auto h-16 w-16 sm:h-20 sm:w-20 md:h-22 md:w-22 rounded-full overflow-hidden border border-slate-200 shadow dark:border-slate-600 bg-slate-200 dark:bg-slate-700">
           <Image
             src={src}
             alt={displayName}
             fill
             className="object-cover object-center"
-            sizes="(max-width: 640px) 128px, (max-width: 768px) 192px, 224px"
+            sizes="(max-width: 640px) 96px, (max-width: 768px) 128px, 160px"
             onError={() => setSrc("/placeholder.svg")}
             priority
             unoptimized
@@ -401,25 +410,25 @@ function Card2({
         {/* name + program + company/quote */}
         <div className="mt-2 flex flex-col items-center text-center">
           <h3
-            className="mt-1 text-sm sm:text-base md:text-xl font-bold text-slate-900 dark:text-white line-clamp-2"
+            className="mt-0.5 text-sm sm:text-base md:text-lg font-semibold text-slate-900 dark:text-white line-clamp-2"
             title={displayName}
           >
             {displayName}
           </h3>
 
           {!!programLine && (
-            <p className="mt-1 text-[11px] sm:text-xs md:text-sm text-slate-500 dark:text-slate-300">
+            <p className="mt-0.5 text-[11px] sm:text-xs md:text-sm text-slate-500 dark:text-slate-300">
               {programLine}
             </p>
           )}
 
           {hasCompany ? (
-            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-200 leading-relaxed line-clamp-2 flex items-center justify-center gap-2">
+            <p className="mt-1 text-xs sm:text-sm md:text-[15px] text-slate-700 dark:text-slate-200 leading-snug line-clamp-2 flex items-center justify-center gap-1.5">
               <Building2 className="h-4 w-4 opacity-70" aria-hidden="true" />
               <span>{person.company}</span>
             </p>
           ) : hasQuote ? (
-            <p className="mt-2 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 italic leading-relaxed line-clamp-2">
+            <p className="mt-1 text-xs sm:text-sm md:text-[15px] text-slate-600 dark:text-slate-300 italic leading-snug line-clamp-2">
               “{person.quote}”
             </p>
           ) : null}
@@ -428,6 +437,7 @@ function Card2({
     </Link>
   );
 }
+
 
 /* ---------- Page ---------- */
 export default function Scholar() {
