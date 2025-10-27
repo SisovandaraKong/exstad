@@ -113,9 +113,19 @@ const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
     timeline: () => (
       <TimeLine openingProgramUuid={openingProgram!.uuid ?? ""} />
     ),
-    roadmap: () => <WorkNodeViewer programUuid={masterProgram.uuid} />,
-  };
+    roadmap: () =>
+  openingProgram?.uuid ? (
+    <WorkNodeViewer
+      programUuid={openingProgram.uuid}
+      programType="opening-programs"
+    />
+  ) : (
+    <p className="text-gray-500 text-center">Roadmap not available.</p>
+  ),
+  
 
+  };
+console.log(openingProgram)
   const ActiveTabComponent = tabComponents[activeTab];
 
   return (

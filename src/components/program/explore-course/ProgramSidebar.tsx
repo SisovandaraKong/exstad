@@ -16,6 +16,7 @@ import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
 import { useTranslations } from "next-intl";
 import { useKhmerNumber } from "@/services/to-khmer-number";
+import { TriangleAlert } from "lucide-react";
 
 type Props = {
   program?: MasterProgramType;
@@ -137,15 +138,16 @@ const ProgramSidebar: React.FC<Props> = ({ program, openingData, isClosed }) => 
         </div>
       </div>
 
-      {/* 🚫 Closed Notice */}
+      {/*  Closed Notice */}
       {isClosed && (
-        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-[12px] text-center">
-          🚫 This opening program has already closed.
+        <div className=" border-2 border-yellow-500 text-accent px-[24px] py-[10px] font-medium  rounded-full text-center flex items-center gap-2">
+          <TriangleAlert />
+           This program has not opened yet
         </div>
       )}
 
       {/* Buttons */}
-      {program?.programType !== "SHORT_COURSE" &&
+      {!isClosed && program?.programType !== "SHORT_COURSE" &&
         openingData?.telegramGroup && (
           <a
             href={openingData.telegramGroup}

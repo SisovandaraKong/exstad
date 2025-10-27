@@ -42,14 +42,14 @@ export default function CustomWorkNode({
           type="source"
           position={position}
           id={`${positionKey}-source`}
-          className={`${baseClassName} ${colorClass("source")} ${hoverClassName} ${positionOffsets[position]}`}
+          className={`${baseClassName} ${colorClass("source")} ${hoverClassName} ${positionOffsets[position]} `}
           style={{ zIndex: handleType === "source" ? 10 : 1 }}
         />
         <Handle
           type="target"
           position={position}
           id={`${positionKey}-target`}
-          className={`${baseClassName} ${colorClass("target")} ${hoverClassName} ${positionOffsets[position]}`}
+          className={`${baseClassName} ${colorClass("target")} ${hoverClassName} ${positionOffsets[position]} `}
           style={{ zIndex: handleType === "target" ? 10 : 1 }}
         />
       </>
@@ -73,30 +73,6 @@ export default function CustomWorkNode({
         <div className="flex items-start justify-between gap-3 mb-3 pb-3 border-b">
           <h3 className="font-semibold text-lg flex-1 text-balance">{data.title}</h3>
           <div className="flex gap-1 shrink-0">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-8 w-8 hover:bg-blue-100 hover:text-blue-600"
-              onClick={(e) => {
-                e.stopPropagation()
-                data.onEdit(id)
-              }}
-              onMouseDown={(e) => e.stopPropagation()}
-            >
-              <Pencil className="h-4 w-4" />
-            </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-8 w-8 hover:bg-red-100 hover:text-red-600"
-              onClick={(e) => {
-                e.stopPropagation()
-                data.onDelete(id)
-              }}
-              onMouseDown={(e) => e.stopPropagation()}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
           </div>
         </div>
 

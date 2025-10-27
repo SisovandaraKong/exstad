@@ -19,6 +19,7 @@ import { useGetMasterProgramBySlugQuery } from "@/components/program/masterProgr
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import { MasterProgramType } from "@/types/master-program";
 import NotFoundProgram from "@/components/program/components/NotFound";
+import WorkNodeViewer from "@/components/roadmap/roadmap-detail";
 
 interface MasterProgramDetailClientProps {
   initialProgram?: MasterProgramType;
@@ -43,7 +44,7 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
 
   // Fetch all opening programs
   const { data: allPrograms = [], isLoading: isAllProgramsLoading } =
-    useGetAllOpeningProgramsQuery();
+    useGetAllOpeningProgramsQuery(undefined,{refetchOnMountOrArgChange:true, refetchOnReconnect: true, refetchOnFocus: true } );
 
   // 🕒 Loading
   if (isMasterLoading || isAllProgramsLoading) {
@@ -54,23 +55,24 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
           {activeTab === "overview" && <ProgramOverviewCardSkeleton />}
           {activeTab === "curriculum" && <ProgramCurriculumSkeleton />}
           {activeTab === "activity" && <ProgramActivitySkeleton />}
+
         </div>
         <ProgramOverviewSidebarSkeleton />
       </div>
     );
   }
 
-  // ❌ Error handling
+  //  Error handling
   if (isMasterError || !masterProgram) {
     return <NotFoundProgram title="Master program not found" />;
   }
 
-  // 🧩 Related opening programs
+  //  Related opening programs
   const relatedOpenings = allPrograms.filter(
     (op) => op.programName === masterProgram.title
   );
 
-  // 🕓 Get the latest opening program
+  //  Get the latest opening program
   const latestOpeningProgram = relatedOpenings
     .slice()
     .sort((a, b) => {
@@ -80,11 +82,11 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
       return (b.generation ?? 0) - (a.generation ?? 0);
     })[0];
 
-  // 🏁 Check if latest program is closed
+  //  Check if latest program is closed
   const isClosed =
     latestOpeningProgram && latestOpeningProgram.status?.toLowerCase() === "closed";
 
-  // 📊 Generations for activity tab
+  //  Generations for activity tab
   const generations: ProgramGeneration[] = relatedOpenings
     .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))
     .map((op) => ({
@@ -92,7 +94,7 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
       title: `Generation ${op.generation ?? 1}`,
     }));
 
-  // 🧭 Tabs setup
+  //  Tabs setup
   const tabComponents: Record<string, React.FC> = {
     overview: () => <ProgramOverviewTap program={masterProgram} />,
     curriculum: () => (
@@ -107,8 +109,7 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
       ) : (
         <p className="text-gray-500 text-center">No opening programs available.</p>
       ),
-    roadmap: () => <p className="text-gray-500 text-center">Roadmap content here</p>,
-    
+roadmap: () => <WorkNodeViewer programUuid={masterProgram.uuid} programType="programs" />,    
   };
 
   const ActiveTabComponent = tabComponents[activeTab];
@@ -122,14 +123,6 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-
-        {/* If the latest opening program is closed, show notice */}
-        {isClosed && (
-          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl mb-4 text-center">
-            🚫 This opening program has already closed.
-          </div>
-        )}
-
         <div>
           <ActiveTabComponent />
         </div>
