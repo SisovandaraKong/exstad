@@ -72,6 +72,8 @@ import Bakong from "@/components/bakong/Bakong";
 import Image from "next/image";
 import { useGetMasterProgramByOpeningProgramUuidQuery } from "@/components/program/masterProgramApi";
 import { LoadingOverlay } from "@/components/loading/LoadingOverlay";
+import { useSession } from "next-auth/react";
+import { useGetScholarByUsernameQuery } from "@/features/scholar/scholarApi";
 
 type ProvinceItem = (typeof provinceData)[number];
 type UniversityItem = (typeof universitiesData)[number];
@@ -256,6 +258,14 @@ export default function EnrollmentPage() {
     [isKh]
   );
 
+  const { data: session } = useSession();
+  const { data: scholar } = useGetScholarByUsernameQuery(
+    session?.user?.username ?? "",
+    {
+      skip: !session?.user?.username,
+    }
+  );
+
   // UI state
   const [addressOpen, setAddressOpen] = React.useState(false);
   const [provinceOpen, setProvinceOpen] = React.useState(false);
@@ -355,6 +365,21 @@ export default function EnrollmentPage() {
       dob: undefined,
     },
   });
+
+  React.useEffect(() => {
+    if (scholar) {
+      form.setValue("englishName", scholar.englishName || "");
+      form.setValue("khmerName", scholar.khmerName || "");
+      form.setValue("email", scholar.email || "");
+      form.setValue("phoneNumber", scholar.phoneNumber || "");
+      form.setValue("province", scholar.province || "");
+      form.setValue("currentAddress", scholar.currentAddress || "");
+      form.setValue("dob", scholar.dob ? new Date(scholar.dob) : new Date());
+      form.setValue("university", scholar.university || "");
+      form.setValue("avatar", scholar.avatar || "");
+      form.setValue("gender", scholar.gender || "");
+    }
+  }, [scholar, form]);
 
   // When openingProgram loads, set it on the form and clear class
   React.useEffect(() => {
@@ -558,11 +583,11 @@ export default function EnrollmentPage() {
         university: values.university,
         currentAddress: values.currentAddress,
         province: values.province,
-        isScholar: isUserLoggedInClient(),
         phoneNumber: values.phoneNumber,
         educationQualification: values.educationQualification,
         email: values.email,
         extra: extra,
+        isScholar: session?.user?.username ? true : false,
         gender: values.gender,
         ...(avatarUri ? { avatar: avatarUri } : {}),
       };

@@ -41,11 +41,14 @@ export default function EnrollmentCellAction({
             : "Click to process payment"}
         </p>
       </TooltipContent>
+
+      {/* Mount Bakong modal and close it when onClose is called */}
       <Bakong
         open={isOpen}
         amount={amount}
         openingProgramUuid={openingProgramUuid}
         enrollmentUuid={enrollment.uuid}
+        onClose={() => setIsOpen(false)}
       />
     </Tooltip>
   );

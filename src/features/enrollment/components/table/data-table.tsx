@@ -247,7 +247,7 @@ export function EnrollmentDataTable<TData, TValue>({
             className="w-full"
             style={{ borderCollapse: "separate", borderSpacing: 0 }}
           >
-            <TableHeader className="sticky top-0 z-10">
+            <TableHeader className="sticky top-0 z-[1]">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
@@ -269,7 +269,7 @@ export function EnrollmentDataTable<TData, TValue>({
                             isPinned === "right"
                               ? `${header.column.getAfter("right")}px`
                               : undefined,
-                          zIndex: isPinned ? 20 : 10,
+                          zIndex: isPinned ? 1 : 1,
                           boxShadow:
                             isPinned === "left"
                               ? "2px 0 4px rgba(0,0,0,0.1)"
@@ -303,7 +303,7 @@ export function EnrollmentDataTable<TData, TValue>({
                       return (
                         <TableCell
                           key={cell.id}
-                          className="text-primary dark:text-white py-4"
+                          className="text-primary dark:text-white py-4 !z-0"
                           style={{
                             minWidth: cell.column.columnDef.minSize || 100,
                             width: cell.column.columnDef.size,
@@ -317,7 +317,7 @@ export function EnrollmentDataTable<TData, TValue>({
                               isPinned === "right"
                                 ? `${cell.column.getAfter("right")}px`
                                 : undefined,
-                            zIndex: isPinned ? 11 : 1,
+                            zIndex: isPinned ? 1 : 0,
                             backgroundColor:
                               index % 2 === 0 ? "var(--row-1)" : "var(--row-2)",
                             boxShadow:
