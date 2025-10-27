@@ -41,6 +41,7 @@ export default function LanguageToggle() {
           width={25}
           height={25}
           className="w-[30px] h-[20px] shadow object-cover"
+          unoptimized
         />
       ) : (
         <span className="w-[30px] h-[20px] inline-block dark:bg-foreground/30 bg-gray-200" />

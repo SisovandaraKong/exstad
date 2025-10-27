@@ -8,7 +8,6 @@ import {
   useGetQrImageMutation,
   useCheckTransactionByMd5Mutation,
 } from "../../features/bakong/BakongApi";
-// import { useCheckTransactionByMd5Mutation } from "../../features/bakong/BakongKHQRApi";
 import {
   useUpdateEnrollmentByUuidMutation,
   useGetEnrollmentByUuidQuery,
@@ -21,7 +20,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useGetOpeningProgramByUuidQuery } from "../program/openingProgramApi";
 import { LoadingOverlay } from "../loading/LoadingOverlay";
 import { useSendTelegramMessageMutation } from "@/features/telegram/telegramApi";
-import { Enrollment } from "@/types/enrollment";
 import { enrollmentPaymentMessageFormatter } from "@/services/enrollment-message-formatter";
 
 interface BakongProps {
@@ -53,7 +51,6 @@ export default function Bakong({
   const [md5, setMd5] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [dismissed, setDismissed] = useState(false);
-  // const t = useTranslations();
 
   // Keep UI below navbar height
   useEffect(() => {
@@ -146,7 +143,6 @@ export default function Bakong({
           }).unwrap();
           const url = URL.createObjectURL(blob);
           setQrImageUrl(url);
-          // notify parent that QR image is ready (allow parent to hide global loader)
           onQrReady?.();
         } else {
           setLocalError("Failed to generate QR code.");
@@ -266,9 +262,7 @@ export default function Bakong({
             amount={amount}
             qrImageUrl={qrImageUrl}
             loading={genLoading || localLoading}
-            errorMessage={
-              genError || localError ? "Failed to generate QR code." : ""
-            }
+            errorMessage={genError || localError ? "Failed to generate QR code." : ""}
             countdownText={formatCountdown(countdownMs)}
             onDownloadQr={handleDownloadQr}
             onClose={() => {
@@ -307,7 +301,7 @@ function BakongCard({
   loading: boolean;
   errorMessage: string;
   countdownText: string;
-  onDownloadQr: () => void;
+  onDownloadQr?: () => void;
   onClose?: () => void;
 }) {
   const t = useTranslations();
@@ -400,16 +394,6 @@ function BakongCard({
               {t("expires")} {countdownText}
             </span>
           </div>
-
-          {/* <button
-            type="button"
-            onClick={onDownloadQr}
-            className="inline-flex items-center cursor-pointer gap-2 rounded-full bg-primary px-4 py-2 text-white text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm"
-            aria-label="Download QR"
-          >
-            <ArrowDownToLine className="h-4 w-4 " />
-            {t("Download")}
-          </button> */}
         </div>
       </div>
     </div>
@@ -442,17 +426,83 @@ const localizeShift = (s: string, isKh: boolean) => {
   return s ? s.replace(/_/g, " ") : "";
 };
 
-// Format "08:00:00" | "08:00" -> "8:00"
+// Format "08:00:00" | "08:00" -> "8:00 AM/PM"
 function toHHmm(t?: string): string {
   if (!t) return "";
-  const m = t.match(/^(\d{1,2})(?::(\d{2}))(?::\d{2})?$/);
-  if (m) return `${Number(m[1])}:${m[2] ?? "00"}`;
-  const [h, mm] = t.split(":");
-  if (h && mm) return `${Number(h)}:${mm.slice(0, 2).padStart(2, "0")}`;
-  return t;
+  const m = t.match(/^(\d{1,2})(?::(\d{2}))?(?::\d{2})?$/);
+  if (!m) return t;
+  const hh = Number(m[1]);
+  const mm = (m[2] ?? "00").slice(0, 2).padStart(2, "0");
+  const suffix = hh >= 12 ? "PM" : "AM";
+  const hour12 = hh % 12 === 0 ? 12 : hh % 12;
+  return `${hour12}:${mm} ${suffix}`;
 }
 
-// Payment receipt
+// helper: format date to "DD-MonthName-YYYY", translate month to Khmer when locale indicates Khmer
+function formatDateDMY(input?: string | null, locale = "en"): string {
+  if (!input) return "";
+  const KHMER_MONTHS = [
+    "មករា",
+    "កុម្ភៈ",
+    "មីនា",
+    "មេសា",
+    "ឧសភា",
+    "មិថុនា",
+    "កក្កដា",
+    "សីហា",
+    "កញ្ញា",
+    "តុលា",
+    "វិច្ឆិកា",
+    "ធ្នូ",
+  ];
+
+  // try parsing with Date
+  const parsed = new Date(input);
+  if (!isNaN(parsed.getTime())) {
+    const dd = String(parsed.getDate()).padStart(2, "0");
+    const yyyy = parsed.getFullYear();
+
+    if (typeof locale === "string" && locale.toLowerCase().startsWith("kh")) {
+      const monthName = KHMER_MONTHS[parsed.getMonth()] || String(parsed.getMonth() + 1).padStart(2, "0");
+      return `${dd}-${monthName}-${yyyy}`;
+    }
+
+    try {
+      const monthName = new Intl.DateTimeFormat(locale, { month: "long" }).format(parsed);
+      return `${dd}-${monthName}-${yyyy}`;
+    } catch {
+      const mm = String(parsed.getMonth() + 1).padStart(2, "0");
+      return `${dd}-${mm}-${yyyy}`;
+    }
+  }
+
+  // fallback parse YYYY-MM-DD or YYYY/MM/DD
+  const m = String(input).match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+  if (m) {
+    const yyyy = Number(m[1]);
+    const mmNum = Number(m[2]);
+    const ddNum = Number(m[3]);
+    const dd = String(ddNum).padStart(2, "0");
+
+    if (typeof locale === "string" && locale.toLowerCase().startsWith("kh")) {
+      const monthName = KHMER_MONTHS[mmNum - 1] || String(mmNum).padStart(2, "0");
+      return `${dd}-${monthName}-${yyyy}`;
+    }
+
+    try {
+      const d = new Date(yyyy, mmNum - 1, ddNum);
+      const monthName = new Intl.DateTimeFormat(locale, { month: "long" }).format(d);
+      return `${dd}-${monthName}-${yyyy}`;
+    } catch {
+      const mm = String(mmNum).padStart(2, "0");
+      return `${dd}-${mm}-${yyyy}`;
+    }
+  }
+
+  return input;
+}
+
+// Payment receipt component
 function PaymentReceipt({
   enrollmentUuid,
   openingProgramUuid,
@@ -479,28 +529,20 @@ function PaymentReceipt({
   const isRecord = (v: unknown): v is Record<string, unknown> =>
     typeof v === "object" && v !== null;
 
-  const pickStr = (
-    obj: unknown,
-    path: readonly string[]
-  ): string | undefined => {
+  const pickStr = (obj: unknown, path: readonly string[]): string | undefined => {
     let cur: unknown = obj;
     for (const key of path) {
       if (!isRecord(cur) || !(key in cur)) return undefined;
-      const rec = cur as Record<string, unknown>;
-      cur = rec[key];
+      cur = (cur as Record<string, unknown>)[key];
     }
     return typeof cur === "string" ? cur : undefined;
   };
 
-  const pickBool = (
-    obj: unknown,
-    path: readonly string[]
-  ): boolean | undefined => {
+  const pickBool = (obj: unknown, path: readonly string[]): boolean | undefined => {
     let cur: unknown = obj;
     for (const key of path) {
       if (!isRecord(cur) || !(key in cur)) return undefined;
-      const rec = cur as Record<string, unknown>;
-      cur = rec[key];
+      cur = (cur as Record<string, unknown>)[key];
     }
     return typeof cur === "boolean" ? cur : undefined;
   };
@@ -509,7 +551,9 @@ function PaymentReceipt({
   const khName = pickStr(data, ["khmerName"]);
   const name = isKh ? khName || enName || "-" : enName || khName || "-";
 
-  const dob = pickStr(data, ["dob"]) || "-";
+  // format DOB to "DD-MonthName-YYYY" with Khmer month names when locale is Khmer
+  const dobRaw = pickStr(data, ["dob"]) || "";
+  const dob = dobRaw ? formatDateDMY(dobRaw, locale || "en") : "-";
 
   const programTitle =
     pickStr(data, ["program"]) ||
@@ -554,7 +598,6 @@ function PaymentReceipt({
   const openingProgramSlug = pickStr(openingProgram, ["slug"]);
 
   const handleClose = () => {
-    // navigate to explore-course/{slug} if available, otherwise fallback to explore-course
     if (openingProgramSlug) {
       router.push(`/explore-course/${openingProgramSlug}`);
     } else {
@@ -581,7 +624,11 @@ function PaymentReceipt({
             </h3>
             <p className="mt-2 text-muted-foreground">{t("thank-you")}</p>
             <p className="mt-2 text-sm text-muted-foreground font-bilingual">
-              {t("amount")}: {amount.toFixed(2)} USD
+              {t("amount")}:{" "}
+              <span className="text-red-600 text-bold">
+                {amount.toFixed(2)}
+              </span>{" "}
+              USD
             </p>
           </div>
         </div>
@@ -641,7 +688,7 @@ function PaymentReceipt({
             <button
               type="button"
               onClick={handleClose}
-              className="inline-flex items-center justify-center rounded-full cursor-pointer bg-green-600 px-6 py-2.5 text-white text-sm font-medium hover:bg-green-700"
+              className="inline-flex items-center justify-center rounded-full cursor-pointer bg-red-600 px-6 py-2.5 text-white text-sm font-medium hover:bg-red-700"
             >
               {t("close")}
             </button>
