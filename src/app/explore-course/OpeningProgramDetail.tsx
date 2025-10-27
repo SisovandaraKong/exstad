@@ -70,7 +70,7 @@ const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
           {activeTab === "curriculum" && <ProgramCurriculumSkeleton />}
           {activeTab === "activity" && <ProgramActivitySkeleton />}
         </div>
-         <ProgramOverviewSidebarSkeleton/>
+        <ProgramOverviewSidebarSkeleton />
       </div>
     );
   }
@@ -80,10 +80,7 @@ const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
     return <p className="text-center text-red-500">Failed to load programs!</p>;
   if (!openingProgram && !initialProgram)
     return <p className="text-center text-red-500">Program not found!</p>;
-  if (isMasterError || !masterProgram)
-    return (
-      <NotFoundProgram/>
-    );
+  if (isMasterError || !masterProgram) return <NotFoundProgram />;
 
   // Build generations
   const generations: ProgramGeneration[] = allPrograms
@@ -111,6 +108,7 @@ const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
           No opening programs available.
         </p>
       ),
+    
     enrollment: () => <ProgramEnrollment />,
   };
 

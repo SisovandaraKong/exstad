@@ -58,10 +58,10 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
               <Image
                 unoptimized
                 width={120}
-                height={120}
+                height={500}
                 src={logoUrl || "example.com"}
                 alt={title}
-                className="w-[120px] h-[120px] md:w-[192px] md:h-[192px] object-cover rounded-lg mx-auto md:mx-0"
+                className="w-[120px] md:w-[192px]  object-cover rounded-lg mx-auto md:mx-0"
               />
             </motion.div>
           )}
@@ -88,7 +88,7 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
                       <span className="absolute top-2 right-2 text-red-500 text-xs md:text-lg line-through">
                         ${h.value}
                       </span>
-                      <h2 className="text-description font-bold text-lg md:text-3xl text-center">
+                      <h2 className="text-gray-600 font-bold text-lg md:text-3xl text-center">
                         ${h.desc}
                       </h2>
                     </>
@@ -97,7 +97,7 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
                       <h2 className="text-black font-bold text-sm md:text-lg">
                         {h.value || h.label}
                       </h2>
-                      <p className="text-description font-medium text-xs md:text-base mt-1 md:mt-2">
+                      <p className="text-gray-600 font-medium text-xs md:text-base mt-1 md:mt-2">
                         {h.desc}
                       </p>
                     </>
