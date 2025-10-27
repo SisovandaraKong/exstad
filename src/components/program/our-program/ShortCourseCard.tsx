@@ -37,18 +37,33 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
         {/* Header section */}
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4 md:gap-6">
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-2xl md:text-4xl font-bold text-foreground">
-              {title}
-            </h2>
+             <motion.h2 
+                className="text-2xl md:text-4xl font-bold text-foreground"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                {title}
+              </motion.h2>
             {subtitle && (
-              <p className="bg-white/20 backdrop-blur-md border border-white/30  shadow-md text-sm md:text-2xl text-white font-medium w-fit mx-auto md:mx-0 rounded-[10px] px-2 py-1 mt-2 ">
-                {subtitle}
-              </p>
+              <motion.p
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="bg-white/20 backdrop-blur-md border border-white/30 shadow-md text-sm md:text-2xl text-white font-medium w-fit mx-auto md:mx-0 rounded-[10px] px-2 py-1 mt-2 hover:bg-white/30 transition-all duration-300"
+                >
+                  {subtitle}
+                </motion.p>
             )}
             {description && (
-              <p className="text-sm md:text-base mt-1 md:mt-2  line-clamp-3">
-                {description}
-              </p>
+               <motion.p 
+                  className="text-sm md:text-base mt-1 md:mt-2 line-clamp-3"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {description}
+                </motion.p>
             )}
           </div>
           {logoUrl && (
@@ -70,7 +85,12 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
 
         {/* Highlights */}
         {highlights && highlights.length > 0 && (
-          <div className="mt-4 md:mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
+            <motion.div 
+              className="mt-4 md:mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
             {highlights.map((h, index) => {
               const isPrice = h.label.toLowerCase() === "price";
               return (
@@ -80,7 +100,7 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
                   transition={{ type: "spring", stiffness: 250 }}
                   className={`rounded-[12px] md:rounded-[15px] lg:rounded-[20px] py-3 px-4 md:p-5 w-full ${
                     isPrice
-                      ? "relative flex flex-col justify-center items-center bg-black/20 backdrop-blur-xl border border-white/20 shadow-lg"
+                        ? "flex flex-col justify-center items-center bg-gradient-to-br from-white/25 via-black/20 to-black/20 backdrop-blur-xl border border-white/30 shadow-lg hover:shadow-white/20"
                       : "flex flex-col justify-between bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg"
                   }`}
                 >
@@ -106,7 +126,7 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
                 </motion.div>
               );
             })}
-          </div>
+            </motion.div>
         )}
       </motion.div>
     </Link>
