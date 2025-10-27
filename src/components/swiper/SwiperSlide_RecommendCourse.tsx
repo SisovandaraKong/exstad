@@ -1,4 +1,5 @@
 /** @format */
+"use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useRef } from "react";
@@ -10,8 +11,10 @@ import { FaCircleArrowLeft, FaCircleArrowRight } from "react-icons/fa6";
 import { RecommendationCourseCard } from "../recommendationCourseCard/Recommendation_CourseCard";
 // If you use external data, keep the import. Otherwise, define mock data here.
 import { popularCourses } from "@/types/recommendationType";
+import { useTranslations } from "next-intl";
 
 const SwiperSlideComponent_RecommendedCourse = () => {
+	const t = useTranslations();
 	// Correctly typed ref for Swiper instance
 	const swiperRef = useRef<SwiperType | null>(null);
 
@@ -20,7 +23,7 @@ const SwiperSlideComponent_RecommendedCourse = () => {
 			{/* Title and Navigation Section */}
 			<div className='w-full flex flex-col sm:flex-row items-center justify-between gap-4'>
 				<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-primary text-center sm:text-left'>
-					Recommendation course for you{" "}
+					{t("course-sections.recommended-courses")}
 				</h2>
 
 				{/* Custom Navigation */}
@@ -33,7 +36,7 @@ const SwiperSlideComponent_RecommendedCourse = () => {
 					</button>
 					<button
 						onClick={() => swiperRef.current?.slideNext()}
-						aria-label='Next Slide'	
+						aria-label='Next Slide'
 						className='text-[#253C95] cursor-pointer hover:opacity-80 transition-opacity rounded-3xl p-2'>
 						<FaCircleArrowRight className='w-4 h-4 sm:w-7 sm:h-7' />
 					</button>

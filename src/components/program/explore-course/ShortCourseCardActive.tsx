@@ -1,3 +1,5 @@
+/** @format */
+
 "use client";
 
 import React from "react";
@@ -10,14 +12,14 @@ import { useTranslations } from "next-intl";
 import { useKhmerNumber } from "@/services/to-khmer-number";
 
 interface ShortCourseCardProps extends MasterProgramType {
-  openingProgram?: openingProgramType;
+	openingProgram?: openingProgramType;
 }
 
 const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
-  // uuid,
-  title,
-  description,
-  openingProgram,
+	// uuid,
+	title,
+	description,
+	openingProgram,
 }) => {
   const router = useRouter();
   const t = useTranslations();

@@ -10,6 +10,18 @@ import {
 import { FaFacebook, FaGithub, FaTelegram } from "react-icons/fa";
 import { useRef } from "react";
 
+// Custom styles for text shadow
+const textShadowStyles = {
+	textShadowLg: {
+		textShadow:
+			"2px 2px 4px rgba(0, 0, 0, 0.8), 0px 0px 8px rgba(0, 0, 0, 0.6)",
+	},
+	textShadowMd: {
+		textShadow:
+			"1px 1px 3px rgba(0, 0, 0, 0.7), 0px 0px 6px rgba(0, 0, 0, 0.5)",
+	},
+};
+
 interface MentorCardProps {
 	image: string;
 	name: string;
@@ -78,7 +90,7 @@ export default function MentorCard({
 					transformStyle: "preserve-3d",
 				}}
 				className='relative w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 lg:w-60 lg:h-60 xl:w-72 xl:h-72 mx-auto rounded-full group cursor-pointer'>
-				<div className='relative w-full h-full rounded-full overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 aspect-square'>
+				<div className='relative w-full h-full rounded-full overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 aspect-square border border-white/10'>
 					<Image
 						src={image}
 						alt={name || "Speaker image"}
@@ -87,18 +99,25 @@ export default function MentorCard({
 						className='object-cover group-hover:scale-105 transition-transform duration-300'
 					/>
 
-					{/* Gradient Overlay */}
-					<div className='absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity duration-300' />
+					{/* Enhanced Gradient Overlay */}
+					<div className='absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-100 transition-opacity duration-300' />
+
+					{/* Additional Shadow Layer for Text */}
+					<div className='absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent' />
 
 					{/* Content Overlay */}
 					<div className='absolute bottom-0 left-0 right-0 p-1 sm:p-2 md:p-3 lg:p-4 xl:p-6 text-center transform translate-y-0 transition-transform duration-300'>
 						{/* Name */}
-						<h2 className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-white mb-0.5 sm:mb-1 opacity-100 transition-opacity duration-300 delay-100'>
+						<h2
+							className='text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-white mb-0.5 sm:mb-1 opacity-100 transition-opacity duration-300 delay-100 drop-shadow-lg'
+							style={textShadowStyles.textShadowLg}>
 							{name}
 						</h2>
 
 						{/* Role */}
-						<p className='text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-sm text-white/90 font-medium mb-1 sm:mb-2 opacity-100 transition-opacity duration-300 delay-200'>
+						<p
+							className='text-[10px] sm:text-xs md:text-sm lg:text-sm xl:text-sm text-white/95 font-medium mb-1 sm:mb-2 opacity-100 transition-opacity duration-300 delay-200 drop-shadow-md'
+							style={textShadowStyles.textShadowMd}>
 							{role}
 						</p>
 
