@@ -16,12 +16,14 @@ import ProgramHeaderSkeleton from "@/components/program/skeleton/ProgramHeaderSk
 import ProgramOverviewCardSkeleton from "@/components/program/skeleton/ProgramOverviewTapSkeleton";
 import ProgramCurriculumSkeleton from "@/components/program/skeleton/ProgramCurriculumSkeleton";
 import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivitySkeleton";
+import TimeLine from "@/components/program/detail-program/timeline/TimeLine";
 
 import { useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import { MasterProgramType } from "@/types/master-program";
 import ProgramOverviewSidebarSkeleton from "@/components/program/skeleton/ProgramSidebarSkeleton";
 import NotFoundProgram from "@/components/program/components/NotFound";
+import WorkNodeViewer from "@/components/roadmap/roadmap-detail";
 
 interface ProgramDetailClientProps {
   initialProgram?: MasterProgramType;
@@ -33,8 +35,6 @@ const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
   const params = useParams();
   const openingProgramSlug = params?.slug as string;
 
-  // ✅ Use translation keys as activeTab
-  const tabKeys = ["overview", "curriculum", "activity", "enrollment"];
   const [activeTab, setActiveTab] = useState("overview");
 
   // Fetch all opening programs
@@ -108,22 +108,26 @@ const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
           No opening programs available.
         </p>
       ),
-    
-    enrollment: () => <ProgramEnrollment />,
+
+    enrollment: () => <ProgramEnrollment openingProgram={openingProgram!} />,
+    timeline: () => (
+      <TimeLine openingProgramUuid={openingProgram!.uuid ?? ""} />
+    ),
+    roadmap: () => <WorkNodeViewer programUuid={masterProgram.uuid} />,
   };
 
   const ActiveTabComponent = tabComponents[activeTab];
 
   return (
-    <div className="flex flex-col lg:flex-row md:flex-col bg-whitesmoke min-h-screen mx-auto max-w-7xl gap-6 w-full p-5 md:p-8 lg:py-8 lg:px-0">
-      <div className="flex-1">
+    <div className="flex lg:flex-col min-h-screen md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
+      <div className="flex-1 w-full min-w-0 shrink-0">
         <ProgramHeader
           masterProgram={masterProgram}
           openingProgram={openingProgram}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <div>
+        <div className="w-full">
           <ActiveTabComponent />
         </div>
       </div>

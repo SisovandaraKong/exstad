@@ -33,6 +33,20 @@ export function EnrollmentDataTable<TData, TValue>({
   const [globalFilter, setGlobalFilter] = useState("");
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [filterGender, setFilterGender] = useState({
+    male: 0,
+    female: 0,
+  });
+
+  useEffect(() => {
+    const enrollments = data as Enrollment[];
+    const male = enrollments.filter((r) => r.gender === "Male").length;
+    const female = enrollments.filter((r) => r.gender === "Female").length;
+    setFilterGender({
+      male: male,
+      female: female,
+    });
+  }, [data]);
 
   const placeholders = [
     "name...",
@@ -128,7 +142,7 @@ export function EnrollmentDataTable<TData, TValue>({
   };
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full h-fit space-y-4">
       <style jsx>{`
         @keyframes slideUpFade {
           0% {
@@ -151,15 +165,6 @@ export function EnrollmentDataTable<TData, TValue>({
 
         .animate-placeholder {
           animation: slideUpFade 0.6s ease-in-out;
-        }
-
-        *::-webkit-scrollbar {
-          display: none;
-        }
-
-        * {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
         }
 
         /* ✅ Responsive table text size adjustments */
@@ -227,13 +232,10 @@ export function EnrollmentDataTable<TData, TValue>({
         </div>
       </div>
 
-      <div className="scrollbar-hide rounded-lg border w-full overflow-hidden">
-        <div
-          className="w-full overflow-x-auto overflow-y-auto scrollbar-hide relative"
-          style={{ maxHeight: "500px" }}
-        >
+      <div className="rounded-lg border w-full overflow-hidden">
+        <div className="w-full overflow-x-auto overflow-y-auto scrollbar-hide relative">
           <Table
-            className="w-full scrollbar-hide"
+            className="w-full"
             style={{ borderCollapse: "separate", borderSpacing: 0 }}
           >
             <TableHeader className="sticky top-0 z-10">
@@ -244,7 +246,7 @@ export function EnrollmentDataTable<TData, TValue>({
                     return (
                       <TableHead
                         key={header.id}
-                        className="text-primary font-bold whitespace-nowrap bg-whitesmoke border-b"
+                        className="text-primary dark:text-white font-bold whitespace-nowrap bg-whitesmoke border-b"
                         style={{
                           minWidth: header.column.columnDef.minSize || 100,
                           width: header.column.columnDef.size,
@@ -279,20 +281,20 @@ export function EnrollmentDataTable<TData, TValue>({
                 </TableRow>
               ))}
             </TableHeader>
-            <TableBody>
+            <TableBody className="scrollbar-hide ">
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row, index) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
-                    className={`transition-colors`}
+                    className={`transition-colors h-fit `}
                   >
                     {row.getVisibleCells().map((cell) => {
                       const isPinned = cell.column.getIsPinned();
                       return (
                         <TableCell
                           key={cell.id}
-                          className="text-primary py-4"
+                          className="text-primary dark:text-white py-4"
                           style={{
                             minWidth: cell.column.columnDef.minSize || 100,
                             width: cell.column.columnDef.size,
@@ -308,7 +310,7 @@ export function EnrollmentDataTable<TData, TValue>({
                                 : undefined,
                             zIndex: isPinned ? 11 : 1,
                             backgroundColor:
-                              index % 2 === 0 ? "white" : "#f5f5f5",
+                              index % 2 === 0 ? "var(--row-1)" : "var(--row-2)",
                             boxShadow:
                               isPinned === "left"
                                 ? "2px 0 4px rgba(0,0,0,0.1)"
@@ -332,7 +334,7 @@ export function EnrollmentDataTable<TData, TValue>({
                     colSpan={columns.length}
                     className="h-24 text-center text-gray-400"
                   >
-                    No results.
+                    No enrollments found.
                   </TableCell>
                 </TableRow>
               )}
@@ -341,7 +343,22 @@ export function EnrollmentDataTable<TData, TValue>({
         </div>
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-between">
+        <div className="text-muted-foreground flex-1 text-sm whitespace-nowrap">
+          {(() => {
+            const rows = table.getFilteredRowModel().rows;
+            const currentPage = table.getPaginationRowModel().rows.length;
+            const total = rows.length;
+
+            return (
+              <>
+                {currentPage} row(s) of {total} enrollment(s), Male:{" "}
+                {filterGender.male} • Female: {filterGender.female}
+              </>
+            );
+          })()}
+        </div>
+
         <div className="flex items-center gap-1">
           {getPageNumbers().map((page, index) => {
             if (page === "ellipsis") {

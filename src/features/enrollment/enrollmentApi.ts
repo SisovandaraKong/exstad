@@ -88,6 +88,7 @@ export type UpdateEnrollmentRequest = {
 
 export const enrollmentApi = createApi({
   reducerPath: "enrollmentApi",
+  tagTypes: ["Enrollment"],
   baseQuery: useBaseQuery,
   endpoints: (builder) => ({
     createEnrollment: builder.mutation<Enrollment, EnrollmentRequest>({
@@ -96,17 +97,38 @@ export const enrollmentApi = createApi({
         method: "POST",
         body,
       }),
+      invalidatesTags: [{ type: "Enrollment", id: "LIST" }],
+    }),
+
+    getAllEnrollmentsByProgram: builder.query<Enrollment[], string>({
+      query: (uuid) => `/enrollments/${uuid}/all`,
+      transformResponse: (response: { enrollments?: Enrollment[] }) =>
+        response.enrollments ?? [],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ uuid }) => ({
+                type: "Enrollment" as const,
+                id: uuid,
+              })),
+              { type: "Enrollment", id: "LIST" },
+            ]
+          : [{ type: "Enrollment", id: "LIST" }],
     }),
 
     updateEnrollmentByUuid: builder.mutation<
-      EnrollmentDetail,
-      UpdateEnrollmentRequest
+      Enrollment,
+      { uuid: string; body: UpdateEnrollmentRequest }
     >({
       query: ({ uuid, body }) => ({
         url: `/enrollments/${uuid}`,
         method: "PATCH",
         body,
       }),
+      invalidatesTags: (result, error, { uuid }) => [
+        { type: "Enrollment", id: uuid },
+        { type: "Enrollment", id: "LIST" },
+      ],
     }),
 
     getEnrollmentByUuid: builder.query<EnrollmentDetail, string>({
@@ -119,4 +141,5 @@ export const {
   useCreateEnrollmentMutation,
   useUpdateEnrollmentByUuidMutation,
   useGetEnrollmentByUuidQuery,
+  useGetAllEnrollmentsByProgramQuery,
 } = enrollmentApi;

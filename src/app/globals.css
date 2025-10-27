@@ -167,6 +167,8 @@
   --whitesmoke: #f5f5f7;
   --text-color: #333333;
   --icon-bg: #253c95;
+  --row-1: var(--white);
+  --row-2: #f5f5f5;
 
   --primary: #253c95;
   --primary-hover: #2049d5;
@@ -236,6 +238,8 @@
   --whitesmoke: #171717;
   --text-color: #e5e5e5;
   --icon-bg: #3d95ff;
+  --row-1: #1e1e1e;
+  --row-2: #2a2a2a;
 
   --primary: #0c34e8;
   --primary-hover: #2049d5;
@@ -385,14 +389,6 @@ body {
   background-color: #2563eb;
 }
 
-/* Hide scrollbar */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 /* Narak's Configuration */
 /* Legacy scroll keyframes - deprecated, use main scroll animation instead */
 @keyframes scroll-legacy {

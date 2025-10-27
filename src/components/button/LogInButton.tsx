@@ -9,6 +9,7 @@ import type { Session } from "next-auth";
 import { Button } from "../ui/button";
 import { useGetScholarByUsernameQuery } from "@/features/scholar/scholarApi";
 import { skipToken } from "@reduxjs/toolkit/query";
+import Link from "next/link";
 
 function getUsernameFromSession(session: Session | null): string | undefined {
   const user = session?.user;
@@ -41,28 +42,30 @@ export default function LogInButton() {
 
   if (session) {
     return (
-      <Button
-        className="flex items-center justify-center p-0 h-8 w-8 rounded-full border bg-accent hover:bg-accent-hover font-bilingual transition-colors cursor-pointer"
-        title="Account"
-        aria-label="Account"
-      >
-        {avatarUrl ? (
-          <Image
-            src={avatarUrl}
-            alt="Scholar avatar"
-            width={28}
-            height={28}
-            className="h-7 w-7 rounded-full object-cover"
-            priority
-          />
-        ) : initial ? (
-          <span className="h-7 w-7 rounded-full bg-primary/10 text-white text-md font-semibold flex items-center justify-center font-bilingual">
-            {initial}
-          </span>
-        ) : (
-          <FaUserGraduate className="h-4 w-4 text-white" />
-        )}
-      </Button>
+      <Link href={"/me"}>
+        <Button
+          className="flex items-center justify-center p-0 h-8 w-8 rounded-full border bg-accent hover:bg-accent-hover font-bilingual transition-colors cursor-pointer"
+          title="Account"
+          aria-label="Account"
+        >
+          {avatarUrl ? (
+            <Image
+              src={avatarUrl}
+              alt="Scholar avatar"
+              width={28}
+              height={28}
+              className="h-7 w-7 rounded-full object-cover"
+              priority
+            />
+          ) : initial ? (
+            <span className="h-7 w-7 rounded-full bg-primary/10 text-white text-md font-semibold flex items-center justify-center font-bilingual">
+              {initial}
+            </span>
+          ) : (
+            <FaUserGraduate className="h-4 w-4 text-white" />
+          )}
+        </Button>
+      </Link>
     );
   }
 
