@@ -56,12 +56,13 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
             <div className="w-1 h-4 bg-gradient-to-b from-primary to-transparent dark:from-accent dark:to-yellow-transparent rounded-full mt-1"></div>
           </div>
           <div className="flex flex-col">
+            <Link href={`/explore-course/${openingProgram?.slug}`} className="block">
             <h1
               className="text-primary dark:text-white  text-[20px] md:text-2xl lg:text-3xl font-bold hover:text-primary-hover cursor-pointer"
-              onClick={handleEnrollClick}
             >
               {title}
             </h1>
+            </Link>
             <p className="text-secondary dark:text-accent font-bold text-[16px] md:text-[18px] lg:text-[20px]">
               {openingProgram?.scholarship != null ? toKhmerNumber(openingProgram.scholarship) : "0"}% {t("scholarship")}
             </p>

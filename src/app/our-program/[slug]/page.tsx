@@ -21,7 +21,9 @@ async function getProgramData(slug: string): Promise<MasterProgramType | null> {
 }
 
 // Fetch opening program
-async function getOpeningProgramData(slug: string): Promise<openingProgramType | null> {
+async function getOpeningProgramData(
+  slug: string
+): Promise<openingProgramType | null> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/opening-programs/slug/${slug}`,
     { cache: "no-store" }
@@ -32,7 +34,11 @@ async function getOpeningProgramData(slug: string): Promise<openingProgramType |
 }
 
 // Generate metadata using opening program posterUrl
-export async function generateMetadata({ params }: { params: Promise<ProgramPageParams> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<ProgramPageParams>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const program = await getProgramData(slug);
   const openingProgram = await getOpeningProgramData(slug);
@@ -43,7 +49,8 @@ export async function generateMetadata({ params }: { params: Promise<ProgramPage
       description: "Explore our wide range of courses and programs at EXSTAD.",
       openGraph: {
         title: "Program Not Found | EXSTAD",
-        description: "Explore our wide range of courses and programs at EXSTAD.",
+        description:
+          "Explore our wide range of courses and programs at EXSTAD.",
         images: [`${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`],
       },
     };
@@ -54,11 +61,18 @@ export async function generateMetadata({ params }: { params: Promise<ProgramPage
     description: program.subtitle || "Join our professional programs today!",
     openGraph: {
       title: `${program.title} | EXSTAD`,
-      description: program.subtitle || "Join our professional programs today!",
+      description: `${
+        program.subtitle || "Join our professional programs today!"
+      } | Duration: ${openingProgram?.duration || "N/A"}, Level: ${
+        program.programLevel || "BASIC"
+      }, Price: ${openingProgram?.price || "N/A"}`,
+
       url: `${process.env.NEXT_PUBLIC_BASE_URL}/explore-course/${program.slug}`,
       images: [
         {
-          url: openingProgram?.posterUrl || `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`,
+          url:
+            openingProgram?.posterUrl ||
+            `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`,
           width: 1200,
           height: 630,
           alt: program.title,
@@ -69,18 +83,25 @@ export async function generateMetadata({ params }: { params: Promise<ProgramPage
       card: "summary_large_image",
       title: `${program.title} | EXSTAD`,
       description: program.subtitle || "Join our professional programs today!",
-      images: [openingProgram?.posterUrl || `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`],
+      images: [
+        openingProgram?.posterUrl ||
+          `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`,
+      ],
     },
   };
 }
 
 // Server Component
-export default async function ProgramDetailPage({ params }: { params: Promise<ProgramPageParams> }) {
+export default async function ProgramDetailPage({
+  params,
+}: {
+  params: Promise<ProgramPageParams>;
+}) {
   const { slug } = await params;
   const program = await getProgramData(slug);
 
   if (!program) {
-    return <NotFoundProgram title="Program not found"/>;
+    return <NotFoundProgram title="Program not found" />;
   }
 
   return <OpeningProgramDetailPage initialProgram={program} />;

@@ -55,7 +55,7 @@ const TechnologySection: React.FC<Props> = ({ programUuid }) => {
                 height={48}
                 src={item.image}
                 alt={item.title}
-                className="w-12 h-12 flex-shrink-0"
+                className="w-12 flex-shrink-0 object-cover"
               />
               <div>
                 <h3 className="text-base md:text-lg font-semibold text-black dark:text-white">

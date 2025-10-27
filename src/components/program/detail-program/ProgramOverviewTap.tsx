@@ -43,9 +43,6 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         <div className="grid gap-[24px]" data-aos="fade-up">
           <ProgramOverviewSection programUuid={program.uuid} />
         </div>
-        <div className="grid gap-[24px]" data-aos="fade-up">
-          <TechnologySection programUuid={program.uuid}/>
-        </div>
 
         {/* Learning Outcomes */}
         <div data-aos="fade-up">
@@ -56,13 +53,14 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         <div data-aos="fade-up">
           <RequirementSection programUuid={program.uuid} />
         </div>
+        <div className="grid gap-[24px]" data-aos="fade-up">
+          <TechnologySection programUuid={program.uuid} />
+        </div>
 
         {/* FAQ Section */}
         <div data-aos="fade-up">
           <FaqSection programUuid={program.uuid} />
         </div>
-
-        
       </div>
     </div>
   );

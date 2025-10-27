@@ -108,6 +108,7 @@ const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
           No opening programs available.
         </p>
       ),
+    
     enrollment: () => <ProgramEnrollment />,
   };
 
