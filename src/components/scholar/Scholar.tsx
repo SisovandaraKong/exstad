@@ -982,7 +982,7 @@ export default function Scholar() {
       {/* SECTION 3: Spotlight Carousel (localized strings) */}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900 -mb-[100px]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-[-10px] md:py-5 relative">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-[-10px] md:pb-[150px] relative">
           {isError ? (
             <p className="text-center text-sm text-rose-600">
               {(() => {
