@@ -41,6 +41,7 @@ function Navbar({ className }: { className?: string }) {
 		return `${baseClasses} ${afterClasses} ${hoverClasses} after:opacity-0`;
 	};
 
+
 	React.useEffect(() => {
 		if (!mobileOpen) return;
 

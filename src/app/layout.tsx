@@ -10,6 +10,7 @@ import I18nProvider from "@/lib/I18nProvider";
 import Providers from "@/lib/providers";
 import "./globals.css";
 import AppToaster from "@/components/ui/app-toaster";
+import { LanguageLoadingProvider } from "@/contexts/LanguageLoadingContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -115,7 +116,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${koh.variable} ${nunito.variable} antialiased relative bg-whitesmoke`}
+        className={`${inter.variable} ${koh.variable} ${nunito.variable} antialiased relative bg-whitesmoke overflow-x-hidden`}
       >
         <ThemeProvider
           attribute="class"
@@ -126,7 +127,8 @@ export default async function RootLayout({
           <OnlineStatusIndicator />
           <Providers>
             <I18nProvider initialLocale={internalLocale}>
-              <AuthProvider>
+              <LanguageLoadingProvider>
+                              <AuthProvider>
                 <Navbar />
                 <main className="mt-20">
                   {children}
@@ -134,6 +136,7 @@ export default async function RootLayout({
                 </main>
                 <Footer />
               </AuthProvider>
+              </LanguageLoadingProvider>
             </I18nProvider>
           </Providers>
         </ThemeProvider>

@@ -115,16 +115,18 @@ export const enrollmentApi = createApi({
             ]
           : [{ type: "Enrollment", id: "LIST" }],
     }),
-
- updateEnrollmentByUuid: builder.mutation<
+    
+    updateEnrollmentByUuid: builder.mutation<
       EnrollmentDetail,
       UpdateEnrollmentRequest
+
     >({
       query: ({ uuid, body }) => ({
         url: `/enrollments/${uuid}`,
         method: "PATCH",
         body,
       }),
+
       invalidatesTags: (result, error, { uuid }) => [
         { type: "Enrollment", id: uuid },
         { type: "Enrollment", id: "LIST" },

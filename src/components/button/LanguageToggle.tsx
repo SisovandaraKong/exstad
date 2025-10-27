@@ -32,7 +32,7 @@ export default function LanguageToggle() {
       onClick={toggleLanguage}
       aria-label={ariaLabel}
       title={titleText}
-      className="hover:scale-105 transition cursor-pointer border-1 border-accent-foreground"
+      className="hover:scale-105 transition cursor-pointer border-1 border-accent-foreground/50"
     >
       {isMounted ? (
         <Image
@@ -41,6 +41,7 @@ export default function LanguageToggle() {
           width={25}
           height={25}
           className="w-[30px] h-[20px] shadow object-cover"
+          unoptimized
         />
       ) : (
         <span className="w-[30px] h-[20px] inline-block dark:bg-foreground/30 bg-gray-200" />

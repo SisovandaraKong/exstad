@@ -64,4 +64,8 @@ export const bakongApi = createApi({
   }),
 });
 
-export const { useGenerateQrMutation, useGetQrImageMutation, useCheckTransactionByMd5Mutation } = bakongApi;
+export const {
+  useGenerateQrMutation,
+  useGetQrImageMutation,
+  useCheckTransactionByMd5Mutation,
+} = bakongApi;

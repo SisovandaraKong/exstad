@@ -7,37 +7,62 @@ interface FeatureCardProps {
 	icon: ReactNode;
 	title: string;
 	description: string;
+	technologies?: string[];
 }
 
-export function FeatureCard({ icon, title, description }: FeatureCardProps) {
+export function FeatureCard({
+	icon,
+	title,
+	description,
+	technologies = [],
+}: FeatureCardProps) {
 	return (
 		<motion.div
-			className='flex flex-col items-center bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl shadow-sm sm:shadow-md md:shadow-lg hover:shadow-lg sm:hover:shadow-xl md:hover:shadow-2xl p-2 sm:p-3 md:p-4 lg:p-6 text-center w-full border border-gray-200 dark:border-gray-600 transition-all duration-300'
-			whileHover={{
-				y: -4,
-				scale: 1.02,
-				boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-			}}
-			whileTap={{ scale: 0.98 }}
-			transition={{ duration: 0.2 }}>
-			<motion.div
-				className='mb-2 sm:mb-3 md:mb-4 p-1 sm:p-2 md:p-3 lg:p-4 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 shadow-inner'
-				whileHover={{ scale: 1.1, rotate: 5 }}
-				transition={{ duration: 0.2 }}>
-				{icon}
-			</motion.div>
-			<motion.h3
-				className='font-bold text-xs sm:text-sm md:text-base lg:text-lg mb-1 sm:mb-2 md:mb-3 text-gray-900 dark:text-white'
-				initial={{ opacity: 0.8 }}
-				whileHover={{ opacity: 1 }}>
-				{title}
-			</motion.h3>
-			<motion.p
-				className='text-xs sm:text-xs md:text-sm leading-relaxed text-gray-600 dark:text-gray-300'
-				initial={{ opacity: 0.7 }}
-				whileHover={{ opacity: 1 }}>
-				{description}
-			</motion.p>
+			className='morphing-card holographic-card p-6 sm:p-8 rounded-3xl group cursor-pointer w-full max-w-md md:max-w-lg lg:max-w-xl xl:max-w-md mx-auto relative overflow-hidden bg-white dark:bg-gray-900'
+			whileHover={{ scale: 1.02 }}
+			transition={{ duration: 0.3 }}>
+			{/* Rounded gradient border */}
+			<div className='absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-r from-primary/50 via-secondary/60 to-primary/50 group-hover:from-primary/80 group-hover:via-secondary/90 group-hover:to-primary/80 transition-all duration-300'>
+				<div className='w-full h-full rounded-3xl bg-white dark:bg-gray-900'></div>
+			</div>
+			{/* Content wrapper */}
+			<div className='relative z-10'>
+				{/* Icon Section */}
+				<motion.div
+					className='text-6xl mb-6 transform group-hover:scale-110 transition-transform duration-300 flex justify-center'
+					whileHover={{ rotate: 5 }}>
+					{icon}
+				</motion.div>
+
+				{/* Title */}
+				<motion.h3
+					className='text-center font-bold text-lg mb-2 text-gray-800 dark:text-white'
+					initial={{ opacity: 0.9 }}
+					whileHover={{ opacity: 1 }}>
+					{title}
+				</motion.h3>
+
+				{/* Description */}
+				<motion.p
+					className='text-center text-base sm:text-lg md:text-[18px] text-gray-600 dark:text-gray-400 mb-6 leading-7 sm:leading-8'
+					initial={{ opacity: 0.8 }}
+					whileHover={{ opacity: 1 }}>
+					{description}
+				</motion.p>
+
+				{/* Technologies Tags */}
+				{technologies.length > 0 && (
+					<div className='flex flex-wrap gap-2'>
+						{technologies.map((tech, index) => (
+							<span
+								key={index}
+								className='px-3 py-1 bg-primary/20 text-primary dark:bg-blue-500/20 dark:text-blue-400 rounded-full text-sm'>
+								{tech}
+							</span>
+						))}
+					</div>
+				)}
+			</div>
 		</motion.div>
 	);
 }
