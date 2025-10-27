@@ -115,7 +115,7 @@ export default async function RootLayout({
   return (
     <html lang={htmlLang} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${koh.variable} ${nunito.variable} antialiased relative bg-whitesmoke`}
+        className={`${inter.variable} ${koh.variable} ${nunito.variable} antialiased relative bg-whitesmoke overflow-x-hidden`}
       >
         <ThemeProvider
           attribute="class"
