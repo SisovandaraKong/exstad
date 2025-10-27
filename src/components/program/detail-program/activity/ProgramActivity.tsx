@@ -143,7 +143,7 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
                 width={500}
                 src={activity.image}
                 alt={activity.title}
-                className="rounded-2xl w-full h-auto max-h-96 object-cover"
+                className="rounded-2xl w-full  h-auto max-h-96 object-cover"
               />
             )}
           </div>
