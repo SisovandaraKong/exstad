@@ -38,14 +38,12 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
               {title}
             </h2>
             {subtitle && (
-              <p
-                className="bg-white/20 backdrop-blur-md border border-white/30  shadow-md text-sm md:text-2xl text-white font-medium w-fit mx-auto md:mx-0 rounded-[10px] px-2 py-1 mt-2 "
-              >
+              <p className="bg-white/20 backdrop-blur-md border border-white/30  shadow-md text-sm md:text-2xl text-white font-medium w-fit mx-auto md:mx-0 rounded-[10px] px-2 py-1 mt-2 ">
                 {subtitle}
               </p>
             )}
             {description && (
-              <p className="text-sm md:text-base mt-1 md:mt-2 text-gray-600 line-clamp-3">
+              <p className="text-sm md:text-base mt-1 md:mt-2  line-clamp-3">
                 {description}
               </p>
             )}
@@ -77,27 +75,27 @@ const ShortCourseCard: React.FC<ScholarshipCardProps> = ({
                   key={index}
                   whileHover={{ scale: 1.03 }}
                   transition={{ type: "spring", stiffness: 250 }}
-                  className={`rounded-[18px] md:rounded-[20px] lg:rounded-[25px] py-3 px-4 md:p-5 w-full ${
+                  className={`rounded-[12px] md:rounded-[15px] lg:rounded-[20px] py-3 px-4 md:p-5 w-full ${
                     isPrice
-                      ? "relative flex flex-col justify-center items-center bg-white"
-                      : "flex flex-col justify-between bg-white"
+                      ? "relative flex flex-col justify-center items-center bg-black/20 backdrop-blur-xl border border-white/20 shadow-lg"
+                      : "flex flex-col justify-between bg-black/20 backdrop-blur-xl border border-white/10 shadow-lg"
                   }`}
                 >
                   {isPrice ? (
                     <>
-                      <span className="absolute top-2 right-2 text-red-500 text-xs md:text-lg line-through">
+                      <span className="absolute top-2 right-2 text-red-400 text-xs md:text-lg line-through">
                         ${h.value}
                       </span>
-                      <h2 className="text-gray-600 font-bold text-lg md:text-3xl text-center">
+                      <h2 className="text-white font-bold text-lg md:text-3xl text-center drop-shadow-lg ">
                         ${h.desc}
                       </h2>
                     </>
                   ) : (
                     <>
-                      <h2 className="text-black font-bold text-sm md:text-lg">
+                      <h2 className="text-white font-bold text-sm md:text-lg drop-shadow-md">
                         {h.value || h.label}
                       </h2>
-                      <p className="text-gray-600 font-medium text-xs md:text-base mt-1 md:mt-2">
+                      <p className="text-white/70 font-medium text-xs md:text-base mt-1 md:mt-2 line-clamp-2">
                         {h.desc}
                       </p>
                     </>

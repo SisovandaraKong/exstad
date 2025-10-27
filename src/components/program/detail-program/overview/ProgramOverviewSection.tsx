@@ -29,7 +29,7 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
     return (
       <NotFoundProgram
         title="No Program Overview Availbale"
-        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
+        className="bg-background  rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
       />
     );
 
@@ -37,20 +37,20 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
     <div className="grid gap-[24px]" data-aos="fade-up">
       {overviews.map((item, index) => (
         <div key={index} className="grid gap-[24px]">
-          <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-yellow-400 font-bold">
+          <h2 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-yellow-400  font-bold">
             <Image
               unoptimized
               width={24}
               height={24}
               src="/image/logo/mission.png"
               alt={item.title}
-              className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7"
+              className="w-5 h-5  sm:w-6 sm:h-6 md:w-7 md:h-7"
             />
             {item.title === "Program Overview"
               ? t("programOverview")
               : item.title}
           </h2>
-          <p className="text-description text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-amber-400 rounded-lg p-4 sm:p-6 md:p-8 ">
+          <p className="text-description dark:bg-amber-300/10 text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-amber-400 rounded-lg p-4 sm:p-6 md:p-8 ">
             {item.description}
           </p>
         </div>
