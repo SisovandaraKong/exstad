@@ -131,9 +131,7 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
           >
             <div className="absolute top-0 left-0 h-full w-0.5 rounded-l-2xl bg-gradient-to-b from-[#328BE6] to-transparent"></div>
             <h3 className="font-bold text-lg sm:text-xl md:text-2xl text-foreground">
-  {t(activity.title, { default: activity.title })}
-    {/* {t(activity.title.toLowerCase().replaceAll(" ", "-"), { default: activity.title })} */}
-
+  {t(activity.title.toLowerCase().replaceAll(" ", "-"), { default: activity.title })}
             </h3>
             <p className="font-normal text-description text-sm sm:text-base md:text-lg">
               {activity.description}
