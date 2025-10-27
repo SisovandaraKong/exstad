@@ -27,18 +27,37 @@ function getInitialFromUsername(username?: string): string {
   return first.charAt(0).toUpperCase();
 }
 
+function LoginSkeleton() {
+  return (
+    <Button
+      disabled
+      className="flex items-center justify-center p-0 h-8 w-8 rounded-full border bg-accent/50 font-bilingual transition-colors cursor-wait"
+      title="Loading..."
+      aria-label="Loading account"
+    >
+      <div className="h-7 w-7 rounded-full bg-primary/5 animate-pulse" />
+    </Button>
+  );
+}
+
 export default function LogInButton() {
   const t = useTranslations();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const username = getUsernameFromSession(session);
-  const { data: scholar } = useGetScholarByUsernameQuery(username ?? skipToken);
+  const { data: scholar, isLoading } = useGetScholarByUsernameQuery(
+    username ?? skipToken
+  );
 
   const avatarUrl =
     typeof scholar?.avatar === "string" && scholar.avatar.length > 0
       ? scholar.avatar
       : undefined;
   const initial = getInitialFromUsername(username);
+
+  if (isLoading || status === "loading") {
+    return <LoginSkeleton />;
+  }
 
   if (session) {
     return (

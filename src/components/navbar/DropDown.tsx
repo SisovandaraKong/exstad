@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { useGetAllMasterProgramsQuery } from "../program/masterProgramApi";
 import { ChevronDown, ChevronUp, GraduationCap, BookOpen } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 type ProgramLite = {
   uuid: string;
@@ -25,11 +26,48 @@ type ComponentItem = {
   subtitle?: string;
 };
 
-export default function DropDown() {
+export default function DropDown({ className }: { className?: string }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const desktopButtonRef = useRef<HTMLButtonElement | null>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const t = useTranslations();
+  const pathname = usePathname() || "/";
+
+  // normalize pathname (strip locale prefix like /en/)
+  const cleanPathname = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
+  const isActive = (href: string) =>
+    cleanPathname === href || (href !== "/" && cleanPathname.startsWith(href));
+
+  // set aria-expanded imperatively to avoid linter complaining about non-literal values
+  useEffect(() => {
+    if (desktopButtonRef.current) {
+      desktopButtonRef.current.setAttribute(
+        "aria-expanded",
+        open ? "true" : "false"
+      );
+    }
+    if (mobileButtonRef.current) {
+      mobileButtonRef.current.setAttribute(
+        "aria-expanded",
+        open ? "true" : "false"
+      );
+    }
+  }, [open]);
+
+  // Mobile nav classes requested
+  const getNavLinkClassesForMobile = (href: string) => {
+    const baseClasses =
+      "relative rounded-md transition-colors font-d4 font-normal duration-200";
+    const hoverClasses = "hover:text-foreground hover:bg-primary/10";
+
+    if (isActive(href)) {
+      return `${baseClasses} ${hoverClasses} text-foreground after:opacity-100 bg-primary/10`;
+    }
+
+    return `${baseClasses} ${hoverClasses}`;
+  };
 
   // Fetch master programs only when menu is open
   const { data: masterProgram = [], refetch: refetchMasters } =
@@ -117,14 +155,18 @@ export default function DropDown() {
       onMouseLeave={handleMouseLeave}
       className="relative"
     >
+      {/* Desktop button: keep original navbar look, hidden on mobile */}
       <button
+        ref={desktopButtonRef}
+        onClick={() => setOpen((s) => !s)}
         className={cn(
-          "relative inline-flex items-center gap-1 rounded-md font-d4 font-normal",
+          "hidden lg:inline-flex relative items-center gap-1 rounded-md font-d4 font-normal",
           "transition-colors duration-200 bg-transparent border-none outline-none cursor-pointer",
           "hover:text-foreground",
           "after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[2.5px] after:bg-primary",
           "after:transition-opacity after:duration-200",
-          open ? "text-foreground after:opacity-100" : "after:opacity-0"
+          open ? "text-foreground after:opacity-100" : "after:opacity-0",
+          className
         )}
       >
         {t("our-program")}
@@ -135,6 +177,29 @@ export default function DropDown() {
         )}
       </button>
 
+      {/* Mobile button: full-width, navbar-like appearance (matches provided class) */}
+      <button
+        ref={mobileButtonRef}
+        onClick={() => setOpen((s) => !s)}
+        className={cn(
+          "inline-flex lg:hidden items-center w-full justify-between rounded-md text-left",
+          getNavLinkClassesForMobile("/our-program"),
+          className
+        )}
+      >
+        <div className="">
+          <span className="font-medium">{t("our-program")}</span>
+        </div>
+        <div className="ml-2">
+          {open ? (
+            <ChevronUp className="h-5 w-5" />
+          ) : (
+            <ChevronDown className="h-5 w-5" />
+          )}
+        </div>
+      </button>
+
+      {/* Desktop dropdown panel (keeps existing ListItem usage) */}
       {open && (
         <div className="fixed left-0 right-0 top-[80px] z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 shadow-lg">
           <div className="mx-auto max-w-7xl px-8 py-4">
@@ -146,10 +211,43 @@ export default function DropDown() {
                   href={component.href}
                   subtitle={component.subtitle}
                   onClick={() => setOpen(false)}
+                  // className={getNavLinkClasses(component.href)}
                 />
               ))}
             </ul>
           </div>
+        </div>
+      )}
+
+      {/* Mobile stacked list: no description/subtitle, navbar-like look */}
+      {open && (
+        <div className="lg:hidden mt-2 w-full bg-background border rounded-md shadow-sm p-2">
+          <ul className="flex flex-col gap-1">
+            {components.map((c) => (
+              <li key={c.id} className="w-full">
+                <Link
+                  href={c.href}
+                  onClick={() => setOpen(false)}
+                  className={getNavLinkClassesForMobile(c.href)}
+                >
+                  <div className="flex items-center w-full">
+                    <span className="inline-flex h-7 w-7 min-w-7 items-center justify-center rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-white">
+                      {c.title.toLowerCase().includes("short") ? (
+                        <BookOpen className="h-4 w-4" />
+                      ) : (
+                        <GraduationCap className="h-4 w-4" />
+                      )}
+                    </span>
+                    <span className="ml-3 font-medium truncate">{c.title}</span>
+                    <span className="ml-auto opacity-70">
+                      <ChevronDown className="h-4 w-4" />
+                    </span>
+                  </div>
+                </Link>
+                {/* subtitle/description intentionally removed on mobile */}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
@@ -160,7 +258,7 @@ function ListItem({
   title,
   subtitle,
   href,
-  className,
+  // className,
   onClick,
   ...props
 }: React.ComponentPropsWithoutRef<"li"> & {
@@ -180,12 +278,12 @@ function ListItem({
         onClick={onClick}
         className={cn(
           "group block w-full rounded-md p-4 no-underline outline-none transition-colors",
-          "hover:bg-primary/10 focus:bg-primary/10 hover:text-accent-foreground focus:text-accent-foreground font-bilingual",
-          className
+          "hover:bg-primary/10  focus:bg-primary/10 hover:text-accent-foreground focus:text-accent-foreground font-bilingual"
+          // className
         )}
       >
         <div className="flex items-start gap-3">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bilingual">
+          <span className="inline-flex h-7 w-7 min-w-7 items-center justify-center rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-white font-bilingual">
             <Icon className="h-4 w-4" />
           </span>
           <div className="min-w-0">
@@ -193,7 +291,7 @@ function ListItem({
               {title}
             </div>
             {subtitle ? (
-              <p className="mt-1 text-sm text-muted-foreground leading-relaxed line-clamp-3 font-bilingual">
+              <p className="mt-1 text-sm text-muted-foreground leading-relaxed lg:line-clamp-3 line-clamp-1 font-bilingual">
                 {subtitle}
               </p>
             ) : null}

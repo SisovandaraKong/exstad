@@ -1,5 +1,6 @@
 import { EnrollmentDetail } from "@/features/enrollment/enrollmentApi";
 import { Enrollment } from "@/types/enrollment";
+import { date } from "zod";
 
 export function enrollmentMessageFormatter(enrollment: Enrollment): string {
   const divider = "━━━━━━━━━━━━━━━━━━━━";
@@ -56,11 +57,17 @@ export function enrollmentPaymentMessageFormatter(
 👤 *Name (EN):* ${enrollment.englishName}
 📝 *Name (KH):* ${enrollment.khmerName}
 📚 *Program:* ${enrollment.program}
+🏫 *Class:* ${enrollment._class.classCode}
+🎓 *Scholar:* ${enrollment.isScholar ? "✅ Yes" : "❌ No"}
+☀️ *Enrollment Date:* ${new Date(
+      enrollment.audit.createdAt
+    ).toLocaleDateString()}
+
 
 📞 *Phone:* ${enrollment.phoneNumber}
 ✉️ *Email:* ${enrollment.email}
 
-💰 *Payment:* "✅ Paid 🟢"
+💰 *Payment:* ✅ Paid 🟢
 💰 *Amount:* $${amount}
 
 ${divider}` + "\n\n";
