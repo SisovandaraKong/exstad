@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useGetAllTechnologyQuery } from "./technologiesApi";
 import NotFoundProgram from "../../components/NotFound";
 import { useTranslations } from "next-intl";
+import { GrTechnology } from "react-icons/gr";
 
 interface Props {
   programUuid: string;
@@ -39,7 +40,7 @@ const TechnologySection: React.FC<Props> = ({ programUuid }) => {
     <section className="">
       <div className="max-w-4xl mx-auto">
         <h1 className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg md:text-xl lg:text-2xl text-primary font-bold mb-6">
-          Technologies in Use
+          <GrTechnology  className="text-lg sm:text-xl md:text-2xl" />{t("technologies-in-use")}
         </h1>
 
         <div className="border-l-4 dark:bg-gray-800 border-primary rounded-lg shadow-[0_4px_15px_rgba(0,0,0,0.15)] overflow-hidden">

@@ -51,7 +51,6 @@
   "JUL": "JUL",
   "AUG": "AUG",
   "SEP": "SEP",
-  "SEp": "SEP",
   "OCT": "OCT",
   "NOV": "NOV",
   "DEC": "DEC",
@@ -418,5 +417,6 @@
 		"get-started": "Get Started",
 		"view-all": "View All",
 		"read-more": "Read More"
-	}
+	},
+	"technologies-in-use":"Technologies in Use"
 }
