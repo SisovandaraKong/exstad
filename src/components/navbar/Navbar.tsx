@@ -1,5 +1,3 @@
-/** @format */
-
 "use client";
 import React, { useState } from "react";
 import { AnimatedModeToggle } from "../button/ModeToggle";
@@ -14,18 +12,18 @@ import { usePathname } from "next/navigation";
 import DropDown from "./DropDown";
 
 function Navbar({ className }: { className?: string }) {
-	const [mobileOpen, setMobileOpen] = useState(false);
-	const navRef = React.useRef<HTMLDivElement | null>(null);
-	const pathname = usePathname();
-	const t = useTranslations();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const navRef = React.useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
+  const t = useTranslations();
 
-	// Function to check if a link is active
-	const isActive = (href: string) => {
-		const cleanPathname = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
-		return (
-			cleanPathname === href || (href !== "/" && cleanPathname.startsWith(href))
-		);
-	};
+  // Function to check if a link is active
+  const isActive = (href: string) => {
+    const cleanPathname = pathname.replace(/^\/[a-z]{2}(\/|$)/, "/");
+    return (
+      cleanPathname === href || (href !== "/" && cleanPathname.startsWith(href))
+    );
+  };
 
   const getNavLinkClasses = (href: string) => {
     const baseClasses =
@@ -34,37 +32,50 @@ function Navbar({ className }: { className?: string }) {
     const afterClasses =
       "after:absolute after:-bottom-2.5 after:-left-3 after:-right-3 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200";
 
-		if (isActive(href)) {
-			return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
-		}
+    if (isActive(href)) {
+      return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
+    }
 
-		return `${baseClasses} ${afterClasses} ${hoverClasses} after:opacity-0`;
-	};
+    return `${baseClasses} ${afterClasses} ${hoverClasses} after:opacity-0`;
+  };
 
+  const getNavLinkClassesForMobile = (href: string) => {
+    const baseClasses =
+      "relative rounded-md transition-colors font-d4 font-normal duration-200 bg-primary/10";
+    const hoverClasses = "hover:text-foreground hover:after:opacity-100";
+    const afterClasses =
+      "after:absolute after:-bottom-2.5 after:-left-1.5 after:-right-1.5 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200";
 
-	React.useEffect(() => {
-		if (!mobileOpen) return;
+    if (isActive(href)) {
+      return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
+    }
 
-		function onPointerDown(e: PointerEvent) {
-			if (navRef.current && !navRef.current.contains(e.target as Node)) {
-				setMobileOpen(false);
-			}
-		}
+    return `${baseClasses} ${afterClasses} ${hoverClasses} after:opacity-0`;
+  };
 
-		function onKeyDown(e: KeyboardEvent) {
-			if (e.key === "Escape") {
-				setMobileOpen(false);
-			}
-		}
+  React.useEffect(() => {
+    if (!mobileOpen) return;
 
-		document.addEventListener("pointerdown", onPointerDown);
-		document.addEventListener("keydown", onKeyDown);
+    function onPointerDown(e: PointerEvent) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setMobileOpen(false);
+      }
+    }
 
-		return () => {
-			document.removeEventListener("pointerdown", onPointerDown);
-			document.removeEventListener("keydown", onKeyDown);
-		};
-	}, [mobileOpen]);
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [mobileOpen]);
 
   return (
     <div
@@ -148,40 +159,52 @@ function Navbar({ className }: { className?: string }) {
             />
             {/* Mobile menu */}
             <div className="lg:hidden absolute top-full left-0 right-0 bg-background border-b shadow-lg z-50">
-              <div className="h-[100vh] w-full p-4">
-                <div className="flex flex-col gap-8 items-center">
+              <div className="min-h-[100vh] w-full p-4">
+                <div className="flex flex-col gap-4 items-start w-full text-left">
                   {/* Mobile Navigation Links */}
-                  <DropDown />
+                  <div className="w-full text-left px-4 py-2">
+                    <DropDown />
+                  </div>
+
                   <Link
                     href="/explore-course"
-                    className={getNavLinkClasses("/explore-course")}
+                    className={`${getNavLinkClassesForMobile(
+                      "/explore-course"
+                    )} w-full text-left px-4 py-2`}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("explore-course")}
                   </Link>
                   <Link
                     href="/scholar"
-                    className={getNavLinkClasses("/scholar")}
+                    className={`${getNavLinkClassesForMobile(
+                      "/scholar"
+                    )} w-full text-left px-4 py-2`}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("scholar")}
                   </Link>
                   <Link
                     href="/roadmap"
-                    className={getNavLinkClasses("/roadmap")}
+                    className={`${getNavLinkClassesForMobile(
+                      "/roadmap"
+                    )} w-full text-left px-4 py-2`}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("roadmap")}
                   </Link>
                   <Link
                     href="/about-us"
-                    className={getNavLinkClasses("/about-us")}
+                    className={`${getNavLinkClassesForMobile(
+                      "/about-us"
+                    )} w-full text-left px-4 py-2`}
                     onClick={() => setMobileOpen(false)}
                   >
                     {t("about-us")}
                   </Link>
                 </div>
-                <div className="flex items-center justify-around w-full mt-10">
+
+                <div className="flex items-center justify-around w-full mt-8">
                   <LanguageToggle />
                   <AnimatedModeToggle />
                   <LogInButton />

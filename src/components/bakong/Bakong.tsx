@@ -254,7 +254,7 @@ export default function Bakong({
   if (!shouldShowQr && !showSuccess) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 top-[var(--nav-offset)]">
+    <div className="fixed inset-x-0 bottom-0 z-100 top-[var(--nav-offset)]">
       <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
       <div className="relative w-full min-h-[calc(100vh-var(--nav-offset))] flex items-center justify-center p-4">
         {shouldShowQr && (

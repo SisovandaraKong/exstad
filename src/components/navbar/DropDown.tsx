@@ -180,12 +180,12 @@ function ListItem({
         onClick={onClick}
         className={cn(
           "group block w-full rounded-md p-4 no-underline outline-none transition-colors",
-          "hover:bg-primary/10 focus:bg-primary/10 hover:text-accent-foreground focus:text-accent-foreground font-bilingual",
+          "hover:bg-primary/10  focus:bg-primary/10 hover:text-accent-foreground focus:text-accent-foreground font-bilingual",
           className
         )}
       >
         <div className="flex items-start gap-3">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-bilingual">
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 dark:bg-white/10 text-primary dark:text-white font-bilingual">
             <Icon className="h-4 w-4" />
           </span>
           <div className="min-w-0">

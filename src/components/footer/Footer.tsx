@@ -7,8 +7,6 @@ import {
 	FaFacebook,
 	FaTelegram,
 	FaMapMarkerAlt,
-	FaPhone,
-	FaPhoneVolume,
 } from "react-icons/fa";
 import { MdPhoneIphone } from "react-icons/md";
 

@@ -107,7 +107,7 @@ export const enrollmentApi = createApi({
         method: "PATCH",
         body,
       }),
-    }),
+    }), 
 
     getEnrollmentByUuid: builder.query<EnrollmentDetail, string>({
       query: (uuid) => `/enrollments/${uuid}`,

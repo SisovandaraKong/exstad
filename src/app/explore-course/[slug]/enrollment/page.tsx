@@ -1224,7 +1224,7 @@ export default function EnrollmentPage() {
                         <FormControl>
                           <Input
                             placeholder="តុង បូរា"
-                            className="py-7 bg-whitesmoke font-koh"
+                            className="py-7 bg-whitesmoke"
                             {...field}
                           />
                         </FormControl>
