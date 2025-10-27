@@ -1,8 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { IoMdMail } from "react-icons/io";
-import { FaFacebook, FaTelegram } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 import { FaLinkedin, FaInstagram } from "react-icons/fa6";
 
 /**

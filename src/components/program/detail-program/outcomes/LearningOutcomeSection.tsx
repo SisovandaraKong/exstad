@@ -54,9 +54,9 @@ const LearningOutcomeSection: React.FC<LearningOutcomeProps> = ({
             </p>
           )}
           {outcome.description && outcome.description.length > 0 && (
-            <ul className="list-disc list-inside grid gap-4 sm:gap-6 text-description text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-primary-hover p-4 sm:p-6 md:p-8 rounded-lg">
+            <ul className="list-disc list-inside grid gap-4 sm:gap-6 text-description text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-primary-hover p-4 sm:p-6 md:p-8 rounded-lg dark:bg-gray-800">
               {outcome.description.map((point, i) => (
-                <li key={i}>{point}</li>
+                <li  data-aos="fade-up" key={i}>{point}</li>
               ))}
             </ul>
           )}

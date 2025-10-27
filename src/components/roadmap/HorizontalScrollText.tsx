@@ -18,7 +18,7 @@ export default function HorizontalScrollText() {
       direction="right"
       className="text-3xl font-bold "
       scrollDependent={false}
-      delay={0}
+      delay={1000}
     >
       {msg}
     </TextScrollMarquee>
