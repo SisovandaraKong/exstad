@@ -71,7 +71,7 @@ export default function ExploreProgramPage() {
     return true;
   });
 
-  if (isError) return <p>Failed to load programs.</p>;
+  if (isError) return <NotFoundProgram title="Error loading program "/>;
 
   return (
     <div className="flex flex-col lg:flex-row md:flex-col bg-whitesmoke min-h-screen mx-auto max-w-7xl gap-6 w-full p-5 md:p-8 lg:py-8 lg:px-0">
