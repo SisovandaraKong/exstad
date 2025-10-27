@@ -5,11 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useTranslations } from "next-intl";
-
 import { Marquee } from "@/components/magicui/marquee";
 import { BorderBeam } from "@/components/magicui/border-beam";
-
 import {
   Carousel,
   CarouselContent,
@@ -17,7 +14,6 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
-
 import {
   Globe,
   GraduationCap,
@@ -29,16 +25,15 @@ import {
 } from "lucide-react";
 
 import styles from "./styles.module.css";
-
 import {
   useGetAllScholarsQuery,
   useGetAllProgramsQuery,
   useGetScholarsByProgramUuidQuery,
   useLazyGetScholarsByProgramUuidQuery,
+  useDeleteProgramMutation,
 } from "@/components/student/StudentApi";
 
 import type { Scholar as ApiScholarBase } from "@/types/scholar/scholar";
-
 /* ---------- Types ---------- */
 type ApiSpecialist = {
   uuid?: string;
@@ -63,12 +58,7 @@ type ApiAudit = { updatedAt?: string | number | Date };
 type ApiScholar = ApiScholarBase & {
   specialist?: ApiSpecialist[] | null;
   careers?: ApiCareer[] | null;
-  completedCourses?: Array<{
-    programName?: string;
-    name?: string;
-    title?: string;
-    generation?: number;
-  }> | null;
+  completedCourses?: Array<{ programName?: string; name?: string }> | null;
   category?: string;
   audit?: ApiAudit;
 };
@@ -89,7 +79,7 @@ type ScholarWithQuote = Omit<ScholarCard, "spec"> & {
   quote: string;
   category: string;
   spec: ApiSpecialist;
-  company?: string;
+  company?: string; 
 };
 
 type SpotlightItem = {
@@ -97,13 +87,14 @@ type SpotlightItem = {
   uuid?: string;
   href: string;
   image: string;
-  displayName: string;
-  programName?: string;
-  generation?: number | null;
-  position?: string;
-  company?: string;
-  interest?: string;
+  displayName: string;  
+  programName?: string;        
+  generation?: number | null;   
+  position?: string;            
+  company?: string;            
+  interest?: string;            
 };
+
 
 /* ---------- Helpers ---------- */
 const API_BASE =
@@ -133,8 +124,6 @@ const BLUR =
 
 /** ===============================
  *  Section 4 helpers (category logic)
- *  (These labels are used for internal logic; per your spec,
- *  Section 4 content stays as-is except the title.)
  * ================================ */
 const CATEGORY_LABELS = {
   ALL: "All",
@@ -335,7 +324,7 @@ function Card1({ person }: { person: ScholarCard }) {
 }
 
 /* =========================================================
-   Card2 (Section 4 grid)
+   Card2 (Section 4 grid) — show ONLY company (or quote fallback)
    ========================================================= */
 function Card2({ person }: { person: ScholarWithQuote }) {
   const [src, setSrc] = useState(person.image || "/placeholder.svg");
@@ -395,8 +384,6 @@ function Card2({ person }: { person: ScholarWithQuote }) {
 
 /* ---------- Page ---------- */
 export default function Scholar() {
-  const t = useTranslations("Scholar");
-
   const [activeCategory, setActiveCategory] = useState<CategoryLabel>(
     CATEGORY_LABELS.ALL
   );
@@ -428,14 +415,16 @@ export default function Scholar() {
   });
 
   // Programs for Section 4 header
-  const { data: programs = [], refetch: refetchPrograms } =
-    useGetAllProgramsQuery(undefined, {
-      refetchOnMountOrArgChange: true,
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
-    });
+  const {
+    data: programs = [],
+    refetch: refetchPrograms,
+  } = useGetAllProgramsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
+  });
 
-  // Prefetch for program scholars
+  // Lazy prefetch for program scholars
   const [triggerPrefetchScholars] = useLazyGetScholarsByProgramUuidQuery();
 
   // Program-filtered scholars
@@ -504,60 +493,62 @@ export default function Scholar() {
         id: idx + 1,
         uuid: s.uuid,
         username: s.username?.trim(),
-        name: s.englishName || s.khmerName || s.username || t("labels.unnamed"),
-        title: spec.specialist || t("labels.scholar"),
+        name: s.englishName || s.khmerName || s.username || "Unnamed Scholar",
+        title: spec.specialist || "Scholar",
         image: img,
         spec,
       };
     });
 
     return { specialistsMarquee: marq };
-  }, [_apiScholars, t]);
+  }, [_apiScholars]);
 
   /* =========================================================
      Spotlight (Section 3): ONLY scholars who have careers
      ========================================================= */
   const spotlight: SpotlightItem[] = useMemo(() => {
-    const list = (_apiScholars as ApiScholar[]).filter(
-      (s) => Array.isArray(s.careers) && s.careers.length > 0
-    );
+  const list = (_apiScholars as ApiScholar[]).filter(
+    (s) => Array.isArray(s.careers) && s.careers.length > 0
+  );
 
-    return list.map((s, idx) => {
-      const firstCareer = s.careers![0];
+  return list.map((s, idx) => {
+    const firstCareer = s.careers![0];
 
-      const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
-      const image = versioned(base, s.audit?.updatedAt);
+    const base = normalizeAvatar(s.avatar) || "/placeholder.svg";
+    const image = versioned(base, s.audit?.updatedAt);
 
-      const english = s.englishName || s.username || t("labels.unnamed");
-      const khmer = s.khmerName?.trim();
-      const displayName = khmer ? `${english} (${khmer})` : english;
+    const english = s.englishName || s.username || "Unnamed Scholar";
+    const khmer = s.khmerName?.trim();
+    const displayName = khmer ? `${english} (${khmer})` : english;
 
-      // Extract program name + generation from completedCourses
-      const firstCourse =
-        Array.isArray(s.completedCourses) && s.completedCourses.length > 0
-          ? s.completedCourses[0]
-          : null;
-      const programName = firstCourse?.programName || firstCourse?.title || "";
-      const generation = firstCourse?.generation ?? null;
+    // Extract program name + generation from completedCourses
+    const firstCourse =
+      Array.isArray(s.completedCourses) && s.completedCourses.length > 0
+        ? s.completedCourses[0]
+        : null;
+    const programName = firstCourse?.programName || firstCourse?.title || "";
+    const generation = firstCourse?.generation ?? null;
 
-      const href = s.username?.trim()
-        ? `/${s.username.trim()}`
-        : `/scholars/${s.uuid}`;
+    const href = s.username?.trim()
+      ? `/${s.username.trim()}`
+      : `/scholars/${s.uuid}`;
 
-      return {
-        id: idx + 1,
-        uuid: s.uuid,
-        href,
-        image,
-        displayName,
-        programName,
-        generation,
-        position: firstCareer?.position || "",
-        company: firstCareer?.company || "",
-        interest: firstCareer?.interest || "",
-      } as SpotlightItem;
-    });
-  }, [_apiScholars, t]);
+    return {
+      id: idx + 1,
+      uuid: s.uuid,
+      href,
+      image,
+      displayName,
+      programName,
+      generation,
+      position: firstCareer?.position || "",
+      company: firstCareer?.company || "",
+      interest: firstCareer?.interest || "",
+    } as SpotlightItem;
+  });
+}, [_apiScholars]);
+
+
 
   /* =========================================================
      SECTION 4 data: compute category & company
@@ -589,6 +580,7 @@ export default function Scholar() {
           ? s.specialist[0]
           : ({} as ApiSpecialist);
 
+      
       const firstCompany =
         Array.isArray(s.careers) && s.careers.length > 0
           ? s.careers[0]?.company?.trim() || ""
@@ -598,24 +590,23 @@ export default function Scholar() {
         id: idx + 1,
         uuid: s.uuid,
         username: s.username?.trim(),
-        name: s.englishName || s.khmerName || s.username || t("labels.unnamed"),
-        title:
-          [s.university, s.role].filter(Boolean).join(" • ") ||
-          t("labels.scholar"),
+        name: s.englishName || s.khmerName || s.username || "Unnamed Scholar",
+        title: [s.university, s.role].filter(Boolean).join(" • ") || "Scholar",
         image,
         quote: s.quote || "",
         category: derivedCategory,
         spec,
-        company: firstCompany || undefined,
+        company: firstCompany || undefined, 
       };
     });
 
     return withDerivedCategory;
-  }, [_apiScholars, t]);
+  }, [_apiScholars]);
 
+  
   const filtered: ScholarWithQuote[] = useMemo(() => {
     if (activeCategory === CATEGORY_LABELS.ALL) return section4;
-    if (selectedProgramUuid) return section4;
+    if (selectedProgramUuid) return section4; 
     if (selectedIsSC)
       return section4.filter((s) => s.category === CATEGORY_LABELS.SC);
     return section4;
@@ -718,7 +709,7 @@ export default function Scholar() {
       kind: "sc-parent",
       display: CATEGORY_LABELS.SC,
       label: CATEGORY_LABELS.SC,
-      Icon: Code,
+      Icon: Code, // any icon; badge removed from cards anyway
       children: Array.from(scChildrenMap.values()),
     };
 
@@ -766,9 +757,7 @@ export default function Scholar() {
       {/* SECTION 1: Hero + Marquee */}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden dark:bg-slate-900 h-[calc(100vh-4rem)] sm:h-screen">
-        <div
-          className={`absolute inset-0 -z-10 ${styles.gradientBackground}`}
-        />
+        <div className={`absolute inset-0 -z-10 ${styles.gradientBackground}`} />
 
         <div className="w-screen h-full flex flex-col justify-center px-0">
           <div className="text-center" data-aos="fade-down">
@@ -777,13 +766,13 @@ export default function Scholar() {
               data-aos="fade-up"
               data-aos-delay={200}
             >
-              {t("hero.title1")}
+              From Classrooms to Careers
             </h1>
             <p className="mt-2 text-xl sm:text-2xl md:text-4xl font-bold bg-clip-text text-primary">
-              {t("hero.title2")}
+              The Journey of Our Abroad Scholars
             </p>
             <p className="mt-2 text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300">
-              {t("hero.subtitle")}
+              Where learning turns into leadership and dreams into reality
             </p>
           </div>
 
@@ -805,8 +794,7 @@ export default function Scholar() {
                       key={`ping-${p.id}`}
                       className="w-40 sm:w-56 md:w-64 shrink-0"
                     >
-                      <Card1 person={p} />{" "}
-                      {/* Card1 already renders a Link internally */}
+                      <Card1 person={p} />
                     </div>
                   ))}
                 </Marquee>
@@ -815,11 +803,11 @@ export default function Scholar() {
               <p className="text-center text-sm text-rose-600 py-6">
                 {(error as ApiError)?.data?.message ??
                   (error as ApiError)?.error ??
-                  t("load.error")}
+                  "Failed to load scholars."}
               </p>
             ) : (
               <div className="text-center text-sm text-slate-500 py-6">
-                {t("marquee.empty")}
+                No specialists found.
               </div>
             )}
           </div>
@@ -827,253 +815,218 @@ export default function Scholar() {
       </section>
 
       {/* =================================== */}
-      {/* SECTION 2: Success Blueprint (localized)*/}
+      {/* SECTION 2: Success Blueprint (static) */}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-      
-      {/* LEFT: Title + Steps */}
-      <div>
-        <h2
-          className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white"
-          data-aos="fade-right"
-        >
-          {t("section2.title")}
-        </h2>
-
-        <div className="mt-12 flex flex-col gap-10">
-          {/* STEP 1 */}
-          <div className="flex items-center gap-6 relative" data-aos="fade-right" data-aos-delay={100}>
-            <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">01</span>
-            <div className="bg-background dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
-              <div className="shrink-0 rounded-xl bg-blue-50 text-blue-600 p-2 ring-1 ring-blue-100 w-fit">
-                <Layers className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                  {t("section2.step1.title")}
-                </h3>
-                <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                  {t("section2.step1.desc")}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* STEP 2 */}
-          <div className="flex items-center gap-6 relative">
-            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
-              <div className="shrink-0 rounded-xl bg-amber-50 text-amber-600 p-2 ring-1 ring-amber-100 w-fit">
-                <Code className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                  {t("section2.step2.title")}
-                </h3>
-                <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                  {t("section2.step2.desc")}
-                </p>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            {/* LEFT: Title + Steps */}
+            <div>
+              <h2
+                className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white"
+                data-aos="fade-right"
+              >
+                The Success Blueprint for ISTAD Alumni
+              </h2>
+              <div className="mt-12 flex flex-col gap-10">
+                {/* Steps omitted for brevity; same as before */}
+                <div className="flex items-center gap-6 relative" data-aos="fade-right" data-aos-delay={100}>
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">01</span>
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5">
+                    <div className="shrink-0 rounded-xl bg-blue-50 text-blue-600 p-2 ring-1 ring-blue-100 w-fit">
+                      <Layers className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-3 text-lg md:text-xl font-bold text-slate-900 dark:text-white">Build a Strong Foundation</h3>
+                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Learn core IT skills</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-6 relative">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5">
+                    <div className="shrink-0 rounded-xl bg-amber-50 text-amber-600 p-2 ring-1 ring-amber-100 w-fit">
+                      <Code className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-3 text-lg md:text-xl font-bold text-slate-900 dark:text-white">Putting Skills into Practice</h3>
+                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Practice what you’ve learned</p>
+                  </div>
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">02</span>
+                </div>
+                <div className="flex items-center gap-6 relative">
+                  <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">03</span>
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5">
+                    <div className="shrink-0 rounded-xl bg-rose-50 text-rose-600 p-2 ring-1 ring-rose-100 w-fit">
+                      <Award className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-3 text-lg md:text-xl font-bold text-slate-900 dark:text-white">Mastery and Leadership</h3>
+                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Become an expert, lead projects</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">02</span>
-          </div>
 
-          {/* STEP 3 */}
-          <div className="flex items-center gap-6 relative">
-            <span className="text-6xl md:text-7xl font-extrabold text-slate-300/60">03</span>
-            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg px-6 py-5 ring-1 ring-black/5 flex items-start gap-4">
-              <div className="shrink-0 rounded-xl bg-rose-50 text-rose-600 p-2 ring-1 ring-rose-100 w-fit">
-                <Award className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
-                  {t("section2.step3.title")}
-                </h3>
-                <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">
-                  {t("section2.step3.desc")}
-                </p>
-              </div>
+            {/* RIGHT: Two images */}
+            <div className="grid grid-cols-2 gap-6" data-aos="zoom-in-left">
+              <Image
+                src="/image/reach.jpg"
+                alt="Award Ceremony"
+                width={500}
+                height={500}
+                className="rounded-2xl object-cover shadow-md"
+                priority
+              />
+              <Image
+                src="/image/yith_sopheaktra.jpg"
+                alt="Student Writing"
+                width={500}
+                height={400}
+                className="rounded-2xl object-cover shadow-md"
+              />
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* RIGHT: Two images */}
-      <div className="grid grid-cols-2 gap-6" data-aos="zoom-in-left">
-        <Image
-          src="/image/reach.jpg"
-          alt="Award Ceremony"
-          width={500}
-          height={500}
-          className="rounded-2xl object-cover shadow-md"
-          priority
-        />
-        <Image
-          src="/image/yith_sopheaktra.jpg"
-          alt="Student Writing"
-          width={500}
-          height={400}
-          className="rounded-2xl object-cover shadow-md"
-        />
+{/* SECTION 3: Spotlight Carousel (careers only) */}
+<section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20 relative">
+    {isError ? (
+      <p className="text-center text-sm text-rose-600">
+        {(() => {
+          const e = error as ApiError;
+          return e?.data?.message ?? e?.error ?? "Failed to load scholars.";
+        })()}
+      </p>
+    ) : isLoading || isFetching ? (
+      <div className="grid grid-cols-1 gap-6">
+        <div className="h-80 rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
       </div>
-    </div>
+    ) : spotlight.length === 0 ? (
+      <div className="text-center text-slate-500 dark:text-slate-400">
+        No employed scholars to spotlight yet.
+      </div>
+    ) : (
+      <Carousel className="relative" opts={{ align: "start", loop: true }}>
+        <CarouselContent>
+          {spotlight.map((person) => (
+            <CarouselItem key={`spotlight-card-${person.id}`}>
+              <div className="relative rounded-2xl border border-slate-200 dark:border-slate-700 p-6 md:p-10 overflow-hidden">
+                <BorderBeam
+                  size={200}
+                  duration={5}
+                  colorFrom="#ff4d4d"
+                  colorTo="#4d9cff"
+                  borderWidth={1}
+                />
+                <div className="flex flex-col gap-6 md:grid md:grid-cols-5 md:items-center relative z-10">
+                  {/* LEFT: image */}
+                  <div className="md:col-span-2">
+                    <div className="rounded-2xl p-[2px] bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-indigo-500 shadow-lg">
+                      <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700">
+                        <div className="relative aspect-[16/11] w-full">
+                          <Image
+                            src={person.image}
+                            alt={person.displayName}
+                            fill
+                            className="object-cover w-full h-full"
+                            priority={person.id === 1}
+                            unoptimized
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  
+                 {/* RIGHT: text */}
+{/* RIGHT: text */}
+<div className="md:col-span-3 mt-4 md:mt-0">
+  <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
+    Scholar Spotlight
+  </span>
+
+  {/* English (Khmer) */}
+  <h3 className="mt-2 sm:mt-4 text-2xl sm:3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+    {person.displayName}
+  </h3>
+
+  {/* Program name + Generation */}
+  {(person.programName || person.generation) && (
+    <p className="mt-1 text-sm sm:text-base text-slate-600 dark:text-slate-300">
+      {person.programName && <span>{person.programName}</span>}
+      {person.programName && person.generation ? " – " : ""}
+      {person.generation && <span>Generation {person.generation}</span>}
+    </p>
+  )}
+
+  {/* Position (Company) */}
+  {(person.position || person.company) && (
+    <p className="mt-1 sm:mt-2 text-base sm:text-lg font-semibold text-accent dark:text-accent-dark">
+      {person.position ? person.position : ""}
+      {person.position && person.company ? " (" : ""}
+      {person.company ? person.company : ""}
+      {person.position && person.company ? ")" : ""}
+    </p>
+  )}
+
+  {/* Interest */}
+  {!!person.interest && (
+    <p className="mt-2 sm:mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">
+      {person.interest}
+    </p>
+  )}
+
+  <div className="mt-4 sm:mt-6 flex flex-wrap gap-3">
+    <Link
+      href={person.href}
+      className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-rose-600 to-indigo-600 shadow hover:opacity-90"
+    >
+      View Full Story
+    </Link>
+  </div>
+</div>
+
+
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        <CarouselPrevious
+          aria-label="Previous scholar"
+          className="hidden md:flex absolute left-[-4rem] top-1/2 -translate-y-1/2 z-10 dark:bg-slate-800 p-2 rounded-full shadow bg-accent"
+        />
+        <CarouselNext
+          aria-label="Next scholar"
+          className="hidden md:flex absolute right-[-4rem] top-1/2 -translate-y-1/2 z-10 dark:bg-slate-800 p-2 rounded-full shadow bg-accent"
+        />
+
+        <div className="absolute -top-10 right-15 flex gap-0.5 z-20 md:hidden">
+          <CarouselPrevious
+            aria-label="Previous scholar"
+            className="dark:bg-slate-800 p-2 rounded-full shadow bg-accent dark:hover:bg-slate-700"
+          />
+          <CarouselNext
+            aria-label="Next scholar"
+            className="dark:bg-slate-800 p-2 rounded-full shadow bg-accent dark:hover:bg-slate-700"
+          />
+        </div>
+      </Carousel>
+    )}
   </div>
 </section>
 
 
       {/* =================================== */}
-      {/* SECTION 3: Spotlight Carousel (localized strings) */}
-      {/* =================================== */}
-      <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20 relative">
-          {isError ? (
-            <p className="text-center text-sm text-rose-600">
-              {(() => {
-                const e = error as ApiError;
-                return e?.data?.message ?? e?.error ?? t("load.error");
-              })()}
-            </p>
-          ) : isLoading || isFetching ? (
-            <div className="grid grid-cols-1 gap-6">
-              <div className="h-80 rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
-            </div>
-          ) : spotlight.length === 0 ? (
-            <div className="text-center text-slate-500 dark:text-slate-400">
-              {t("spotlight.empty")}
-            </div>
-          ) : (
-            <Carousel
-              className="relative"
-              opts={{ align: "start", loop: true }}
-            >
-              <CarouselContent>
-                {spotlight.map((person) => (
-                  <CarouselItem key={`spotlight-card-${person.id}`}>
-                    <div className="relative rounded-2xl border border-slate-200 dark:border-slate-700 p-6 md:p-10 overflow-hidden">
-                      <BorderBeam
-                        size={200}
-                        duration={5}
-                        colorFrom="#ff4d4d"
-                        colorTo="#4d9cff"
-                        borderWidth={1}
-                      />
-                      <div className="flex flex-col gap-6 md:grid md:grid-cols-5 md:items-center relative z-10">
-                        {/* LEFT: image */}
-                        <div className="md:col-span-2">
-                          <div className="rounded-2xl p-[2px] bg-gradient-to-tr from-rose-500 via-fuchsia-500 to-indigo-500 shadow-lg">
-                            <div className="relative rounded-2xl overflow-hidden bg-white dark:bg-slate-800 ring-1 ring-slate-200 dark:ring-slate-700">
-                              <div className="relative aspect-[16/11] w-full">
-                                <Image
-                                  src={person.image}
-                                  alt={person.displayName}
-                                  fill
-                                  className="object-cover w-full h-full"
-                                  priority={person.id === 1}
-                                  unoptimized
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* RIGHT: text */}
-                        <div className="md:col-span-3 mt-4 md:mt-0">
-                          <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-slate-800/60 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-300 ring-1 ring-blue-200/60 dark:ring-slate-700">
-                            {t("section3.badge")}
-                          </span>
-
-                          {/* English (Khmer) */}
-                          <h3 className="mt-2 sm:mt-4 text-2xl sm:3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                            {person.displayName}
-                          </h3>
-
-                          {/* Program name + Generation */}
-                          {(person.programName || person.generation) && (
-                            <p className="mt-1 text-sm sm:text-base text-slate-600 dark:text-slate-300">
-                              {person.programName && (
-                                <span>{person.programName}</span>
-                              )}
-                              {person.programName && person.generation
-                                ? " – "
-                                : ""}
-                              {person.generation && (
-                                <span>
-                                  {t("labels.generation")} {person.generation}
-                                </span>
-                              )}
-                            </p>
-                          )}
-
-                          {/* Position (Company) */}
-                          {(person.position || person.company) && (
-                            <p className="mt-1 sm:mt-2 text-base sm:text-lg font-semibold text-accent dark:text-accent-dark">
-                              {person.position ? person.position : ""}
-                              {person.position && person.company ? " (" : ""}
-                              {person.company ? person.company : ""}
-                              {person.position && person.company ? ")" : ""}
-                            </p>
-                          )}
-
-                          {/* Interest */}
-                          {!!person.interest && (
-                            <p className="mt-2 sm:mt-4 text-slate-600 dark:text-slate-300 leading-relaxed">
-                              {person.interest}
-                            </p>
-                          )}
-
-                          <div className="mt-4 sm:mt-6 flex flex-wrap gap-3">
-                            <Link
-                              href={person.href}
-                              className="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-rose-600 to-indigo-600 shadow hover:opacity-90"
-                            >
-                              {t("spotlight.viewStory")}
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-
-              <CarouselPrevious
-                aria-label={t("a11y.prev")}
-                className="hidden md:flex absolute left-[-4rem] top-1/2 -translate-y-1/2 z-10 dark:bg-slate-800 p-2 rounded-full shadow bg-accent"
-              />
-              <CarouselNext
-                aria-label={t("a11y.next")}
-                className="hidden md:flex absolute right-[-4rem] top-1/2 -translate-y-1/2 z-10 dark:bg-slate-800 p-2 rounded-full shadow bg-accent"
-              />
-
-              <div className="absolute -top-10 right-15 flex gap-0.5 z-20 md:hidden">
-                <CarouselPrevious
-                  aria-label={t("a11y.prev")}
-                  className="dark:bg-slate-800 p-2 rounded-full shadow bg-accent dark:hover:bg-slate-700"
-                />
-                <CarouselNext
-                  aria-label={t("a11y.next")}
-                  className="dark:bg-slate-800 p-2 rounded-full shadow bg-accent dark:hover:bg-slate-700"
-                />
-              </div>
-            </Carousel>
-          )}
-        </div>
-      </section>
-
-      {/* =================================== */}
       {/* SECTION 4: Category Filter (Short Course dropdown) */}
-      {/* NOTE: ONLY THE TITLE IS TRANSLATED PER REQUIREMENT */}
       {/* =================================== */}
       <section className="relative isolate overflow-hidden  bg-white dark:bg-slate-900 dark:border-slate-700">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
-              {t("section4.title")}
+              Discover Our <br /> exSTAD Scholar
             </h2>
-            {/* Keep subtitle & rest of Section 4 in your original language (unchanged) */}
             <p className="mt-2 text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-              {t("section4.subtitle")}
+              Find the best student for your company and boost your business too.
             </p>
           </div>
 
@@ -1118,10 +1071,7 @@ export default function Scholar() {
                     onClick={() =>
                       onSelectRecognized(
                         item.programUuid!,
-                        item.label as Exclude<
-                          CategoryLabel,
-                          "All" | "Short Course"
-                        >
+                        item.label as Exclude<CategoryLabel, "All" | "Short Course">
                       )
                     }
                     className={`relative flex items-center gap-2 px-2 py-1 text-sm sm:text-base font-medium transition-colors ${
@@ -1194,9 +1144,7 @@ export default function Scholar() {
                           item.children.map((child) => (
                             <button
                               key={child.uuid}
-                              onClick={() =>
-                                onSelectShortCourseChild(child.uuid)
-                              }
+                              onClick={() => onSelectShortCourseChild(child.uuid)}
                               onMouseEnter={() => {
                                 triggerPrefetchScholars(child.uuid, true);
                               }}
@@ -1225,7 +1173,7 @@ export default function Scholar() {
             <p className="mt-10 text-center text-sm md:text-base text-rose-600">
               {(() => {
                 const e = error as ApiError;
-                return e?.data?.message ?? e?.error ?? t("load.error");
+                return e?.data?.message ?? e?.error ?? "Failed to load scholars.";
               })()}
             </p>
           ) : isLoading || isFetching ? (
@@ -1247,9 +1195,7 @@ export default function Scholar() {
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
               {filtered.map((person) => (
                 <Card2
-                  key={`s2-${person.uuid ?? person.id}-${
-                    person.spec?.uuid ?? "spec"
-                  }`}
+                  key={`s2-${person.uuid ?? person.id}-${person.spec?.uuid ?? "spec"}`}
                   person={person}
                 />
               ))}
