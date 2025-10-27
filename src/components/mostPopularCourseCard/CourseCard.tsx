@@ -37,7 +37,7 @@ const CourseCard: React.FC<ScholarshipCardProps> = ({
         title || ""
       }`}
     >
-      <div className="relative aspect-video mb-2 sm:mb-3 md:mb-4 lg:mb-5">
+      <div className="relative aspect-square mb-2 sm:mb-3 md:mb-4 lg:mb-5">
         <Image
           src={openingProgram?.posterUrl ?? "/fallback.png"}
           alt={title}
