@@ -981,8 +981,8 @@ export default function Scholar() {
       {/* =================================== */}
       {/* SECTION 3: Spotlight Carousel (localized strings) */}
       {/* =================================== */}
-      <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20 relative">
+      <section className="relative isolate overflow-hidden bg-white dark:bg-slate-900 -mb-[100px]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-[-10px] md:py-5 relative">
           {isError ? (
             <p className="text-center text-sm text-rose-600">
               {(() => {
@@ -1121,8 +1121,8 @@ export default function Scholar() {
       {/* SECTION 4: Category Filter (Short Course dropdown) */}
       {/* NOTE: ONLY THE TITLE IS TRANSLATED PER REQUIREMENT */}
       {/* =================================== */}
-      <section className="relative isolate overflow-hidden  bg-white dark:bg-slate-900 dark:border-slate-700">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <section className="relative isolate overflow-hidden  bg-white dark:bg-slate-900 dark:border-slate-700 -mt-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 md:py-10">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
               {t("section4.title")}
