@@ -1,3 +1,5 @@
+import { Audit } from "../audit";
+
 export type status = "OPEN" | "CLOSED" | "ACHIEVED" | "PENDING";
 
 export type openingProgramType = {
@@ -28,7 +30,7 @@ export type openingProgramType = {
   // programType: string;
   // templates?: string[];
   registerFee: number;
-
+  audit:Audit;
   visibility: "public" | "private";
   activities?: ActivityType[];
   timeline?: TimelineType[];
@@ -56,6 +58,7 @@ export type openingProgramCreate = {
   activities?: ActivityType[];
   timeline?: TimelineType[];
   classes?: ClassType[];
+  audit:Audit;
 };
 
 export type ActivityType = {

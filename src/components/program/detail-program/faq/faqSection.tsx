@@ -52,11 +52,11 @@ const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
               : section.title}
           </h2>
 
-          <div className="text-foreground text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-[#800080] p-4 sm:p-6 md:p-8 rounded-lg">
+          <div className="text-foreground text-sm sm:text-base md:text-lg font-normal shadow-[0_4px_15px_rgba(0,0,0,0.15)] border-l-4 border-[#800080] dark:bg-[#800080]/10 p-4 sm:p-6 md:p-8 rounded-lg">
             {section.faqs.map((item, index) => {
               const isOpen = openFaqs[item.id];
               return (
-                <div key={item.id} className="border-b py-2 sm:py-3">
+                <div key={item.id} className="border-b py-2 sm:py-3" data-aos="fade-up">
                   {/* Toggle Button */}
                   <button
                     onClick={() => toggle(item.id)}

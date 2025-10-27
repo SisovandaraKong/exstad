@@ -15,7 +15,7 @@ import ProgramOverviewCardSkeleton from "@/components/program/skeleton/ProgramOv
 import ProgramCurriculumSkeleton from "@/components/program/skeleton/ProgramCurriculumSkeleton";
 import ProgramActivitySkeleton from "@/components/program/skeleton/ProgramActivitySkeleton";
 
-import { useGetMasterProgramBySlugQuery, useGetMasterProgramByTitleQuery } from "@/components/program/masterProgramApi";
+import { useGetMasterProgramBySlugQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import { MasterProgramType } from "@/types/master-program";
 import NotFoundProgram from "@/components/program/components/NotFound";
@@ -29,21 +29,23 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
 }) => {
   const params = useParams();
   const masterProgramSlug = params?.slug as string;
-
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Fetch master program by slug/title
-  const { data: masterProgram, isLoading: isMasterLoading, isError: isMasterError } =
-    useGetMasterProgramBySlugQuery(
-      { slug: masterProgramSlug ?? initialProgram?.title ?? "" },
-      { skip: !masterProgramSlug && !initialProgram?.title }
-    );
+  // Fetch master program
+  const {
+    data: masterProgram,
+    isLoading: isMasterLoading,
+    isError: isMasterError,
+  } = useGetMasterProgramBySlugQuery(
+    { slug: masterProgramSlug ?? initialProgram?.title ?? "" },
+    { skip: !masterProgramSlug && !initialProgram?.title }
+  );
 
-  // Fetch all opening programs to show activity tab
+  // Fetch all opening programs
   const { data: allPrograms = [], isLoading: isAllProgramsLoading } =
     useGetAllOpeningProgramsQuery();
 
-  // Loading skeletons
+  // 🕒 Loading
   if (isMasterLoading || isAllProgramsLoading) {
     return (
       <div className="flex flex-col xl:flex-row p-5 md:p-8 gap-6 my-[20px] mx-auto max-w-7xl">
@@ -58,26 +60,44 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
     );
   }
 
-  // Error handling
+  // ❌ Error handling
   if (isMasterError || !masterProgram) {
-    return <NotFoundProgram title="Master program not found"/>
+    return <NotFoundProgram title="Master program not found" />;
   }
 
-  // Get all generations for this master program (for activity tab)
-  const generations: ProgramGeneration[] = allPrograms
-    .filter(op => op.programName === masterProgram.title)
+  // 🧩 Related opening programs
+  const relatedOpenings = allPrograms.filter(
+    (op) => op.programName === masterProgram.title
+  );
+
+  // 🕓 Get the latest opening program
+  const latestOpeningProgram = relatedOpenings
+    .slice()
+    .sort((a, b) => {
+      if (a.audit.createdAt && b.audit.createdAt) {
+        return new Date(b.audit.createdAt).getTime() - new Date(a.audit.createdAt).getTime();
+      }
+      return (b.generation ?? 0) - (a.generation ?? 0);
+    })[0];
+
+  // 🏁 Check if latest program is closed
+  const isClosed =
+    latestOpeningProgram && latestOpeningProgram.status?.toLowerCase() === "closed";
+
+  // 📊 Generations for activity tab
+  const generations: ProgramGeneration[] = relatedOpenings
     .sort((a, b) => (a.generation ?? 1) - (b.generation ?? 1))
-    .map(op => ({
+    .map((op) => ({
       uuid: op.uuid,
       title: `Generation ${op.generation ?? 1}`,
     }));
 
-  // Map translation keys to components (NO timeline, NO enrollment for master program)
+  // 🧭 Tabs setup
   const tabComponents: Record<string, React.FC> = {
     overview: () => <ProgramOverviewTap program={masterProgram} />,
     curriculum: () => (
       <ProgramCurriculumTap
-        openingUuid={undefined} // No opening program - will show master curriculum
+        openingUuid={latestOpeningProgram?.uuid}
         masterUuid={masterProgram.uuid}
       />
     ),
@@ -88,6 +108,7 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
         <p className="text-gray-500 text-center">No opening programs available.</p>
       ),
     roadmap: () => <p className="text-gray-500 text-center">Roadmap content here</p>,
+    
   };
 
   const ActiveTabComponent = tabComponents[activeTab];
@@ -97,17 +118,28 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
       <div className="flex-1">
         <ProgramHeader
           masterProgram={masterProgram}
-          openingProgram={undefined} // No opening program - header will hide timeline & enrollment tabs
+          openingProgram={latestOpeningProgram}
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
+
+        {/* If the latest opening program is closed, show notice */}
+        {isClosed && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl mb-4 text-center">
+            🚫 This opening program has already closed.
+          </div>
+        )}
+
         <div>
           <ActiveTabComponent />
         </div>
       </div>
-      <ProgramSidebar 
-        program={masterProgram} 
-        openingData={undefined} // No opening data - sidebar will hide enrollment info
+
+      {/* Sidebar still shows data (can show closed notice inside if needed) */}
+      <ProgramSidebar
+        program={masterProgram}
+        openingData={latestOpeningProgram}
+        isClosed={isClosed} // optional if your sidebar supports this prop
       />
     </div>
   );
