@@ -279,6 +279,7 @@ function Card1({ person }: { person: ScholarCard }) {
             ].join(" ")}
           >
             {/* Compact */}
+
             <div
               className={[
                 "px-3 py-2 text-center",
@@ -287,10 +288,18 @@ function Card1({ person }: { person: ScholarCard }) {
               ].join(" ")}
             >
               <p className="font-semibold text-sm">{person.name}</p>
-              <p className="text-[11px] text-white/90 line-clamp-2">
-                {spec?.specialist}
-                {spec?.universityName ? ` • ${spec?.universityName}` : ""}
-              </p>
+
+              {spec?.universityName && (
+                <p className="text-[11px] text-white/90 line-clamp-1">
+                  {spec.universityName}
+                </p>
+              )}
+
+              {spec?.specialist && (
+                <p className="text-[11px] text-white/90 line-clamp-1">
+                  {spec.specialist}
+                </p>
+              )}
             </div>
 
             {/* Expanded */}
@@ -356,13 +365,12 @@ function Card2({
   const hasQuote = !!person.quote?.trim();
 
   // Decide what program name to show under the name
-  const programLine =
-    selectedProgramUuid
-      ? activeCategory === CATEGORY_LABELS.PREU ||
-        activeCategory === CATEGORY_LABELS.FSW
-        ? activeCategory
-        : person.programName || ""
-      : "";
+  const programLine = selectedProgramUuid
+    ? activeCategory === CATEGORY_LABELS.PREU ||
+      activeCategory === CATEGORY_LABELS.FSW
+      ? activeCategory
+      : person.programName || ""
+    : "";
 
   // ✅ build scholar profile link
   const slug = person.uuid || person.name.toLowerCase().replace(/\s+/g, "-");
