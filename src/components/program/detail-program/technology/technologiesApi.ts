@@ -16,7 +16,7 @@ export const technologyApi = createApi({
   endpoints: (builder) => ({
     // ✅ GET all technologies
     getAllTechnology: builder.query<technologyType[], string>({
-      query: (programUuid) => `/api/v1/programs/${programUuid}/technologies`,
+      query: (programUuid) => `/programs/${programUuid}/technologies`,
       providesTags: (result, error, uuid) =>
         result
           ? [
@@ -35,7 +35,7 @@ export const technologyApi = createApi({
       { programUuid: string; technology: TechnologyPayload[] }
     >({
       query: ({ programUuid, technology }) => ({
-        url: `/api/v1/programs/${programUuid}/technologies`,
+        url: `/programs/${programUuid}/technologies`,
         method: "PUT",
         body: technology,
       }),

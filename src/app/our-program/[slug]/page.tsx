@@ -12,7 +12,7 @@ interface ProgramPageParams {
 // Fetch master program
 async function getProgramData(slug: string): Promise<MasterProgramType | null> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/programs/slug/${slug}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/programs/slug/${slug}`,
     { cache: "no-store" }
   );
   if (!res.ok) return null;
@@ -25,7 +25,7 @@ async function getOpeningProgramData(
   slug: string
 ): Promise<openingProgramType | null> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/opening-programs/slug/${slug}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/opening-programs/slug/${slug}`,
     { cache: "no-store" }
   );
   if (!res.ok) return null;
