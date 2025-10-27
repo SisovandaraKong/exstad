@@ -60,6 +60,8 @@ type ApiScholar = ApiScholarBase & {
 	completedCourses?: Array<{ programName?: string; name?: string }> | null;
 	category?: string; // used in spotlight / section4 fallbacks
 	audit?: ApiAudit; // for cache-busting avatar
+	isAbroad?: boolean; // new field to indicate abroad scholars
+	isEmployed?: boolean; // new field to indicate employed scholars
 };
 
 type ApiError = {
@@ -418,6 +420,7 @@ export default function Scholar() {
 			// RELAXED: allow missing universityName for marquee
 			if (
 				s?.uuid &&
+				s.isAbroad && 
 				Array.isArray(s.specialist) &&
 				s.specialist.length > 0 &&
 				s.specialist[0]?.specialist
@@ -454,7 +457,7 @@ export default function Scholar() {
      ========================================================= */
 	const spotlight: SpotlightItem[] = useMemo(() => {
 		const list = (apiScholars as ApiScholar[]).filter(
-			(s) => Array.isArray(s.careers) && s.careers.length > 0
+			(s) => Array.isArray(s.careers) && s.isEmployed && s.careers.length > 0
 		);
 
 		// Map categories to short codes shown in title
