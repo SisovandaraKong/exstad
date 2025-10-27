@@ -273,7 +273,7 @@ export default function Bakong({
         }}
       />
 
-      <div className="relative z-[99995] w-full min-h-[calc(100vh-var(--nav-offset))] flex items-start justify-center p-4">
+      <div className="relative z-[99995] w-full min-h-[calc(100vh-var(--nav-offset))] flex items-center justify-center p-4">
         {shouldShowQr && (
           <BakongCard
             amount={amount}
@@ -395,7 +395,7 @@ function BakongCard({
         </div>
       </div>
 
-      <div className="flex flex-col sm:gap-4 gap-2 items-center justify-center mt-4 max-w-sm text-center px-4">
+      <div className="flex flex-col sm:gap-4 gap-2 items-center justify-center max-w-sm text-center px-4">
         <h2 className="sm:text-3xl text-lg font-semibold mb-1">{t("scan")}</h2>
 
         <p className="text-red/90 sm:text-sm text-xs leading-relaxed font-bilingual">
