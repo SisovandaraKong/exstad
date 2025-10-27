@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { FaTelegram } from "react-icons/fa6";
@@ -20,8 +20,14 @@ import {
   useGetScholarCompletedCoursesQuery,
   useGetScholarAchievementsQuery,
   useGetOpeningProgramByUuidQuery,
+  useUpdateScholarMutation,
+  useAddScholarSocialLinkMutation,
 } from "@/components/student/StudentApi";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { RainbowButton } from "../magicui/rainbow-button";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { BorderBeam } from "../magicui/border-beam";
 
 type Props = {
   username: string;
@@ -99,6 +105,7 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
     data: scholar,
     isLoading,
     isError,
+    refetch,
   } = useGetScholarByUsernameQuery(username, {
     refetchOnMountOrArgChange: true,
     refetchOnFocus: true,
@@ -109,6 +116,121 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
     scholar?.uuid ?? skipToken,
     { refetchOnMountOrArgChange: true, refetchOnFocus: true }
   );
+
+  const pathname = usePathname();
+  const { data: session } = useSession();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bio, setBio] = useState<string>("");
+  const [quote, setQuote] = useState<string>("");
+  const [nickname, setNickname] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [github, setGithub] = useState("");
+  const [telegram, setTelegram] = useState("");
+  const [website, setWebsite] = useState("");
+
+  // Prefill Bio & Quote when modal opens
+  useEffect(() => {
+    if (isModalOpen && scholar) {
+      setBio(scholar.bio ?? "");
+      setQuote(scholar.quote ?? "");
+      setNickname(scholar.nickname ?? "");
+      setFacebook(socialLinks.find((d) => d.type === "facebook")?.link ?? "");
+      setGithub(socialLinks.find((d) => d.type === "github")?.link ?? "");
+      setTelegram(socialLinks.find((d) => d.type === "telegram")?.link ?? "");
+      setWebsite(socialLinks.find((d) => d.type === "website")?.link ?? "");
+    }
+  }, [isModalOpen, scholar, socialLinks]);
+
+  const [updateScholar, { isLoading: isSaving }] = useUpdateScholarMutation();
+  const [addScholarSocialLink, { isLoading: isSavingSocialLinks }] =
+    useAddScholarSocialLinkMutation();
+
+  // Replace your existing handleSave function with this
+  async function handleSave() {
+    if (!scholar?.uuid) return;
+
+    const nextBio = bio.trim();
+    const nextQuote = quote.trim();
+    const nextNickname = nickname.trim();
+
+    // Prepare scholar update body
+    const scholarBody: Record<string, unknown> = {};
+    if (nextBio !== (scholar.bio ?? "")) scholarBody.bio = nextBio;
+    if (nextQuote !== (scholar.quote ?? "")) scholarBody.quote = nextQuote;
+    if (nextNickname !== (scholar.nickname ?? ""))
+      scholarBody.nickname = nextNickname;
+
+    // Prepare social links data
+    const socialLinksToUpdate = [
+      { type: "facebook", title: "Facebook", link: facebook.trim() },
+      { type: "github", title: "GitHub", link: github.trim() },
+      { type: "telegram", title: "Telegram", link: telegram.trim() },
+      { type: "website", title: "Website", link: website.trim() },
+    ];
+
+    // Check if any social links have changed
+    const hasScholarChanges = Object.keys(scholarBody).length > 0;
+    const hasSocialChanges = socialLinksToUpdate.some((newLink) => {
+      const existingLink = socialLinks.find((s) => s.type === newLink.type);
+      return newLink.link !== (existingLink?.link ?? "");
+    });
+
+    if (!hasScholarChanges && !hasSocialChanges) {
+      // Nothing changed, close modal
+      setIsModalOpen(false);
+      return;
+    }
+
+    try {
+      // Update scholar profile if there are changes
+      if (hasScholarChanges) {
+        await updateScholar({ uuid: scholar.uuid, body: scholarBody }).unwrap();
+      }
+
+      // Update social links if there are changes
+      if (hasSocialChanges) {
+        const socialLinkPromises = socialLinksToUpdate
+          .filter((link) => {
+            const existingLink = socialLinks.find((s) => s.type === link.type);
+            // Only update if the link has changed and is not empty
+            return link.link && link.link !== (existingLink?.link ?? "");
+          })
+          .map((link) =>
+            addScholarSocialLink({
+              uuid: scholar.uuid,
+              body: {
+                title: link.title,
+                type: link.type,
+                link: link.link,
+              },
+            }).unwrap()
+          );
+
+        await Promise.all(socialLinkPromises);
+      }
+
+      // Refetch to get the latest data
+      await refetch();
+
+      setIsModalOpen(false);
+
+      // Clear local fields for next open
+      setNickname("");
+      setBio("");
+      setQuote("");
+      setFacebook("");
+      setGithub("");
+      setTelegram("");
+      setWebsite("");
+    } catch (e: unknown) {
+      const error = e as { status?: string | number; data?: unknown };
+      const status = error?.status ?? "UNKNOWN";
+      const data = error?.data ?? null;
+      console.error("Failed to update profile:", { status, data, err: e });
+      alert(`Update failed (${String(status)}). Check console for details.`);
+    }
+  }
 
   const {
     data: achievements = [],
@@ -157,6 +279,9 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
     );
   }
 
+  const isOwnProfile =
+    pathname === "/me" && session?.user.username === username;
+
   return (
     <div className="px-4 sm:px-6 lg:px-12 py-6 md:py-8 grid grid-cols-1 md:grid-cols-12 gap-6">
       {/* LEFT: Profile card */}
@@ -165,15 +290,15 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 w-full box-border">
             {/* Avatar */}
             <div className="flex flex-col items-center">
-  <div
-    className="relative mb-4 rounded-full overflow-hidden"
-    style={{ width: 192, height: 192 }}
-  >
-    <div
-      ref={avatarAnchorRef}
-      className="absolute inset-0 rounded-full overflow-hidden"
-    />
-  </div>
+              <div
+                className="relative mb-4 rounded-full overflow-hidden"
+                style={{ width: 192, height: 192 }}
+              >
+                <div
+                  ref={avatarAnchorRef}
+                  className="absolute inset-0 rounded-full overflow-hidden"
+                />
+              </div>
 
               <div className="text-center mb-3">
                 <h2 className="font-d1 font-bold text-gray-900 dark:text-white text-2xl">
@@ -184,6 +309,16 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
                   {scholar.university} • {scholar.role}
                 </p>
               </div>
+              {isOwnProfile && (
+                <RainbowButton
+                  variant="default"
+                  size="lg"
+                  onClick={() => setIsModalOpen(true)}
+                  className="px-5 py-2 mb-4 transition"
+                >
+                  Edit Profile
+                </RainbowButton>
+              )}
             </div>
 
             {/* About */}
@@ -651,6 +786,219 @@ export default function ProfilePortfolio({ username, avatarAnchorRef }: Props) {
           will-change: transform, opacity;
         }
       `}</style>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-6 max-w-5xl w-full max-h-[90vh] overflow-clip">
+            <BorderBeam
+              size={90}
+              colorFrom="#ffaa40"
+              colorTo="#9c40ff"
+              borderWidth={1.8}
+              duration={6}
+            />
+
+            <div className="mb-6">
+              <h2 className="text-xl font-bold mb-2">Edit profile</h2>
+              <p className="text-gray-500 dark:text-gray-400">
+                You can edit your profile information and social media links.
+              </p>
+            </div>
+
+            <div className="flex gap-8 relative z-10">
+              {/* Left Side - Profile Information */}
+              <div className="flex-1 space-y-4">
+                <h3 className="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">
+                  Profile Information
+                </h3>
+
+                {/* Nickname */}
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Nickname
+                  </label>
+                  <input
+                    type="text"
+                    value={nickname}
+                    onChange={(e) => setNickname(e.target.value)}
+                    placeholder="Enter your nickname"
+                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+
+                {/* Bio */}
+                <div>
+                  <label className="block text-sm font-medium mb-1">Bio</label>
+                  <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    rows={4}
+                    placeholder="Write your bio here"
+                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+                  />
+                </div>
+
+                {/* Quote */}
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Quote
+                  </label>
+                  <input
+                    type="text"
+                    value={quote}
+                    onChange={(e) => setQuote(e.target.value)}
+                    placeholder="It is never too late to be what you might have been"
+                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                </div>
+              </div>
+
+              {/* Vertical Divider */}
+              <div className="w-px bg-gray-200 dark:bg-gray-700"></div>
+
+              {/* Right Side - Social Media */}
+              <div className="flex-1 space-y-4">
+                <h3 className="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">
+                  Social Media
+                </h3>
+
+                {/* Facebook */}
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Facebook
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-600">
+                      <svg
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      value={facebook}
+                      onChange={(e) => setFacebook(e.target.value)}
+                      placeholder="https://facebook.com/username"
+                      className="w-full pl-10 pr-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                </div>
+
+                {/* GitHub */}
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    GitHub
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-800 dark:text-gray-200">
+                      <svg
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      value={github}
+                      onChange={(e) => setGithub(e.target.value)}
+                      placeholder="https://github.com/username"
+                      className="w-full pl-10 pr-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Telegram */}
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Telegram
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-500">
+                      <svg
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      value={telegram}
+                      onChange={(e) => setTelegram(e.target.value)}
+                      placeholder="https://t.me/username"
+                      className="w-full pl-10 pr-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Website */}
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Website
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400">
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                      placeholder="https://yourwebsite.com"
+                      className="w-full pl-10 pr-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-3 pt-6 mt-6 border-t dark:border-gray-700">
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  // Reset all fields
+                  setNickname("");
+                  setBio("");
+                  setQuote("");
+                  setFacebook("");
+                  setGithub("");
+                  setTelegram("");
+                  setWebsite("");
+                }}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+                disabled={isSaving}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition disabled:opacity-60"
+                disabled={isSaving || isSavingSocialLinks}
+              >
+                {isSaving || isSavingSocialLinks ? "Saving…" : "Save Changes"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

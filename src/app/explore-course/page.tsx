@@ -7,8 +7,6 @@ import ProgramActiveSidebarSkeleton from "@/components/program/skeleton/ProgramA
 import ProgramCardList from "@/components/program/explore-course/ProgramCardList";
 import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
-import { Package } from "lucide-react";
-import NotFound from "../not-found";
 import NotFoundProgram from "@/components/program/components/NotFound";
 
 export default function ExploreProgramPage() {
@@ -17,51 +15,63 @@ export default function ExploreProgramPage() {
   const [levelFilter, setLevelFilter] = useState("All");
   const [searchValue, setSearchValue] = useState("");
 
-  // ✅ Fetch both master programs and opening programs
-  const { data: allPrograms = [], isLoading, isError } = useGetAllMasterProgramsQuery(
-    undefined,
-    { refetchOnMountOrArgChange: true }
-  );
+  // Fetch master programs
+  const { data: allPrograms = [], isLoading, isError } =
+    useGetAllMasterProgramsQuery(undefined, {
+      refetchOnMountOrArgChange: true,
+    });
 
-  const programs = allPrograms.filter(p => p.visibility === "PUBLIC");
+  const programs = allPrograms.filter((p) => p.visibility === "PUBLIC");
 
+  // Fetch opening programs
   const { data: allOpeningProgram = [] } = useGetAllOpeningProgramsQuery(
     undefined,
     { refetchOnMountOrArgChange: true }
   );
-  
-  const openingPrograms = allOpeningProgram.filter(p => p.status === "OPEN");
 
-  const visiblePrograms = programs.filter((p) =>
-    openingPrograms.some((o) => o.programName === p.title)
+  // Only OPEN openings
+  const openingPrograms = allOpeningProgram.filter((p) => p.status === "OPEN");
+
+  // Filter openings to only those with a matching master program
+  const validOpeningPrograms = openingPrograms.filter((o) =>
+    programs.some((p) => p.title === o.programName)
   );
 
-  // ✅ Apply all filters
-  const filteredPrograms = visiblePrograms.filter((p) => {
+  // Apply all filters per opening
+  const filteredOpeningPrograms = validOpeningPrograms.filter((opening) => {
+    const master = programs.find((p) => p.title === opening.programName);
+    if (!master) return false;
+
     // Program Type filter
     if (programFilter !== "All") {
-      if (programFilter === "Scholarship Course" && p.programType !== "SCHOLARSHIP")
+      if (
+        programFilter === "Scholarship Course" &&
+        master.programType !== "SCHOLARSHIP"
+      )
         return false;
-      if (programFilter === "Short Course" && p.programType !== "SHORT_COURSE")
+      if (programFilter === "Short Course" && master.programType !== "SHORT_COURSE")
         return false;
     }
 
     // Level filter
-    if (levelFilter !== "All" && p.programLevel !== levelFilter.toUpperCase()) {
+    if (levelFilter !== "All" && master.programLevel !== levelFilter.toUpperCase()) {
       return false;
     }
 
     // SubFilter (individual program selections)
-    if (subFilter.length > 0 && !subFilter.includes(p.title)) return false;
+    if (subFilter.length > 0 && !subFilter.includes(master.title)) return false;
 
     // Search filter
-    if (searchValue && !p.title.toLowerCase().includes(searchValue.toLowerCase()))
+    if (
+      searchValue &&
+      !master.title.toLowerCase().includes(searchValue.toLowerCase())
+    )
       return false;
 
     return true;
   });
 
-  if (isError) return <p>Failed to load programs.</p>;
+  if (isError) return <NotFoundProgram title="Error loading program "/>;
 
   return (
     <div className="flex flex-col lg:flex-row md:flex-col bg-whitesmoke min-h-screen mx-auto max-w-7xl gap-6 w-full p-5 md:p-8 lg:py-8 lg:px-0">
@@ -71,7 +81,7 @@ export default function ExploreProgramPage() {
           <ProgramActiveSidebarSkeleton />
         ) : (
           <ProgramActiveSidebar
-            programData={visiblePrograms}
+            programData={programs}
             programFilter={programFilter}
             setProgramFilter={setProgramFilter}
             levelFilter={levelFilter}
@@ -86,31 +96,27 @@ export default function ExploreProgramPage() {
       <div className="flex-1">
         <div className="mb-6">
           <ProgramSearch
-            total={filteredPrograms.length}
+            total={filteredOpeningPrograms.length}
             searchValue={searchValue}
             setSearchValue={setSearchValue}
           />
         </div>
 
         <div>
-  {isLoading ? (
-    <ProgramActiveSidebarSkeleton
-    />
-  ) : filteredPrograms.length === 0 ? (
-    <NotFoundProgram title="No Program Found"/>
-  ) : (
-    <ProgramCardList
-      programs={filteredPrograms}
-      openingPrograms={openingPrograms}
-      programFilter={programFilter}
-      subFilter={subFilter}
-      levelFilter={levelFilter}
-      searchValue={searchValue}
-      isLoading={isLoading}
-    />
-  )}
-</div>
-
+          {filteredOpeningPrograms.length === 0 ? (
+            <NotFoundProgram title="No Program Found" />
+          ) : (
+            <ProgramCardList
+              programs={programs}
+              openingPrograms={filteredOpeningPrograms}
+              programFilter={programFilter}
+              subFilter={subFilter}
+              levelFilter={levelFilter}
+              searchValue={searchValue}
+              isLoading={isLoading}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

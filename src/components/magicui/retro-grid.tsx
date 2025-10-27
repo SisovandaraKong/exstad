@@ -1,7 +1,11 @@
 /** @format */
 
-import { cn } from "@/lib/utils";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
+function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs));
+}
 interface RetroGridProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * Additional CSS classes to apply to the grid container

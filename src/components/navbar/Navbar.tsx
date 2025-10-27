@@ -41,16 +41,14 @@ function Navbar({ className }: { className?: string }) {
 
   const getNavLinkClassesForMobile = (href: string) => {
     const baseClasses =
-      "relative rounded-md transition-colors font-d4 font-normal duration-200 bg-primary/10";
-    const hoverClasses = "hover:text-foreground hover:after:opacity-100";
-    const afterClasses =
-      "after:absolute after:-bottom-2.5 after:-left-1.5 after:-right-1.5 after:h-[2.5px] after:bg-primary after:transition-opacity after:duration-200";
+      "relative rounded-md transition-colors font-d4 font-normal duration-200";
+    const hoverClasses = "hover:text-foreground hover:bg-primary/10";
 
     if (isActive(href)) {
-      return `${baseClasses} ${afterClasses} ${hoverClasses} text-foreground after:opacity-100`;
+      return `${baseClasses} ${hoverClasses} text-foreground after:opacity-100 bg-primary/10`;
     }
 
-    return `${baseClasses} ${afterClasses} ${hoverClasses} after:opacity-0`;
+    return `${baseClasses} ${hoverClasses}`;
   };
 
   React.useEffect(() => {
@@ -204,7 +202,7 @@ function Navbar({ className }: { className?: string }) {
                   </Link>
                 </div>
 
-                <div className="flex items-center justify-around w-full mt-8">
+                <div className="flex items-start justify-around w-full mt-8">
                   <LanguageToggle />
                   <AnimatedModeToggle />
                   <LogInButton />

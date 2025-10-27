@@ -5,6 +5,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import { CometCard } from "@/components/ui/comet-card";
 import {
 	FaFacebook,
@@ -26,6 +27,7 @@ export default function AboutUsPage() {
 	// Extract mentor and member data from imported teamData
 	const mentor = teamData.mentors;
 	const member = teamData.members;
+	const t = useTranslations("about-page");
 	return (
 		<div className='min-h-screen bg-background'>
 			{/* Hero Section */}
@@ -43,13 +45,13 @@ export default function AboutUsPage() {
 							colorFrom='#7777ff'
 							colorTo='#ff0000'
 							className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-wide hover:scale-105 transition-transform duration-300 uppercase'>
-							Welcome to EXSTAD
+							{t("hero.title")}
 						</AnimatedGradientText>
 						{/* Text with Side Lines */}
 						<div className='flex items-center justify-center gap-2 sm:gap-4 mt-6 mb-4 px-4'>
 							<div className='flex-1 h-px bg-gradient-to-r from-transparent via-[#7777ff] to-[#ff0000] max-w-24 sm:max-w-32 md:max-w-48'></div>
 							<span className='text-sm sm:text-lg md:text-xl lg:text-2xl font-bold leading-relaxed bg-gradient-to-r from-[#7777ff] to-[#ff0000] bg-clip-text text-transparent text-center px-2'>
-								Your gateway to innovative education
+								{t("hero.subtitle")}
 							</span>
 							<div className='flex-1 h-px bg-gradient-to-r from-[#ff0000] via-[#7777ff] to-transparent max-w-24 sm:max-w-32 md:max-w-48'></div>
 						</div>
@@ -61,13 +63,7 @@ export default function AboutUsPage() {
 							/>
 						</div>
 						<p className='text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed text-gray-600 dark:text-gray-300 max-w-4xl mx-auto px-4'>
-							<span className='font-bold bg-gradient-to-r from-[#7777ff] to-[#ff0000] bg-clip-text text-transparent'>
-								exSTAD
-							</span>{" "}
-							is an experimental technology learning space for Cambodian
-							students, especially those who want to explore ISTAD&apos;s
-							scholarship program, products, and achievements in a unified
-							digital platform.
+							{t("hero.description")}
 						</p>
 					</motion.div>
 				</div>
@@ -83,25 +79,23 @@ export default function AboutUsPage() {
 							transition={{ duration: 0.6 }}
 							viewport={{ once: true }}>
 							<h1 className=' text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-gray-900 dark:text-white mb-6'>
-								OUR MISSION
+								{t("mission.title")}
 							</h1>
 							<h3 className='text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4'>
-								Our exSTAD is committed to:
+								{t("mission.subtitle")}
 							</h3>
 							<p className='text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 mb-6 flex items-center gap-3'>
 								<FaHandPointRight className='text-primary flex-shrink-0' />
-								Provide the latest methodology with high-quality training and
-								mentoring
+								{t("mission.points.methodology")}
 							</p>
 							<p className='text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 mb-6 flex items-center gap-3'>
 								<FaHandPointRight className='text-primary flex-shrink-0' />
-								Build up the capacity and career of IT experts in Cambodia
+								{t("mission.points.capacity")}
 							</p>
 							<p className='text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 mb-6 flex items-center gap-3'>
 								<FaHandPointRight className='text-primary flex-shrink-0' />
-								Consult and connect ISTAD trainees to top IT careers
+								{t("mission.points.consulting")}
 							</p>
-							
 						</motion.div>
 						<motion.div
 							initial={{ opacity: 0, x: 20 }}
@@ -167,7 +161,7 @@ export default function AboutUsPage() {
 
 							{/* Our Vision Title */}
 							<h2 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-wide text-gray-900 dark:text-white'>
-								VISION
+								{t("vision.title")}
 							</h2>
 						</div>
 					</motion.div>
@@ -184,7 +178,7 @@ export default function AboutUsPage() {
 								<div className='absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-blue-700 to-red-600 rounded-full'></div>
 								<div className='pl-8'>
 									<h3 className='text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4'>
-										Advanced IT Institute in Cambodia
+										{t("vision.subtitle")}
 									</h3>
 								</div>
 							</div>
@@ -193,19 +187,18 @@ export default function AboutUsPage() {
 							<div className='space-y-6'>
 								{[
 									{
-										title: "Innovation Hub",
-										description:
-											"Creating the next generation of tech innovators and entrepreneurs",
+										title: t("vision.points.innovation-hub.title"),
+										description: t("vision.points.innovation-hub.description"),
 									},
 									{
-										title: "Global Impact",
-										description:
-											"Connecting Cambodian talent with worldwide opportunities",
+										title: t("vision.points.global-impact.title"),
+										description: t("vision.points.global-impact.description"),
 									},
 									{
-										title: "Excellence Standard",
-										description:
-											"Consult and connect ISTAD trainees to top IT careers",
+										title: t("vision.points.excellence-standard.title"),
+										description: t(
+											"vision.points.excellence-standard.description"
+										),
 									},
 								].map((point, index) => (
 									<motion.div
@@ -259,16 +252,25 @@ export default function AboutUsPage() {
 												</svg>
 											</div>
 											<h3 className='text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2'>
-												Future-Ready Education
+												{t("statistics.title")}
 											</h3>
 										</div>
 
 										<div className='space-y-4'>
 											{[
-												{ label: "Technology Integration", value: "100%" },
-												{ label: "Industry Partnerships", value: "95%" },
-												{ label: "Graduate Success Rate", value: "98%" },
-												{ label: "Global Recognition", value: "90%" },
+												{
+													label: t("statistics.items.technology"),
+													value: "100%",
+												},
+												{
+													label: t("statistics.items.partnerships"),
+													value: "95%",
+												},
+												{ label: t("statistics.items.success"), value: "98%" },
+												{
+													label: t("statistics.items.recognition"),
+													value: "90%",
+												},
 											].map((stat, index) => (
 												<motion.div
 													key={stat.label}
@@ -317,30 +319,27 @@ export default function AboutUsPage() {
 						transition={{ duration: 0.6 }}
 						viewport={{ once: true }}
 						className='text-center mb-12'>
-						<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-4'>
-							Our Core Values
+						<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide uppercase text-center text-primary dark:text-hover mb-4'>
+							{t("core-values.title")}
 						</h2>
 						<p className='text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 max-w-3xl mx-auto'>
-							The principles that guide everything we do
+							{t("core-values.subtitle")}
 						</p>
 					</motion.div>
 
 					<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
 						{[
 							{
-								title: "Innovation",
-								description:
-									"Provide the latest methodology with high-quality training and mentoring",
+								title: t("core-values.values.innovation.title"),
+								description: t("core-values.values.innovation.description"),
 							},
 							{
-								title: "Accessibility",
-								description:
-									"Build up the capacity and career of IT experts in Cambodia",
+								title: t("core-values.values.accessibility.title"),
+								description: t("core-values.values.accessibility.description"),
 							},
 							{
-								title: "Excellence",
-								description:
-									"Consult and connect ISTAD trainees to top IT careers",
+								title: t("core-values.values.excellence.title"),
+								description: t("core-values.values.excellence.description"),
 							},
 						].map((value, index) => (
 							<motion.div
@@ -354,7 +353,10 @@ export default function AboutUsPage() {
 										<div className='mb-6'>
 											<HiChip className='text-5xl sm:text-6xl mx-auto text-blue-600 dark:text-blue-400' />
 										</div>
-										<p className='text-gray-900 dark:text-white font-semibold text-sm sm:text-base leading-relaxed'>
+										<h3 className='text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3'>
+											{value.title}
+										</h3>
+										<p className='text-gray-700 dark:text-gray-300 text-sm sm:text-base leading-relaxed'>
 											{value.description}
 										</p>
 									</div>
@@ -404,11 +406,10 @@ export default function AboutUsPage() {
 						viewport={{ once: true }}
 						className='w-full max-w-7xl mx-auto px-6 py-12 rounded-full'>
 						<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide uppercase text-center text-primary dark:text-hover mb-4'>
-							Our Mentors
+							{t("team.mentors.title")}
 						</h2>
-						<p className='text-base sm:text-lg text-center tracking-wide leading-relaxed text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8'>
-							Great accomplishments are born from great guidance — and we owe
-							ours to a remarkable mentors.
+						<p className='text-base sm:text-lg text-center tracking-wide leading-relaxed text-gray-600 dark:text-gray-300 mx-auto mb-8'>
+							{t("team.mentors.description")}
 						</p>
 
 						<div className='flex justify-center items-center'>
@@ -438,11 +439,10 @@ export default function AboutUsPage() {
 						viewport={{ once: true }}
 						className='text-center mb-12'>
 						<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide uppercase text-center text-primary dark:text-hover mb-4'>
-							Our Team Members
+							{t("team.members.title")}
 						</h2>
-						<p className='text-base sm:text-lg text-center tracking-wide leading-relaxed text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-8'>
-							No achievement is possible without teamwork — and ours thrives
-							because of remarkable teammates.
+						<p className='text-base sm:text-lg text-center tracking-wide leading-relaxed text-gray-600 dark:text-gray-300 mx-auto mb-8'>
+							{t("team.members.description")}
 						</p>
 					</motion.div>
 					<div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-6 lg:gap-8'>
@@ -518,17 +518,16 @@ export default function AboutUsPage() {
 						viewport={{ once: true }}
 						className='text-center'>
 						<h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white mb-6'>
-							Ready to Start Your Journey?
+							{t("cta.title")}
 						</h2>
 						<p className='text-base sm:text-lg leading-relaxed text-blue-100 max-w-3xl mx-auto mb-8'>
-							Join thousands of students who have transformed their lives
-							through our programs
+							{t("cta.description")}
 						</p>
 						<motion.button>
 							<Link
 								href='/explore-course'
 								className='bg-white text-blue-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-50 transition-colors duration-200'>
-								Explore Courses
+								{t("cta.button")}
 							</Link>
 						</motion.button>
 					</motion.div>
