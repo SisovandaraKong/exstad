@@ -9,17 +9,17 @@ export async function middleware(req: NextRequest) {
   const roles = token?.user?.roles || [];
   const hasAdminRole = roles.some((role) => adminRoles.includes(role));
 
-  if (token && hasAdminRole && !pathname.startsWith("/api/auth")) {
-    const adminUrl = new URL(process.env.NEXT_PUBLIC_ADMIN_URL!);
-    const response = NextResponse.redirect(adminUrl);
+  // if (token && hasAdminRole && !pathname.startsWith("/api/auth")) {
+  //   const adminUrl = new URL(process.env.NEXT_PUBLIC_ADMIN_URL!);
+  //   const response = NextResponse.redirect(adminUrl);
 
-    response.cookies.delete("next-auth.session-token");
-    response.cookies.delete("__Secure-next-auth.session-token");
-    response.cookies.delete("next-auth.csrf-token");
-    response.cookies.delete("__Host-next-auth.csrf-token");
+  //   response.cookies.delete("next-auth.session-token");
+  //   response.cookies.delete("__Secure-next-auth.session-token");
+  //   response.cookies.delete("next-auth.csrf-token");
+  //   response.cookies.delete("__Host-next-auth.csrf-token");
 
-    return response;
-  }
+  //   return response;
+  // }
 
   // Regular auth check
   if (pathname.startsWith("/me") && !token) {
