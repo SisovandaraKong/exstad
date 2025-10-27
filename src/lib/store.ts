@@ -19,6 +19,7 @@ import { classApi } from "@/features/class/classApi";
 // import { bakongKHQRApi } from "@/features/bakong/BakongKHQRApi";
 import { scholarApi } from "@/features/scholar/scholarApi";
 import { StudentApi } from "@/components/student/StudentApi";
+import { technologyApi } from "@/components/program/detail-program/technology/technologiesApi";
 const rootReducer = combineReducers({
   [masterprogramApi.reducerPath]: masterprogramApi.reducer,
   [openingProgramApi.reducerPath]: openingProgramApi.reducer,
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   [StudentApi.reducerPath]: StudentApi.reducer,
   [timeLineApi.reducerPath]: timeLineApi.reducer,
   [roadmapApi.reducerPath]: roadmapApi.reducer,
+  [technologyApi.reducerPath]:technologyApi.reducer,
 });
 
 const persistConfig = {
@@ -70,7 +72,8 @@ export const makeStore = () => {
         scholarApi.middleware,
         StudentApi.middleware,
         timeLineApi.middleware,
-        roadmapApi.middleware
+        roadmapApi.middleware,
+                  technologyApi.middleware
       ),
   });
 

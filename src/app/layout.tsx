@@ -31,38 +31,75 @@ const nunito = Nunito_Sans({
   display: "swap",
 });
 
+
 export const metadata: Metadata = {
-  title: "EXSTAD - Your Ultimate Platform",
+  title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
   description:
-    "EXSTAD is a platform that provides amazing services and content for users.",
+    "EXSTAD: A student-led platform for exploring ISTAD courses, scholarships, and hands-on learning opportunities at CSTAD.",
+  keywords: [
+    "EXSTAD",
+    "ISTAD",
+    "CSTAD",
+    "Institute of Science and Technology Advanced Development",
+    "Cambodia Scholarship",
+    "Bachelor degree scholarship",
+    "Pre-University scholarship",
+    "IT profession scholarship",
+    "IT scholarship",
+    "IT expert scholarship",
+    "Information Technology",
+    "Short Course",
+    "IT Skills",
+    "IT Roadmaps",
+    "IT Foundation",
+    "Full Stack Web Development",
+    "អាហារូបករណ៍កម្ពុជា",
+    "អាហារូបករណ៍បរិញ្ញាបត្រ",
+    "អាហារូបករណ៍មុខវិជ្ជាព័ត៌មានវិទ្យា",
+    "ជំនាញ IT",
+    "Student Learning Platform",
+    "Tech Education Cambodia",
+    "Online Learning",
+    "Project-Based Learning",
+  ],
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
+  manifest: "/manifest.json",
+  metadataBase: new URL("https://exstad.tech"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "EXSTAD - Your Ultimate Platform",
+    type: "website",
+    title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
     description:
-      "EXSTAD is a platform that provides amazing services and content for users.",
-    url: "https://exstad-front-end.vercel.app",
+      "Discover EXSTAD: Explore ISTAD courses, scholarships, and practical learning opportunities at CSTAD with a student-focused platform.",
+    url: "https://exstad.tech",
     siteName: "EXSTAD",
     images: [
       {
-        url: "https://scontent.fpnh9-2.fna.fbcdn.net/v/t39.30808-6/540349826_784819700965199_7049553995288016805_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEY6AHda9dM26wi3ycNE1IAhfQRPeQf5RyF9BE95B_lHJ_8nNHSBiFkD3UgN5rshyn5Ywe8AaF1QNVte7u9XU7L&_nc_ohc=1g_CfFYyUrkQ7kNvwEUzUZ0&_nc_oc=AdnuvFO8Tw84rjB4Sfp2mi6X_QeyuQx57om0w0MttCJazpx6AO6CKkc78fP-Qy8Tdr0&_nc_zt=23&_nc_ht=scontent.fpnh9-2.fna&_nc_gid=bdhALjyn0Nk5plcFRCL7GA&oh=00_AfXGxiKMNA8wU_78N53lViSRUy-iHPe_6H0FqWAT1Df4Xw&oe=68B7B2F4",
+        url: "https://api.exstad.tech/documents/c50808edd4dc4e96956d3933476ab060-2025Oct26-141032.png",
         width: 1200,
         height: 630,
-        alt: "EXSTAD logo",
+        alt: "EXSTAD Logo - Student Platform for ISTAD",
       },
     ],
-    locale: "en_US",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "EXSTAD - Your Ultimate Platform",
+    title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
     description:
-      "EXSTAD is a platform that provides amazing services and content for users.",
+      "EXSTAD offers a student-focused platform to explore ISTAD courses, scholarships, and hands-on learning at CSTAD.",
     images: [
-      "https://scontent.fpnh9-2.fna.fbcdn.net/v/t39.30808-6/540349826_784819700965199_7049553995288016805_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEY6AHda9dM26wi3ycNE1IAhfQRPeQf5RyF9BE95B_lHJ_8nNHSBiFkD3UgN5rshyn5Ywe8AaF1QNVte7u9XU7L&_nc_ohc=1g_CfFYyUrkQ7kNvwEUzUZ0&_nc_oc=AdnuvFO8Tw84rjB4Sfp2mi6X_QeyuQx57om0w0MttCJazpx6AO6CKkc78fP-Qy8Tdr0&_nc_zt=23&_nc_ht=scontent.fpnh9-2.fna&_nc_gid=bdhALjyn0Nk5plcFRCL7GA&oh=00_AfXGxiKMNA8wU_78N53lViSRUy-iHPe_6H0FqWAT1Df4Xw&oe=68B7B2F4",
+      "https://api.exstad.tech/documents/c50808edd4dc4e96956d3933476ab060-2025Oct26-141032.png",
     ],
-    creator: "@yourtwitterhandle",
+    creator: "@exstad",
   },
 };
+
 
 export default async function RootLayout({
   children,
