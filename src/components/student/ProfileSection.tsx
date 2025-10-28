@@ -100,7 +100,7 @@
 //             onError={() => setImgSrc("/avatar-fallback.png")}
 //             sizes="(min-width: 1024px) 350px, 220px"
 //           />
-         
+
 //         </div>
 
 //         {/* Text (lowered with margin) */}
@@ -128,55 +128,60 @@
 //   );
 // }
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import Image from "next/image";
+import React, { useMemo } from "react";
 import { SparklesText } from "@/components/magicui/sparkles-text";
 import { useGetScholarByUsernameQuery } from "@/components/student/StudentApi";
 
-type Props = { username: string; avatarAnchorRef?: React.RefObject<HTMLDivElement> };
+type Props = {
+  username: string;
+  avatarAnchorRef?: React.RefObject<HTMLDivElement>;
+};
 
-// tiny blur placeholder
-const BLUR =
-  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzUwIiBoZWlnaHQ9IjM1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCBmaWxsPSIjZWVlIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+";
-
-const isHttpUrl = (u?: string) => {
-  if (!u) return false;
-  try {
-    const url = new URL(u);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
+// Type for completed course items
+type CompletedCourse = {
+  programName?: string;
+  title?: string;
+  name?: string;
+  courseName?: string;
 };
 
 export function ProfileSection({ username, avatarAnchorRef }: Props) {
-  const { data: scholar, isLoading, isError } = useGetScholarByUsernameQuery(username, {
+  const {
+    data: scholar,
+    isLoading,
+    isError,
+  } = useGetScholarByUsernameQuery(username, {
     refetchOnMountOrArgChange: true,
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
 
-  const computedSrc = useMemo(() => {
-    const raw = isHttpUrl(scholar?.avatar) ? (scholar!.avatar as string) : "/avatar-fallback.png";
-    const v = scholar?.audit?.updatedAt ? new Date(scholar.audit.updatedAt).getTime() : Date.now();
-    const sep = raw.includes("?") ? "&" : "?";
-    return `${raw}${sep}v=${v}`;
-  }, [scholar]);
+  // ✅ Pick the completed program name (replace ISTAD Scholar)
+  const programNames = useMemo(() => {
+    const list = Array.isArray(
+      (scholar as { completedCourses?: CompletedCourse[] })?.completedCourses
+    )
+      ? (scholar as { completedCourses?: CompletedCourse[] }).completedCourses
+      : [];
 
-  const [localSrc, setLocalSrc] = useState<string>(computedSrc);
-  useEffect(() => setLocalSrc(computedSrc), [computedSrc]);
+    const names = (list || [])
+      .map(
+        (c: CompletedCourse) =>
+          c?.programName ?? c?.title ?? c?.name ?? c?.courseName
+      )
+      .filter(Boolean);
+
+    // show unique names, joined by " • " if there are multiple
+    return Array.from(new Set(names)).join(" • ") || null;
+  }, [scholar]);
 
   if (isLoading) {
     return (
       <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(0,0,255,0.2) 0%, rgba(255,0,0,0.2) 50%, rgba(101,154,210,0.2) 100%)",
-          }}
-        />
-        <div className="relative z-10 text-gray-500 animate-pulse">Loading profile…</div>
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-500/20 via-red-500/20 to-[rgba(101,154,210,0.2)]" />
+        <div className="relative z-10 text-gray-500 animate-pulse">
+          Loading profile…
+        </div>
       </section>
     );
   }
@@ -193,16 +198,10 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
-      {/* Background gradient */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(0,0,255,0.2) 0%, rgba(255,0,0,0.2) 50%, rgba(101,154,210,0.2) 100%)",
-        }}
-      />
+      {/* background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-500/20 via-red-500/20 to-[rgba(101,154,210,0.2)]" />
 
-      {/* Content */}
+      {/* content */}
       <div
         className="relative z-10 w-full max-w-6xl mx-auto
         flex flex-col lg:flex-row
@@ -210,7 +209,7 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
         justify-center
         gap-8 sm:gap-10 lg:gap-24 xl:gap-32"
       >
-        {/* Avatar area */}
+        {/* avatar / video area (keep same style) */}
         <div
           className="
             relative
@@ -221,19 +220,27 @@ export function ProfileSection({ username, avatarAnchorRef }: Props) {
             flex-shrink-0
           "
         >
-          {/* Anchor for the shared scrolling avatar */}
-          <div ref={avatarAnchorRef} className="w-full h-full rounded-full bg-transparent mt-4 sm:mt-6 lg:mt-12" />
+          <div
+            ref={avatarAnchorRef}
+            className="w-full h-full rounded-full bg-transparent mt-4 sm:mt-6 lg:mt-12"
+          />
         </div>
 
-        {/* Text */}
+        {/* text section */}
         <div className="flex-1 text-center lg:text-left space-y-3 lg:space-y-4 lg:self-start items-center mt-6 sm:mt-8 lg:mt-12">
-          <h1 className="font-h1 font-extrabold text-color leading-tight  text-xl sm:text-xl md:text-5xl lg:text-6xl xl:text-7xl">
+          <h1 className="font-h1 font-extrabold text-color leading-tight text-xl sm:text-xl md:text-5xl lg:text-6xl xl:text-7xl">
             <SparklesText>{scholar.englishName}</SparklesText>
           </h1>
-          <h2 className="lg:font-h2 text-[#969696]">
-            {scholar.university}  {scholar.role}
+
+          {/* ✅ render program name instead of ISTAD Scholar */}
+          <h2 className="lg:font-h2 text-primary font-semibold">
+            {programNames ? <> {programNames}</> : null}
           </h2>
-          <p className="font-d2 leading-relaxed max-w-2xl mx-auto lg:mx-0">{scholar.bio}</p>
+
+          <p className="font-d2 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+            {scholar.bio}
+          </p>
+
           {scholar.quote && (
             <blockquote className="text-2xl lg:text-3xl font-medium text-primary italic">
               “{scholar.quote}”

@@ -165,7 +165,14 @@ import type {
   CreateScholarSocialLink,
 } from "@/types/scholar";
 import { ScholarAchievementsResponse } from "@/types/achievement";
-import type { Certificate, CompletedCourse } from "@/types/portfolio";
+import { CompletedCourse, Certificate } from "@/types/portfolio";
+import { MasterProgramType } from "@/types/master-program";
+
+// Extended type for API response that may include soft-delete fields
+type ProgramResponse = Omit<MasterProgramType, "status"> & {
+  isDeleted?: boolean;
+  status?: "draft" | "active" | "archived" | "DELETED";
+};
 
 // Optional: lightweight type for Opening Program
 export type OpeningProgram = {
@@ -316,7 +323,7 @@ export const StudentApi = createApi({
       ],
     }),
 
-    // 🔹 Scholars by program
+    // 🔹 Scholars by opening program
     getScholarsByOpeningProgram: builder.query<Scholar[], string>({
       query: (uuid) => `/scholars/${uuid}/opening-program`,
       transformResponse: (response: {
@@ -361,6 +368,80 @@ export const StudentApi = createApi({
         { type: "OpeningProgram", id: uuid },
       ],
     }),
+
+    // 🔹 GET all programs
+    getAllPrograms: builder.query<ProgramResponse[], void>({
+      query: () => `/programs`,
+      transformResponse: (res: { programs: ProgramResponse[] }) =>
+        (res.programs ?? []).filter(
+          (p: ProgramResponse) => !p?.isDeleted && p?.status !== "DELETED"
+        ),
+      providesTags: (result) =>
+        result && result.length
+          ? [
+              ...result.map((p: ProgramResponse) => ({
+                type: "OpeningProgram" as const,
+                id: p.uuid,
+              })),
+              { type: "OpeningProgram" as const, id: "LIST" },
+            ]
+          : [{ type: "OpeningProgram" as const, id: "LIST" }],
+    }),
+
+    // 🔹 GET all scholars by program UUID
+    getScholarsByProgramUuid: builder.query<Scholar[], string>({
+      query: (programUuid) => `/scholars/program/${programUuid}`,
+      transformResponse: (
+        response: Scholar[] | { scholars: Scholar[] } | Scholar
+      ): Scholar[] => {
+        // handle all shapes: array | {scholars: []} | single object
+        if (Array.isArray(response)) return response;
+        if (
+          response &&
+          "scholars" in response &&
+          Array.isArray(response.scholars)
+        )
+          return response.scholars;
+        if (response && typeof response === "object")
+          return [response as Scholar];
+        return [];
+      },
+      providesTags: (result, error, programUuid) => [
+        { type: "Scholar", id: `program-${programUuid}` },
+        { type: "Scholar", id: "LIST" },
+      ],
+    }),
+
+    // 🔹 DELETE program by UUID
+    deleteProgram: builder.mutation<{ success?: boolean }, string>({
+      query: (uuid) => ({
+        url: `/programs/${uuid}/delete`,
+        method: "PUT",
+      }),
+      invalidatesTags: (_res, _err, uuid) => [
+        { type: "OpeningProgram", id: uuid },
+        { type: "OpeningProgram", id: "LIST" },
+      ],
+      async onQueryStarted(uuid, { dispatch, queryFulfilled }) {
+        const patch = dispatch(
+          StudentApi.util.updateQueryData(
+            "getAllPrograms",
+            undefined,
+            (draft: ProgramResponse[]) => {
+              const i = draft.findIndex(
+                (p: ProgramResponse) => p?.uuid === uuid
+              );
+              if (i !== -1) draft.splice(i, 1);
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patch.undo();
+        }
+      },
+    }),
   }),
 });
 
@@ -381,5 +462,9 @@ export const {
   useGetScholarAchievementsQuery,
   useGetScholarCompletedCoursesQuery,
   useGetScholarCertificatesQuery,
-  useGetOpeningProgramByUuidQuery, // 👈 exported hook
+  useGetOpeningProgramByUuidQuery,
+  useGetAllProgramsQuery,
+  useGetScholarsByProgramUuidQuery,
+  useLazyGetScholarsByProgramUuidQuery,
+  useDeleteProgramMutation,
 } = StudentApi;
