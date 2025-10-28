@@ -974,7 +974,7 @@ export default function Scholar() {
                 priority
               />
               <Image
-                src="/image/yith_sopheaktra.jpg"
+                src="/image/pheaktra.jpg"
                 alt="Student Writing"
                 width={500}
                 height={400}
