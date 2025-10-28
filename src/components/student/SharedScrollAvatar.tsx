@@ -19,6 +19,9 @@ type Props = {
   bottomSize?: number;
   blurDataURL?: string;
   viewportOffsetTop?: number;
+
+  /** How much to lift on mobile (in px); positive number = moves up */
+  mobileLiftPx?: number;
 };
 
 function pageX(el: HTMLElement) {
@@ -41,6 +44,7 @@ export default function SharedScrollAvatar({
   bottomSize = 192,
   blurDataURL,
   viewportOffsetTop = 0,
+  mobileLiftPx = 80, // default mobile lift upwards
 }: Props) {
   // -------- Avatar URL (cache-busted)
   const { data: scholar } = useGetScholarByUsernameQuery(username);
@@ -71,7 +75,7 @@ export default function SharedScrollAvatar({
   const isMobile = vw < 640;
   const topSizePx = isMobile ? Math.min(170, topSize) : topSize;
   const bottomSizePx = isMobile ? Math.min(120, bottomSize) : bottomSize;
-  const mobileOffset = isMobile ? 40 : 0;
+  const mobileOffset = isMobile ? -Math.abs(mobileLiftPx) : 0; // move UP on mobile
 
   // -------- Anchors measurement values
   const startX = useMotionValue(0);
@@ -103,11 +107,7 @@ export default function SharedScrollAvatar({
     let rafId: number | null = null;
 
     const waitForAnchors = async () => {
-      // keep polling until both refs are non-null
-      while (
-        !cancelled &&
-        (!topAnchor.current || !bottomAnchor.current)
-      ) {
+      while (!cancelled && (!topAnchor.current || !bottomAnchor.current)) {
         await nextFrame();
       }
       if (cancelled) return;
@@ -115,7 +115,6 @@ export default function SharedScrollAvatar({
       const t = topAnchor.current!;
       const b = bottomAnchor.current!;
 
-      // give layout a beat to settle
       await nextFrame();
       await nextFrame();
       if (cancelled) return;
@@ -133,8 +132,6 @@ export default function SharedScrollAvatar({
         endY.set(pageY(b) + bH / 2);
 
         if (!measured) setMeasured(true);
-
-        // initial progress right away
         updateProgress(scrollY.get());
 
         document.documentElement.setAttribute(
@@ -143,12 +140,9 @@ export default function SharedScrollAvatar({
         );
       };
 
-      // initial compute
       compute();
 
-      // keep updated with size changes
       const ro = new ResizeObserver(() => {
-        // schedule on next frame for smoother reads
         rafId = requestAnimationFrame(compute);
       });
       ro.observe(t);
@@ -157,7 +151,6 @@ export default function SharedScrollAvatar({
       const onResize = () => (rafId = requestAnimationFrame(compute));
       window.addEventListener("resize", onResize);
 
-      // cleanup
       return () => {
         ro.disconnect();
         window.removeEventListener("resize", onResize);
@@ -170,7 +163,6 @@ export default function SharedScrollAvatar({
     return () => {
       cancelled = true;
       document.documentElement.removeAttribute("data-shared-avatar-ready");
-      // detach any observers created inside
       cleanupPromise.then((cleanup) => cleanup && cleanup());
     };
   }, [
@@ -203,11 +195,9 @@ export default function SharedScrollAvatar({
     return sy + (ey - sy) * p;
   });
   const sizeRaw = useTransform(progress, [0, 1], [topSizePx, bottomSizePx]);
-  const rotRaw = useTransform(
-    progress,
-    [0, 0.2, 0.4, 0.6, 0.8, 1],
-    [0, 15, 25, 25, 15, 0]
-  );
+
+  // 🔒 Lock rotation at 0 degrees
+  const rotRaw = useTransform(progress, [0, 1], [0, 0]);
 
   const spring = { stiffness: 200, damping: 40, bounce: 0, mass: 1.2 } as const;
   const cx = useSpring(cxRaw, spring);
@@ -268,17 +258,16 @@ export default function SharedScrollAvatar({
         width: size,
         height: size,
         zIndex: 40,
-        rotateZ: rot,
+        rotateZ: rot, // always 0°
         pointerEvents: "none",
         willChange: "transform",
         transform: "translateZ(0)",
       }}
     >
       <Image
-      fill
-      unoptimized
         src={src}
         alt={scholar?.englishName || scholar?.username || "profile photo"}
+        fill
         className="rounded-full object-cover shadow-2xl object-top"
         placeholder={blurDataURL ? "blur" : "empty"}
         blurDataURL={blurDataURL}
