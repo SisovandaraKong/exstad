@@ -18,7 +18,7 @@ export default function ExploreProgramPage() {
   // Fetch master programs
   const { data: allPrograms = [], isLoading, isError } =
     useGetAllMasterProgramsQuery(undefined, {
-      refetchOnMountOrArgChange: true,
+      refetchOnMountOrArgChange: true,refetchOnFocus:true,refetchOnReconnect:true,
     });
 
   const programs = allPrograms.filter((p) => p.visibility === "PUBLIC");
@@ -26,7 +26,7 @@ export default function ExploreProgramPage() {
   // Fetch opening programs
   const { data: allOpeningProgram = [] } = useGetAllOpeningProgramsQuery(
     undefined,
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true ,refetchOnFocus:true,refetchOnReconnect:true,}
   );
 
   // Only OPEN openings
