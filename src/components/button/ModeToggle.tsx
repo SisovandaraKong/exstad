@@ -31,7 +31,8 @@ export function AnimatedModeToggle() {
     }).ready;
 
     // Get button position for circular animation
-    const { top, left, width, height } = buttonRef.current.getBoundingClientRect();
+    const { top, left, width, height } =
+      buttonRef.current.getBoundingClientRect();
     const x = left + width / 2;
     const y = top + height / 2;
 
@@ -64,7 +65,7 @@ export function AnimatedModeToggle() {
       onClick={toggleTheme}
       aria-label="Toggle theme"
       title="Toggle theme"
-      className="relative inline-flex items-center justify-center rounded-full border border-transparent"
+      className="relative inline-flex items-center justify-center rounded-full border border-transparent cursor-pointer"
     >
       <FiSun className="text-accent hover:text-accent-hover h-6 w-6 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
       <FiMoon className="text-accent hover:text-accent-hover absolute h-6 w-6 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />

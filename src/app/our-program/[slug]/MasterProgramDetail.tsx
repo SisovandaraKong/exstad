@@ -7,7 +7,9 @@ import ProgramHeader from "@/components/program/ProgramHeader";
 import ProgramSidebar from "@/components/program/explore-course/ProgramSidebar";
 import ProgramOverviewTap from "@/components/program/detail-program/ProgramOverviewTap";
 import ProgramCurriculumTap from "@/components/program/detail-program/curriculum/ProgramCurriculum";
-import ProgramActivityTap, { ProgramGeneration } from "@/components/program/detail-program/activity/ProgramActivity";
+import ProgramActivityTap, {
+  ProgramGeneration,
+} from "@/components/program/detail-program/activity/ProgramActivity";
 
 import ProgramHeaderSkeleton from "@/components/program/skeleton/ProgramHeaderSkeleton";
 import ProgramOverviewSidebarSkeleton from "@/components/program/skeleton/ProgramSidebarSkeleton";
@@ -20,6 +22,9 @@ import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgr
 import { MasterProgramType } from "@/types/master-program";
 import NotFoundProgram from "@/components/program/components/NotFound";
 import WorkNodeViewer from "@/components/roadmap/roadmap-detail";
+import TimeLine from "@/components/program/detail-program/timeline/TimeLine";
+import EnrollmentPage from "@/app/explore-course/[slug]/enrollment/page";
+import ProgramEnrollment from "@/components/program/ProgramEnrollment";
 
 interface MasterProgramDetailClientProps {
   initialProgram?: MasterProgramType;
@@ -44,7 +49,11 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
 
   // Fetch all opening programs
   const { data: allPrograms = [], isLoading: isAllProgramsLoading } =
-    useGetAllOpeningProgramsQuery(undefined,{refetchOnMountOrArgChange:true, refetchOnReconnect: true, refetchOnFocus: true } );
+    useGetAllOpeningProgramsQuery(undefined, {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: true,
+    });
 
   // 🕒 Loading
   if (isMasterLoading || isAllProgramsLoading) {
@@ -55,7 +64,6 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
           {activeTab === "overview" && <ProgramOverviewCardSkeleton />}
           {activeTab === "curriculum" && <ProgramCurriculumSkeleton />}
           {activeTab === "activity" && <ProgramActivitySkeleton />}
-
         </div>
         <ProgramOverviewSidebarSkeleton />
       </div>
@@ -73,18 +81,20 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
   );
 
   //  Get the latest opening program
-  const latestOpeningProgram = relatedOpenings
-    .slice()
-    .sort((a, b) => {
-      if (a.audit.createdAt && b.audit.createdAt) {
-        return new Date(b.audit.createdAt).getTime() - new Date(a.audit.createdAt).getTime();
-      }
-      return (b.generation ?? 0) - (a.generation ?? 0);
-    })[0];
+  const latestOpeningProgram = relatedOpenings.slice().sort((a, b) => {
+    if (a.audit.createdAt && b.audit.createdAt) {
+      return (
+        new Date(b.audit.createdAt).getTime() -
+        new Date(a.audit.createdAt).getTime()
+      );
+    }
+    return (b.generation ?? 0) - (a.generation ?? 0);
+  })[0];
 
   //  Check if latest program is closed
   const isClosed =
-    latestOpeningProgram && latestOpeningProgram.status?.toLowerCase() === "closed";
+    latestOpeningProgram &&
+    latestOpeningProgram.status?.toLowerCase() === "closed";
 
   //  Generations for activity tab
   const generations: ProgramGeneration[] = relatedOpenings
@@ -107,16 +117,22 @@ const MasterProgramDetailPage: React.FC<MasterProgramDetailClientProps> = ({
       generations.length ? (
         <ProgramActivityTap generations={generations} />
       ) : (
-        <p className="text-gray-500 text-center">No opening programs available.</p>
+        <p className="text-gray-500 text-center">
+          No opening programs available.
+        </p>
       ),
-roadmap: () => <WorkNodeViewer programUuid={masterProgram.uuid} programType="programs" />,    
+    roadmap: () => (
+      <WorkNodeViewer programUuid={masterProgram.uuid} programType="programs" />
+    ),
+    timeline: () => (<TimeLine openingProgramUuid={latestOpeningProgram.uuid ?? ""}/>),
+    enrollment: () => (<ProgramEnrollment openingProgram={latestOpeningProgram}/>)
   };
 
   const ActiveTabComponent = tabComponents[activeTab];
 
   return (
-    <div className="flex lg:flex-col md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
-      <div className="flex-1">
+    <div className="flex lg:flex-col min-h-screen md:flex-col flex-col xl:flex-row p-5 md:p-8 lg:py-6 lg:px-0 mx-auto gap-6 my-[20px] max-w-7xl">
+      <div className="flex-1 w-full min-w-0 shrink-0">
         <ProgramHeader
           masterProgram={masterProgram}
           openingProgram={latestOpeningProgram}

@@ -31,8 +31,8 @@ export default function CertificateImage({ cert }: { cert: CertItem }) {
         <Image
           src={cert.imgSrc}
           alt={cert.alt}
-          width={700} // replace with actual image width
-          height={400} // replace with actual image height
+          width={700} 
+          height={400} 
           className="w-full h-auto object-cover "
           priority 
         />

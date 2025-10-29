@@ -24,7 +24,7 @@ export default function ProgramEnrollment({
     [openingProgram]
   );
   return (
-    <div className="w-full max-w-full h-fit p-6 bg-background rounded-b-[24px]">
+    <div className="w-full !z-10 max-w-full h-fit p-6 bg-background rounded-b-[24px]">
       <EnrollmentDataTable data={enrollments ?? []} columns={column} />
     </div>
   );

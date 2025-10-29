@@ -39,13 +39,14 @@ export type ScholarBadgeForScholarResponse = {
 export type ScholarResponse = {
   uuid: string;
   username: string;
+  phoneNumber?: string;
 
   email?: string | null;
   englishName?: string | null;
   khmerName?: string | null;
 
   gender?: Gender | null;
-  dob?: string | null; 
+  dob?: string | null;
   role?: Role | null;
 
   university?: string | null;

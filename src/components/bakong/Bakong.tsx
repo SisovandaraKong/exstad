@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import {
   useGenerateQrMutation,
@@ -253,16 +254,34 @@ export default function Bakong({
   if (dismissed) return null;
   if (!shouldShowQr && !showSuccess) return null;
 
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-50 top-[var(--nav-offset)]">
-      <div className="absolute inset-0 bg-black/50" aria-hidden="true" />
-      <div className="relative w-full min-h-[calc(100vh-var(--nav-offset))] flex items-center justify-center p-4">
+  // render into body to escape stacking contexts of ancestors (table/tooltip)
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
+    <div
+      // full viewport, very high z so it sits above sticky table headers etc.
+      className="fixed inset-0 z-[99999] overflow-auto pt-[var(--nav-offset)]"
+      role="presentation"
+    >
+      {/* backdrop must be below modal but above page */}
+      <div
+        className="fixed inset-0 bg-black/60 z-[99990]"
+        aria-hidden="true"
+        onClick={() => {
+          setDismissed(true);
+          onClose?.();
+        }}
+      />
+
+      <div className="relative z-[99995] w-full min-h-[calc(100vh-var(--nav-offset))] flex items-center justify-center p-4">
         {shouldShowQr && (
           <BakongCard
             amount={amount}
             qrImageUrl={qrImageUrl}
             loading={genLoading || localLoading}
-            errorMessage={genError || localError ? "Failed to generate QR code." : ""}
+            errorMessage={
+              genError || localError ? "Failed to generate QR code." : ""
+            }
             countdownText={formatCountdown(countdownMs)}
             onDownloadQr={handleDownloadQr}
             onClose={() => {
@@ -284,7 +303,8 @@ export default function Bakong({
           />
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -306,13 +326,12 @@ function BakongCard({
 }) {
   const t = useTranslations();
   return (
-    <div className="flex sm:flex-row flex-col items-center bg-background sm:p-8 py-4 rounded-lg justify-center animate-fadeIn relative">
-      {/* Close button */}
+    <div className="flex sm:flex-row flex-col z-[99996] items-center bg-background sm:p-8 lg:py-4 py-10 rounded-lg justify-center animate-fadeIn relative shadow-xl max-w-4xl">
       {onClose && (
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center transition-colors cursor-pointer"
+          className="absolute top-3 right-3 z-50 h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center transition-colors cursor-pointer"
           aria-label="Close"
         >
           <X className="h-4 w-4 text-gray-600 dark:text-gray-300" />
@@ -326,16 +345,14 @@ function BakongCard({
           shadow-[0_0_16px_rgba(0,0,0,0.10)]
         "
       >
-        {/* Header */}
         <div className="relative sm:h-[53px] h-[50px] bg-red flex items-center justify-center">
-          <Image src={khqrLogo} alt="Bakong Logo" height={15} />
+          <Image src={khqrLogo} alt="Bakong Logo" height={13} />
           <div
             className="absolute sm:right-0 -right-1 sm:top-13 top-5 sm:h-[30px] sm:w-[30px] h-[20px] w-[20px] bg-red [clip-path:polygon(0_0,100%_0,100%_100%,10%_0)]"
             aria-hidden="true"
           />
         </div>
 
-        {/* Content */}
         <div className="flex-1 flex flex-col sm:pt-6 pt-4">
           <p className="sm:text-sm text-xs font-medium text-black sm:px-8 px-4 font-inter">
             ISTAD
@@ -347,10 +364,8 @@ function BakongCard({
             </span>
           </p>
 
-          {/* Divider */}
           <div className="mt-4 h-px w-full border-t border-dashed border-gray-300 sm:px-8 px-4" />
 
-          {/* QR Area */}
           <div className="relative flex-1 w-full flex items-center justify-center sm:px-4.5 px-1.5">
             {!loading && errorMessage && (
               <div className="w-40 text-center text-xs text-red-500">
@@ -358,6 +373,7 @@ function BakongCard({
               </div>
             )}
             {!loading && !errorMessage && qrImageUrl && (
+              // using next/image with external blob URL is okay when url set via createObjectURL
               <Image
                 src={qrImageUrl}
                 alt="KHQR"
@@ -379,14 +395,13 @@ function BakongCard({
         </div>
       </div>
 
-      <div className="flex flex-col sm:gap-4 gap-2 items-center justify-center mt-4 max-w-sm text-center px-4">
+      <div className="flex flex-col sm:gap-4 gap-2 items-center justify-center max-w-sm text-center px-4">
         <h2 className="sm:text-3xl text-lg font-semibold mb-1">{t("scan")}</h2>
 
         <p className="text-red/90 sm:text-sm text-xs leading-relaxed font-bilingual">
           {t("note")}
         </p>
 
-        {/* Countdown + Download row */}
         <div className="w-full flex flex-col items-center justify-between gap-4">
           <div className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-300 text-sm font-bilingual">
             <Clock className="h-4 w-4" />
@@ -456,19 +471,22 @@ function formatDateDMY(input?: string | null, locale = "en"): string {
     "ធ្នូ",
   ];
 
-  // try parsing with Date
   const parsed = new Date(input);
   if (!isNaN(parsed.getTime())) {
     const dd = String(parsed.getDate()).padStart(2, "0");
     const yyyy = parsed.getFullYear();
 
     if (typeof locale === "string" && locale.toLowerCase().startsWith("kh")) {
-      const monthName = KHMER_MONTHS[parsed.getMonth()] || String(parsed.getMonth() + 1).padStart(2, "0");
+      const monthName =
+        KHMER_MONTHS[parsed.getMonth()] ||
+        String(parsed.getMonth() + 1).padStart(2, "0");
       return `${dd}-${monthName}-${yyyy}`;
     }
 
     try {
-      const monthName = new Intl.DateTimeFormat(locale, { month: "long" }).format(parsed);
+      const monthName = new Intl.DateTimeFormat(locale, {
+        month: "long",
+      }).format(parsed);
       return `${dd}-${monthName}-${yyyy}`;
     } catch {
       const mm = String(parsed.getMonth() + 1).padStart(2, "0");
@@ -476,7 +494,6 @@ function formatDateDMY(input?: string | null, locale = "en"): string {
     }
   }
 
-  // fallback parse YYYY-MM-DD or YYYY/MM/DD
   const m = String(input).match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
   if (m) {
     const yyyy = Number(m[1]);
@@ -485,13 +502,16 @@ function formatDateDMY(input?: string | null, locale = "en"): string {
     const dd = String(ddNum).padStart(2, "0");
 
     if (typeof locale === "string" && locale.toLowerCase().startsWith("kh")) {
-      const monthName = KHMER_MONTHS[mmNum - 1] || String(mmNum).padStart(2, "0");
+      const monthName =
+        KHMER_MONTHS[mmNum - 1] || String(mmNum).padStart(2, "0");
       return `${dd}-${monthName}-${yyyy}`;
     }
 
     try {
       const d = new Date(yyyy, mmNum - 1, ddNum);
-      const monthName = new Intl.DateTimeFormat(locale, { month: "long" }).format(d);
+      const monthName = new Intl.DateTimeFormat(locale, {
+        month: "long",
+      }).format(d);
       return `${dd}-${monthName}-${yyyy}`;
     } catch {
       const mm = String(mmNum).padStart(2, "0");
@@ -520,8 +540,6 @@ function PaymentReceipt({
   const router = useRouter();
 
   const { data, isLoading } = useGetEnrollmentByUuidQuery(enrollmentUuid);
-
-  // Also fetch opening program for telegram link
   const { data: openingProgram } = useGetOpeningProgramByUuidQuery({
     uuid: openingProgramUuid,
   });
@@ -529,7 +547,10 @@ function PaymentReceipt({
   const isRecord = (v: unknown): v is Record<string, unknown> =>
     typeof v === "object" && v !== null;
 
-  const pickStr = (obj: unknown, path: readonly string[]): string | undefined => {
+  const pickStr = (
+    obj: unknown,
+    path: readonly string[]
+  ): string | undefined => {
     let cur: unknown = obj;
     for (const key of path) {
       if (!isRecord(cur) || !(key in cur)) return undefined;
@@ -538,7 +559,10 @@ function PaymentReceipt({
     return typeof cur === "string" ? cur : undefined;
   };
 
-  const pickBool = (obj: unknown, path: readonly string[]): boolean | undefined => {
+  const pickBool = (
+    obj: unknown,
+    path: readonly string[]
+  ): boolean | undefined => {
     let cur: unknown = obj;
     for (const key of path) {
       if (!isRecord(cur) || !(key in cur)) return undefined;
@@ -551,7 +575,6 @@ function PaymentReceipt({
   const khName = pickStr(data, ["khmerName"]);
   const name = isKh ? khName || enName || "-" : enName || khName || "-";
 
-  // format DOB to "DD-MonthName-YYYY" with Khmer month names when locale is Khmer
   const dobRaw = pickStr(data, ["dob"]) || "";
   const dob = dobRaw ? formatDateDMY(dobRaw, locale || "en") : "-";
 
@@ -588,13 +611,11 @@ function PaymentReceipt({
       startTime && endTime ? ` | ${startTime} - ${endTime}` : ""
     }`;
 
-  // Telegram link from opening program
   const telegramLink =
     pickStr(openingProgram, ["telegramGroup"]) ||
     pickStr(openingProgram, ["telegram"]) ||
     "";
 
-  // extract slug from openingProgram
   const openingProgramSlug = pickStr(openingProgram, ["slug"]);
 
   const handleClose = () => {
@@ -613,7 +634,6 @@ function PaymentReceipt({
       aria-modal="true"
     >
       <div className="flex flex-col md:flex-row">
-        {/* Left column */}
         <div className="md:w-1/2 w-full flex flex-col items-center justify-center xl:p-8 p-6 gap-6 bg-muted/30">
           <div className="h-24 w-24 rounded-full bg-green-100 flex items-center justify-center">
             <Check className="h-14 w-14 text-green-600" />
@@ -633,10 +653,8 @@ function PaymentReceipt({
           </div>
         </div>
 
-        {/* Divider */}
         <div className="hidden md:block w-px bg-border" />
 
-        {/* Right column */}
         <div className="md:w-1/2 w-full xl:p-8 p-6">
           <h4 className="text-lg font-semibold mb-4">{t("details")}</h4>
           <ul className="space-y-3 text-sm">

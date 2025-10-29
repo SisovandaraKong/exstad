@@ -12,7 +12,7 @@ import NotFoundProgram from "@/components/program/components/NotFound";
 export default function ExploreProgramPage() {
   const [programFilter, setProgramFilter] = useState("All");
   const [subFilter, setSubFilter] = useState<string[]>([]);
-  const [levelFilter, setLevelFilter] = useState("All");
+  const [levelFilter, setLevelFilter] = useState<string[]>([]);
   const [searchValue, setSearchValue] = useState("");
 
   // Fetch master programs
@@ -36,41 +36,49 @@ export default function ExploreProgramPage() {
   const validOpeningPrograms = openingPrograms.filter((o) =>
     programs.some((p) => p.title === o.programName)
   );
-
+const sidebarPrograms = programs.filter((p) =>
+  openingPrograms.some((o) => o.programName === p.title)
+);
   // Apply all filters per opening
-  const filteredOpeningPrograms = validOpeningPrograms.filter((opening) => {
-    const master = programs.find((p) => p.title === opening.programName);
-    if (!master) return false;
+ // In ExploreProgramPage.tsx, replace the filteredOpeningPrograms logic:
 
-    // Program Type filter
-    if (programFilter !== "All") {
-      if (
-        programFilter === "Scholarship Course" &&
-        master.programType !== "SCHOLARSHIP"
-      )
-        return false;
-      if (programFilter === "Short Course" && master.programType !== "SHORT_COURSE")
-        return false;
-    }
+const filteredOpeningPrograms = validOpeningPrograms.filter((opening) => {
+  const master = programs.find((p) => p.title === opening.programName);
+  if (!master) return false;
 
-    // Level filter
-    if (levelFilter !== "All" && master.programLevel !== levelFilter.toUpperCase()) {
-      return false;
-    }
-
-    // SubFilter (individual program selections)
-    if (subFilter.length > 0 && !subFilter.includes(master.title)) return false;
-
-    // Search filter
+  // Program Type filter
+  if (programFilter !== "All") {
     if (
-      searchValue &&
-      !master.title.toLowerCase().includes(searchValue.toLowerCase())
+      programFilter === "Scholarship Course" &&
+      master.programType !== "SCHOLARSHIP"
     )
       return false;
+    if (programFilter === "Short Course" && master.programType !== "SHORT_COURSE")
+      return false;
+  }
 
-    return true;
-  });
+  // Level filter - FIXED VERSION
+  // Convert both to uppercase for case-insensitive comparison
+  if (levelFilter.length > 0) {
+    const masterLevel = master.programLevel?.toUpperCase() || '';
+    const hasMatchingLevel = levelFilter.some(
+      (level) => level.toUpperCase() === masterLevel
+    );
+    if (!hasMatchingLevel) return false;
+  }
 
+  // SubFilter (individual program selections)
+  if (subFilter.length > 0 && !subFilter.includes(master.title)) return false;
+
+  // Search filter
+  if (
+    searchValue &&
+    !master.title.toLowerCase().includes(searchValue.toLowerCase())
+  )
+    return false;
+
+  return true;
+});
   if (isError) return <NotFoundProgram title="Error loading program "/>;
 
   return (
@@ -81,7 +89,7 @@ export default function ExploreProgramPage() {
           <ProgramActiveSidebarSkeleton />
         ) : (
           <ProgramActiveSidebar
-            programData={programs}
+            programData={sidebarPrograms}
             programFilter={programFilter}
             setProgramFilter={setProgramFilter}
             levelFilter={levelFilter}

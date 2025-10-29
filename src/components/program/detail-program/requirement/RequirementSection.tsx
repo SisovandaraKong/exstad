@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { BsJournalCheck } from "react-icons/bs";
 import { useGetAllRequirementsQuery } from "./requirementsApi";
 import { RequirementsType } from "@/types/master-program";
@@ -9,26 +9,32 @@ import { useTranslations } from "next-intl";
 
 interface RequirementsProps {
   programUuid: string;
+  onHasData?: (hasData: boolean) => void;
 }
 
-const RequirementSection: React.FC<RequirementsProps> = ({ programUuid }) => {
+const RequirementSection: React.FC<RequirementsProps> = ({ programUuid,onHasData }) => {
   const {
-    data: requirements,
+    data,
     isLoading,
     isError,
   } = useGetAllRequirementsQuery(programUuid, {
     refetchOnMountOrArgChange: true,
   });
   const t = useTranslations();
+  const requirements = data ?? []
+    useEffect(() => {
+      if (!isLoading && !isError) {
+        onHasData?.(requirements.length > 0);
+      }
+    }, [requirements.length, isLoading, isError, onHasData]);
+
   if (isLoading) return <p>Loading requirements...</p>;
-  if (isError) return <p>Failed to load requirements.</p>;
-  if (!requirements || requirements.length === 0)
-    return (
-      <NotFoundProgram
-        title="No Requirement Availbale"
+  if (isError) return <NotFoundProgram
+        title="Failed to load Requirement Availbale"
         className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
-      />
-    );
+      />;
+  if (!requirements || requirements.length === 0)
+    return null;
 
   return (
     <div data-aos="fade-up" className="grid gap-6">

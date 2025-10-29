@@ -6,13 +6,14 @@ import { masterprogramApi } from "@/components/program/masterProgramApi";
 import { programOverviewsApi } from "@/components/program/detail-program/overview/programOverviewApi";
 import { requiementApi } from "@/components/program/detail-program/requirement/requirementsApi";
 import { enrollmentApi } from "@/features/enrollment/enrollmentApi";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore, current } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import { roadmapApi } from "@/features/roadmapApi";
 import storage from "redux-persist/lib/storage";
 import { openingProgramApi } from "@/components/program/openingProgramApi";
 import { timeLineApi } from "@/components/program/detail-program/timeline/timeLineApi";
 import { documentApi } from "@/features/document/documentApi";
+import { currentAddressApi } from "@/features/currentAddress/currentAddressApi";
 import { telegramApi } from "@/features/telegram/telegramApi";
 import { bakongApi } from "@/features/bakong/BakongApi";
 import { classApi } from "@/features/class/classApi";
@@ -39,7 +40,8 @@ const rootReducer = combineReducers({
   [StudentApi.reducerPath]: StudentApi.reducer,
   [timeLineApi.reducerPath]: timeLineApi.reducer,
   [roadmapApi.reducerPath]: roadmapApi.reducer,
-  [technologyApi.reducerPath]:technologyApi.reducer,
+  [technologyApi.reducerPath]: technologyApi.reducer,
+  [currentAddressApi.reducerPath]: currentAddressApi.reducer,
 });
 
 const persistConfig = {
@@ -73,7 +75,8 @@ export const makeStore = () => {
         StudentApi.middleware,
         timeLineApi.middleware,
         roadmapApi.middleware,
-                  technologyApi.middleware
+        currentAddressApi.middleware,
+        technologyApi.middleware
       ),
   });
 

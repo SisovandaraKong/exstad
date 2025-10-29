@@ -57,6 +57,8 @@ export type EnrollmentDetail = {
   isInterviewed: boolean;
   isAchieved: boolean;
   isPassed: boolean;
+  isScholar: boolean;
+  audit: Audit;
 };
 
 // PATCH body
@@ -115,11 +117,10 @@ export const enrollmentApi = createApi({
             ]
           : [{ type: "Enrollment", id: "LIST" }],
     }),
-    
+
     updateEnrollmentByUuid: builder.mutation<
       EnrollmentDetail,
       UpdateEnrollmentRequest
-
     >({
       query: ({ uuid, body }) => ({
         url: `/enrollments/${uuid}`,
