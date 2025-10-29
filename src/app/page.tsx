@@ -20,12 +20,13 @@ import SwiperSlideComponent_PopularCourse from "@/components/swiper/swiperSlide"
 import { useGetAllMasterProgramsQuery } from "@/components/program/masterProgramApi";
 import { useGetAllOpeningProgramsQuery } from "@/components/program/openingProgramApi";
 import ModernHeroSection from "@/components/hero/ModernHeroSection";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
-	const { data: allPrograms = [] } = useGetAllMasterProgramsQuery(undefined, {
-		refetchOnMountOrArgChange: true,
-	});
-	const programs = allPrograms.filter((p) => p.visibility === "PUBLIC");
+  const { data: allPrograms = [] } = useGetAllMasterProgramsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const programs = allPrograms.filter((p) => p.visibility === "PUBLIC");
 
 	const { data: allOpeningProgram = [] } = useGetAllOpeningProgramsQuery(
 		undefined,
@@ -36,21 +37,21 @@ export default function Home() {
 	const visiblePrograms = programs.filter((p) =>
 		openingPrograms.some((o) => o.programName === p.title)
 	);
-	// const t = useTranslations();
+	const t = useTranslations();
 	// 90;
 	return (
 		<motion.div
-			className='flex flex-col bg-background'
+			className='flex flex-col bg-background overflow-x-hidden'
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 0.6, ease: "easeOut" }}>
 			{/* Modern Hero Section */}
 			<ModernHeroSection />
 
-			<div className='w-full mx-auto'>
+			<div className='w-full max-w-full mx-auto overflow-x-hidden'>
 				{/* Welcoming Section */}
 				<motion.div
-					className='w-full py-4 sm:py-6 md:py-8 lg:py-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -60,7 +61,7 @@ export default function Home() {
 
 				{/* Short Courses and Scholarships Section */}
 				<motion.div
-					className='w-full pb-4 sm:pb-6 md:pb-8 lg:pb-12 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8'
+					className='pb-12 sm:pb-16 md:pb-20 lg:pb-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8'
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ duration: 0.6 }}
@@ -72,10 +73,14 @@ export default function Home() {
 						transition={{ duration: 0.8, delay: 0.2 }}
 						viewport={{ once: false }}
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
-						<ShortCourseCard />
+						<ShortCourseCard
+							id='1'
+							title={t("main-cards.short-courses.title")}
+							description={t("main-cards.short-courses.description")}
+						/>
 					</motion.div>
 					<motion.div
-						className='h-full w-full'
+						className='h-full max-w-7xl'
 						initial={{ opacity: 0, x: 50 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.8, delay: 0.4 }}
@@ -83,16 +88,15 @@ export default function Home() {
 						whileHover={{ y: -5, transition: { duration: 0.2 } }}>
 						<ScholarshipCard
 							id='2'
-							title='Scholarship Occupies'
-							description='Financial support awarded to help students pursue their education.'
-							cardBackground=''
+							title={t("main-cards.scholarship.title")}
+							description={t("main-cards.scholarship.description")}
 						/>
 					</motion.div>
 				</motion.div>
 
 				{/* Popular Course Section */}
 				<motion.div
-					className='w-full py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32'
 					initial={{ opacity: 0, scale: 0.95 }}
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -105,12 +109,12 @@ export default function Home() {
 
 				{/* Statistics Section */}
 				<motion.div
-					className='bg-background py-24 sm:py-32'
+					className='bg-background py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32'
 					initial={{ opacity: 0, y: 30 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
 					viewport={{ once: false, margin: "-100px" }}>
-					<div className='mx-auto max-w-7xl px-6 lg:px-8'>
+					<div className='max-w-7xl mx-auto'>
 						<div className='mx-auto max-w-2xl lg:max-w-none'>
 							<motion.div
 								className='text-center space-y-4'
@@ -119,11 +123,10 @@ export default function Home() {
 								transition={{ duration: 0.6, delay: 0.2 }}
 								viewport={{ once: true }}>
 								<h2 className='text-3xl font-bold tracking-tight text-primary sm:text-4xl'>
-									Outstanding Career Achievement
+									{t("statistics-section.title")}
 								</h2>
 								<p className='text-lg leading-8 text-muted-foreground'>
-									Discover where our graduates excel in their professional
-									journey across diverse industries.
+									{t("statistics-section.subtitle")}
 								</p>
 							</motion.div>
 							<motion.dl
@@ -141,7 +144,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										International Tech Company
+										{t("statistics-section.categories.international-tech")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										1%
@@ -156,7 +159,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Study Abroad
+										{t("statistics-section.categories.study-abroad")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										2%
@@ -171,7 +174,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Outsourcing
+										{t("statistics-section.categories.outsourcing")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										2%
@@ -186,7 +189,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Startup Company
+										{t("statistics-section.categories.startup-company")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										5%
@@ -201,7 +204,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										ISTAD
+										{t("statistics-section.categories.istad")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										7%
@@ -216,7 +219,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Officer
+										{t("statistics-section.categories.officer")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										16%
@@ -231,7 +234,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Bank & Finance
+										{t("statistics-section.categories.bank-finance")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										34%
@@ -246,7 +249,7 @@ export default function Home() {
 									}}
 									transition={{ duration: 0.2 }}>
 									<dt className='text-sm font-semibold leading-6 text-muted-foreground'>
-										Technology Company
+										{t("statistics-section.categories.technology-company")}
 									</dt>
 									<dd className='order-first text-3xl font-bold tracking-tight text-primary'>
 										38%
@@ -259,7 +262,7 @@ export default function Home() {
 
 				{/* Recommendation Course Section */}
 				<motion.div
-					className='w-full pt-8 sm:pt-12 md:pt-16 lg:pt-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32'
 					initial={{ opacity: 0, scale: 0.95 }}
 					whileInView={{ opacity: 1, scale: 1 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -269,7 +272,7 @@ export default function Home() {
 
 				{/* Offerring Section */}
 				<motion.div
-					className='relative bg-background pb-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto overflow-hidden'
+					className='relative bg-background py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 overflow-hidden'
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					transition={{ duration: 0.6 }}
@@ -293,16 +296,15 @@ export default function Home() {
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.2 }}
 							viewport={{ once: false }}>
-							What can we do for you?
+							{t("offerings-section.title")}
 						</motion.h2>
 						<motion.p
-							className='text-base sm:text-lg leading-8 text-gray-700 dark:text-gray-200 max-w-3xl mx-auto'
+							className='text-base sm:text-lg md:text-[18px] leading-7 sm:leading-8 text-gray-700 dark:text-gray-200 max-w-3xl mx-auto'
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.6, delay: 0.4 }}
 							viewport={{ once: false }}>
-							Providing tailored solutions, expert support, and innovative
-							services to meet your needs.
+							{t("offerings-section.subtitle")}
 						</motion.p>
 					</motion.div>
 					<motion.div
@@ -330,11 +332,12 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Scholarship Updates
+											{t("offerings-section.cards.scholarship-updates.title")}
 										</h3>
 										<p>
-											Stay informed with the latest scholarship opportunities
-											tailored for tech and innovation students.
+											{t(
+												"offerings-section.cards.scholarship-updates.description"
+											)}
 										</p>
 									</div>
 								}
@@ -359,11 +362,10 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Career Roadmaps
+											{t("offerings-section.cards.career-roadmaps.title")}
 										</h3>
 										<p>
-											Explore structured IT career paths that guide you
-											step-by-step toward your professional goals.
+											{t("offerings-section.cards.career-roadmaps.description")}
 										</p>
 									</div>
 								}
@@ -388,11 +390,12 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Skill Development
+											{t("offerings-section.cards.skill-development.title")}
 										</h3>
 										<p>
-											Gain practical skills through short courses designed to
-											prepare you for real-world challenges.
+											{t(
+												"offerings-section.cards.skill-development.description"
+											)}
 										</p>
 									</div>
 								}
@@ -415,11 +418,12 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Learning Resources
+											{t("offerings-section.cards.learning-resources.title")}
 										</h3>
 										<p>
-											Access curated study materials, hands-on projects, and
-											learning tools all in one place.
+											{t(
+												"offerings-section.cards.learning-resources.description"
+											)}
 										</p>
 									</div>
 								}
@@ -442,11 +446,10 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Success Stories
+											{t("offerings-section.cards.success-stories.title")}
 										</h3>
 										<p>
-											Get inspired by students who secured scholarships and
-											built thriving IT careers.
+											{t("offerings-section.cards.success-stories.description")}
 										</p>
 									</div>
 								}
@@ -469,11 +472,12 @@ export default function Home() {
 								content={
 									<div>
 										<h3 className='font-bold text-lg mb-2 text-gray-800 dark:text-white'>
-											Global Opportunities
+											{t("offerings-section.cards.global-opportunities.title")}
 										</h3>
 										<p>
-											Connect with worldwide opportunities in technology and
-											education to expand your horizons.
+											{t(
+												"offerings-section.cards.global-opportunities.description"
+											)}
 										</p>
 									</div>
 								}
@@ -484,7 +488,7 @@ export default function Home() {
 
 				{/* Why Choose ISTAD Section */}
 				<motion.div
-					className='py-4 sm:py-6 md:py-8 lg:py-10 bg-background'
+					className='py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 bg-background'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}
@@ -494,7 +498,7 @@ export default function Home() {
 
 				{/* Partnership Section */}
 				<motion.div
-					className='py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-8 md:px-16 lg:px-32 mx-auto'
+					className='w-full'
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8, ease: "easeOut" }}

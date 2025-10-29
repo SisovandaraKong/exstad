@@ -32,18 +32,19 @@ export default function LanguageToggle() {
       onClick={toggleLanguage}
       aria-label={ariaLabel}
       title={titleText}
-      className="p-1 hover:scale-105 transition"
+      className="hover:scale-105 transition cursor-pointer border-1 border-accent-foreground/50"
     >
       {isMounted ? (
         <Image
           src={flagSrc}
           alt={altText}
-          width={38}
-          height={38}
-          className=" shadow"
+          width={25}
+          height={25}
+          className="w-[30px] h-[20px] shadow object-cover"
+          unoptimized
         />
       ) : (
-        <span className="w-6 h-6 inline-block bg-gray-200" />
+        <span className="w-[30px] h-[20px] inline-block dark:bg-foreground/30 bg-gray-200" />
       )}
     </button>
   );

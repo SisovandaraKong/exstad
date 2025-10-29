@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -8,11 +8,12 @@ import ProgramOverviewSection from "./overview/ProgramOverviewSection";
 import LearningOutcomeSection from "./outcomes/LearningOutcomeSection";
 import RequirementSection from "./requirement/RequirementSection";
 import FaqSection from "./faq/faqSection";
+import TechnologySection from "./technology/TechnologySection";
 
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
+import NoDataComponent from "../components/NoDataComponent";
 
-// ✅ Combined type
 type Props = {
   program: MasterProgramType & { openingProgram?: openingProgramType };
 };
@@ -22,6 +23,34 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
     AOS.init({ duration: 1000, once: false });
   }, []);
 
+  // Track each section's data presence
+  const [sectionStates, setSectionStates] = useState({
+    overview: false,
+    learning: false,
+    requirement: false,
+    technology: false,
+    faq: false,
+    loading: true,
+  });
+
+  // Callback to update section state
+  const updateSectionState = (section: string, hasData: boolean) => {
+    setSectionStates((prev) => ({
+      ...prev,
+      [section]: hasData,
+      loading: false,
+    }));
+  };
+
+  // Check if all sections are empty
+  const allEmpty =
+    !sectionStates.loading &&
+    !sectionStates.overview &&
+    !sectionStates.learning &&
+    !sectionStates.requirement &&
+    !sectionStates.technology &&
+    !sectionStates.faq;
+
   return (
     <div>
       <div className="w-full grid p-[24px] gap-[40px] bg-background rounded-b-[24px]">
@@ -30,7 +59,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
           {program.title}
         </h1>
 
-        {/* ✅ Example: show deadline or generation if available from opening program */}
+        {/* Show deadline or generation if available */}
         {program.openingProgram && (
           <p className="text-muted-foreground">
             Generation {program.openingProgram.generation} · Deadline:{" "}
@@ -38,25 +67,57 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
           </p>
         )}
 
-        {/* Program Overview */}
-        <div className="grid gap-[24px]" data-aos="fade-up">
-          <ProgramOverviewSection programUuid={program.uuid} />
-        </div>
+        {/* Loading state */}
+        {sectionStates.loading && (
+          <div className="text-center text-gray-500 py-12">
+            Loading content...
+          </div>
+        )}
+        
+        {/* Fallback message if all sections are empty */}
+        {allEmpty && (
+          <NoDataComponent className="text-center bg-background rounded-b-[24px] py-12 min-h-screen h-fit flex justify-center items-center "/>
+        )}
 
-        {/* Learning Outcomes */}
-        <div data-aos="fade-up">
-          <LearningOutcomeSection programUuid={program.uuid} />
-        </div>
+        {/* Sections - only show if not all empty */}
+        {!allEmpty && (
+          <>
+            <div className="grid gap-[24px]" data-aos="fade-up">
+              <ProgramOverviewSection
+                programUuid={program.uuid}
+                onHasData={(hasData) => updateSectionState("overview", hasData)}
+              />
+            </div>
 
-        {/* Course Requirements */}
-        <div data-aos="fade-up">
-          <RequirementSection programUuid={program.uuid} />
-        </div>
+            <div data-aos="fade-up">
+              <LearningOutcomeSection
+                programUuid={program.uuid}
+                onHasData={(hasData) => updateSectionState("learning", hasData)}
+              />
+            </div>
 
-        {/* FAQ Section */}
-        <div data-aos="fade-up">
-          <FaqSection programUuid={program.uuid} />
-        </div>
+            <div data-aos="fade-up">
+              <RequirementSection
+                programUuid={program.uuid}
+                onHasData={(hasData) => updateSectionState("requirement", hasData)}
+              />
+            </div>
+
+            <div className="grid gap-[24px]" data-aos="fade-up">
+              <TechnologySection
+                programUuid={program.uuid}
+                onHasData={(hasData) => updateSectionState("technology", hasData)}
+              />
+            </div>
+
+            <div data-aos="fade-up">
+              <FaqSection
+                programUuid={program.uuid}
+                onHasData={(hasData) => updateSectionState("faq", hasData)}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

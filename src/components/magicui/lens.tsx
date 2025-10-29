@@ -77,35 +77,35 @@ export function Lens({
     currentPosition.y
   }px, ${lensColor} 100%, transparent 100%)`;
 
-  const LensContent = useMemo(() => {
-    const { x, y } = currentPosition;
+const LensContent = useMemo(() => {
+  const { x, y } = currentPosition;
 
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.58 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
-        transition={{ duration }}
-        className="absolute inset-0 overflow-hidden"
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.58 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      transition={{ duration }}
+      className="absolute inset-0 overflow-hidden"
+      style={{
+        maskImage,
+        WebkitMaskImage: maskImage,
+        transformOrigin: `${x}px ${y}px`,
+        zIndex: 50,
+      }}
+    >
+      <div
+        className="absolute inset-0"
         style={{
-          maskImage,
-          WebkitMaskImage: maskImage,
+          transform: `scale(${zoomFactor})`,
           transformOrigin: `${x}px ${y}px`,
-          zIndex: 50,
         }}
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            transform: `scale(${zoomFactor})`,
-            transformOrigin: `${x}px ${y}px`,
-          }}
-        >
-          {children}
-        </div>
-      </motion.div>
-    );
-  }, [currentPosition, lensSize, lensColor, zoomFactor, children, duration]);
+        {children}
+      </div>
+    </motion.div>
+  );
+}, [currentPosition, zoomFactor, children, duration, maskImage]);
 
   return (
     <div

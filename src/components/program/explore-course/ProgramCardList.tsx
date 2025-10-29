@@ -1,3 +1,5 @@
+// ProgramCardList.tsx - CORRECTED VERSION
+
 "use client";
 
 import React from "react";
@@ -12,7 +14,7 @@ type Props = {
   openingPrograms?: openingProgramType[];
   programFilter?: string;
   subFilter?: string[];
-  levelFilter?: string;
+  levelFilter?: string[];
   searchValue?: string;
   isLoading?: boolean;
 };
@@ -22,78 +24,77 @@ const ProgramCardList: React.FC<Props> = ({
   openingPrograms = [],
   programFilter = "All",
   subFilter = [],
-  levelFilter = "All",
+  levelFilter = [],
   searchValue = "",
   isLoading = false,
 }) => {
-  // Helper to find opening program by master program title
-    const getOpeningProgram = (programTitle: string) =>
-    openingPrograms.find(
-      (o) => o.programName === programTitle && o.status === "OPEN"
-    );
-
-  // Apply filters first
-  let filteredPrograms = programs;
-
-  if (programFilter && programFilter !== "All") {
-    filteredPrograms = filteredPrograms.filter(
-      (p) =>
-        (programFilter === "Scholarship Course" && p.programType === "SCHOLARSHIP") ||
-        (programFilter === "Short Course" && p.programType === "SHORT_COURSE")
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-6">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <ShortCourseCardActiveSkeleton key={i} />
+        ))}
+      </div>
     );
   }
 
-  if (subFilter.length > 0) {
-    filteredPrograms = filteredPrograms.filter((p) => subFilter.includes(p.title));
-  }
+  // Filter openings according to master program filters
+  const filteredOpenings = openingPrograms.filter((opening) => {
+    const master = programs.find((p) => p.title === opening.programName);
+    if (!master) return false;
 
-  if (levelFilter && levelFilter !== "All") {
-    filteredPrograms = filteredPrograms.filter(
-      (p) => p.programLevel?.toLowerCase() === levelFilter.toLowerCase()
-    );
-  }
+    // Program Type
+    if (programFilter !== "All") {
+      if (
+        (programFilter === "Scholarship Course" && master.programType !== "SCHOLARSHIP") ||
+        (programFilter === "Short Course" && master.programType !== "SHORT_COURSE")
+      )
+        return false;
+    }
 
-  if (searchValue.trim()) {
-    filteredPrograms = filteredPrograms.filter((p) =>
-      p.title.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  }
-  
-  filteredPrograms = filteredPrograms.filter((p) => getOpeningProgram(p.title));
+    // Level filter - FIXED: Use .some() with case-insensitive comparison
+    if (levelFilter.length > 0) {
+      const masterLevel = master.programLevel?.toUpperCase() || '';
+      const hasMatchingLevel = levelFilter.some(
+        (level) => level.toUpperCase() === masterLevel
+      );
+      if (!hasMatchingLevel) return false;
+    }
 
-  const scholarshipPrograms = filteredPrograms.filter((p) => p.programType === "SCHOLARSHIP");
-  const shortCoursePrograms = filteredPrograms.filter((p) => p.programType === "SHORT_COURSE");
+    // SubFilter
+    if (subFilter.length > 0 && !subFilter.includes(master.title)) return false;
+
+    // Search
+    if (searchValue && !master.title.toLowerCase().includes(searchValue.toLowerCase()))
+      return false;
+
+    return true;
+  });
+
+  // Separate by type
+  const scholarshipOpenings = filteredOpenings.filter(
+    (o) => programs.find((p) => p.title === o.programName)?.programType === "SCHOLARSHIP"
+  );
+  const shortCourseOpenings = filteredOpenings.filter(
+    (o) => programs.find((p) => p.title === o.programName)?.programType === "SHORT_COURSE"
+  );
 
   return (
     <div className="flex flex-col gap-6">
       {/* Scholarship Programs */}
       <div className="grid gap-6">
-        {isLoading
-          ? Array.from({ length: 5 }).map((_, i) => (
-              <ShortCourseCardActiveSkeleton key={i} />
-            ))
-          : scholarshipPrograms.map((program) => (
-              <ScholarshipCard
-                key={program.uuid}
-                {...program}
-                openingProgram={getOpeningProgram(program.title)}
-              />
-            ))}
+        {scholarshipOpenings.map((opening) => {
+          const master = programs.find((p) => p.title === opening.programName)!;
+          return <ScholarshipCard key={opening.uuid} {...master} openingProgram={opening} />;
+        })}
       </div>
 
       {/* Short Courses */}
       <div className="grid gap-6">
-        {isLoading
-          ? Array.from({ length: 5 }).map((_, i) => (
-              <ShortCourseCardActiveSkeleton key={i} />
-            ))
-          : shortCoursePrograms.map((program) => (
-              <ShortCourseCardActive
-                key={program.uuid}
-                {...program}
-                openingProgram={getOpeningProgram(program.title)}
-              />
-            ))}
+        {shortCourseOpenings.map((opening) => {
+          const master = programs.find((p) => p.title === opening.programName)!;
+          return <ShortCourseCardActive key={opening.uuid} {...master} openingProgram={opening} />;
+        })}
       </div>
     </div>
   );
