@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     siteName: "EXSTAD",
     images: [
       {
-        url: "https://www.exstad.tech/seo.png",
+        url: "/seo.png",
         width: 1200,
         height: 630,
         alt: "EXSTAD Logo - Student Platform for ISTAD",
@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     description:
       "EXSTAD offers a student-focused platform to explore ISTAD courses, scholarships, and hands-on learning at CSTAD.",
     images: [
-      "https://www.exstad.tech/seo.png",
+      "/seo.png",
     ],
     creator: "@exstad",
   },
