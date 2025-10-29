@@ -1,6 +1,7 @@
 import { Audit } from "..";
 import { openingProgramType } from "../opening-program";
 export type visibility = "PUBLIC" | "PRIVATE";
+type Level = "BASIC" | "INTERMEDIATE" | "ADVANCED";
 
 export type MasterProgramType = {
   uuid: string;
@@ -68,7 +69,6 @@ export type HighlightType = {
   desc: string;
 };
 export type HighlightPayload = Omit<HighlightType, "id">;
-type Level = "BASIC" | "INTERMEDIATE" | "ADVANCED";
 type programType= "SHORT_COURSE" |"SCHOLARSHIP"
 
 

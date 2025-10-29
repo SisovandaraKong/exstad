@@ -10,14 +10,20 @@ import { useTranslations } from "next-intl";
 
 interface FaqProps {
   programUuid: string;
+  onHasData?: (hasData: boolean) => void;
 }
 
-const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
+const FaqSection: React.FC<FaqProps> = ({ programUuid,onHasData }) => {
   const { data: faqSections = [], isLoading, isError } = useGetAllFaqQuery(programUuid,{refetchOnMountOrArgChange:true});
   const [openFaqs, setOpenFaqs] = useState<Record<string, boolean>>({});
   const refs = useRef<Record<string, HTMLDivElement | null>>({});
   const initializedRef = useRef(false);
 
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      onHasData?.(faqSections.length > 0);
+    }
+  }, [faqSections.length, isLoading, isError, onHasData]);
   // Optional: open all by default
   useEffect(() => {
     // Only initialize once when data first loads
@@ -39,9 +45,8 @@ const FaqSection: React.FC<FaqProps> = ({ programUuid }) => {
   const t = useTranslations();
 
   if (isLoading) return <p>Loading FAQs...</p>;
-  if (isError) return <p>Failed to load FAQs.</p>;
-  if (!faqSections.length) return <NotFoundProgram title="No Faq Available" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
-
+  if (isError) return    <NotFoundProgram title="Failed to load Faq" className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"/>;
+  if (!faqSections.length || faqSections.length === 0) return null ;
   return ( 
     <div className="grid gap-6">
       {faqSections.map((section, sectionIndex) => (

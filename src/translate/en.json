@@ -52,7 +52,6 @@
   "JUL": "JUL",
   "AUG": "AUG",
   "SEP": "SEP",
-  "SEp": "SEP",
   "OCT": "OCT",
   "NOV": "NOV",
   "DEC": "DEC",
@@ -420,6 +419,7 @@
 		"view-all": "View All",
 		"read-more": "Read More"
 	},
+	"technologies-in-use":"Technologies in Use",
 	 "Scholar": {
     "hero": {
       "title1": "From Classrooms to Careers",

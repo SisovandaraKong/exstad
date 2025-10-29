@@ -42,7 +42,7 @@ const OpeningProgramDetail: React.FC<ProgramDetailClientProps> = ({
     data: allPrograms = [],
     isLoading: isAllLoading,
     isError: isAllError,
-  } = useGetAllOpeningProgramsQuery();
+  } = useGetAllOpeningProgramsQuery(undefined,{refetchOnFocus:true,refetchOnMountOrArgChange:true,refetchOnReconnect:true});
 
   const openingProgram = allPrograms.find(
     (op) => op.slug === openingProgramSlug

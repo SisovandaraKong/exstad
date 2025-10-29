@@ -20,34 +20,34 @@ const ProgramHeader: React.FC<Props> = ({
   setActiveTab,
 }) => {
   const title = masterProgram?.title ?? openingProgram?.title ?? "";
-  const thumbnail = openingProgram?.thumbnail  ?? masterProgram?.thumbnailUrl ?? "";
+  const thumbnail = openingProgram?.thumbnail ?? masterProgram?.thumbnailUrl ?? "";
   const programType = masterProgram?.programType ?? "";
   const t = useTranslations();
 
-  // Determine tabs based on opening program existence
+  // Determine tabs based on opening program existence AND status
   const getTabs = () => {
     const baseTabs = ["overview", "curriculum"];
-    
-    // If there's an opening program, show all relevant tabs
-    if (openingProgram) {
+
+    // Only show opening tabs if there's an opening program AND it is "open"
+    if (openingProgram && openingProgram.status?.toLowerCase() === "open") {
       const openingTabs = [...baseTabs, "timeline", "activity", "roadmap", "enrollment"];
-      
+
       // For SHORT_COURSE, remove activity and timeline
       if (programType === "SHORT_COURSE") {
         return openingTabs.filter((tab) => tab !== "activity" && tab !== "timeline");
       }
-      
+
       return openingTabs;
     }
-    
-    // If NO opening program (master program only), exclude timeline & enrollment
+
+    // Master program only (or opening program closed)
     const masterTabs = [...baseTabs, "activity", "roadmap"];
-    
+
     // For SHORT_COURSE, remove activity
     if (programType === "SHORT_COURSE") {
       return masterTabs.filter((tab) => tab !== "activity");
     }
-    
+
     return masterTabs;
   };
 

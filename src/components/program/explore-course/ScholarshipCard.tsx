@@ -33,6 +33,12 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
    const deadlineParts = openingProgram?.deadline.split(" ") || [];
   const deadlineNumber = deadlineParts[0] || "0";
   const deadlineUnitKey = deadlineParts[1] || "";
+  const formatDeadline = (date: Date | string) => {
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.toLocaleString("en-US", { month: "short" }).toUpperCase(); // "AUG"
+  return `${day} ${month}`;
+};
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -79,12 +85,17 @@ const ScholarshipCard: React.FC<ScholarshipCardProps> = ({
 
           <div className="flex justify-between items-end w-full gap-2">
             {/* Deadline */}
-            <div className="sm:flex-1 border-b-4 text-center rounded-[8px] border-secondary text-secondary dark:text-white px-4 py-2">
-              <p className="font-bold text-sm md:text-[18px] lg:text-[22px]">
-                 {toKhmerNumber(deadlineNumber)} {t(deadlineUnitKey)}
-              </p>
-              <p className="text-xs md:text-base lg:text-lg">{t("deadline")}</p>
-            </div>
+              <div className="sm:flex-1 border-b-4 text-center rounded-[8px] border-secondary text-secondary dark:text-white px-4 py-2">
+  <p className="font-bold text-sm md:text-[18px] lg:text-[22px]">
+    {openingProgram?.deadline
+      ? `${toKhmerNumber(new Date(openingProgram.deadline).getDate())} ${t(
+          formatDeadline(openingProgram.deadline).split(" ")[1]
+        )}`
+      : ""}
+  </p>
+  <p className="text-xs md:text-base lg:text-lg">{t("deadline")}</p>
+</div>
+
 
             {/* Duration */}
             <div className="flex-1 w-fit border-b-4 text-primary text-center rounded-[8px] dark:text-white border-primary  px-4  py-2">

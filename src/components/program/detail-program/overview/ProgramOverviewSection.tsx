@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { useGetAllProgramOverviewQuery } from "./programOverviewApi";
 import NotFoundProgram from "../../components/NotFound";
@@ -8,8 +8,10 @@ import { useTranslations } from "next-intl";
 
 interface Props {
   programUuid: string;
+  onHasData?: (hasData: boolean) => void;
+
 }
-const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
+const ProgramOverviewSection: React.FC<Props> = ({ programUuid ,onHasData}) => {
   const { data, isLoading, isError } = useGetAllProgramOverviewQuery(
     programUuid,
     { refetchOnMountOrArgChange: true }
@@ -17,6 +19,11 @@ const ProgramOverviewSection: React.FC<Props> = ({ programUuid }) => {
 
   const overviews = data ?? []; // fallback if data is null or undefined
   const t = useTranslations();
+   useEffect(() => {
+      if (!isLoading && !isError) {
+        onHasData?.(overviews.length > 0);
+      }
+    }, [overviews.length, isLoading, isError, onHasData]);
   if (isLoading) return <div>Loading program overviews...</div>;
   if (isError)
     return (

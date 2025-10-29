@@ -8,6 +8,7 @@ import NotFoundProgram from "../../components/NotFound";
 import { useTranslations } from "next-intl";
 import { ActivityType } from "@/types/opening-program";
 import { useKhmerNumber } from "@/services/to-khmer-number";
+import NoDataComponent from "../../components/NoDataComponent";
 
 export type ProgramGeneration = {
   uuid: string;
@@ -75,10 +76,8 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
   }
   if (!activities || activities.length === 0) {
     return (
-      <NotFoundProgram
-        title="No Activity Availbale"
-        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
-      />
+    <NoDataComponent  message="This program does not have any acitvity content yet."  />
+
     );
   }
 
