@@ -86,11 +86,13 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "EXSTAD Logo - Student Platform for ISTAD",
+        type: "image/png"
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@exstad",
     title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
     description:
       "EXSTAD offers a student-focused platform to explore ISTAD courses, scholarships, and hands-on learning at CSTAD.",
