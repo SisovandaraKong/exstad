@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     siteName: "EXSTAD",
     images: [
       {
-        url: "https://api.exstad.tech/documents/c50808edd4dc4e96956d3933476ab060-2025Oct26-141032.png",
+        url: "https://www.cstad.edu.kh/icon.png?ff407d7ec1c2072a",
         width: 1200,
         height: 630,
         alt: "EXSTAD Logo - Student Platform for ISTAD",
