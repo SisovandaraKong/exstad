@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
   manifest: "/manifest.json",
-  metadataBase: new URL("https://exstad.tech"),
+  metadataBase: new URL("https://www.exstad.tech"),
   alternates: {
     canonical: "/",
   },
@@ -78,11 +78,11 @@ export const metadata: Metadata = {
     title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
     description:
       "Discover EXSTAD: Explore ISTAD courses, scholarships, and practical learning opportunities at CSTAD with a student-focused platform.",
-    url: "https://exstad.tech",
+    url: "https://www.exstad.tech",
     siteName: "EXSTAD",
     images: [
       {
-        url: "https://api.exstad.tech/documents/c50808edd4dc4e96956d3933476ab060-2025Oct26-141032.png",
+        url: "https://www.exstad.tech/seo.png",
         width: 1200,
         height: 630,
         alt: "EXSTAD Logo - Student Platform for ISTAD",
@@ -95,7 +95,7 @@ export const metadata: Metadata = {
     description:
       "EXSTAD offers a student-focused platform to explore ISTAD courses, scholarships, and hands-on learning at CSTAD.",
     images: [
-      "https://api.exstad.tech/documents/c50808edd4dc4e96956d3933476ab060-2025Oct26-141032.png",
+      "https://www.exstad.tech/seo.png",
     ],
     creator: "@exstad",
   },
