@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { BsLightbulb } from "react-icons/bs";
 import { useGetAllLearningOutcomesQuery } from "./learningOutcomesApi";
 import { LearningOutcomeType } from "@/types/master-program";
@@ -9,19 +9,29 @@ import { useTranslations } from "next-intl";
 
 interface LearningOutcomeProps {
   programUuid: string;
+  onHasData?: (hasData: boolean) => void;
+  
 }
 
 const LearningOutcomeSection: React.FC<LearningOutcomeProps> = ({
   programUuid,
+  onHasData,
 }) => {
   const {
-    data: learningOutcomes,
+    data,
     isLoading,
     isError,
   } = useGetAllLearningOutcomesQuery(programUuid, {
     refetchOnMountOrArgChange: true,
   });
   const t = useTranslations();
+
+  const learningOutcomes = data ?? [];
+   useEffect(() => {
+      if (!isLoading && !isError) {
+        onHasData?.(learningOutcomes.length > 0);
+      }
+    }, [learningOutcomes.length, isLoading, isError, onHasData]);
   if (isLoading) return <p>Loading learning outcomes...</p>;
   if (isError)
     return (
@@ -31,12 +41,7 @@ const LearningOutcomeSection: React.FC<LearningOutcomeProps> = ({
       />
     );
   if (!learningOutcomes || learningOutcomes.length === 0)
-    return (
-      <NotFoundProgram
-        title="No Learning Outcomes Availbale"
-        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
-      />
-    );
+    return null;
 
   return (
     <div data-aos="fade-up" className="grid gap-6">

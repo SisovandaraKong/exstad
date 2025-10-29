@@ -9,6 +9,7 @@ import NotFoundProgram from "../../components/NotFound";
 import ProgramCurriculumSkeleton from "../../skeleton/ProgramCurriculumSkeleton";
 import { useTranslations } from "next-intl";
 import { useKhmerNumber } from "@/services/to-khmer-number";
+import NoDataComponent from "../../components/NoDataComponent";
 
 type CurriculumProps = {
   openingUuid?: string; // Make optional
@@ -70,10 +71,7 @@ const   ProgramCurriculumTap: React.FC<CurriculumProps> = ({ openingUuid, master
   if (loadingOpening || loadingMaster) return <ProgramCurriculumSkeleton />;
   if (curriculumSections.length === 0)
     return (
-      <NotFoundProgram
-        title="No Curriculum Available"
-        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
-      />
+      <NoDataComponent  message="This program does not have any curriculum content yet."  />
     );
 
   return (

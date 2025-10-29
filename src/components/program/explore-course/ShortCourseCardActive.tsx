@@ -12,14 +12,14 @@ import { useTranslations } from "next-intl";
 import { useKhmerNumber } from "@/services/to-khmer-number";
 
 interface ShortCourseCardProps extends MasterProgramType {
-	openingProgram?: openingProgramType;
+  openingProgram?: openingProgramType;
 }
 
 const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
-	// uuid,
-	title,
-	description,
-	openingProgram,
+  // uuid,
+  title,
+  description,
+  openingProgram,
 }) => {
   const router = useRouter();
   const t = useTranslations();
@@ -35,6 +35,12 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
   const unitKey = durationParts[1] || ""; // this should match your translation key, e.g., "months" or "hours"
   const deadlineNumber = deadlineParts[0] || "0";
   const deadlineUnitKey = deadlineParts[1] || "";
+  const formatDeadline = (date: Date | string) => {
+    const d = new Date(date);
+    const day = d.getDate();
+    const month = d.toLocaleString("en-US", { month: "short" }).toUpperCase(); // "AUG"
+    return `${day} ${month}`;
+  };
   return (
     <div className="w-full   grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 rounded-[24px] justify-between gap-1 md:gap-2 lg:gap-4 p-4 md:p-4 lg:p-6 bg-background [box-shadow:0px_8px_24px_rgba(0,0,0,0.05)]">
       {/* Course Image */}
@@ -58,15 +64,19 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
             <div className="w-1 h-4 bg-gradient-to-b from-primary to-transparent dark:from-accent dark:to-yellow-transparent rounded-full mt-1"></div>
           </div>
           <div className="flex flex-col">
-            <Link href={`/explore-course/${openingProgram?.slug}`} className="block">
-            <h1
-              className="text-primary dark:text-white  text-[20px] md:text-2xl lg:text-3xl font-bold hover:text-primary-hover cursor-pointer"
+            <Link
+              href={`/explore-course/${openingProgram?.slug}`}
+              className="block"
             >
-              {title}
-            </h1>
+              <h1 className="text-primary dark:text-white  text-[20px] md:text-2xl lg:text-3xl font-bold hover:text-primary-hover cursor-pointer">
+                {title}
+              </h1>
             </Link>
             <p className="text-secondary dark:text-accent font-bold text-[16px] md:text-[18px] lg:text-[20px]">
-              {openingProgram?.scholarship != null ? toKhmerNumber(openingProgram.scholarship) : "0"}% {t("scholarship")}
+              {openingProgram?.scholarship != null
+                ? toKhmerNumber(openingProgram.scholarship)
+                : "0"}
+              % {t("scholarship")}
             </p>
           </div>
         </div>
@@ -81,11 +91,15 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
             {/* Deadline */}
             <div className="sm:flex-1 border-b-4 text-center rounded-lg border-secondary text-secondary dark:text-white px-4 py-2">
               <p className="font-bold text-sm sm:text-base md:text-lg lg:text-xl">
-                  {toKhmerNumber(deadlineNumber)} {t(deadlineUnitKey)}
+                {openingProgram?.deadline
+                  ? `${toKhmerNumber(
+                      new Date(openingProgram.deadline).getDate()
+                    )} ${t(
+                      formatDeadline(openingProgram.deadline).split(" ")[1]
+                    )}`
+                  : ""}
               </p>
-              <p className="text-xs md:text-base lg:text-lg">
-                {t("deadline")}
-              </p>
+              <p className="text-xs md:text-base lg:text-lg">{t("deadline")}</p>
             </div>
 
             {/* Duration */}
@@ -101,11 +115,17 @@ const ShortCourseCardActive: React.FC<ShortCourseCardProps> = ({
             {/* Price */}
             <div className="sm:flex-1 text-center relative">
               <p className="inline-block text-white font-bold text-xl sm:text-2xl md:text-2xl lg:text-3xl bg-primary rounded-full py-1 sm:py-2 px-4 sm:px-6 md:px-7">
-                ${openingProgram?.price != null ? toKhmerNumber(openingProgram.price) : "0"}
+                $
+                {openingProgram?.price != null
+                  ? toKhmerNumber(openingProgram.price)
+                  : "0"}
               </p>
               {openingProgram?.originalFee && (
                 <p className="absolute -top-4 -right-1 text-white text-xs sm:text-sm md:text-sm lg:text-base line-through bg-secondary rounded-full px-2 sm:px-3 py-0.5 border border-white">
-                  ${openingProgram?.originalFee != null ? toKhmerNumber(openingProgram.price) : "0"}
+                  $
+                  {openingProgram?.originalFee != null
+                    ? toKhmerNumber(openingProgram.price)
+                    : "0"}
                 </p>
               )}
             </div>

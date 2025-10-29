@@ -1,3 +1,5 @@
+// ProgramCardList.tsx - CORRECTED VERSION
+
 "use client";
 
 import React from "react";
@@ -12,16 +14,17 @@ type Props = {
   openingPrograms?: openingProgramType[];
   programFilter?: string;
   subFilter?: string[];
-  levelFilter?: string;
+  levelFilter?: string[];
   searchValue?: string;
   isLoading?: boolean;
 };
+
 const ProgramCardList: React.FC<Props> = ({
   programs,
   openingPrograms = [],
   programFilter = "All",
   subFilter = [],
-  levelFilter = "All",
+  levelFilter = [],
   searchValue = "",
   isLoading = false,
 }) => {
@@ -49,9 +52,13 @@ const ProgramCardList: React.FC<Props> = ({
         return false;
     }
 
-    // Level
-    if (levelFilter !== "All" && master.programLevel !== levelFilter.toUpperCase()) {
-      return false;
+    // Level filter - FIXED: Use .some() with case-insensitive comparison
+    if (levelFilter.length > 0) {
+      const masterLevel = master.programLevel?.toUpperCase() || '';
+      const hasMatchingLevel = levelFilter.some(
+        (level) => level.toUpperCase() === masterLevel
+      );
+      if (!hasMatchingLevel) return false;
     }
 
     // SubFilter
@@ -92,4 +99,5 @@ const ProgramCardList: React.FC<Props> = ({
     </div>
   );
 };
+
 export default ProgramCardList;

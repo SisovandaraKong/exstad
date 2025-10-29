@@ -232,9 +232,17 @@ const TimeLine: React.FC<Props> = ({ openingProgramUuid }) => {
   const width = useWindowWidth();
   const isMobile = width < 640;
 
-  const { data, isLoading, isError } = useGetOpeningProgramTimelinesQuery({
-    uuid: openingProgramUuid,
-  });
+  const { data, isLoading, isError } = useGetOpeningProgramTimelinesQuery(
+    {
+      uuid: openingProgramUuid,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+
+    }
+  );
 
   const events: EventItem[] = React.useMemo(() => {
     const src = Array.isArray(data) ? data : ([] as TimelineType[]);
@@ -274,6 +282,8 @@ const TimeLine: React.FC<Props> = ({ openingProgramUuid }) => {
       </div>
     );
   }
+
+  console.log(data)
 
   return (
     <div className="h-full bg-background">

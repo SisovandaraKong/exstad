@@ -1,3 +1,5 @@
+// ProgramActiveSidebar.tsx - Updated with "All" option for Level
+
 "use client";
 
 import React, { useState } from "react";
@@ -15,8 +17,8 @@ type Props = {
   programData: MasterProgramType[];
   programFilter: string;
   setProgramFilter: (filter: string) => void;
-  levelFilter: string;
-  setLevelFilter: (filter: string) => void;
+  levelFilter: string[];
+  setLevelFilter: (filter: string[]) => void;
   subFilter: string[];
   setSubFilter: (filter: string[]) => void;
 };
@@ -71,22 +73,22 @@ const ProgramActiveSidebar: React.FC<Props> = ({
   };
 
   const renderOption = (option: string, selected: boolean) => (
-    <li
-      key={option}
-      className="flex items-center gap-2 cursor-pointer transition-opacity duration-300"
-    >
-      <div
-        className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
-          selected ? "border-4 border-primary" : ""
-        }`}
-        onClick={() => toggleOption(option)}
-      />
-      <button
-        onClick={() => toggleOption(option)}
-        className="text-[13px] font-medium text-gray-700 hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors duration-150 text-left"
-      >
-        {option}
-      </button>
+    <li key={option} className="flex items-center gap-2">
+      <div className="form-check flex items-center gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          id={`option_${option}`}
+          checked={selected}
+          onChange={() => toggleOption(option)}
+          className="form-check-input  w-4 h-4 accent-primary text-primary border-gray-400 rounded cursor-pointer"
+        />
+        <label
+          htmlFor={`option_${option}`}
+          className="form-check-label text-[13px] font-medium text-gray-700 dark:text-gray-300 cursor-pointer select-none"
+        >
+          {option}
+        </label>
+      </div>
     </li>
   );
 
@@ -104,15 +106,13 @@ const ProgramActiveSidebar: React.FC<Props> = ({
         onClick={() => setShowAll(!showAll)}
         className="mt-2 ml-1 text-primary dark:text-white text-xs font-semibold hover:underline transition-colors duration-150"
       >
-        {showAll
-          ? t("show-less")
-          : `${t("load-more")} (${displayCount})`}
+        {showAll ? t("show-less") : `${t("load-more")} (${displayCount})`}
       </button>
     );
   };
 
   const isFiltered =
-    programFilter !== "All" || levelFilter !== "All" || subFilter.length > 0;
+    programFilter !== "All" || levelFilter.length > 0 || subFilter.length > 0;
 
   const SidebarContent = (
     <>
@@ -193,32 +193,59 @@ const ProgramActiveSidebar: React.FC<Props> = ({
           )}
         </div>
 
-        {/* Level Filter */}
+        {/* Level Filter with "All" option */}
         <div>
           <h3 className="font-medium text-[16px] mb-2 text-gray-800 dark:text-gray-200">
             {t("level")}
           </h3>
           <ul className="space-y-2 p-2">
-            {["All", "Basic", "Intermediate", "Advanced"].map((level) => (
-              <li key={level} className="flex items-center gap-2 cursor-pointer">
-                <div
-                  className={`w-[18px] h-[18px] rounded-full border border-[#BFBFBF] flex-shrink-0 transition-all duration-150 ${
-                    levelFilter === level ? "border-4 border-primary" : ""
-                  }`}
-                  onClick={() => setLevelFilter(level)}
+            {/* All option for Level */}
+            <li className="flex items-center gap-2">
+              <div className="form-check flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="level_All"
+                  checked={levelFilter.length === 0}
+                  onChange={() => setLevelFilter([])}
+                  className="form-check-input w-4 h-4 accent-primary text-primary border-gray-400 rounded cursor-pointer"
                 />
-                <button
-                  onClick={() => setLevelFilter(level)}
-                  className="text-[13px] font-medium text-gray-700 dark:text-gray-300"
+                <label
+                  htmlFor="level_All"
+                  className="form-check-label text-[13px] font-medium text-gray-700 dark:text-gray-300 cursor-pointer select-none"
                 >
-                  {level === "All"
-                    ? t("all")
-                    : level === "Basic"
-                    ? t("basic")
-                    : level === "Intermediate"
-                    ? t("intermediate")
-                    : t("advanced")}
-                </button>
+                  {t("all")}
+                </label>
+              </div>
+            </li>
+
+            {/* Individual Level Checkboxes */}
+            {["Basic", "Intermediate", "Advanced"].map((level) => (
+              <li key={level} className="flex items-center gap-2">
+                <div className="form-check flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id={`level_${level}`}
+                    checked={levelFilter.includes(level)}
+                    onChange={() => {
+                      if (levelFilter.includes(level)) {
+                        setLevelFilter(levelFilter.filter((l) => l !== level));
+                      } else {
+                        setLevelFilter([...levelFilter, level]);
+                      }
+                    }}
+                    className="form-check-input w-4 h-4 accent-primary text-primary border-gray-400 rounded cursor-pointer"
+                  />
+                  <label
+                    htmlFor={`level_${level}`}
+                    className="form-check-label text-[13px] font-medium text-gray-700 dark:text-gray-300 cursor-pointer select-none"
+                  >
+                    {level === "Basic"
+                      ? t("basic")
+                      : level === "Intermediate"
+                      ? t("intermediate")
+                      : t("advanced")}
+                  </label>
+                </div>
               </li>
             ))}
           </ul>
@@ -230,7 +257,7 @@ const ProgramActiveSidebar: React.FC<Props> = ({
         <button
           onClick={() => {
             setProgramFilter("All");
-            setLevelFilter("All");
+            setLevelFilter([]);
             setSubFilter([]);
             setShowAllScholarships(false);
             setShowAllShortCourses(false);
@@ -288,7 +315,7 @@ const ProgramActiveSidebar: React.FC<Props> = ({
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "tween", duration:0.3 }}
+              transition={{ type: "tween", duration: 0.3 }}
             >
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
