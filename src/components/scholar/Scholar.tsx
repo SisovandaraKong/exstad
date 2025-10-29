@@ -72,6 +72,8 @@ type ApiScholar = ApiScholarBase & {
   }> | null;
   category?: string;
   audit?: ApiAudit;
+  isEmployed?: boolean;
+  isAbroad?: boolean;
 };
 
 type ApiError = { data?: { message?: string }; error?: string };
@@ -528,7 +530,7 @@ export default function Scholar() {
 
     (_apiScholars as ApiScholar[]).forEach((s) => {
       if (
-        s?.uuid &&
+        s?.uuid && s.isAbroad &&
         Array.isArray(s.specialist) &&
         s.specialist.length > 0 &&
         s.specialist[0]?.specialist
@@ -562,7 +564,7 @@ export default function Scholar() {
      ========================================================= */
   const spotlight: SpotlightItem[] = useMemo(() => {
     const list = (_apiScholars as ApiScholar[]).filter(
-      (s) => Array.isArray(s.careers) && s.careers.length > 0
+      (s) => Array.isArray(s.careers) && s.isEmployed && s.careers.length > 0
     );
 
     return list.map((s, idx) => {
