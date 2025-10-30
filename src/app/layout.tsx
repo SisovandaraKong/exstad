@@ -18,20 +18,19 @@ const inter = Inter({
   display: "swap",
 });
 
-// koh-santepheap
 const koh = Koh_Santepheap({
   variable: "--font-koh",
   weight: "400",
   subsets: ["khmer"],
   display: "swap",
 });
+
 const nunito = Nunito_Sans({
   variable: "--font-nunito",
   weight: ["400", "700"],
   subsets: ["latin"],
   display: "swap",
 });
-
 
 export const metadata: Metadata = {
   title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
@@ -86,7 +85,7 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: "EXSTAD Logo - Student Platform for ISTAD",
-        type: "image/png"
+        type: "image/png",
       },
     ],
   },
@@ -96,13 +95,10 @@ export const metadata: Metadata = {
     title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
     description:
       "EXSTAD offers a student-focused platform to explore ISTAD courses, scholarships, and hands-on learning at CSTAD.",
-    images: [
-      "https://i.postimg.cc/W1258VRQ/3.png",
-    ],
+    images: ["https://i.postimg.cc/W1258VRQ/3.png"],
     creator: "@exstad",
   },
 };
-
 
 export default async function RootLayout({
   children,
@@ -130,14 +126,14 @@ export default async function RootLayout({
           <Providers>
             <I18nProvider initialLocale={internalLocale}>
               <LanguageLoadingProvider>
-                              <AuthProvider>
-                <Navbar />
-                <main className="mt-20">
-                  {children}
-                  <AppToaster />
-                </main>
-                <Footer />
-              </AuthProvider>
+                <AuthProvider>
+                  <Navbar />
+                  <main className="mt-20">
+                    {children}
+                    <AppToaster />
+                  </main>
+                  <Footer />
+                </AuthProvider>
               </LanguageLoadingProvider>
             </I18nProvider>
           </Providers>
