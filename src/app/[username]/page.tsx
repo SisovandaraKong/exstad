@@ -2,18 +2,20 @@ import { Scholar } from "@/types/scholar";
 import { Metadata } from "next";
 import ScholarDetailPage from "./ScholarDetailPage";
 
-type Params = {
-  params: {
-    username: string;
-  };
-};
+interface PageParams {
+  username: string;
+}
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const { username } = params;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<PageParams>;
+}): Promise<Metadata> {
+  const { username } = await params;
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/scholars/username/${username}`,
-    { next: { revalidate: 3600 } } // cache for 1h for better performance
+    { next: { revalidate: 3600 } }
   );
 
   if (!res.ok) {
