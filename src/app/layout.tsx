@@ -181,8 +181,7 @@ export default async function RootLayout({
                 "@type": "SearchAction",
                 target: {
                   "@type": "EntryPoint",
-                  urlTemplate:
-                    "https://www.exstad.tech/search?q={search_term_string}",
+                  urlTemplate: "https://www.exstad.tech/",
                 },
                 "query-input": "required name=search_term_string",
               },

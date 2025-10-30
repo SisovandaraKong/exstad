@@ -30,13 +30,13 @@ export const metadata: Metadata = {
     "Hands-on Learning",
     "Our Program"
   ],
-  metadataBase: new URL("https://exstad.tech"),
+  metadataBase: new URL("https://www.exstad.tech/"),
   alternates: { canonical: "/our-program/short-courses" },
   openGraph: {
     title: "ISTAD Short Courses | Learn Flutter, iOS, Android, Web, DevOps, and More",
     description:
       "Explore ISTAD short courses in Flutter, iOS, Android, SQL, Web Design, DevOps, C++, Docker, Data Analytics, NEXT.js, Linux, Spring, Blockchain, and Java. Boost your skills and career with hands-on learning in Cambodia.",
-    url: "https://exstad.tech/our-program/short-courses",
+    url: "https://www.exstad.tech/our-program/short-courses",
     siteName: "EXSTAD",
     images: [
       {

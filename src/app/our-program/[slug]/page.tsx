@@ -58,11 +58,11 @@ export async function generateMetadata({
 
   return {
     title: `${program.title} | EXSTAD`,
-    description:`${
-        program.subtitle || "Join our professional programs today!"
-      } | Duration: ${openingProgram?.duration || "N/A"}, Level: ${
-        program.programLevel || "BASIC"
-      }, Price: ${openingProgram?.price || "N/A"}`,
+    description: `${
+      program.subtitle || "Join our professional programs today!"
+    } | Duration: ${openingProgram?.duration || "N/A"}, Level: ${
+      program.programLevel || "BASIC"
+    }, Price: ${openingProgram?.price || "N/A"}`,
     openGraph: {
       title: `${program.title} | EXSTAD`,
       description: `${
