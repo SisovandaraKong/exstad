@@ -34,9 +34,6 @@ export default function RoadmapDetailPage() {
     </h1>
   </Card>
 </div>
-
-
-
       {/* Roadmap Viewer */}
       <WorkNodeViewer programUuid={program.uuid} programType="programs" />
 
