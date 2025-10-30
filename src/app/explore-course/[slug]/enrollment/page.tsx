@@ -644,7 +644,7 @@ export default function EnrollmentPage() {
       <div className="flex flex-col max-w-7xl mx-auto gap-6 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto bg-background rounded-md mt-10 p-4 w-full px-4 sm:px-6 lg:px-8">
           <h1 className="font-d2 font-bold text-3xl text-center text-primary dark:text-white">
-            {masterProgram?.title}
+            {masterProgram?.title} - {t("enrollment")}
           </h1>
         </div>
 
