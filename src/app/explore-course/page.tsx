@@ -57,14 +57,14 @@ export const metadata: Metadata = {
     "Open Programs",
     "Program Explorer",
   ],
-  metadataBase: new URL("https://exstad.tech"),
+  metadataBase: new URL("https://www.exstad.tech/"),
   alternates: { canonical: "/explore-course" },
   openGraph: {
     type: "website",
     title: "Explore ISTAD Courses & Scholarships | EXSTAD",
     description:
       "Discover and filter ISTAD programs, scholarships, and short courses on EXSTAD. Access open programs and find the perfect learning opportunity.",
-    url: "https://exstad.tech/explore-course",
+    url: "https://www.exstad.tech/explore-course",
     siteName: "EXSTAD",
     images: [
       {
