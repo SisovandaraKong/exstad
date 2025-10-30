@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import ProgramDetailClient from "../OpeningProgramDetail";
+import ProgramDetailClient from "./OpeningProgramDetail";
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
 import NotFoundProgram from "@/components/program/components/NotFound";

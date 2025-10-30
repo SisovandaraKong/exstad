@@ -12,7 +12,7 @@ import TechnologySection from "./technology/TechnologySection";
 
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
-import NoDataComponent from "../components/NoDataComponent";
+import NoDataComponent from "../components/NoDataComponents";
 
 type Props = {
   program: MasterProgramType & { openingProgram?: openingProgramType };
@@ -76,7 +76,7 @@ const ProgramOverviewCard: React.FC<Props> = ({ program }) => {
         
         {/* Fallback message if all sections are empty */}
         {allEmpty && (
-          <NoDataComponent className="text-center bg-background rounded-b-[24px] py-12 min-h-screen h-fit flex justify-center items-center "/>
+          <NoDataComponent className="text-center bg-background rounded-b-3xl py-12 min-h-screen h-fit flex justify-center items-center "/>
         )}
 
         {/* Sections - only show if not all empty */}

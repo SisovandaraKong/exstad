@@ -22,7 +22,6 @@
 // }
 
 "use client";
-
 import ProfilePortfolio from "@/components/student/ProfilePortfolio";
 import ProfilePortfolioSetting from "@/components/student/ProfilePortfolioSetting";
 import { ProfileSection } from "@/components/student/ProfileSection";
