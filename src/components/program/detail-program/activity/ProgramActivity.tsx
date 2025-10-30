@@ -8,7 +8,7 @@ import NotFoundProgram from "../../components/NotFound";
 import { useTranslations } from "next-intl";
 import { ActivityType } from "@/types/opening-program";
 import { useKhmerNumber } from "@/services/to-khmer-number";
-import NoDataComponent from "../../components/ExploreComponent";
+import NoDataComponent from "../../components/NoDataComponents";
 export type ProgramGeneration = {
   uuid: string;
   title: string;
@@ -69,19 +69,18 @@ const ProgramActivityTap: React.FC<ActivityProps> = ({ generations }) => {
     return (
       <NotFoundProgram
         title="Failed to Load Activity"
-        className="bg-background rounded-b-[24px] flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
+        className="bg-background rounded-b-3xl flex flex-col space-y-3 justify-center items-center min-h-screen h-fit"
       />
     );
   }
   if (!activities || activities.length === 0) {
     return (
-    <NoDataComponent  message="This program does not have any acitvity content yet."  />
-
+      <NoDataComponent message="This program does not have any activity content yet." />
     );
   }
 
   return (
-    <div className="w-full bg-background grid p-4 sm:p-6 md:p-6 gap-10 rounded-b-[24px]">
+    <div className="w-full bg-background grid p-4 sm:p-6 md:p-6 gap-10 rounded-b-3xl">
       <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl text-foreground">
         {t("activity")}
       </h1>
