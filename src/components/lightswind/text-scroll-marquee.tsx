@@ -30,23 +30,28 @@ export default function TextScrollMarquee({
   delay = 0,
   direction = "left",
 }: TextScrollMarqueeProps) {
+  // Motion values for smooth animation
   const baseX = useMotionValue(0);
   const { scrollY } = useScroll();
   const scrollVelocity = useVelocity(scrollY);
+
+  // Smooth velocity with spring physics for fluid motion
   const smoothVelocity = useSpring(scrollVelocity, {
     damping: 100,
     stiffness: 400,
   });
+
   const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 2], {
     clamp: false,
   });
 
-  // ✅ Use modular wrap from -100% to 0% for seamless loop
+  // Seamless loop from -100% to 0% for infinite scroll
   const x = useTransform(baseX, (v) => `${wrap(-100, 0, v % 100)}%`);
 
   const directionFactor = useRef<number>(direction === "left" ? 1 : -1);
   const hasStarted = useRef(false);
 
+  // Delay animation start if needed
   useEffect(() => {
     const timer = setTimeout(() => {
       hasStarted.current = true;
@@ -55,15 +60,18 @@ export default function TextScrollMarquee({
     return () => clearTimeout(timer);
   }, [delay]);
 
+  // Update direction when prop changes
   useEffect(() => {
     directionFactor.current = direction === "left" ? 1 : -1;
   }, [direction]);
 
+  // Animation frame loop for smooth continuous motion
   useAnimationFrame((t, delta) => {
     if (!hasStarted.current) return;
 
     let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
+    // Update direction based on scroll velocity if enabled
     if (scrollDependent) {
       if (velocityFactor.get() < 0) {
         directionFactor.current = -1;
@@ -73,7 +81,6 @@ export default function TextScrollMarquee({
     }
 
     moveBy += directionFactor.current * moveBy * velocityFactor.get();
-
     baseX.set(baseX.get() + moveBy);
   });
 
@@ -83,7 +90,7 @@ export default function TextScrollMarquee({
         className="flex whitespace-nowrap gap-10 flex-nowrap"
         style={{ x }}
       >
-        {[...Array(6)].map((_, index) => (
+        {Array.from({ length: 6 }, (_, index) => (
           <span key={index} className={cn("block text-[5vw]", className)}>
             {children}
           </span>
