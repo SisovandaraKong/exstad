@@ -2,13 +2,15 @@
 import type { Metadata } from "next";
 import ShortCoursePage from "./ShortCoursePage";
 export const metadata: Metadata = {
-  title: "ISTAD Short Courses | Learn Flutter, iOS, Android, Web, DevOps, Web Design, Blockchain, and More",
+  title: "ISTAD Short Courses | Learn Flutter, iOS, Android, SQL, Web Design, DevOps, C++, Docker, Data Analytics, NEXT.js, Linux, Spring, Blockchain, and Java. Boost your skills and career with hands-on learning in Cambodia",
   description:
     "Explore ISTAD short courses in Flutter, iOS, Android, SQL, Web Design, DevOps, C++, Docker, Data Analytics, NEXT.js, Linux, Spring, Blockchain, and Java. Boost your skills and career with hands-on learning in Cambodia.",
   keywords: [
     "ISTAD",
     "Short Courses",
     "Flutter",
+    "CSTAD",
+    "Exstad Short Courses",
     "iOS Development",
     "Android Development",
     "SQL",
@@ -26,6 +28,7 @@ export const metadata: Metadata = {
     "Scholarship",
     "Tech Courses Cambodia",
     "Hands-on Learning",
+    "Our Program"
   ],
   metadataBase: new URL("https://exstad.tech"),
   alternates: { canonical: "/our-program/short-courses" },

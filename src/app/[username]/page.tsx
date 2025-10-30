@@ -1,65 +1,42 @@
-// import { ProfileSection } from "@/components/student/ProfileSection";
-// import ProfilePortfolio from "@/components/student/ProfilePortfolio";
+import { Scholar } from "@/types/scholar";
+import { Metadata } from "next";
+import ScholarDetailPage from "./ScholarDetailPage";
 
-// export default function Page({ params }: { params: { username: string } }) {
-//   return (
-//     <div className="flex flex-col gap-16">
-//       {/* Hero Profile Section */}
-//       <ProfileSection username={params.username} />
-
-//       {/* Portfolio (certificates, achievements, courses) */}
-//      <div className="-mt-10 md:-mt-16">
-//         <ProfilePortfolio username={params.username} />
-//       </div>
-//     </div>
-//   );
-// }
-// src/app/[username]/page.tsx
-// src/app/[username]/page.tsx
-"use client";
-import React, { useRef } from "react";
-import { ProfileSection } from "@/components/student/ProfileSection";
-import ProfilePortfolio from "@/components/student/ProfilePortfolio";
-import SharedScrollAvatar from "@/components/student/SharedScrollAvatar";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-
-export default function Page({
-  params,
-}: {
+type Params = {
   params: Promise<{ username: string }>;
-}) {
-  const { username } = React.use(params); // ✅ unwrap params in Next 15+
-  const { data: session } = useSession();
-  const router = useRouter();
+};
 
-  const topAnchor = useRef<HTMLDivElement>(null);
-  const bottomAnchor = useRef<HTMLDivElement>(null);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { username } = await params;
+  const data = (await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/scholars/username/${username}`
+  ).then((res) => res.json())) as Scholar;
 
-  if (session?.user.username === username) {
-    router.push("/me");
+  if (!data) {
+    return {};
   }
+  return {
+    title: `${data.englishName} - EXSTAD Scholar`,
+    description: data.bio,
+    openGraph: {
+      title: `${data.englishName} - EXSTAD Scholar`,
+      description: data.bio,
+      url: `https://www.exstad.tech/${username}`,
+      siteName: "EXSTAD",
+      images: [
+        {
+          url: data.avatar,
+          width: 1200,
+          height: 630,
+          alt: data.englishName,
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+  };
+}
 
-  return (
-    <div className="relative">
-      <SharedScrollAvatar
-        username={username}
-        topAnchor={topAnchor}
-        bottomAnchor={bottomAnchor}
-        topSize={350}
-        bottomSize={192}
-        viewportOffsetTop={72} // height of your fixed navbar
-      />
-
-      <div className="flex flex-col gap-16">
-        <ProfileSection username={username} avatarAnchorRef={topAnchor} />
-        <div className="-mt-10 md:-mt-16">
-          <ProfilePortfolio
-            username={username}
-            avatarAnchorRef={bottomAnchor}
-          />
-        </div>
-      </div>
-    </div>
-  );
+export default function Page() {
+  return <ScholarDetailPage />;
 }
