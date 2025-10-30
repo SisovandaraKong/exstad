@@ -19,7 +19,7 @@ export const metadata = {
     title: "About exSTAD | IT Career Platform for Cambodian Students",
     description:
       "Discover exSTAD, the platform helping Cambodian students launch IT careers through ISTAD scholarships and training programs. Learn about our mission and values.",
-    url: "https://yourdomain.com/about",
+    url: "https://www.exstad.tech/",
     siteName: "exSTAD",
     locale: "en_US",
     type: "website",

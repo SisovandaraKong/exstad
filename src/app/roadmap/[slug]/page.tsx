@@ -1,42 +1,103 @@
-"use client";
+import { Metadata } from "next";
+import { MasterProgramType } from "@/types/master-program";
+import RoadMapDetailClient from "@/app/roadmap/[slug]/RoadMapDetailpage"
+interface RoadmapPageParams {
+  slug: string;
+}
 
-import { LoadingOverlay } from "@/components/loading/LoadingOverlay";
-import { useParams, useRouter } from "next/navigation";
-import { useGetMasterProgramBySlugQuery } from "../../../components/program/masterProgramApi";
-import WorkNodeViewer from "../../../components/roadmap/roadmap-detail";
-import { Card } from "../../../components/ui/card";
+// Fetch master program for metadata
+async function getProgramData(slug: string): Promise<MasterProgramType | null> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/programs/slug/${slug}`,
+      { 
+        cache: "no-store",
+        next: { revalidate: 0 }
+      }
+    );
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching program for roadmap:", error);
+    return null;
+  }
+}
 
-export default function RoadmapDetailPage() {
-  const router = useRouter();
-  const { slug } = useParams<{ slug: string }>();
-  const { data: program, isLoading, error } = useGetMasterProgramBySlugQuery({ slug });
+// Generate metadata for roadmap
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<RoadmapPageParams>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const program = await getProgramData(slug);
 
+  // Default metadata for 404
+  if (!program) {
+    return {
+      title: "Roadmap Not Found | EXSTAD",
+      description: "Explore our program roadmaps at EXSTAD.",
+      openGraph: {
+        title: "Roadmap Not Found | EXSTAD",
+        description: "Explore our program roadmaps at EXSTAD.",
+        images: [`${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`],
+      },
+    };
+  }
 
-  if (isLoading) return <div className="h-screen"><LoadingOverlay/></div>;
-  if (error || !program) return <p>Failed to load roadmap.</p>;
-  console.log("Program Data:", program);
-  return (
-    <div className="relative">
-      {/* Header overlay */}
-<div className="absolute top-10 left-10 z-10 w-[90%] max-w-4xl sm:w-auto">
-  <Card className="flex flex-row items-center gap-3 px-4 py-2 shadow-lg flex-wrap sm:flex-nowrap">
-    <button
-      onClick={() => router.back()}
-      className="px-2 py-1 text-sm font-medium bg-muted hover:bg-muted/80 border rounded-md shadow-sm transition hidden sm:inline-block cursor-pointer"
-    >
-      ←
-    </button>
-    <h1
-      onClick={() => router.back()}
-      className="text-lg sm:text-2xl font-bold text-foreground text-center sm:text-left break-words cursor-pointer"
-    >
-      {program.title}
-    </h1>
-  </Card>
-</div>
-      {/* Roadmap Viewer */}
-      <WorkNodeViewer programUuid={program.uuid} programType="programs" />
+  return {
+    title: `${program.title} - Roadmap | EXSTAD`,
+    description: `Explore the learning roadmap for ${program.title}. ${
+      program.subtitle || "Discover the path to mastering this program."
+    }`,
+    openGraph: {
+      title: `${program.title} - Roadmap | EXSTAD`,
+      description: `Explore the learning roadmap for ${program.title}. ${
+        program.subtitle || "Discover the path to mastering this program."
+      }`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/explore-course/${slug}/roadmap`,
+      images: [
+        {
+          url: program.logoUrl || `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`,
+          width: 1200,
+          height: 630,
+          alt: `${program.title} Roadmap`,
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${program.title} - Roadmap | EXSTAD`,
+      description: `Explore the learning roadmap for ${program.title}.`,
+      images: [
+        program.logoUrl || `${process.env.NEXT_PUBLIC_BASE_URL}/default-og.jpg`,
+      ],
+    },
+  };
+}
 
-    </div>
-  );
+// Server Component
+export default async function RoadmapDetailPage({
+  params,
+}: {
+  params: Promise<RoadmapPageParams>;
+}) {
+  const { slug } = await params;
+  const program = await getProgramData(slug);
+
+  if (!program) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-2">Roadmap Not Found</h1>
+          <p className="text-muted-foreground">
+            The program roadmap you are looking for does not have exist.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return <RoadMapDetailClient initialProgram={program} />;
 }
