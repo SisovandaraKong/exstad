@@ -7,7 +7,7 @@ export default function BackgroundCircle() {
     <div className="w-full">
       <div className="relative overflow-hidden h-full aspect-square flex items-center justify-center">
         <Ripple mainCircleOpacity={0.18} numCircles={5} className="absolute" />
-        <OrbitingCircles className="z-1" speed={0.2} radius={300}>
+        <OrbitingCircles className="z-1" speed={0.2} radius={320} iconSize={50}>
           <Icons.nextjs />
           <Icons.spring />
           <Icons.nodejs />
@@ -34,8 +34,8 @@ const Icons = {
   flutter: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 256 317"
     >
       <defs>
@@ -74,8 +74,8 @@ const Icons = {
   nextjs: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 128 128"
     >
       <path d="M64 0C28.7 0 0 28.7 0 64s28.7 64 64 64c11.2 0 21.7-2.9 30.8-7.9L48.4 55.3v36.6h-6.8V41.8h6.8l50.5 75.8C116.4 106.2 128 86.5 128 64c0-35.3-28.7-64-64-64zm22.1 84.6l-7.5-11.3V41.8h7.5v42.8z" />
@@ -85,8 +85,8 @@ const Icons = {
   spring: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 512 139"
     >
       <path
@@ -103,8 +103,8 @@ const Icons = {
   nodejs: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 512 314"
     >
       <defs>
@@ -267,8 +267,8 @@ const Icons = {
   devops: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 48 48"
       fill="none"
       stroke="currentColor"
@@ -283,8 +283,8 @@ const Icons = {
   dataAnalytics: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 48 48"
       fill="none"
       stroke="currentColor"
@@ -303,8 +303,8 @@ const Icons = {
   microservices: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 48 48"
       fill="none"
       stroke="currentColor"
@@ -324,8 +324,8 @@ const Icons = {
   cybersecurity: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 48 48"
       fill="none"
       stroke="currentColor"
@@ -342,8 +342,8 @@ const Icons = {
   blockchain: () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
+      width="50"
+      height="50"
       viewBox="0 0 48 48"
       fill="none"
       stroke="currentColor"

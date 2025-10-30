@@ -1,6 +1,6 @@
 import TextScrollMarquee from "@/components/lightswind/text-scroll-marquee";
 
-const items = [
+const ROADMAP_ITEMS = [
   "Pre-University",
   "Foundation",
   "Full Stack Development",
@@ -10,17 +10,20 @@ const items = [
   "Flutter",
 ];
 
+const SPACING = "\u00A0".repeat(12);
+
 export default function HorizontalScrollText() {
-  const msg = items.join("  \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ");
+  const scrollText = ROADMAP_ITEMS.join(SPACING);
+
   return (
     <TextScrollMarquee
-      baseVelocity={3}
+      baseVelocity={2}
       direction="right"
-      className="text-3xl font-bold "
+      className="text-3xl font-bold tracking-wide"
       scrollDependent={false}
-      delay={1000}
+      delay={500}
     >
-      {msg}
+      {scrollText}
     </TextScrollMarquee>
   );
 }

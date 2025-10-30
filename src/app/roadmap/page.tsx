@@ -2,10 +2,10 @@
 
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import BackgroundCircle from "@/components/roadmap/BackgroundCircle";
-import HorizontalScrollText from "@/components/roadmap/HorizontalScrollText";
 import RoadmapGrid from "@/components/roadmap/RoadmapGrid";
 import { Button } from "@/components/ui/button";
 import { useGetAllMasterProgramsQuery } from "../../components/program/masterProgramApi";
+import HorizontalScrollText from "@/components/roadmap/HorizontalScrollText";
 
 export default function RoadmapPage() {
   const { data: programData = [] } = useGetAllMasterProgramsQuery();
@@ -17,12 +17,8 @@ export default function RoadmapPage() {
 
   return (
     <main className="flex flex-col gap-20 bg-whitesmoke">
-      {/* Hero Section */}
+
       <div className="relative h-[calc(100vh-64px)] w-full md:w-2/3 px-5 md:px-0 mx-auto flex justify-center items-center bg-whitesmoke">
-        <DotPattern
-          glow
-          className="[mask-image:radial-gradient(1200px_circle_at_center,white_0%,transparent_50%)] absolute"
-        />
         <BackgroundCircle />
 
         <div className="absolute">
