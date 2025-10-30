@@ -5,8 +5,6 @@ export default function Scholar() {
 
   return (
     <main className="" >
-
-     
       <HeroScholars/>
     </main>
   );
