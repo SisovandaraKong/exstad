@@ -9,7 +9,7 @@ import NotFoundProgram from "../../components/NotFound";
 import ProgramCurriculumSkeleton from "../../skeleton/ProgramCurriculumSkeleton";
 import { useTranslations } from "next-intl";
 import { useKhmerNumber } from "@/services/to-khmer-number";
-import NoDataComponent from "../../components/NoDataComponent";
+import NoDataComponent from "../../components/NoDataComponents";
 
 type CurriculumProps = {
   openingUuid?: string; // Make optional
