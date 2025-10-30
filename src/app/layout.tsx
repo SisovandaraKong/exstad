@@ -33,7 +33,12 @@ const nunito = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "EXSTAD - Experimental Science and Technology Advanced Development: Modern Platform for Students to Explore ISTAD Courses and Scholarships",
+  metadataBase: new URL("https://www.exstad.tech"),
+  title: {
+    default:
+      "EXSTAD - Experimental Science and Technology Advanced Development",
+    template: "%s | EXSTAD",
+  },
   description:
     "EXSTAD: is a modern platform designed to empower Cambodian students to kickstart their IT careers. By connecting them with ISTAD's scholarships and training programs, students can easily explore and apply for opportunities that enhance their digital skills.",
   keywords: [
@@ -62,23 +67,35 @@ export const metadata: Metadata = {
     "Online Learning",
     "Project-Based Learning",
   ],
+  authors: [{ name: "EXSTAD Team" }],
+  creator: "EXSTAD",
+  publisher: "EXSTAD",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
   manifest: "/manifest.json",
-  metadataBase: new URL("https://www.exstad.tech"),
   alternates: {
     canonical: "/",
+    languages: {
+      en: "/",
+      km: "/",
+    },
   },
   openGraph: {
     type: "website",
+    locale: "en_US",
+    url: "https://www.exstad.tech",
+    siteName: "EXSTAD",
     title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
     description:
       "Discover EXSTAD: Explore ISTAD courses, scholarships, and practical learning opportunities at CSTAD with a student-focused platform.",
-    url: "https://www.exstad.tech",
-    siteName: "EXSTAD",
     images: [
       {
         url: "https://i.postimg.cc/W1258VRQ/3.png",
@@ -92,11 +109,25 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@exstad",
+    creator: "@exstad",
     title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
     description:
       "EXSTAD offers a student-focused platform to explore ISTAD courses, scholarships, and hands-on learning at CSTAD.",
     images: ["https://i.postimg.cc/W1258VRQ/3.png"],
-    creator: "@exstad",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code-here",
   },
 };
 
@@ -113,6 +144,92 @@ export default async function RootLayout({
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>
+      <head>
+        {/* Structured Data - Educational Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "EducationalOrganization",
+              name: "EXSTAD",
+              alternateName:
+                "Experimental Science and Technology Advanced Development",
+              url: "https://www.exstad.tech",
+              logo: "https://www.exstad.tech/image/logo/exSTAD-01.png",
+              description:
+                "EXSTAD is a modern platform designed to empower Cambodian students to kickstart their IT careers. By connecting them with ISTAD's scholarships and training programs.",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Phnom Penh",
+                addressCountry: "KH",
+              },
+            }),
+          }}
+        />
+
+        {/* Structured Data - Website with Search */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "EXSTAD",
+              url: "https://www.exstad.tech",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: "https://www.exstad.tech/",
+                },
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+
+        {/* Structured Data - Course/Educational Program */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Course",
+              name: "ISTAD IT Training Programs",
+              description:
+                "Comprehensive IT training programs and scholarships for Cambodian students including Full Stack Development, IT Foundation, and specialized courses.",
+              provider: {
+                "@type": "Organization",
+                name: "EXSTAD",
+                sameAs: "https://www.exstad.tech",
+              },
+              educationalLevel: "Higher Education",
+              inLanguage: ["en", "km"],
+              availableLanguage: ["English", "Khmer"],
+            }),
+          }}
+        />
+
+        {/* Breadcrumb Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://www.exstad.tech",
+                },
+              ],
+            }),
+          }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${koh.variable} ${nunito.variable} antialiased relative bg-whitesmoke overflow-x-hidden`}
       >
