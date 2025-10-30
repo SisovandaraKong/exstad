@@ -12,7 +12,7 @@ import TechnologySection from "./technology/TechnologySection";
 
 import { MasterProgramType } from "@/types/master-program";
 import { openingProgramType } from "@/types/opening-program";
-import NoDataComponent from "../components/NoDataComponent";
+import NoDataComponent from "../components/ExploreComponent";
 
 type Props = {
   program: MasterProgramType & { openingProgram?: openingProgramType };

@@ -8,8 +8,7 @@ import NotFoundProgram from "../../components/NotFound";
 import { useTranslations } from "next-intl";
 import { ActivityType } from "@/types/opening-program";
 import { useKhmerNumber } from "@/services/to-khmer-number";
-import NoDataComponent from "../../components/NoDataComponent";
-
+import NoDataComponent from "../../components/ExploreComponent";
 export type ProgramGeneration = {
   uuid: string;
   title: string;
