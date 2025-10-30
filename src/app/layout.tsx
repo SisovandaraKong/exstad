@@ -33,9 +33,9 @@ const nunito = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "EXSTAD - Student-Led Platform for ISTAD Courses & Scholarships",
+  title: "EXSTAD - Experimental Science and Technology Advanced Development: Modern Platform for Students to Explore ISTAD Courses and Scholarships",
   description:
-    "EXSTAD: A student-led platform for exploring ISTAD courses, scholarships, and hands-on learning opportunities at CSTAD.",
+    "EXSTAD: is a modern platform designed to empower Cambodian students to kickstart their IT careers. By connecting them with ISTAD's scholarships and training programs, students can easily explore and apply for opportunities that enhance their digital skills.",
   keywords: [
     "EXSTAD",
     "ISTAD",
