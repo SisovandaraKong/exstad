@@ -8,10 +8,6 @@ export default function Scholar() {
 
      
       <HeroScholars/>
- 
-      
-     
-      
     </main>
   );
 }
